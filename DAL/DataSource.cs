@@ -28,21 +28,20 @@ namespace DalObject
             int j = rnd.Next(2, 5);
             for (int i = 0; i < j; i++)
             {
-                baseStations[i].Id = rnd.Next(100, 999);
-
-                baseStations[i].Name = rnd.Next(65, 90).ToString();
+                baseStations[i].Id = i+100;
+                baseStations[i].Name = (i + 65).ToString();
                 baseStations[i].Latitude = rnd.Next(29, 33) + rnd.NextDouble();
                 baseStations[i].Longitude = rnd.Next(33, 36) + rnd.NextDouble();
                 baseStations[i].NumOfSlots = rnd.Next(0, 10);
                 Config.baseIndex++;
 
-            }
+            }               
             j = rnd.Next(5, 10);
             for (int i = 0; i < j; i++)
             {
-                drones[i].Id = rnd.Next(1000, 9999);
+                drones[i].Id = 1000+i;
                 drones[i].MaxWeight = (WeightCategories)rnd.Next(0, 2);
-                drones[i].Model = rnd.Next(5233, 5256);
+                drones[i].Model = rnd.Next(5233, 5242);
                 drones[i].Status = (DroneStatus)rnd.Next(0, 2);
                 drones[i].Battery = rnd.Next(0, 100);
                 Config.droneIndex++;
@@ -51,9 +50,9 @@ namespace DalObject
             for (int i = 0; i < j; i++)
             {
 
-                customers[i].Id = rnd.Next(10000, 99999);
+                customers[i].Id = rnd.Next(10000,99999);
                 customers[i].Name= rnd.Next(65, 90).ToString()+ rnd.Next(65, 90).ToString();
-                customers[i].Phone="050123456"+ rnd.Next(48,57).ToString()+ rnd.Next(48, 57).ToString(); ;
+                customers[i].Phone=$"0{ rnd.Next(50,58)}{ rnd.Next(1000000, 9999999)}" ;
                 customers[i].Longitude = rnd.Next(33, 36) + rnd.NextDouble();
                 customers[i].Latitude = rnd.Next(29, 33) + rnd.NextDouble();
                 Config.customerIndex++;
