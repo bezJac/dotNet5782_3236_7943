@@ -9,6 +9,7 @@ namespace DalObject
 {
     public class DataSource
     {
+        
         internal static BaseStation[] baseStations = new BaseStation[5];
         internal static Drone[] drones = new Drone[10];
         internal static Customer[] customers = new Customer[100];
@@ -22,6 +23,9 @@ namespace DalObject
             internal static int parcelIndex = 0;
             internal static int runIdParcel = 0;
         }
+
+
+        // needs fixing 
         public static void Initialize()
         {
             Random rnd = new Random();
@@ -30,7 +34,7 @@ namespace DalObject
             {
                 baseStations[i].Id = i+100;
                 baseStations[i].Name = (i + 65).ToString();
-                baseStations[i].Latitude = rnd.Next(29, 33) + rnd.NextDouble();
+                baseStations[i].Lattitude = rnd.Next(29, 33) + rnd.NextDouble();
                 baseStations[i].Longitude = rnd.Next(33, 36) + rnd.NextDouble();
                 baseStations[i].NumOfSlots = rnd.Next(0, 10);
                 Config.baseIndex++;
