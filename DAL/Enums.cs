@@ -10,15 +10,15 @@ namespace IDAL
     {
         public enum WeightCategories
         {
-          LIGHT, MEDIUM, HEAVY
+          LIGHT = 1, MEDIUM, HEAVY
         }
         public enum Priorities
         {
-            REGULAR, EXPRESS, EMERGENCY
+            REGULAR =1 , EXPRESS, EMERGENCY
         }
         public enum DroneStatus
         {
-            AVAILABLE, MAIENTNANCE, DELIVARY
+            AVAILABLE = 1 , MAIENTNANCE, DELIVARY
         }
 
     }

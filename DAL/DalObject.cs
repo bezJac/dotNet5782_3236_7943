@@ -5,42 +5,65 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
+
 namespace DalObject
 {
     public class DalObject
     {
-        public void addBaseStation(ref BaseStation b)
+        public DalObject() { DataSource.Initialize(); }
+        public void addBaseStation()
         {
-            bool flag = false;
-            for (int i = 0; i < DataSource.baseStations.Length; i++)
-            {
-                 flag = DataSource.baseStations[i].Equals(b);
-                if (flag)
-                    break;
-            }
-            if (!flag)
-            {
-                DataSource.baseStations[DataSource.Config.baseIndex] = b;
-                DataSource.Config.baseIndex++;
-            }
-        }
-        public void addDrone(ref Drone d)
-        {
-            bool flag = false;
-            for (int i = 0; i < DataSource.drones.Length; i++)
-            {
-                flag = DataSource.drones[i].Equals(d);
-                if (flag)
-                    break;
-            }
-            if (!flag)
-            {
-                DataSource.drones[DataSource.Config.droneIndex] = d;
-                DataSource.Config.droneIndex++;
-            }
+            int num;
+            double x;
+            BaseStation station = new BaseStation();
+            Console.WriteLine("enter Base Station's id\n");
+            int.TryParse(Console.ReadLine(), out num);
+            station.Id = num;
+            Console.WriteLine("enter Base Station's name\n");
+            station.Name = Console.ReadLine();
+            Console.WriteLine("enter Base Station's longtitude coordinate\n");
+            double.TryParse(Console.ReadLine(), out x);
+            station.Longitude = x;
+            Console.WriteLine("enter Base Station's lattitude coordinate\n");
+            double.TryParse(Console.ReadLine(), out x);
+            station.Lattitude = x;
+            Console.WriteLine("enter Base Station's number of charging slots\n");
+            int.TryParse(Console.ReadLine(), out num);
+            station.NumOfSlots = num;
+            DataSource.baseStations[DataSource.Config.baseIndex] = station;
+            DataSource.Config.baseIndex++;
             
         }
-        public void addCustomer(ref Customer c)
+        public void addDrone()
+        {
+            int num;
+            double x;
+            Drone dr = new Drone();
+            Console.WriteLine("enter Drone's id\n");
+            int.TryParse(Console.ReadLine(), out num);
+            dr.Id = num;
+            Console.WriteLine("enter Drone's model\n");
+            dr.Model = Console.ReadLine();
+            Console.WriteLine(@"enter Drone's Max Weight category\n 
+                                1: light   2: medium   3: heavy \n");
+            int.TryParse(Console.ReadLine(), out num);
+            dr.MaxWeight = (WeightCategories)num;
+            Console.WriteLine(@"enter Drone's Status\n 
+                                1: available   2: maintenance   3: delivery \n");
+            int.TryParse(Console.ReadLine(), out num);
+            dr.Status = (DroneStatus)num;
+            Console.WriteLine("enter Drone's battery level\n");
+            double.TryParse(Console.ReadLine(), out x);
+            dr.Battery = x;
+            DataSource.drones[DataSource.Config.droneIndex] = dr;
+                DataSource.Config.droneIndex++;
+            
+            
+        }
+
+
+        // fix from here on
+        public void addCustomer()
         {
             bool flag = false;
             for (int i = 0; i < DataSource.customers.Length; i++)
@@ -56,7 +79,7 @@ namespace DalObject
             }
             
         }
-        public void addParcel(ref Parcel pa )
+        public void addParcel( )
         {
             pa.Requested = DateTime.Now;
             DataSource.parcels[DataSource.Config.parcelIndex] = pa;
@@ -75,7 +98,7 @@ namespace DalObject
             //}
 
         }
-        public void linkParcelToDrone(ref Parcel pa , ref Drone dr)
+        public void linkParcelToDrone()
         {
             pa.Scheduled = DateTime.Now;
             pa.DroneId = dr.Id;
@@ -102,20 +125,19 @@ namespace DalObject
             //    }
             //}
         }
-        public void droneParcelPickup(ref Parcel pa, ref Drone dr)
+        public void droneParcelPickup()
         {
 
             dr.Status = DroneStatus.DELIVARY; 
             pa.PickedUp = DateTime.Now;
         }
-        public void parcelDelivery(ref Parcel pa, ref Drone dr)
+        public void parcelDelivery()
         {
-            pa.Delivered = DateTime.Now;
-            dr.Status = DroneStatus.AVAILABLE;
-            pa.DroneId = 0;
+            
         }
-       // public void chargeDrone(ref BaseStation , )
-       public void printBaseStation(int _id )
+        public void chargeDrone() { }
+        public void releaseDroneCharge() { }
+       public void printBaseStation( )
         {
             for (int i = 0; i < DataSource.Config.baseIndex; i++)
             {
@@ -126,7 +148,7 @@ namespace DalObject
                 }   
             }
         }
-        public void printDrone(int _id)
+        public void printDrone()
         {
             for (int i = 0; i < DataSource.Config.droneIndex; i++)
             {
@@ -138,7 +160,7 @@ namespace DalObject
                 }
             }
         }
-        public void printCustomer(int _id)
+        public void printCustomer()
         {
             for (int i = 0; i < DataSource.Config.customerIndex; i++)
             {
@@ -150,7 +172,7 @@ namespace DalObject
                 }
             }
         } 
-        public void printParcel(int _id)
+        public void printParcel()
         {
             for (int i = 0; i < DataSource.Config.parcelIndex; i++)
             {
