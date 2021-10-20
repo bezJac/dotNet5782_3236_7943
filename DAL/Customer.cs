@@ -14,16 +14,16 @@ namespace IDAL
             public string Name { get; set; }
             public string Phone { get; set; }
             public double Longitude { get; set; }
-            public double Latitude { get; set; }
+            public double Lattitude { get; set; }
             
             public override string ToString()
             {
                 string result = "";
-                result += $"Id is {Id}\n";
-                result += $"Name is {Name}\n";
-                result += $"Phone is {Phone}\n";
-                result += $"Longitude is {Longitude}\n";
-                result += $"Latitude is {Latitude}\n";
+                result += "Id is" + Id + "\n";
+                result += "Name is" + Name + "\n";
+                result += "Phone is" + Phone + "\n";
+                result += "Longitude is" + Longitude + "\n";
+                result += "Latitude is" + Lattitude + "\n";
                 return result;
             }
 

@@ -10,212 +10,180 @@ namespace DalObject
 {
     public class DalObject
     {
-        public DalObject() { DataSource.Initialize(); }
-        public void addBaseStation()
-        {
-            int num;
-            double x;
-            BaseStation station = new BaseStation();
-            Console.WriteLine("enter Base Station's id\n");
-            int.TryParse(Console.ReadLine(), out num);
-            station.Id = num;
-            Console.WriteLine("enter Base Station's name\n");
-            station.Name = Console.ReadLine();
-            Console.WriteLine("enter Base Station's longtitude coordinate\n");
-            double.TryParse(Console.ReadLine(), out x);
-            station.Longitude = x;
-            Console.WriteLine("enter Base Station's lattitude coordinate\n");
-            double.TryParse(Console.ReadLine(), out x);
-            station.Lattitude = x;
-            Console.WriteLine("enter Base Station's number of charging slots\n");
-            int.TryParse(Console.ReadLine(), out num);
-            station.NumOfSlots = num;
-            DataSource.baseStations[DataSource.Config.baseIndex] = station;
-            DataSource.Config.baseIndex++;
-            
+        public DalObject()
+        { 
+            DataSource.Initialize(); 
         }
-        public void addDrone()
+        public void addBaseStation(BaseStation st)
         {
-            int num;
-            double x;
-            Drone dr = new Drone();
-            Console.WriteLine("enter Drone's id\n");
-            int.TryParse(Console.ReadLine(), out num);
-            dr.Id = num;
-            Console.WriteLine("enter Drone's model\n");
-            dr.Model = Console.ReadLine();
-            Console.WriteLine(@"enter Drone's Max Weight category\n 
-                                1: light   2: medium   3: heavy \n");
-            int.TryParse(Console.ReadLine(), out num);
-            dr.MaxWeight = (WeightCategories)num;
-            Console.WriteLine(@"enter Drone's Status\n 
-                                1: available   2: maintenance   3: delivery \n");
-            int.TryParse(Console.ReadLine(), out num);
-            dr.Status = (DroneStatus)num;
-            Console.WriteLine("enter Drone's battery level\n");
-            double.TryParse(Console.ReadLine(), out x);
-            dr.Battery = x;
-            DataSource.drones[DataSource.Config.droneIndex] = dr;
-                DataSource.Config.droneIndex++;
-            
-            
+            DataSource.Stations.Add(st);
         }
-
-
-        // fix from here on
-        public void addCustomer()
+        public void addDrone(Drone dr)
         {
-            bool flag = false;
-            for (int i = 0; i < DataSource.customers.Length; i++)
-            {
-                flag = DataSource.customers[i].Equals(c);
-                if (flag)
-                    break;
-            }
-            if (!flag)
-            {
-                DataSource.customers[DataSource.Config.customerIndex] = b;
-                DataSource.Config.customerIndex++;
-            }
+            DataSource.Drones.Add(dr);
+        }
+        public void addCustomer(Customer person)
+        {
+            DataSource.Customers.Add(person);   
+        }
+        public void addParcel(Parcel pack )
+        {
+            DataSource.Parcels.Add(pack);
+        }
+        public void linkParcelToDrone(int id)
+        {
             
-        }
-        public void addParcel( )
-        {
-            pa.Requested = DateTime.Now;
-            DataSource.parcels[DataSource.Config.parcelIndex] = pa;
-            DataSource.Config.parcelIndex++;
-            //bool flag = false;
-            //for (int i = 0; i < DataSource.parcels.Length; i++)
-            //{
-            //    flag = DataSource.baseStations[i].Equals(p);
-            //    if (flag)
-            //        break;
-            //}
-            //if (!flag)
-            //{
-            //    DataSource.parcels[DataSource.Config.parcelIndex] = p;
-            //    DataSource.Config.baseIndex++;
-            //}
-
-        }
-        public void linkParcelToDrone()
-        {
-            pa.Scheduled = DateTime.Now;
-            pa.DroneId = dr.Id;
-            //int i = 0;
-            //for (; i < DataSource.Config.parcelIndex; i++)
-            //{
-            //    if (DataSource.parcels[i].Id == parc_id)
-            //        break;
-            //}
-            //if(i<= DataSource.Config.parcelIndex)
-            //{
-                
-            //    int j = 0;
-            //    for (; i < DataSource.Config.droneIndex; i++)
-            //    {
-            //        if (DataSource.drones[j].Battery > 0 && DataSource.drones[j].Status == DroneStatus.AVAILABLE
-            //            && DataSource.drones[j].MaxWeight >= DataSource.parcels[j].Weight)
-            //            break;
-            //    }
-            //    if(j<= DataSource.Config.droneIndex)
-            //    {
-            //        DataSource.drones[j].Status = DroneStatus.DELIVARY;
-            //        DataSource.parcels[i].DroneId = DataSource.drones[j].Id;
-            //    }
-            //}
         }
         public void droneParcelPickup()
         {
 
-            dr.Status = DroneStatus.DELIVARY; 
-            pa.PickedUp = DateTime.Now;
+            
         }
         public void parcelDelivery()
         {
             
         }
-        public void chargeDrone() { }
-        public void releaseDroneCharge() { }
-       public void printBaseStation( )
+        public void chargeDrone()
         {
-            for (int i = 0; i < DataSource.Config.baseIndex; i++)
-            {
-                 if(DataSource.baseStations[i].Id == _id)
-                {
-                    DataSource.baseStations[i].ToString();
-                    break;
-                }   
-            }
-        }
-        public void printDrone()
-        {
-            for (int i = 0; i < DataSource.Config.droneIndex; i++)
-            {
-                if (DataSource.drones[i].Id == _id)
-                {
-                    DataSource.drones[i].ToString();
-                    break;
 
-                }
-            }
         }
-        public void printCustomer()
+        public void releaseDroneCharge() 
         {
-            for (int i = 0; i < DataSource.Config.customerIndex; i++)
-            {
-                if (DataSource.customers[i].Id == _id)
-                {
-                    DataSource.customers[i].ToString();
-                    break;
 
-                }
-            }
-        } 
-        public void printParcel()
+        }
+       
+       
+         
+        
+        public BaseStation GetBaseStation(int id)
         {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
+            BaseStation temp = new BaseStation();
+            foreach (BaseStation stn in DataSource.Stations)
             {
-                if (DataSource.parcels[i].Id == _id)
+                if (stn.Id == id)
                 {
-                    DataSource.parcels[i].ToString();
+                    temp = stn;
                     break;
-
                 }
+
+            }
+            return temp;
+        }
+        public Drone GetDrone(int id)
+        {
+            Drone temp = new Drone();
+            foreach(Drone dr in DataSource.Drones)
+            {
+                if (dr.Id == id)
+                {
+                    temp = dr;
+                    break;
+                }
+
+            }
+            return temp;
+        }
+        public Customer GetCustomer(int id)
+        {
+            Customer temp = new Customer();
+            foreach(Customer cstmr in DataSource.Customers)
+            {
+                if (cstmr.Id == id)
+                {
+                    temp = cstmr;
+                    break;
+                }
+
+            }
+            return temp;
+        }
+        public Parcel GetParcel(int id)
+        {
+            Parcel temp = new Parcel();
+            foreach (Parcel prcl in DataSource.Parcels)
+            {
+                if (prcl.Id == id)
+                {
+                    temp = prcl;
+                    break;
+                }
+
+            }
+            return temp;
+        }
+        public List<BaseStation> GetAllBaseStations()
+        {
+            return DataSource.Stations.ToList();
+            
+        }
+        public List<Drone> GetAllDrones()
+        {
+            return DataSource.Drones.ToList();
+        }
+        public List<Customer> GetAllCustomers()
+        {
+            return DataSource.Customers.ToList();
+        }
+        public List<Parcel> GetAllParcels()
+        {
+            return DataSource.Parcels.ToList();
+        }
+        public List<Parcel> GetUnlinkedParcels()
+        {
+            List<Parcel> unlinked = new List<Parcel>();
+            foreach (Parcel prcl in DataSource.Parcels)
+            {
+                if (prcl.Id == 0)
+                    unlinked.Add(prcl);
+
+            }
+            return unlinked;
+        }
+        public List<BaseStation> GetAvailableStations()
+        {
+            List<BaseStation> Available = new List<BaseStation>();
+            foreach (BaseStation stn in DataSource.Stations)
+            {
+                if (stn.Id > 0)
+                    Available.Add(stn);
+
+            }
+            return Available;
+        }
+        public void printAllBaseStations(List<BaseStation> stations)
+        {
+            foreach (BaseStation stn in stations)
+            {
+                Console.WriteLine(stn);
             }
         }
-        public void printAllBaseStations()
+        public void printAllDrones(List<Drone> drns)
         {
-            for (int i = 0; i < DataSource.Config.baseIndex; i++)
-                DataSource.baseStations[i].ToString();
-        }
-        public void printAllDrones()
-        {
-            for (int i = 0; i < DataSource.Config.droneIndex; i++)
-                DataSource.drones[i].ToString();
-        }
-        public void printAllCustomers()
-        {
-            for (int i = 0; i < DataSource.Config.customerIndex; i++)
-                DataSource.customers[i].ToString();
-        }
-        public void printAllParcels()
-        {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
-                DataSource.parcels[i].ToString();
-        }
-        public void printUnlinkedParcels()
-        {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
-                if (DataSource.parcels[i].DroneId == 0)
-                    DataSource.parcels[i].ToString();
-        }
-        public void printAvailableCharge()
-        {
+            foreach(Drone dr in drns)
             {
-                for (int i = 0; i < DataSource.Config.baseIndex; i++)
-                    if(DataSource.baseStations[i].NumOfSlots>0)
-                        DataSource.baseStations[i].ToString();
+                Console.WriteLine(dr);
+            }
+        }
+        public void printAllCustomers(List<Customer> customers)
+        {
+            foreach(Customer cst in customers)
+            {
+                Console.WriteLine(cst);
+            }
+        }
+        public void printAllParcels(List<Parcel> parcels)
+        {
+            foreach(Parcel prcl in parcels)
+            {
+                Console.WriteLine(prcl);
+            }
+        }
+        public void printAvailableCharge(List<BaseStation> stations)
+        {
+            foreach (BaseStation stn in stations)
+            {
+                if (stn.NumOfSlots >  0)
+                    Console.WriteLine(stn);
             }
         }
     }
