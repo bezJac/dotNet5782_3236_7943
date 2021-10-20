@@ -51,7 +51,7 @@ namespace DalObject
             }
             if (!flag)
             {
-                DataSource.customers[DataSource.Config.customerIndex] = b;
+                DataSource.customers[DataSource.Config.customerIndex] =c;
                 DataSource.Config.customerIndex++;
             }
             

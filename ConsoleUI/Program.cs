@@ -6,7 +6,17 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            char ch = new char();
+
+            switch (ch)
+            {
+                default:
+                    break;
+            }
+
+
+
+            //Console.WriteLine("Hello World!");
         }
     }
 }
