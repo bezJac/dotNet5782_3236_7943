@@ -24,7 +24,7 @@ namespace IDAL
             public override string ToString()
             {
                 string result = "";
-                result += $"Id is { Id }\n";
+                result += "Id is "+Id +"\n";
                 result += $"SenderId is { SenderId }\n";
                 result += $"TargetId is { TargetId }\n";
                 result += $"Weight is { Weight }\n";

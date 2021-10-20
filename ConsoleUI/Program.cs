@@ -1,5 +1,6 @@
 ﻿using System;
 using DalObject;
+using IDAL.DO;
 
 namespace ConsoleUI
 {
@@ -34,6 +35,9 @@ namespace ConsoleUI
                             {
                                 case "a":
                                     {
+
+                                        BaseStation baseStation;
+                                        inputBaseStation(baseStation);
                                         data.addBaseStation();
                                         break;
                                     }
@@ -210,6 +214,13 @@ namespace ConsoleUI
 
             } while (ch != "e");
 
+        }
+
+        private static void inputBaseStation(BaseStation baseStation)
+        {
+            int id=0;
+            string name;
+            baseStation.Id = id;
         }
     }
 }

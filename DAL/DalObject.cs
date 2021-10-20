@@ -30,8 +30,8 @@ namespace DalObject
             Console.WriteLine("enter Base Station's number of charging slots\n");
             int.TryParse(Console.ReadLine(), out num);
             station.NumOfSlots = num;
-            DataSource.baseStations[DataSource.Config.baseIndex] = station;
-            DataSource.Config.baseIndex++;
+            DataSource.Stations[DataSource.Config.BaseIndex] = station;
+            DataSource.Config.BaseIndex++;
             
         }
         public void addDrone()
@@ -55,8 +55,8 @@ namespace DalObject
             Console.WriteLine("enter Drone's battery level\n");
             double.TryParse(Console.ReadLine(), out x);
             dr.Battery = x;
-            DataSource.drones[DataSource.Config.droneIndex] = dr;
-                DataSource.Config.droneIndex++;
+            DataSource.Drones[DataSource.Config.DroneIndex] = dr;
+                DataSource.Config.DroneIndex++;
             
             
         }
@@ -66,24 +66,24 @@ namespace DalObject
         public void addCustomer()
         {
             bool flag = false;
-            for (int i = 0; i < DataSource.customers.Length; i++)
+            for (int i = 0; i < DataSource.Customers.Length; i++)
             {
-                flag = DataSource.customers[i].Equals(c);
+                flag = DataSource.Customers[i].Equals(c);
                 if (flag)
                     break;
             }
             if (!flag)
             {
-                DataSource.customers[DataSource.Config.customerIndex] =c;
-                DataSource.Config.customerIndex++;
+                DataSource.Customers[DataSource.Config.CustomerIndex] =c;
+                DataSource.Config.CustomerIndex++;
             }
             
         }
         public void addParcel( )
         {
             pa.Requested = DateTime.Now;
-            DataSource.parcels[DataSource.Config.parcelIndex] = pa;
-            DataSource.Config.parcelIndex++;
+            DataSource.Parcels[DataSource.Config.ParcelIndex] = pa;
+            DataSource.Config.ParcelIndex++;
             //bool flag = false;
             //for (int i = 0; i < DataSource.parcels.Length; i++)
             //{
@@ -137,48 +137,48 @@ namespace DalObject
         }
         public void chargeDrone() { }
         public void releaseDroneCharge() { }
-       public void printBaseStation( )
+       public void printBaseStation(int index )
         {
-            for (int i = 0; i < DataSource.Config.baseIndex; i++)
+            for (int i = 0; i < DataSource.Config.BaseIndex; i++)
             {
-                 if(DataSource.baseStations[i].Id == _id)
+                 if(DataSource.Stations[i].Id == index)
                 {
-                    DataSource.baseStations[i].ToString();
+                    DataSource.Stations[i].ToString();
                     break;
                 }   
             }
         }
-        public void printDrone()
+        public void printDrone(int index)
         {
-            for (int i = 0; i < DataSource.Config.droneIndex; i++)
+            for (int i = 0; i < DataSource.Config.DroneIndex; i++)
             {
-                if (DataSource.drones[i].Id == _id)
+                if (DataSource.Drones[i].Id == index)
                 {
-                    DataSource.drones[i].ToString();
+                    DataSource.Drones[i].ToString();
                     break;
 
                 }
             }
         }
-        public void printCustomer()
+        public void printCustomer(int index)
         {
-            for (int i = 0; i < DataSource.Config.customerIndex; i++)
+            for (int i = 0; i < DataSource.Config.CustomerIndex; i++)
             {
-                if (DataSource.customers[i].Id == _id)
+                if (DataSource.Customers[i].Id == index)
                 {
-                    DataSource.customers[i].ToString();
+                    DataSource.Customers[i].ToString();
                     break;
 
                 }
             }
         } 
-        public void printParcel()
+        public void printParcel(int index)
         {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
+            for (int i = 0; i < DataSource.Config.ParcelIndex; i++)
             {
-                if (DataSource.parcels[i].Id == _id)
+                if (DataSource.Parcels[i].Id == index)
                 {
-                    DataSource.parcels[i].ToString();
+                    DataSource.Parcels[i].ToString();
                     break;
 
                 }
@@ -186,36 +186,40 @@ namespace DalObject
         }
         public void printAllBaseStations()
         {
-            for (int i = 0; i < DataSource.Config.baseIndex; i++)
-                DataSource.baseStations[i].ToString();
+            for (int i = 0; i < DataSource.Config.BaseIndex; i++)
+                DataSource.Stations[i].ToString();
+        }
+        public List<Drone>  GetAllDrones()
+        {
+            return DataSource.Drones.ToList();
         }
         public void printAllDrones()
         {
-            for (int i = 0; i < DataSource.Config.droneIndex; i++)
-                DataSource.drones[i].ToString();
+            for (int i = 0; i < DataSource.Config.DroneIndex; i++)
+                DataSource.Drones[i].ToString();
         }
         public void printAllCustomers()
         {
-            for (int i = 0; i < DataSource.Config.customerIndex; i++)
-                DataSource.customers[i].ToString();
+            for (int i = 0; i < DataSource.Config.CustomerIndex; i++)
+                DataSource.Customers[i].ToString();
         }
         public void printAllParcels()
         {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
-                DataSource.parcels[i].ToString();
+            for (int i = 0; i < DataSource.Config.ParcelIndex; i++)
+                DataSource.Parcels[i].ToString();
         }
         public void printUnlinkedParcels()
         {
-            for (int i = 0; i < DataSource.Config.parcelIndex; i++)
-                if (DataSource.parcels[i].DroneId == 0)
-                    DataSource.parcels[i].ToString();
+            for (int i = 0; i < DataSource.Config.ParcelIndex; i++)
+                if (DataSource.Parcels[i].DroneId == 0)
+                    DataSource.Parcels[i].ToString();
         }
         public void printAvailableCharge()
         {
             {
-                for (int i = 0; i < DataSource.Config.baseIndex; i++)
-                    if(DataSource.baseStations[i].NumOfSlots>0)
-                        DataSource.baseStations[i].ToString();
+                for (int i = 0; i < DataSource.Config.BaseIndex; i++)
+                    if(DataSource.Stations[i].NumOfSlots>0)
+                        DataSource.Stations[i].ToString();
             }
         }
     }
