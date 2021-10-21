@@ -11,8 +11,8 @@ namespace DalObject
     public class DalObject
     {
         public DalObject()
-        { 
-            DataSource.Initialize(); 
+        {
+            DataSource.Initialize();
         }
         public void addBaseStation(BaseStation st)
         {
@@ -24,37 +24,37 @@ namespace DalObject
         }
         public void addCustomer(Customer person)
         {
-            DataSource.Customers.Add(person);   
+            DataSource.Customers.Add(person);
         }
-        public void addParcel(Parcel pack )
+        public void addParcel(Parcel pack)
         {
             DataSource.Parcels.Add(pack);
         }
         public void linkParcelToDrone(int id)
         {
-            
+
         }
         public void droneParcelPickup()
         {
 
-            
+
         }
         public void parcelDelivery()
         {
-            
+
         }
         public void chargeDrone()
         {
 
         }
-        public void releaseDroneCharge() 
+        public void releaseDroneCharge()
         {
 
         }
-       
-       
-         
-        
+
+
+
+
         public BaseStation GetBaseStation(int id)
         {
             BaseStation temp = new BaseStation();
@@ -72,7 +72,7 @@ namespace DalObject
         public Drone GetDrone(int id)
         {
             Drone temp = new Drone();
-            foreach(Drone dr in DataSource.Drones)
+            foreach (Drone dr in DataSource.Drones)
             {
                 if (dr.Id == id)
                 {
@@ -86,7 +86,7 @@ namespace DalObject
         public Customer GetCustomer(int id)
         {
             Customer temp = new Customer();
-            foreach(Customer cstmr in DataSource.Customers)
+            foreach (Customer cstmr in DataSource.Customers)
             {
                 if (cstmr.Id == id)
                 {
@@ -114,7 +114,7 @@ namespace DalObject
         public List<BaseStation> GetAllBaseStations()
         {
             return DataSource.Stations.ToList();
-            
+
         }
         public List<Drone> GetAllDrones()
         {
@@ -128,18 +128,7 @@ namespace DalObject
         {
             return DataSource.Parcels.ToList();
         }
-        public List<Parcel> GetUnlinkedParcels()
-        {
-            List<Parcel> unlinked = new List<Parcel>();
-            foreach (Parcel prcl in DataSource.Parcels)
-            {
-                if (prcl.Id == 0)
-                    unlinked.Add(prcl);
-
-            }
-            return unlinked;
-        }
-        public List<BaseStation> GetAvailableStations()
+        
         {
             List<BaseStation> Available = new List<BaseStation>();
             foreach (BaseStation stn in DataSource.Stations)
@@ -149,42 +138,6 @@ namespace DalObject
 
             }
             return Available;
-        }
-        public void printAllBaseStations(List<BaseStation> stations)
-        {
-            foreach (BaseStation stn in stations)
-            {
-                Console.WriteLine(stn);
-            }
-        }
-        public void printAllDrones(List<Drone> drns)
-        {
-            foreach(Drone dr in drns)
-            {
-                Console.WriteLine(dr);
-            }
-        }
-        public void printAllCustomers(List<Customer> customers)
-        {
-            foreach(Customer cst in customers)
-            {
-                Console.WriteLine(cst);
-            }
-        }
-        public void printAllParcels(List<Parcel> parcels)
-        {
-            foreach(Parcel prcl in parcels)
-            {
-                Console.WriteLine(prcl);
-            }
-        }
-        public void printAvailableCharge(List<BaseStation> stations)
-        {
-            foreach (BaseStation stn in stations)
-            {
-                if (stn.NumOfSlots >  0)
-                    Console.WriteLine(stn);
-            }
         }
     }
 }

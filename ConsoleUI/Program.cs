@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DalObject;
 using IDAL.DO;
 
@@ -175,32 +176,32 @@ namespace ConsoleUI
                             {
                                 case "sations":
                                     {
-                                        data.printAllBaseStations(data.GetAllBaseStations());
+                                        printAllBaseStations(data.GetAllBaseStations());
                                         break;
                                     }
                                 case "drones":
                                     {
-                                        data.printAllDrones(data.GetAllDrones());
+                                        printAllDrones(data.GetAllDrones());
                                         break;
                                     }
                                 case "customers":
                                     {
-                                        data.printAllCustomers(data.GetAllCustomers());
+                                        printAllCustomers(data.GetAllCustomers());
                                         break;
                                     }
                                 case "parcels":
                                     {
-                                        data.printAllParcels(data.GetAllParcels());
+                                        printAllParcels(data.GetAllParcels());
                                         break;
                                     }
                                 case "unlinked":
                                     {
-                                        data.printAllParcels(data.GetUnlinkedParcels());
+                                        printUnlinkedParcels(data.GetAllParcels());
                                         break;
                                     }
                                 case "charge":
                                     {
-                                        data.printAvailableCharge(data.GetAvailableStations());
+                                        printAvailableCharge(data.GetAllBaseStations());
                                         break;
                                     }
                                 default:
@@ -228,6 +229,8 @@ namespace ConsoleUI
             } while (str != "e");
 
         }
+
+        
         private static void inputBaseStation(BaseStation station)
         {
             int num;
@@ -305,5 +308,51 @@ namespace ConsoleUI
                package.Weight = (WeightCategories)num;
             package.Scheduled = DateTime.Now;
         }
+        private static void printAllBaseStations(List<BaseStation> stations)
+        {
+            foreach (BaseStation stn in stations)
+            {
+                Console.WriteLine(stn.ToString());
+            }
+        }
+        public static void printAllDrones(List<Drone> drns)
+        {
+            foreach (Drone dr in drns)
+            {
+                Console.WriteLine(dr.ToString());
+            }
+        }
+        public static void printAllCustomers(List<Customer> customers)
+        {
+            foreach (Customer cst in customers)
+            {
+                Console.WriteLine(cst.ToString());
+            }
+        }
+        public static void printAllParcels(List<Parcel> parcels)
+        {
+            foreach (Parcel prcl in parcels)
+            {
+                Console.WriteLine(prcl.ToString());
+            }
+        }
+        public static void printAvailableCharge(List<BaseStation> stations)
+        {
+            foreach (BaseStation stn in stations)
+            {
+                if (stn.NumOfSlots > 0)
+                    Console.WriteLine(stn.ToString());
+            }
+        }
+        private static void printUnlinkedParcels(List<Parcel> parcels)
+        {
+            foreach (Parcel prcl in parcels)
+            {
+                if(prcl.DroneId == 0)
+                    Console.WriteLine(prcl.ToString());
+            }
+        }
+
     }
 }
+
