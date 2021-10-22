@@ -37,6 +37,8 @@ namespace DalObject
                               "Stanley Roche","Eesa Parsons","Elen Espinosa","Jia Aguilar","Kathryn Green", "Julia Henderson","Craig Carter",
                               "Mary Robinson","Anne Patterson","Terry Price","Debra Lopez","Louise Taylor","Michelle Perez","Maria Williams",
                               "Carl Bell","Betty Ward","Jessica Scott","Timothy Collins","Theresa Richardson" };
+            string[] dronesModel = { "Yuneec H520", "DJI Mavic 2 Pro", "DJI Phantom 4", "Flyability Elios" };
+
             int j = rnd.Next(2, 5);
             for (int i = 0; i < j; i++)
             {
@@ -47,7 +49,7 @@ namespace DalObject
                     Name = locations[i],
                     Lattitude = rnd.Next(29, 33) + rnd.NextDouble(),
                     Longitude = rnd.Next(33, 36) + rnd.NextDouble(),
-                    NumOfSlots = rnd.Next(0, 10),
+                    NumOfSlots = rnd.Next(0, 6),
                 });
             }
 
@@ -57,22 +59,22 @@ namespace DalObject
                 Drones.Add(new Drone
                 {
                     Id = rnd.Next(2000, 9999),
-                    MaxWeight = (WeightCategories)rnd.Next(0, 3),
-                    //Model ="",
-                    Status = (DroneStatus)rnd.Next(0, 3),
+                    MaxWeight = (WeightCategories)rnd.Next(1, 4),
+                    Model = dronesModel[rnd.Next(0, 4)],
+                    Status = (DroneStatus)1,
                     Battery = rnd.Next(0, 101),
-                });
+                })  ;
             }
         
                 
             
-            j = rnd.Next(10, 100);
+            j = rnd.Next(10, 21);
             for (int i = 0; i < j; i++)
             {
                 Customers.Add(new Customer
                 {
-                    Id = ++Config.RunIdParcel,
-                    Name = names[rnd.Next(0, 46)],
+                    Id = rnd.Next(100000, 1000000),
+                    Name = names[rnd.Next(0, 43)],
                     Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
                     Longitude = rnd.Next(33, 36) + rnd.NextDouble(),
                     Lattitude = rnd.Next(29, 33) + rnd.NextDouble(),
@@ -81,18 +83,19 @@ namespace DalObject
             }
                 
             
-            j = rnd.Next(10, 100);
+            j = rnd.Next(10, 16);
             for (int i = 0; i < j; i++)
             {
                 Parcels.Add(new Parcel
                 {
-                    Id = rnd.Next(100000, 999999),
-                    SenderId = rnd.Next(10000, 99999),
-                    TargetId = rnd.Next(10000, 99999),
-                    Weight = (WeightCategories)rnd.Next(0, 3),
-                    Priority = (Priorities)rnd.Next(0, 3),
-                    DroneId = rnd.Next(1000, 9999),
-                });
+                    Id = ++Config.RunIdParcel,
+                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    TargetId = Customers[rnd.Next(0,Customers.Count())].Id ,
+                    Weight = (WeightCategories)rnd.Next(1, 4),
+                    Priority = (Priorities)rnd.Next(1, 4),
+                    Requested = DateTime.Now,
+
+                }) ; 
 
                   
                 
