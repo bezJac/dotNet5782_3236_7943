@@ -7,13 +7,13 @@ namespace ConsoleUI
 {
     class Program
     {
-       
+
         static void Main(string[] args)
 
         {
-           DalObject.DalObject data = new DalObject.DalObject();
+            DalObject.DalObject data = new DalObject.DalObject();
             string str;
-            int id1,id2;
+            int id1, id2;
             do
             {
                 System.Console.WriteLine("select your choice:\n"
@@ -37,30 +37,30 @@ namespace ConsoleUI
                             {
                                 case "station":
                                     {
-                                        BaseStation station = new BaseStation();
-                                        inputBaseStation(station);
-                                        data.addBaseStation(station);
+
+
+                                        data.addBaseStation(inputBaseStation());
                                         break;
                                     }
                                 case "drone":
                                     {
-                                        Drone drn = new Drone();
-                                        inputDrone(drn);
-                                        data.addDrone(drn);
+                                       
+                                       
+                                        data.addDrone(inputDrone());
                                         break;
                                     }
                                 case "customer":
                                     {
-                                        Customer person = new Customer();
-                                        inputCustomer(person);
-                                        data.addCustomer(person);
+                                       
+                                       
+                                        data.addCustomer(inputCustomer());
                                         break;
                                     }
                                 case "parcel":
                                     {
-                                        Parcel package = new Parcel();
-                                        inputParcel(package);
-                                        data.addParcel(package);
+                                        
+                                        
+                                        data.addParcel(inputParcel());
                                         break;
                                     }
                                 default:
@@ -73,11 +73,11 @@ namespace ConsoleUI
                         }
                     case "update":
                         {
-                            System.Console.WriteLine("select your choice:\n"+
-                                                "link - Link Parcel to Drone\n"+
-                                                "pickup - Pickup Parcel by Drone\n"+
-                                                "delivery - Deliver Parcel to Customer\n"+
-                                                "charge - Send Drone to charging station\n"+
+                            System.Console.WriteLine("select your choice:\n" +
+                                                "link - Link Parcel to Drone\n" +
+                                                "pickup - Pickup Parcel by Drone\n" +
+                                                "delivery - Deliver Parcel to Customer\n" +
+                                                "charge - Send Drone to charging station\n" +
                                                 "discharge - Release Drone from charging station\n");
                             str = System.Console.ReadLine();
                             switch (str)
@@ -88,7 +88,7 @@ namespace ConsoleUI
                                         int.TryParse(Console.ReadLine(), out id1);
                                         Console.WriteLine("Enter Drone's id\n");
                                         int.TryParse(Console.ReadLine(), out id2);
-                                        data.linkParcelToDrone(data.GetParcel(id1),data.GetDrone(id2));
+                                        data.linkParcelToDrone(data.GetParcel(id1), data.GetDrone(id2));
                                         break;
                                     }
                                 case "pickup":
@@ -111,7 +111,7 @@ namespace ConsoleUI
                                         int.TryParse(Console.ReadLine(), out id1);
                                         Console.WriteLine("Enter Drone's id\n");
                                         int.TryParse(Console.ReadLine(), out id2);
-                                        data.chargeDrone(data.GetBaseStation(id1),data.GetDrone(id2));
+                                        data.chargeDrone(data.GetBaseStation(id1), data.GetDrone(id2));
                                         break;
                                     }
                                 case "discharge":
@@ -135,10 +135,10 @@ namespace ConsoleUI
                         }
                     case "show":
                         {
-                            System.Console.WriteLine("select your choice:\n"+
-                                "base station - show a BaseStation's information\n"+
-                                "drone - show a Drone's information\n"+
-                                "customer - show a Customer's information\n"+
+                            System.Console.WriteLine("select your choice:\n" +
+                                "base station - show a BaseStation's information\n" +
+                                "drone - show a Drone's information\n" +
+                                "customer - show a Customer's information\n" +
                                 "parcel - show a Parcel's information\n");
                             str = System.Console.ReadLine();
                             switch (str)
@@ -169,8 +169,8 @@ namespace ConsoleUI
                                         Console.WriteLine("Enter the Parcel's id\n");
                                         int.TryParse(Console.ReadLine(), out id1);
                                         Console.WriteLine(data.GetParcel(id1).ToString());
-                                        break; 
-                                        
+                                        break;
+
                                     }
                                 default:
                                     {
@@ -183,12 +183,12 @@ namespace ConsoleUI
                         }
                     case "list":
                         {
-                            System.Console.WriteLine("select your choice:\n"+
-                                                "stations - show BaseStations list \n"+
-                                                "drones - show Drones list\n"+
-                                                "customers - show Customers list\n"+
-                                                "parcels - show Parcels list\n"+
-                                                "unlinked - show unlinked parcels list\n"+
+                            System.Console.WriteLine("select your choice:\n" +
+                                                "stations - show BaseStations list \n" +
+                                                "drones - show Drones list\n" +
+                                                "customers - show Customers list\n" +
+                                                "parcels - show Parcels list\n" +
+                                                "unlinked - show unlinked parcels list\n" +
                                                 "charge - show Basestatios with available charging slots list\n");
                             str = System.Console.ReadLine();
                             switch (str)
@@ -249,82 +249,87 @@ namespace ConsoleUI
 
         }
 
-        
-        private static void inputBaseStation(BaseStation station)
+
+        private static BaseStation inputBaseStation()
         {
+            BaseStation station = new BaseStation();
             int num;
             double x;
-            Console.WriteLine("enter Base Station's id\n");
-            if(int.TryParse(Console.ReadLine(), out num))
+            Console.WriteLine("enter Base Station's id");
+            if (int.TryParse(Console.ReadLine(), out num))
                 station.Id = num;
-            Console.WriteLine("enter Base Station's name\n");
+            Console.WriteLine("enter Base Station's name");
             station.Name = Console.ReadLine();
-            Console.WriteLine("enter Base Station's longtitude coordinate\n");
-            if(double.TryParse(Console.ReadLine(), out x))
+            Console.WriteLine("enter Base Station's longtitude coordinate");
+            if (double.TryParse(Console.ReadLine(), out x))
                 station.Longitude = x;
-            Console.WriteLine("enter Base Station's lattitude coordinate\n");
+            Console.WriteLine("enter Base Station's lattitude coordinate");
             if (double.TryParse(Console.ReadLine(), out x))
                 station.Lattitude = x;
-            Console.WriteLine("enter Base Station's number of charging slots\n");
+            Console.WriteLine("enter Base Station's number of charging slots");
             if (int.TryParse(Console.ReadLine(), out num))
                 station.NumOfSlots = num;
+            return station;
         }
-        private static void inputDrone(Drone dr)
+        private static Drone inputDrone()
         {
+            Drone dr = new Drone();
             int num;
             double x;
-            Console.WriteLine("Enter Drone's id\n");
-            if(int.TryParse(Console.ReadLine(), out num))
+            Console.WriteLine("Enter Drone's id");
+            if (int.TryParse(Console.ReadLine(), out num))
                 dr.Id = num;
-            Console.WriteLine("Enter Drone's model\n");
+            Console.WriteLine("Enter Drone's model");
             dr.Model = Console.ReadLine();
-            Console.WriteLine(@"Enter Drone's Max Weight category\n 
-                                1: light   2: medium   3: heavy \n");
-            if(int.TryParse(Console.ReadLine(), out num))
+            Console.WriteLine("Enter Drone's Max Weight category" +
+                                "1: light   2: medium   3: heavy ");
+            if (int.TryParse(Console.ReadLine(), out num))
                 dr.MaxWeight = (WeightCategories)num;
-            Console.WriteLine(@"Enter Drone's Status\n 
-                                1: available   2: maintenance   3: delivery \n");
-            if(int.TryParse(Console.ReadLine(), out num))
+            Console.WriteLine("Enter Drone's Status" +
+                                "1: available   2: maintenance   3: delivery \n");
+            if (int.TryParse(Console.ReadLine(), out num))
                 dr.Status = (DroneStatus)num;
-            Console.WriteLine("Enter Drone's battery level\n");
-            if(double.TryParse(Console.ReadLine(), out x))
-                dr.Battery = x;   
+            Console.WriteLine("Enter Drone's battery level");
+            if (double.TryParse(Console.ReadLine(), out x))
+                dr.Battery = x;
+            return dr;
         }
-        private static void inputCustomer(Customer person)
+        private static Customer inputCustomer()
         {
+            Customer person = new Customer();
             int num;
             double x;
-            Console.WriteLine("enter Customer's id\n");
+            Console.WriteLine("enter Customer's id");
             if (int.TryParse(Console.ReadLine(), out num))
                 person.Id = num;
-            Console.WriteLine("Enter Customer's name\n");
+            Console.WriteLine("Enter Customer's name");
             person.Name = Console.ReadLine();
-            Console.WriteLine("Enter Customers's Phone Number\n");
+            Console.WriteLine("Enter Customers's Phone Number");
             person.Name = Console.ReadLine();
-            Console.WriteLine("Enter Base Station's longtitude coordinate\n");
+            Console.WriteLine("Enter Base Station's longtitude coordinate");
             if (double.TryParse(Console.ReadLine(), out x))
                 person.Longitude = x;
-            Console.WriteLine("Enter Base Station's lattitude coordinate\n");
+            Console.WriteLine("Enter Base Station's lattitude coordinate");
             if (double.TryParse(Console.ReadLine(), out x))
                 person.Lattitude = x;
+            return person;
         }
-        private static void inputParcel(Parcel package)
+        private static Parcel inputParcel()
         {
+            Parcel package = new Parcel();
             int num;
-        
-            
-               
-            Console.WriteLine("Enter Parcel's sender id\n");
+            Console.WriteLine("Enter Parcel's sender id");
             if (int.TryParse(Console.ReadLine(), out num))
                 package.SenderId = num;
-            Console.WriteLine("Enter Parcel's target id\n");
+            Console.WriteLine("Enter Parcel's target id");
             if (int.TryParse(Console.ReadLine(), out num))
                 package.TargetId = num;
-            Console.WriteLine(@"Enter Parcel's Weight category\n 
-                                1: light   2: medium   3: heavy \n");
+            Console.WriteLine("Enter Parcel's Weight category" +
+                                "1: light   2: medium   3: heavy \n");
             if (int.TryParse(Console.ReadLine(), out num))
-               package.Weight = (WeightCategories)num;
+                package.Weight = (WeightCategories)num;
             package.Scheduled = DateTime.Now;
+            return package;
         }
         private static void printBaseStations(List<BaseStation> stations)
         {
@@ -354,7 +359,7 @@ namespace ConsoleUI
                 Console.WriteLine(prcl.ToString());
             }
         }
-       
+
 
     }
 }
