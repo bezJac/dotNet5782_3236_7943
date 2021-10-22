@@ -10,8 +10,6 @@ namespace DalObject
 {
     public class DalObject
     {
-        
-
         public DalObject()
         {
             DataSource.Initialize();
@@ -30,78 +28,28 @@ namespace DalObject
         }
         public void addParcel(Parcel pack)
         {
-            pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
-        public void linkParcelToDrone(Parcel prc, Drone dr)
+        public void linkParcelToDrone(int id)
         {
-            
-            prc.DroneId = dr.Id;
-            prc.Scheduled = DateTime.Now;
-            int index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels.RemoveAt(index);
-            DataSource.Parcels.Add(prc);
-        }
-        public void droneParcelPickup(Parcel prc)
-        {
-           
-            Drone tempDr = GetDrone(prc.DroneId); 
-            prc.PickedUp = DateTime.Now;
-            tempDr.Status = (DroneStatus)3;
-            int indexDrone = DataSource.Drones.FindIndex(x => (x.Id == prc.DroneId));
-            DataSource.Drones.RemoveAt(indexDrone);
-            DataSource.Drones.Add(tempDr);
-            int index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels.RemoveAt(index);
-            DataSource.Parcels.Add(prc);
 
         }
-        public void parcelDelivery(Parcel prc)
+        public void droneParcelPickup()
         {
-            Drone tempDr = GetDrone(prc.DroneId);
-            prc.Delivered = DateTime.Now;
-            tempDr.Status = (DroneStatus)1;
-            prc.DroneId = 0;
-            prc.SenderId = 0;
-            prc.TargetId = 0;
-            int indexDrone = DataSource.Drones.FindIndex(x => (x.Id == prc.DroneId));
-            DataSource.Drones.RemoveAt(indexDrone);
-            DataSource.Drones.Add(tempDr);
-            int index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels.RemoveAt(index);
-            DataSource.Parcels.Add(prc);
-        }
-        public void chargeDrone(BaseStation bst,Drone dr)
-        {
-            dr.Status = (DroneStatus)2;
-            bst.NumOfSlots--;
-            DroneCharge charge = new DroneCharge()
-            {
-                DroneId = dr.Id,
-                StationId = bst.Id
-            };
-            DataSource.Charges.Add(charge);
-            int indexDrone = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
-            DataSource.Drones.RemoveAt(indexDrone);
-            DataSource.Drones.Add(dr);
-            int indexBst = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
-            DataSource.Stations.RemoveAt(indexBst);
-            DataSource.Stations.Add(bst);
+
 
         }
-        public void releaseDroneCharge(BaseStation bst, Drone dr)
+        public void parcelDelivery()
         {
-            dr.Status = (DroneStatus)1;
-            bst.NumOfSlots++;
-            int indexCharge = DataSource.Charges.FindIndex(x => (x.DroneId == dr.Id && x.StationId == bst.Id));
-            DataSource.Drones.RemoveAt(indexCharge);
 
-            int indexDrone = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
-            DataSource.Drones.RemoveAt(indexDrone);
-            DataSource.Drones.Add(dr);
-            int indexBst = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
-            DataSource.Stations.RemoveAt(indexBst);
-            DataSource.Stations.Add(bst);
+        }
+        public void chargeDrone()
+        {
+
+        }
+        public void releaseDroneCharge()
+        {
+
         }
 
 
@@ -110,7 +58,6 @@ namespace DalObject
         public BaseStation GetBaseStation(int id)
         {
             BaseStation temp = new BaseStation();
-      
             foreach (BaseStation stn in DataSource.Stations)
             {
                 if (stn.Id == id)
@@ -181,29 +128,8 @@ namespace DalObject
         {
             return DataSource.Parcels.ToList();
         }
-
-        public List<BaseStation> GetAvailableCharge()
-        {
-            List<BaseStation> available = new List<BaseStation>();
-            foreach (BaseStation stn in DataSource.Stations)
-            {
-                if (stn.Id > 0)
-                    available.Add(stn);
-
-            }
-            return available;
-        }
-        public List<Parcel> GetUnlinkedParcels()
-        {
-            List<Parcel> unlinked = new List<Parcel>();
-            foreach (Parcel prcl in DataSource.Parcels)
-            {
-                if (prcl.DroneId == 0)
-                    unlinked.Add(prcl);
-
-            }
-            return unlinked;
-        }
+        
+    
     }
 }
        
