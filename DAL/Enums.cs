@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// contains enums for certian  objects fields 
 namespace IDAL
 {
     namespace DO

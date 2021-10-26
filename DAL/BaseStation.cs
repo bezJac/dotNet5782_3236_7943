@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//
 namespace IDAL
 {
     namespace DO
@@ -20,8 +21,8 @@ namespace IDAL
                 string result = "";
                 result += $"Id is {Id}\n";
                 result += $"Name is {Name}\n";
-                result += $"Longitude is {Longitude}\n";
-                result += $"Lattitude is {Lattitude}\n";
+                result += "Longitude is " + Conversions.LongtitudeToDMS(Longitude) + "\n";
+                result += "Latitude is " + Conversions.LattitudeToDMS(Lattitude) + "\n";
                 result += $"NumOfSlots is {NumOfSlots}\n";
 
                 return result;

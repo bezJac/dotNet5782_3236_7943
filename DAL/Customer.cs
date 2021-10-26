@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+//
 namespace IDAL
 {
     namespace DO
@@ -22,8 +22,8 @@ namespace IDAL
                 result += "Id is " + Id + "\n";
                 result += "Name is " + Name + "\n";
                 result += "Phone is " + Phone + "\n";
-                result += "Longitude is " + Longitude + "\n";
-                result += "Latitude is " + Lattitude + "\n";
+                result += "Longitude is " + Conversions.LongtitudeToDMS(Longitude) + "\n";
+                result += "Latitude is " + Conversions.LattitudeToDMS(Lattitude) + "\n";
                 return result;
             }
 
