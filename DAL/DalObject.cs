@@ -29,8 +29,11 @@ namespace DalObject
        /// add a base station to stations list in data source layer
        /// </summary>
        /// <param name="st"> station object to be added </param>
-        public void addBaseStation(BaseStation st)
+        public void AddBaseStation(BaseStation st)
         {
+            int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
+            if (index != -1)
+                throw new BaseStationException("id already exists");
             DataSource.Stations.Add(st);
         }
 
@@ -38,8 +41,11 @@ namespace DalObject
         /// add a drone to drones list in data source layer
         /// </summary>
         /// <param name="dr"> Drone object to be added </param>
-        public void addDrone(Drone dr)
+        public void AddDrone(Drone dr)
         {
+            int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
+            if (index != -1)
+                throw new DroneException("id already exists");
             DataSource.Drones.Add(dr);
         }
 
@@ -47,8 +53,11 @@ namespace DalObject
         /// add a customer to customers list in data source layer
         /// </summary>
         /// <param name="person"> customer object to be added </param>
-        public void addCustomer(Customer person)
+        public void AddCustomer(Customer person)
         {
+            int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
+            if (index != -1)
+                throw new CustomerException("id already exists");
             DataSource.Customers.Add(person);
         }
 
@@ -56,26 +65,85 @@ namespace DalObject
         /// add a parcel to parcels list in data source layer
         /// </summary>
         /// <param name="pack"> parcel object to be added</param>
-        public void addParcel(Parcel pack)
+        public void AddParcel(Parcel pack)
         {
+            int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
+            if (index != -1)
+                throw new ParcelException("id already exists");
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
+        public void UpdateBaseStation(BaseStation bst)
+        {
+           int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
+            if (index == -1)
+                throw new BaseStationException("id not found");
+            DataSource.Stations[index] = bst;
+        }
+        public void UpdateDrone(Drone dr)
+        {
+            int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
+            if (index == -1)
+                throw new DroneException("id not found");
+            DataSource.Drones[index] = dr;
+        }
+        public void UpdateCustomer(Customer person)
+        {
+            int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
+            if (index == -1)
+                throw new CustomerException("id not found");
+            DataSource.Customers[index] = person;
+        }
+        public void UpdateParcel(Parcel pack)
+        {
+            int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
+            if (index == -1)
+                throw new ParcelException("id not found");
+            DataSource.Parcels[index] =pack;
+        }
+        public void DeleteBaseStation(BaseStation bst)
+        {
+            int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
+            if (index == -1)
+                throw new BaseStationException("id not found");
+            DataSource.Stations.RemoveAt(index);
+        }
+        public void DeleteDrone(Drone dr)
+        {
+            int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
+            if (index == -1)
+                throw new DroneException("id not found");
+            DataSource.Drones.RemoveAt(index);
+        }
+        public void DeleteCustomer(Customer person)
+        {
+            int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
+            if (index == -1)
+                throw new CustomerException("id not found");
+            DataSource.Customers.RemoveAt(index);
+        }
+        public void DeleteParcel(Parcel pack)
+        {
+            int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
+            if (index == -1)
+                throw new ParcelException("id not found");
+            DataSource.Parcels.RemoveAt(index);
+        }
+       
 
         /// <summary>
         /// link a parcel to a drone for delivery
         /// </summary>
         /// <param name="prc"> parcel to be linked</param>
         /// <param name="dr"> drone to link to </param>
-        public void linkParcelToDrone(Parcel prc, Drone dr)
+        public void LinkParcelToDrone(Parcel prc, Drone dr)
         {
             
             prc.DroneId = dr.Id;
             prc.Scheduled = DateTime.Now;
 
             // add  updated objects back to list 
-            int index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels[index] = prc;
+            UpdateParcel(prc); 
         }
 
         /// <summary>
@@ -83,23 +151,20 @@ namespace DalObject
         /// </summary>
         /// <param name="prc"> parcel to be picked up</param>
          
-        public void droneParcelPickup(Parcel prc)
+        public void DroneParcelPickup(Parcel prc)
         {
-            int index;
+           
 
             // update parcel information
             prc.PickedUp = DateTime.Now;
 
             // get copy of parcel's linked drone to update
-            Drone tempDr = GetDrone(prc.DroneId); 
-            tempDr.Status = (DroneStatus)3;
+            Drone tempDr = GetDrone(prc.DroneId);
+            //tempDr.Status = (DroneStatus)3;
 
             // replace non updated objects in list with new updated objects
-            index = DataSource.Drones.FindIndex(x => (x.Id == prc.DroneId));
-            DataSource.Drones[index] = tempDr;
-            index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels[index] = prc;
-            
+            UpdateDrone(tempDr);
+            UpdateParcel(prc);
 
         }
 
@@ -107,25 +172,24 @@ namespace DalObject
         /// deliver parcel to customer by its linked  drone
         /// </summary>
         /// <param name="prc"> parcel to be delivered</param> 
-        public void parcelDelivery(Parcel prc)
+        public void ParcelDelivery(Parcel prc)
         {
-            int index;
+            
 
             // update parcel information
             prc.Delivered = DateTime.Now;
 
             // get copy of parcel's linked drone to update
             Drone tempDr = GetDrone(prc.DroneId);
-            tempDr.Status = (DroneStatus)1;
+            //tempDr.Status = (DroneStatus)1;
             prc.DroneId = 0;
             prc.SenderId = 0;
             prc.TargetId = 0;
 
             // replace non updated objects in list with new updated objects
-            index = DataSource.Drones.FindIndex(x => (x.Id == prc.DroneId));
-            DataSource.Drones[index] = tempDr;
-            index = DataSource.Parcels.FindIndex(x => (x.Id == prc.Id));
-            DataSource.Parcels[index] = prc;
+            UpdateDrone(tempDr);
+            UpdateParcel(prc);
+           
         }
 
        /// <summary>
@@ -133,12 +197,12 @@ namespace DalObject
        /// </summary>
        /// <param name="bst"> drone to be charged</param>
        /// <param name="dr"> target base station</param>
-        public void chargeDrone(BaseStation bst,Drone dr)
+        public void ChargeDrone(BaseStation bst,Drone dr)
         {
-            int index;
+           
 
             // update drone and station information
-            dr.Status = (DroneStatus)2;
+            //dr.Status = (DroneStatus)2;
             bst.NumOfSlots--;
 
             // create new charging entity and add to list
@@ -150,10 +214,8 @@ namespace DalObject
             DataSource.Charges.Add(charge);
 
             // replace non updated objects in lists with new updated objects
-            index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
-            DataSource.Drones[index] = dr;
-            index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
-            DataSource.Stations[index] = bst;
+            UpdateDrone(dr);
+            UpdateBaseStation(bst);
         }
 
         /// <summary>
@@ -161,22 +223,21 @@ namespace DalObject
         /// </summary>
         /// <param name="bst"> drone to be detached from charging </param>
         /// <param name="dr">  base station currently charging the drone </param>
-        public void releaseDroneCharge(BaseStation bst, Drone dr)
+        public void ReleaseDroneCharge(BaseStation bst, Drone dr)
         {
             int index;
             // update drone and station information
-            dr.Status = (DroneStatus)1;
+            //dr.Status = (DroneStatus)1;
             bst.NumOfSlots++;
 
             // remove charging entity from list 
             index = DataSource.Charges.FindIndex(x => (x.DroneId == dr.Id && x.StationId == bst.Id));
-            DataSource.Drones.RemoveAt(index);
+            DataSource.Charges.RemoveAt(index);
 
             // replace non updated objects in lists with new updated objects
-             index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
-            DataSource.Drones[index] = dr;
-            index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
-            DataSource.Stations[index] = bst;
+            UpdateDrone(dr);
+            UpdateBaseStation(bst);
+        
             
         }
 

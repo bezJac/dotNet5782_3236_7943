@@ -74,8 +74,8 @@ namespace DalObject
                     Id = rnd.Next(2000, 9999),
                     MaxWeight = (WeightCategories)rnd.Next(1, 4),
                     Model = dronesModel[rnd.Next(0, 4)],
-                    Status = (DroneStatus)2,
-                    Battery = rnd.Next(0, 101),
+                    //Status = (DroneStatus)2,
+                   // Battery = rnd.Next(0, 101),
                 })  ;
             }
 

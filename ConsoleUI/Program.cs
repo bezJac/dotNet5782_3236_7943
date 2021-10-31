@@ -43,22 +43,22 @@ namespace ConsoleUI
                         {
                             case "station":
                             {
-                                data.addBaseStation(inputBaseStation());
+                                data.AddBaseStation(inputBaseStation());
                                 break;
                             }
                             case "drone":
                             {
-                                data.addDrone(inputDrone());
+                                data.AddDrone(inputDrone());
                                 break;
                             }
                             case "customer":
                             {
-                                data.addCustomer(inputCustomer());
+                                data.AddCustomer(inputCustomer());
                                 break;
                             }
                             case "parcel":
                             {
-                                data.addParcel(inputParcel());
+                                data.AddParcel(inputParcel());
                                 break;
                             }
 
@@ -93,21 +93,21 @@ namespace ConsoleUI
                                 int.TryParse(Console.ReadLine(), out id1);
                                 Console.WriteLine("Enter Drone's id\n");
                                 int.TryParse(Console.ReadLine(), out id2);
-                                data.linkParcelToDrone(data.GetParcel(id1), data.GetDrone(id2));
+                                data.LinkParcelToDrone(data.GetParcel(id1), data.GetDrone(id2));
                                 break;
                             }
                             case "pickup":
                             {
                                 Console.WriteLine("Enter Parcel's id\n");
                                 int.TryParse(Console.ReadLine(), out id1);
-                                data.droneParcelPickup(data.GetParcel(id1));
+                                data.DroneParcelPickup(data.GetParcel(id1));
                                 break;
                             }
                             case "delivery":
                             {
                                 Console.WriteLine("Enter Parcel's id\n");
                                 int.TryParse(Console.ReadLine(), out id1);
-                                data.parcelDelivery(data.GetParcel(id1));
+                                data.ParcelDelivery(data.GetParcel(id1));
                                 break;
                             }
                             case "charge":
@@ -116,7 +116,7 @@ namespace ConsoleUI
                                 int.TryParse(Console.ReadLine(), out id1);
                                 Console.WriteLine("Enter Drone's id\n");
                                 int.TryParse(Console.ReadLine(), out id2);
-                                data.chargeDrone(data.GetBaseStation(id1), data.GetDrone(id2));
+                                data.ChargeDrone(data.GetBaseStation(id1), data.GetDrone(id2));
                                 break;
                             }
                             case "discharge":
@@ -125,8 +125,8 @@ namespace ConsoleUI
                                 int.TryParse(Console.ReadLine(), out id1);
                                 Console.WriteLine("Enter Drone's id\n");
                                 int.TryParse(Console.ReadLine(), out id2);
-                                data.chargeDrone(data.GetBaseStation(id1), data.GetDrone(id2));
-                                data.releaseDroneCharge(data.GetBaseStation(id1), data.GetDrone(id2));
+                                data.ChargeDrone(data.GetBaseStation(id1), data.GetDrone(id2));
+                                data.ReleaseDroneCharge(data.GetBaseStation(id1), data.GetDrone(id2));
                                 break;
                             }
                             default:
@@ -333,13 +333,13 @@ namespace ConsoleUI
                                 "1: light   2: medium   3: heavy ");
             if (int.TryParse(Console.ReadLine(), out num))
                 dr.MaxWeight = (WeightCategories)num;
-            Console.WriteLine("Enter Drone's Status" +
-                                "1: available   2: maintenance   3: delivery ");
-            if (int.TryParse(Console.ReadLine(), out num))
-                dr.Status = (DroneStatus)num;
-            Console.WriteLine("Enter Drone's battery level");
-            if (double.TryParse(Console.ReadLine(), out x))
-                dr.Battery = x;
+            //Console.WriteLine("Enter Drone's Status" +
+            //                    "1: available   2: maintenance   3: delivery ");
+            ////if (int.TryParse(Console.ReadLine(), out num))
+            //    dr.Status = (DroneStatus)num;
+            //Console.WriteLine("Enter Drone's battery level");
+            //if (double.TryParse(Console.ReadLine(), out x))
+            //    dr.Battery = x;
             return dr;
         }
 
