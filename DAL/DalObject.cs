@@ -23,15 +23,16 @@ namespace DalObject
         public DalObject()
         {
             DataSource.Initialize();
-        } 
+        }
 
-       /// <summary>
-       /// add a base station to stations list in data source layer
-       /// </summary>
-       /// <param name="st"> station object to be added </param>
+        /// <summary>
+        /// add a base station to stations list in data source layer
+        /// </summary>
+        /// <param name="st"> station object to be added </param>
+        /// <exception cref = "BaseStationException"> thrown if id already exists  </exception>
         public void AddBaseStation(BaseStation st)
         {
-            int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
+            int index = DataSource.Stations.FindIndex(x => (x.Id == st.Id));
             if (index != -1)
                 throw new BaseStationException("id already exists");
             DataSource.Stations.Add(st);
@@ -41,6 +42,7 @@ namespace DalObject
         /// add a drone to drones list in data source layer
         /// </summary>
         /// <param name="dr"> Drone object to be added </param>
+        /// <exception cref = "DroneException" > thrown if id already exists</exception>
         public void AddDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
@@ -53,6 +55,7 @@ namespace DalObject
         /// add a customer to customers list in data source layer
         /// </summary>
         /// <param name="person"> customer object to be added </param>
+        /// <exception cref = "CustomerException"> thrown if id already exists  </exception>
         public void AddCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
@@ -65,6 +68,7 @@ namespace DalObject
         /// add a parcel to parcels list in data source layer
         /// </summary>
         /// <param name="pack"> parcel object to be added</param>
+        /// <exception cref = "ParcelException"> thrown if id already exists   </exception>
         public void AddParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
@@ -73,6 +77,12 @@ namespace DalObject
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
+
+        /// <summary>
+        /// update a base station in the list
+        /// </summary>
+        /// <param name="bst"> updated version of base station </param>
+        ///  <exception cref = "BaseStationException"> thrown if id not found  </exception>
         public void UpdateBaseStation(BaseStation bst)
         {
            int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
@@ -80,6 +90,12 @@ namespace DalObject
                 throw new BaseStationException("id not found");
             DataSource.Stations[index] = bst;
         }
+
+        /// <summary>
+        /// update a dronein the list
+        /// </summary>
+        /// <param name="dr"> updated version of drone </param>
+        ///  <exception cref = "DroneException"> thrown if id not founf  </exception>
         public void UpdateDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
@@ -87,6 +103,13 @@ namespace DalObject
                 throw new DroneException("id not found");
             DataSource.Drones[index] = dr;
         }
+
+
+        /// <summary>
+        /// update a customer in the list
+        /// </summary>
+        /// <param name="person"> updated version of customer </param>
+        ///  <exception cref = "CustomerException"> thrown if id not founf  </exception>
         public void UpdateCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
@@ -94,6 +117,12 @@ namespace DalObject
                 throw new CustomerException("id not found");
             DataSource.Customers[index] = person;
         }
+
+        /// <summary>
+        /// update a parcel in the list
+        /// </summary>
+        /// <param name="person"> updated version of parcel </param>
+        ///  <exception cref = "ParcelException"> thrown if id not founf  </exception>
         public void UpdateParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
@@ -101,28 +130,52 @@ namespace DalObject
                 throw new ParcelException("id not found");
             DataSource.Parcels[index] =pack;
         }
-        public void DeleteBaseStation(BaseStation bst)
+
+        /// <summary>
+        /// delete a base station from list
+        /// </summary>
+        /// <param name="bst"> base station to be  removed </param>
+        ///  <exception cref = "BaseStationException"> thrown if id not found  </exception>
+        public void RemoveBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
                 throw new BaseStationException("id not found");
             DataSource.Stations.RemoveAt(index);
         }
-        public void DeleteDrone(Drone dr)
+
+        /// <summary>
+        /// remove a drone from list
+        /// </summary>
+        /// <param name="dr"> drone to be  removed </param>
+        /// <exception cref = "DroneException"> thrown if id not found  </exception>
+        public void RemoveDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
                 throw new DroneException("id not found");
             DataSource.Drones.RemoveAt(index);
         }
-        public void DeleteCustomer(Customer person)
+
+        /// <summary>
+        /// remove a customer from list
+        /// </summary>
+        /// <param name="person"> customer to be removed </param>
+        /// <exception cref = "CustomerException"> thrown if id not found  </exception> 
+        public void RemoveCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
                 throw new CustomerException("id not found");
             DataSource.Customers.RemoveAt(index);
         }
-        public void DeleteParcel(Parcel pack)
+
+        /// <summary>
+        /// remove a parcel from list
+        /// </summary>
+        /// <param name="pack"> parcel to be removed </param>
+        /// <exception cref = "ParcelException"> thrown if id not found  </exception> 
+        public void RemoveParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
@@ -150,7 +203,6 @@ namespace DalObject
         /// pick up parcel by its linked drone
         /// </summary>
         /// <param name="prc"> parcel to be picked up</param>
-         
         public void DroneParcelPickup(Parcel prc)
         {
            
