@@ -9,6 +9,9 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// struct representing a base station's data
+        /// </summary>
         public struct BaseStation
         {
             public int Id { get; set; }

@@ -8,6 +8,9 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// struct representing a customer's data
+        /// </summary>
         public struct Customer
         {
             public int Id { get; set; }

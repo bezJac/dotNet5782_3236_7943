@@ -37,8 +37,8 @@ namespace ConsoleUI
 
                         str = System.Console.ReadLine();
 
-                        // input function return specified, user inputed object, that is sent to 
-                        // add function to append to the appropriate database.
+                        /// input function return, a  specified user inputed object, that is sent to 
+                        /// add function to append to the appropriate database.
                         switch (str)
                         {
                             case "station":
@@ -82,9 +82,9 @@ namespace ConsoleUI
 
                         str = System.Console.ReadLine();
 
-                        // get functions return copy of specific object identified by user input
-                        // and is sent to modification functions for update and replacment 
-                        // of old object in database/s.
+                        /// get functions return copy of specific object identified by user input
+                        /// and is sent to modification functions for update and replacment 
+                        /// of old object in database/s.
                         switch (str)
                         {
                             case "link":
@@ -147,8 +147,8 @@ namespace ConsoleUI
 
                         str = System.Console.ReadLine();
 
-                        // get functions return copy of specific object identified by user input
-                        // details are printed to user
+                        /// get functions return copy of specific object identified by user input
+                        /// details are printed to user
                         switch (str)
                         {
                             case "base station":
@@ -200,8 +200,8 @@ namespace ConsoleUI
 
                         str = System.Console.ReadLine();
 
-                        // get functions return a  copy of a list of objects
-                        // the copy is sent to print function to print for user
+                        /// get functions return a  copy of a list of objects
+                        /// the copy is sent to print function to print for user
                         switch (str)
                         {
                             case "stations":
@@ -289,7 +289,10 @@ namespace ConsoleUI
 
         }
 
-        // returns Base Station object initialized by user input
+        /// <summary>
+        ///  create and get user input for a new Base Station
+        /// </summary>
+        /// <returns> BaseStation type - the BaseStation created in function </returns>
         private static BaseStation inputBaseStation()
         {
             BaseStation station = new BaseStation();
@@ -312,7 +315,10 @@ namespace ConsoleUI
             return station;
         }
 
-        // returns drone object initialized by user input
+        /// <summary>
+        ///  create and get user input for a new Drone
+        /// </summary>
+        /// <returns> Drone  type - the Drone created in function </returns>
         private static Drone inputDrone()
         {
             Drone dr = new Drone();
@@ -337,7 +343,10 @@ namespace ConsoleUI
             return dr;
         }
 
-        // returns Customer object initialized by user input
+        /// <summary>
+        ///  create and get user input for a new customer
+        /// </summary>
+        /// <returns> Customer tupe -  custumer created in function </returns>
         private static Customer inputCustomer()
         {
             Customer person = new Customer();
@@ -359,7 +368,10 @@ namespace ConsoleUI
             return person;
         }
 
-        // returns Parcel object initialized by user input
+        /// <summary>
+        ///  create and get user input for a new parcel
+        /// </summary>
+        /// <returns> Parcel type -  the parcel created in function </returns>
         private static Parcel inputParcel()
         {
             Parcel package = new Parcel();
@@ -377,9 +389,12 @@ namespace ConsoleUI
             package.Requested = DateTime.Now;
             return package;
         }
-       
-        // prints list of base stations
-        private static void printBaseStations(List<BaseStation> stations)
+
+        /// <summary>
+        /// print information of a list of base stations
+        /// </summary>
+        /// <param name="stations"> IEnumerable<BaseStation> type </param>
+        private static void printBaseStations(IEnumerable<BaseStation> stations)
         {
             foreach (BaseStation stn in stations)
             {
@@ -387,17 +402,23 @@ namespace ConsoleUI
             }
         }
 
-        // prints list of drones
-        public static void printDrones(List<Drone> drns)
+        /// <summary>
+        /// print information of a list of drones
+        /// </summary>
+        /// <param name="drones"> IEnumerable<Drone> type </param>
+        public static void printDrones(IEnumerable<Drone> drones)
         {
-            foreach (Drone dr in drns)
+            foreach (Drone dr in drones)
             {
                 Console.WriteLine(dr.ToString());
             }
         }
 
-        // prints list of Customers
-        public static void printCustomers(List<Customer> customers)
+        /// <summary>
+        /// print information of a list of customers
+        /// </summary>
+        /// <param name="customers"> IEnumerable<Customer> type </param>
+        public static void printCustomers(IEnumerable<Customer> customers)
         {
             foreach (Customer cst in customers)
             {
@@ -405,8 +426,11 @@ namespace ConsoleUI
             }
         }
 
-        // prints list of Parcels
-        public static void printParcels(List<Parcel> parcels)
+        /// <summary>
+        /// print information of a list of parcels
+        /// </summary>
+        /// <param name = "parcels"> IEnumerable<Parcel> type </param>
+        public static void printParcels(IEnumerable<Parcel> parcels)
         {
             foreach (Parcel prcl in parcels)
             {
