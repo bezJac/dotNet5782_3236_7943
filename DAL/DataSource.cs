@@ -28,6 +28,12 @@ namespace DalObject
         internal class Config
         {    
             internal static int RunIdParcel = 0;
+            internal static double DroneElecUseEmpty;
+            internal static double DroneElecUseLight;
+            internal static double DroneElecUseMedium;
+            internal static double DroneElecUseHeavy;
+            internal static double DroneHourlyChargeRate;
+
         }
 
         /// <summary>

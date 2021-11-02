@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
-
+using IDAL;
 
 
 namespace DalObject
@@ -13,7 +13,7 @@ namespace DalObject
     /// <summary>
     /// class manages technical layer functions for DAL
     /// </summary>
-    public class DalObject
+    public class DalObject : IDal
     {
 
 
@@ -508,7 +508,13 @@ namespace DalObject
             double d = R * c;                  // Distance in km
             return d;
         }
-
+        public IEnumerable<double> GetElectricUse()
+        {
+            double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
+              DataSource.Config.DroneElecUseLight, DataSource.Config.DroneElecUseMedium,
+            DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneHourlyChargeRate };
+            return electric;
+        }
     }
 }
        
