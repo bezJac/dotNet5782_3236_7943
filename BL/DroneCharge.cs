@@ -8,5 +8,7 @@ namespace IBL.BO
 {
     public class DroneCharge
     {
+        public int Id { get; set; }
+        public int Battery { get; set; }
     }
 }

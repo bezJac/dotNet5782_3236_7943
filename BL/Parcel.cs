@@ -11,10 +11,10 @@ namespace IBL.BO
         public WeightCategories Weight { get; set; }
         public Priority Priority { get; set; }
         public Drone Drone { get; set; }
-        public DateTime Order { get; set; }
-        public DateTime Link { get; set; }
-        public DateTime PickUp { get; set; }
-        public DateTime Delivery { get; set; }
+        public DateTime Ordered { get; set; }
+        public DateTime Linked { get; set; }
+        public DateTime PickedUp { get; set; }
+        public DateTime Delivered { get; set; }
         public override string ToString()
         {
             string result = "";
