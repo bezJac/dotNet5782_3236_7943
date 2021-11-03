@@ -8,7 +8,7 @@ namespace IDAL
 {
     namespace DO
     {
-        class Conversions
+        internal class StringAdapt
         {
             public static String LongtitudeToDMS(double val)
             {

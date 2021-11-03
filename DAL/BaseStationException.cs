@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DalObject
+namespace IDAL
 {
     [Serializable]
-    internal class BaseStationException : Exception
+    public class BaseStationException : Exception
     {
         public BaseStationException()
         {

@@ -25,8 +25,8 @@ namespace IDAL
                 result += "Id is " + Id + "\n";
                 result += "Name is " + Name + "\n";
                 result += "Phone is " + Phone + "\n";
-                result += "Longitude is " + Conversions.LongtitudeToDMS(Longitude) + "\n";
-                result += "Latitude is " + Conversions.LattitudeToDMS(Lattitude) + "\n";
+                result += "Longitude is " + StringAdapt.LongtitudeToDMS(Longitude) + "\n";
+                result += "Latitude is " + StringAdapt.LattitudeToDMS(Lattitude) + "\n";
                 return result;
             }
 

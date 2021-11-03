@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace IDAL
+﻿namespace IBL.BO
 {
-    namespace DO
-    {
-        /// <summary>
-        /// struct representing a base station's data
-        /// </summary>
-        public struct BaseStation
+        public class BaseStation
         {
             public int Id { get; set; }
             public string Name { get; set; }
@@ -24,15 +12,13 @@ namespace IDAL
                 string result = "";
                 result += $"Id is {Id}\n";
                 result += $"Name is {Name}\n";
-                result += "Longitude is " + StringAdapt.LongtitudeToDMS(Longitude) + "\n";
-                result += "Latitude is " + StringAdapt.LattitudeToDMS(Lattitude) + "\n";
+                result += "Longitude is " + Longitude + "\n";
+                result += "Latitude is " + Lattitude + "\n";
                 result += $"NumOfSlots is {NumOfSlots}\n";
 
                 return result;
             }
 
-
         }
-    }
     
 }

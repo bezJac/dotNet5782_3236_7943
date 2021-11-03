@@ -32,8 +32,7 @@ namespace DalObject
         /// <exception cref = "BaseStationException"> thrown if id already exists  </exception>
         public void AddBaseStation(BaseStation st)
         {
-            int index = DataSource.Stations.FindIndex(x => (x.Id == st.Id));
-            if (index != -1)
+            if(DataSource.Stations.Any(station => (station.Id == st.Id)))
                 throw new BaseStationException("id already exists");
             DataSource.Stations.Add(st);
         }
@@ -45,8 +44,7 @@ namespace DalObject
         /// <exception cref = "DroneException" > thrown if id already exists</exception>
         public void AddDrone(Drone dr)
         {
-            int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
-            if (index != -1)
+            if(DataSource.Drones.Any(drone => (drone.Id == dr.Id)))
                 throw new DroneException("id already exists");
             DataSource.Drones.Add(dr);
         }
@@ -58,8 +56,7 @@ namespace DalObject
         /// <exception cref = "CustomerException"> thrown if id already exists  </exception>
         public void AddCustomer(Customer person)
         {
-            int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
-            if (index != -1)
+            if(DataSource.Customers.Any(customer => (customer.Id == person.Id)))
                 throw new CustomerException("id already exists");
             DataSource.Customers.Add(person);
         }
@@ -71,8 +68,7 @@ namespace DalObject
         /// <exception cref = "ParcelException"> thrown if id already exists   </exception>
         public void AddParcel(Parcel pack)
         {
-            int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
-            if (index != -1)
+            if(DataSource.Parcels.Any(parcel => (parcel.Id == pack.Id)))
                 throw new ParcelException("id already exists");
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
@@ -206,7 +202,6 @@ namespace DalObject
         public void DroneParcelPickup(Parcel prc)
         {
            
-
             // update parcel information
             prc.PickedUp = DateTime.Now;
 
@@ -393,10 +388,14 @@ namespace DalObject
             return (Parcel)temp;
         }
 
+
+
+
+        ///  <returns> IEnumerable<BaseStation> type </returns>
         /// <summary>
         /// get a copy list of all base stations 
         /// </summary>
-        /// <returns> IEnumerable<BaseStation> type </returns>
+        ///  <returns> IEnumerable<BaseStation> type </returns>
         public IEnumerable<BaseStation> GetAllBaseStations()
         {
             return DataSource.Stations.ToList();
@@ -498,16 +497,21 @@ namespace DalObject
         {
             // uses conversions class DegToRad function to convert results to radians
             double R = 6371;                    // Radius of the earth in km
-            double dLat = Conversions.DegToRad(lat2 - lat1);  
-            double dLon = Conversions.DegToRad(lon2 - lon1);
+            double dLat = StringAdapt.DegToRad(lat2 - lat1);  
+            double dLon = StringAdapt.DegToRad(lon2 - lon1);
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-              Math.Cos(Conversions.DegToRad(lat1)) * Math.Cos(Conversions.DegToRad(lat2)) *
+              Math.Cos(StringAdapt.DegToRad(lat1)) * Math.Cos(StringAdapt.DegToRad(lat2)) *
               Math.Sin(dLon / 2) * Math.Sin(dLon / 2)
               ;
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double d = R * c;                  // Distance in km
             return d;
         }
+
+        /// <summary>
+        /// get array containing with DataSource.Config fields
+        /// </summary>
+        /// <returns> IEnumerable<double> </returns>
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,

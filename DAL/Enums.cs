@@ -17,10 +17,7 @@ namespace IDAL
         {
             REGULAR =1 , EXPRESS, EMERGENCY
         }
-        public enum DroneStatus
-        {
-            AVAILABLE = 1 , MAIENTNANCE, DELIVARY
-        }
+       
 
     }
 }

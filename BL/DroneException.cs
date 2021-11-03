@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace IDAL
+namespace BL.BO
 {
     [Serializable]
-    public class DroneException : Exception
+    internal class DroneException : Exception
     {
+        static string info = "Drone Exception: ";
         public DroneException()
         {
         }
 
-        public DroneException(string message) : base("Drone Exception: " + message)
+        public DroneException(string message) : base(info + message)
         {
         }
 

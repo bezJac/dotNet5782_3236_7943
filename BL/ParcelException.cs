@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace IDAL
+namespace BL.BO
 {
     [Serializable]
-    public class ParcelException : Exception
+    internal class ParcelException : Exception
     {
+        static string info = "Parcel Exception: ";
         public ParcelException()
         {
         }
 
-        public ParcelException(string message) : base("Parcel Exception: " +message)
+        public ParcelException(string message) : base(info + message)
         {
         }
 
