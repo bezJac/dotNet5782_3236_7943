@@ -358,7 +358,7 @@ namespace ConsoleUI
             Console.WriteLine("Enter Customer's name");
             person.Name = Console.ReadLine();
             Console.WriteLine("Enter Customers's Phone Number");
-            person.Name = Console.ReadLine();
+            person.Phone = Console.ReadLine();
             Console.WriteLine("Enter Base Station's longtitude coordinate");
             if (double.TryParse(Console.ReadLine(), out x))
                 person.Longitude = x;

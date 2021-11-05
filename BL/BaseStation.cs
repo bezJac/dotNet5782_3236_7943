@@ -6,17 +6,17 @@ namespace IBL.BO
         {
             public int Id { get; set; }
             public string Name { get; set; }
-            public Location Location { get; set; }
+            public Location StationLocation { get; set; }
             public int NumOfSlots { get; set; }
-        public IEnumerable<DroneCharge> DronesCharging { get; set; }
-        public override string ToString()
+            public IEnumerable<DroneCharge> DronesCharging { get; set; }
+            public override string ToString()
             {
                 string result = "";
                 result += $"Id is {Id}\n";
                 result += $"Name is {Name}\n";
-            result += $"Location is { Location }\n";
-            result += $"NumOfSlots is {NumOfSlots}\n";
-            foreach (DroneCharge dr in DronesCharging)
+                result += $"Location is { StationLocation }\n";
+                result += $"NumOfSlots is {NumOfSlots}\n";
+                foreach (DroneCharge dr in DronesCharging)
                 result += dr.ToString();
                 return result;
             }

@@ -9,7 +9,7 @@ namespace IBL.BO
     public class CustomerDelivery
     {
         public int Id { get; set; }
-        public string  Name { get; set; }
+        public string Name { get; set; }
         public override string ToString()
         {
             string result = "";
@@ -17,4 +17,5 @@ namespace IBL.BO
             result += $"Name is {Name}\n";
             return result;
         }
+    }
 }

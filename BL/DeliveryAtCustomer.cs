@@ -6,6 +6,6 @@
         public WeightCategories Weight { get; set; }
         public Priority Priority { get; set; }
         public ParcelStatus Status { get; set; }
-        public CustomerDelivery Customer { get; set; }
+        public CustomerDelivery CounterCustomer { get; set; }
     }
 }

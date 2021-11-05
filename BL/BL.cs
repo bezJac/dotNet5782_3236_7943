@@ -3,12 +3,13 @@ using IBL.BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BL
 {
-    internal class BL : IBL.IBL
+    public class BL : IBL.IBL
     {
         IDAL.IDal myDal;
         public static double DroneElecUseEmpty;
@@ -16,8 +17,12 @@ namespace BL
         public static double DroneElecUseMedium;
         public static double DroneElecUseHeavy;
         public static double DroneHourlyChargeRate;
-        public IEnumerable<DroneInList> Drones;
+        public List<Drone> Drones;
+
+        
+
         public BL()
+
         {
             myDal = new DalObject.DalObject();
             double[] temp = myDal.GetElectricUse().ToArray();
@@ -26,7 +31,14 @@ namespace BL
             DroneElecUseMedium = temp[2];
             DroneElecUseHeavy = temp[3];
             DroneHourlyChargeRate = temp[4];
+           foreach(IDAL.DO.Drone dr in myDal.GetAllDrones())
+            {
+                
+
+            }
+                    
         }
+
         public void AddBaseStation(BaseStation station)
         {
             if(myDal.GetAllBaseStations().Any(st => st.Id == station.Id))
@@ -35,17 +47,21 @@ namespace BL
             {
                 Id = station.Id,
                 Name = station.Name,
-                Longitude = station.Location.Longtitude,
-                Lattitude = station.Location.Lattitude,
+                Longitude = station.StationLocation.Longtitude,
+                Lattitude = station.StationLocation.Lattitude,
                 NumOfSlots = station.NumOfSlots,
+                
 
             });
         }
-
-        public void AddDrone(Drone drone)
+        public void AddDrone(Drone drone , int stationId)
         {
             if (myDal.GetAllDrones().Any(dr => dr.Id == drone.Id))
                 throw new DroneException($" {drone.Id} exist already");
+            if (!myDal.GetAllBaseStations().Any(st => st.Id == stationId))
+                throw new BaseStationException($"base station - {stationId} dosen't exist");
+            if (myDal.GetBaseStation(stationId).NumOfSlots == 0)
+                throw new BaseStationException($"base station - {stationId} has no charging slots available");
             myDal.AddDrone(new IDAL.DO.Drone
             {
                 Id = drone.Id,
@@ -54,11 +70,19 @@ namespace BL
 
             });
         }
-
-        public void AddParcel(Parcel parcel)
+        public void AddParcel(Parcel parcel )
         {
             if (myDal.GetAllParcels().Any(pr => pr.Id == parcel.Id))
                 throw new ParcelException($" {parcel.Id} exist already");
+            if (!myDal.GetAllCustomers().Any(cs => cs.Id == parcel.Sender.Id))
+                throw new CustomerException($"customer - {parcel.Sender.Id} dosen't exist");
+            if (!myDal.GetAllCustomers().Any(cs => cs.Id == parcel.Target.Id))
+                throw new CustomerException($"customer - {parcel.Target.Id} dosen't exist");
+
+            parcel.Ordered = DateTime.Now;
+            parcel.PickedUp = DateTime.MinValue;
+            parcel.Linked = DateTime.MinValue;
+            parcel.Delivered = DateTime.MinValue;
             myDal.AddParcel(new IDAL.DO.Parcel
             {
                 Id = parcel.Id,
@@ -74,7 +98,6 @@ namespace BL
 
             }) ;
         }
-
         public void AddCustomer(Customer customer)
         {
             if (myDal.GetAllCustomers().Any(cst => cst.Id == customer.Id))
@@ -84,10 +107,283 @@ namespace BL
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone=customer.Phone,
-                Longitude=customer.Location.Longtitude,
-                Lattitude=customer.Location.Lattitude,
+                Longitude=customer.CustomerLocation.Longtitude,
+                Lattitude=customer.CustomerLocation.Lattitude,
 
             });
         }
+
+        public IEnumerable<BaseStation> GetAllBaseStations()
+        {
+            List<BaseStation> temp = null;
+            foreach (IDAL.DO.BaseStation station in myDal.GetAllBaseStations())
+            {
+                temp.Add(GetBaseStation(station.Id));
+            }
+            return temp;
+        }
+        public IEnumerable<Drone> GetAllDrones()
+        {
+            return Drones.ToList();
+        }
+        public IEnumerable<Customer> GetAllCustomers()
+        {
+            List<Customer> temp = null;
+            foreach (IDAL.DO.Customer customer in myDal.GetAllCustomers())
+            {
+                temp.Add(GetCustomer(customer.Id));
+            }
+            return temp;
+        }
+        public IEnumerable<Parcel> GetAllParcels()
+        {
+            List<Parcel> temp = null;
+            foreach (IDAL.DO.Parcel parcel in myDal.GetAllParcels())
+            {
+                temp.Add(GetParcel(parcel.Id));
+            }
+            return temp;
+        }
+        public IEnumerable<DroneCharge> GetAllDroneCharges()
+        {
+            return myDal.GetAllDronecharges().Select(Charge => new DroneCharge { Id = Charge.DroneId, Battery = GetDrone(Charge.DroneId).Battery });
+        }
+        public IEnumerable<DeliveryAtCustomer> GetAllOutGoingDeliveries(int senderId)
+        {
+            var deliveris = myDal.GetAllParcels()
+                .Where(p => p.SenderId == senderId)
+                .Select(parcel =>
+                    new DeliveryAtCustomer
+                    {
+                        Id = parcel.Id,
+                        Weight = (WeightCategories)parcel.Weight,
+                        Priority = (Priority)parcel.Priority,
+                        Status = (ParcelStatus)GetParcelStatusIndicator(parcel.Id),
+                        CounterCustomer = GetCustomerDetails(parcel.TargetId),
+
+                    });
+            return deliveris;
+        }
+        public IEnumerable<DeliveryAtCustomer> GetAllIncomingDeliveries(int targetId)
+        {
+            var deliveris = myDal.GetAllParcels()
+                .Where(p => p.TargetId == targetId)
+                .Select(parcel =>
+                    new DeliveryAtCustomer
+                    {
+                        Id = parcel.Id,
+                        Weight = (WeightCategories)parcel.Weight,
+                        Priority = (Priority)parcel.Priority,
+                        Status = (ParcelStatus)GetParcelStatusIndicator(parcel.Id),
+                        CounterCustomer = GetCustomerDetails(parcel.SenderId),
+
+                    });
+            return deliveris;
+        }
+        public IEnumerable<BaseStation> GetAllAvailableBAseStations()
+        {
+            List<BaseStation> temp = null;
+            foreach (IDAL.DO.BaseStation station in myDal.GetAvailableCharge())
+            {
+                temp.Add(GetBaseStation(station.Id));
+            }
+            return temp;
+        }
+        public IEnumerable<Parcel> GetUnlinkedParcel()
+        {
+            List<Parcel> temp = null;
+            foreach (IDAL.DO.Parcel parcel in myDal.GetUnlinkedParcels())
+            {
+                temp.Add(GetParcel(parcel.Id));
+            }
+            return temp;
+        }
+
+
+        public BaseStation GetBaseStation(int id)
+        {
+            if (!myDal.GetAllBaseStations().Any(b => b.Id == id))
+                throw new BaseStationException($"base station -  {id} dosen't exist ");
+            var station = myDal.GetAllBaseStations()
+                .Where(c => c.Id == id)
+                .Select(st =>
+                    new BaseStation
+                    {
+                        Id = st.Id,
+                        Name = st.Name,
+                        StationLocation.Longtitude =  st.Longitude,
+                        StationLocation.Lattitude = st.Lattitude,
+                        NumOfSlots = st.NumOfSlots,
+                        DronesCharging = GetAllDroneCharges(),
+                    });
+            return (BaseStation)station;
+        }
+        public Drone GetDrone(int id)
+        {
+            Drone temp = null;
+            foreach (Drone dr in Drones)
+            {
+                if (dr.Id == id)
+                {
+                    temp = dr;
+                    break;
+                }
+
+            }
+            if (temp == null)
+            {
+                throw new DroneException("id not found");
+            }
+            return temp;
+        }
+        public Customer GetCustomer(int id)
+        {
+            if (!myDal.GetAllCustomers().Any(c => c.Id == id))
+                throw new CustomerException($"cuatomer -  {id} dosen't exist ");
+            var customer = myDal.GetAllCustomers()
+                .Where(c => c.Id == id)
+                .Select(customer =>
+                    new Customer
+                    {
+                        Id = customer.Id,
+                        Name = customer.Name,
+                        Phone = customer.Phone,
+                        CustomerLocation.Longtitude = customer.Longitude,
+                        CustomerLocation.Lattitude = customer.Lattitude,
+                        From = GetAllOutGoingDeliveries(customer.Id),
+                        To = GetAllOutGoingDeliveries(customer.Id),
+
+                    });
+            return (Customer)customer;
+
+        }
+        public Parcel GetParcel(int id)
+        {
+            if (!myDal.GetAllParcels().Any(p => p.Id == id))
+                throw new CustomerException($"parcel -  {id} dosen't exist ");
+            var parcel = myDal.GetAllParcels()
+                .Where(p => p.Id == id)
+                .Select(prc =>
+                    new Parcel
+                    {
+                        Id = prc.Id,
+                        Sender = GetCustomer(prc.SenderId),
+                        Target  = GetCustomer(prc.TargetId),
+                        Weight =(WeightCategories)prc.Weight,
+                        Priority = (Priority)prc.Priority,
+                        Drone = GetDrone(prc.DroneId),
+                        Ordered = prc.Requested,
+                        Linked = prc.Scheduled,
+                        PickedUp = prc.PickedUp,
+                        Delivered = prc.Delivered,
+                    });
+            return (Parcel)parcel;
+        }
+        public CustomerDelivery GetCustomerDetails(int id)
+        {
+            var customer = myDal.GetAllCustomers()
+                .Where(c => c.Id == id)
+                .Select(cstmr =>
+                    new CustomerDelivery
+                    {
+                        Id = myDal.GetCustomer(id).Id,
+                        Name = myDal.GetCustomer(id).Name,
+                    });
+            return (CustomerDelivery)customer;
+        }
+        
+        /// <summary>
+        /// send a drone to charge at nearest base station
+        /// </summary>
+        /// <param name="id"> id of drone </param>
+        /// <exception cref = "DroneException"> </exception>
+        public void ChargeDrone(int id)
+        {
+            // check if drone exists
+            if (!Drones.Any(dr => dr.Id == id))
+                throw new DroneException($" {id} dosen't exist already");
+
+            int index = Drones.FindIndex(x => (x.Id == id));
+
+            // check if drone is available to charge
+            if (Drones[index].Status == DroneStatus.Maintenance)
+                throw new DroneException($"drone - {id} is already charging");
+            if (Drones[index].Status == DroneStatus.Delivery)
+                throw new DroneException($"drone - {id} is en route , cannot be charged right now");
+
+            // find nearest base station
+            int stationId = GetNearestBasestationID(Drones[index].Location, GetAllBaseStations());
+            BaseStation st = GetBaseStation(stationId);
+
+            double distance = Distance.GetDistance( st.StationLocation, Drones[index].Location);
+
+            // check if drone has enough battery to cover the  distance
+            if ((Drones[index].Battery - distance* DroneElecUseEmpty) <= 0)
+                throw new DroneException($"drone - {id} does not have enough battery to reach nearest base station");
+            
+            // update drone's details 
+            Drones[index].Battery -= (int)(distance * DroneElecUseEmpty);
+            Drones[index].Location.Longtitude = st.StationLocation.Longtitude;
+            Drones[index].Location.Lattitude = st.StationLocation.Lattitude;
+            Drones[index].Status = DroneStatus.Maintenance;
+
+            // update necessary details in datasource
+            myDal.ChargeDrone(myDal.GetBaseStation(st.Id), myDal.GetDrone(id));   
+        }
+        public void DischargeDrone(int id, int time)
+        {
+            // check if drone exists
+            if (!Drones.Any(dr => dr.Id == id))
+                throw new DroneException($" {id} dosen't exist ");
+            int index = Drones.FindIndex(x => (x.Id == id));
+            if ((Drones[index].Status == DroneStatus.Available))
+                throw new DroneException($"drone - {id} is currently  not at  charging dock");
+            if (Drones[index].Status == DroneStatus.Delivery)
+                throw new DroneException($"drone - {id} is en route , currently  not at  charging dock");
+
+            Drones[index].Battery = Math.Max(Drones[index].Battery + (int)DroneHourlyChargeRate * time, 100);
+            Drones[index].Status = DroneStatus.Available;
+
+            int stationId = myDal.GetDroneCharge(id).StationId;
+            myDal.ReleaseDroneCharge(myDal.GetBaseStation(stationId), myDal.GetDrone(id));
+        }
+
+        // extra functions
+        /// <summary>
+        /// Get id of nearest base station with available charging slots from 
+        /// a specific location
+        /// </summary>
+        /// <param name="l"> location to calculate from </param>
+        /// <param name="stations"> list of all base stations</param>
+        /// <returns> int </returns>
+        public int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations)
+        {
+            double min = double.PositiveInfinity;
+            double temp;
+            int id = stations.First().Id;
+            foreach (BaseStation st in stations)
+            {
+                temp = Distance.GetDistance(st.StationLocation, l);
+                if (temp < min && st.NumOfSlots > 0)
+                {
+                    min = temp;
+                    id = st.Id;
+                }
+            }
+            return id;
+        }
+        public int GetParcelStatusIndicator(int id)
+        {
+            if (myDal.GetParcel(id).Scheduled == DateTime.MinValue)
+                return 1;
+            if (myDal.GetParcel(id).PickedUp == DateTime.MinValue)
+                return 2;
+            if (myDal.GetParcel(id).Delivered == DateTime.MinValue)
+                return 3;
+            return 4;
+        }
+
+
     }
+    
 }

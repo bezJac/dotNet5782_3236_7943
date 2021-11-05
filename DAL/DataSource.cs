@@ -72,7 +72,7 @@ namespace DalObject
             }
 
             /// initialize 5-10 drones and add to list
-            j = rnd.Next(5, 10);
+            j = rnd.Next(16, 25);
             for (int i = 0; i < j; i++)
             {
                 Drones.Add(new Drone
@@ -101,7 +101,7 @@ namespace DalObject
             }
 
             /// initialize 10-15 parcels and add to list
-            j = rnd.Next(10, 16);
+            j = rnd.Next(10, 20);
             for (int i = 0; i < j; i++)
             {
                 
@@ -113,8 +113,57 @@ namespace DalObject
                     Weight = (WeightCategories)rnd.Next(1, 4),
                     Priority = (Priorities)rnd.Next(1, 4),
                     Requested = DateTime.Now,
+                    DroneId = 0,
                     
-                }) ;    
+                }) ;
+                
+                
+            }
+            for (int k = 0; k < 5; k++)
+            {
+                Parcels.Add(new Parcel
+                {
+                    Id = ++Config.RunIdParcel,
+                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    DroneId = Drones[k].Id,
+                    Weight = (WeightCategories)Drones[k].MaxWeight,
+                    Priority = (Priorities)rnd.Next(1, 4),
+                    Requested = DateTime.Now,
+                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60, 180)),
+
+                });
+            }
+            for (int k = 0; k < 5; k++)
+            {
+                Parcels.Add(new Parcel
+                {
+                    Id = ++Config.RunIdParcel,
+                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    DroneId = Drones[0].Id,
+                    Weight = (WeightCategories)Drones[k + 5].MaxWeight,
+                    Priority = (Priorities)rnd.Next(1, 4),
+                    Requested = DateTime.Now,
+                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60,180)),
+                    PickedUp = DateTime.Now.AddMinutes(rnd.Next(180, 500)),
+                });
+            }
+            for (int k = 0; k < 5; k++)
+            {
+                Parcels.Add(new Parcel
+                {
+                    Id = ++Config.RunIdParcel,
+                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    DroneId = Drones[0].Id,
+                    Weight = (WeightCategories)Drones[k + 10].MaxWeight,
+                    Priority = (Priorities)rnd.Next(1, 4),
+                    Requested = DateTime.Now,
+                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60, 180)),
+                    PickedUp = DateTime.Now.AddMinutes(rnd.Next(180, 500)),
+                    Delivered = DateTime.Now.AddMinutes(rnd.Next(500,680)),
+                });
             }
         }
     }

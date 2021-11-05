@@ -230,8 +230,8 @@ namespace DalObject
             Drone tempDr = GetDrone(prc.DroneId);
             //tempDr.Status = (DroneStatus)1;
             prc.DroneId = 0;
-            prc.SenderId = 0;
-            prc.TargetId = 0;
+            
+            
 
             // replace non updated objects in list with new updated objects
             UpdateDrone(tempDr);
@@ -261,7 +261,7 @@ namespace DalObject
             DataSource.Charges.Add(charge);
 
             // replace non updated objects in lists with new updated objects
-            UpdateDrone(dr);
+            UpdateDrone(dr);                // ??? why 
             UpdateBaseStation(bst);
         }
 
@@ -273,8 +273,8 @@ namespace DalObject
         public void ReleaseDroneCharge(BaseStation bst, Drone dr)
         {
             int index;
-            // update drone and station information
-            //dr.Status = (DroneStatus)1;
+            // update station information
+            
             bst.NumOfSlots++;
 
             // remove charging entity from list 
@@ -282,10 +282,8 @@ namespace DalObject
             DataSource.Charges.RemoveAt(index);
 
             // replace non updated objects in lists with new updated objects
-            UpdateDrone(dr);
             UpdateBaseStation(bst);
         
-            
         }
 
         /// <summary>
@@ -388,8 +386,29 @@ namespace DalObject
             return (Parcel)temp;
         }
 
+        /// <summary>
+        /// get a copy of a single drone charge entity
+        /// </summary>
+        /// <param name="droneId">id of drone currently charging</param>
+        /// <returns> copy of droneCharge entity matchibg the id </returns>
+        DroneCharge GetDroneCharge(int droneId)
+        {
+            DroneCharge? temp = null;
+            foreach (DroneCharge dr in DataSource.Charges)
+            {
+                if (dr.DroneId ==droneId)
+                {
+                    temp = dr;
+                    break;
+                }
 
-
+            }
+            if (temp == null)
+            {
+                throw new DroneException("id not found");
+            }
+            return (DroneCharge)temp;
+        }
 
         ///  <returns> IEnumerable<BaseStation> type </returns>
         /// <summary>
@@ -408,6 +427,21 @@ namespace DalObject
         public IEnumerable<Drone> GetAllDrones()
         {
             return DataSource.Drones.ToList();
+        }
+
+        /// <summary>
+        /// get a copy list containing all drones linked to parcels
+        /// </summary>
+        /// <returns> IEnumerable<Drone> type </returns>
+        public IEnumerable<Drone> GetLinkedDrones()
+        {
+            List<Drone> temp = new List<Drone>();
+            foreach (Parcel parcel in DataSource.Parcels)
+            {
+                if (parcel.DroneId != 0)
+                    temp.Add(GetDrone(parcel.DroneId));
+            }
+            return temp;
         }
 
         /// <summary>
@@ -458,6 +492,20 @@ namespace DalObject
                     unlinked.Add(prcl);
             }
             return unlinked;
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// get a copy list containing all drone charges entity 
+        /// </summary>
+        /// <returns> IEnumerable<DroneCharge> type </returns>
+        public IEnumerable<DroneCharge> GetAllDronecharges()
+        {
+            return DataSource.Charges.ToList();
         }
 
         /// <summary>

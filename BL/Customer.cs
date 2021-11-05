@@ -13,7 +13,7 @@ namespace IBL.BO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
-        public Location Location { get; set; }
+        public Location CustomerLocation { get; set; }
         public IEnumerable<DeliveryAtCustomer> From { get; set; }
         public IEnumerable<DeliveryAtCustomer> To { get; set; }
         public override string ToString()
@@ -22,9 +22,7 @@ namespace IBL.BO
             result += $"Id is {Id}\n";
             result += $"Name is {Name}\n";
             result += $"Phone is {Phone}\n";
-            result += $"Location is { Location }\n";
-
-                
+            result += $"Location is { CustomerLocation }\n"; 
             return result;
         }
     }
