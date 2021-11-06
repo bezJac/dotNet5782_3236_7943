@@ -8,7 +8,7 @@
             public WeightCategories MaxWeight { get; set; }
             public DroneStatus Status { get; set; }
             public int Battery { get; set; }
-            public Delivery Parcel { get; set; }
+            public ParcelInDelivery Parcel { get; set; }
             public Location Location { get; set; }
             public override string ToString()
             {

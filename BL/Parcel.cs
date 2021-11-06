@@ -10,7 +10,7 @@ namespace IBL.BO
         public Customer Target { get; set; }
         public WeightCategories Weight { get; set; }
         public Priority Priority { get; set; }
-        public Drone Drone { get; set; }
+        public DroneInParcel Drone { get; set; }
         public DateTime Ordered { get; set; }
         public DateTime Linked { get; set; }
         public DateTime PickedUp { get; set; }

@@ -391,7 +391,7 @@ namespace DalObject
         /// </summary>
         /// <param name="droneId">id of drone currently charging</param>
         /// <returns> copy of droneCharge entity matchibg the id </returns>
-        DroneCharge GetDroneCharge(int droneId)
+       public DroneCharge GetDroneCharge(int droneId)
         {
             DroneCharge? temp = null;
             foreach (DroneCharge dr in DataSource.Charges)
