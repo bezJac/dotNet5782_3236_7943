@@ -42,6 +42,8 @@ namespace IBL
         Drone GetDrone(int id);
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
+        Delivery GetDelivery(int id);
+        Location GetBasestationLocation(int id);
         #endregion
         #region Read Specific details of element
         int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);

@@ -17,7 +17,7 @@ namespace BL
         public static double DroneElecUseMedium;
         public static double DroneElecUseHeavy;
         public static double DroneHourlyChargeRate;
-        public List<Drone> Drones;
+        public List<DroneInList> Drones;
 
         
 
@@ -62,6 +62,19 @@ namespace BL
                 throw new BaseStationException($"base station - {stationId} dosen't exist");
             if (myDal.GetBaseStation(stationId).NumOfSlots == 0)
                 throw new BaseStationException($"base station - {stationId} has no charging slots available");
+            
+            
+            Random rnd = new Random();
+
+            Drones.Add(new DroneInList
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = drone.MaxWeight,
+                Status = DroneStatus.Maintenance,
+                Battery = rnd.Next(20, 41),
+                DroneLocation = GetBasestationLocation(stationId),
+            });
             myDal.AddDrone(new IDAL.DO.Drone
             {
                 Id = drone.Id,
@@ -124,7 +137,12 @@ namespace BL
         }
         public IEnumerable<Drone> GetAllDrones()
         {
-            return Drones.ToList();
+            List<Drone> temp = null;
+            foreach (DroneInList dr in Drones)
+            {
+                temp.Add(GetDrone(dr.Id));
+            }
+            return temp;
         }
         public IEnumerable<Customer> GetAllCustomers()
         {
@@ -199,33 +217,50 @@ namespace BL
             return temp;
         }
 
-
         public BaseStation GetBaseStation(int id)
         {
             if (!myDal.GetAllBaseStations().Any(b => b.Id == id))
                 throw new BaseStationException($"base station -  {id} dosen't exist ");
-            var station = myDal.GetAllBaseStations()
-                .Where(c => c.Id == id)
-                .Select(st =>
-                    new BaseStation
+            BaseStation temp = null;
+            foreach (IDAL.DO.BaseStation st in myDal.GetAllBaseStations())
+            {
+                if(st.Id == id)
+                {
+                    Location l =  new Location(); ;
+                    l.Longtitude = st.Longitude;
+                    l.Lattitude = st.Lattitude;
+                    temp = new BaseStation
                     {
                         Id = st.Id,
                         Name = st.Name,
-                        StationLocation.Longtitude =  st.Longitude,
-                        StationLocation.Lattitude = st.Lattitude,
+                        StationLocation = l,
                         NumOfSlots = st.NumOfSlots,
                         DronesCharging = GetAllDroneCharges(),
-                    });
-            return (BaseStation)station;
+                    };
+                }
+            }
+            if (temp == null)
+                throw new BaseStationException($"base station - {id} wasen't found");
+            return temp;
         }
         public Drone GetDrone(int id)
         {
             Drone temp = null;
-            foreach (Drone dr in Drones)
+            foreach (DroneInList dr in Drones)
             {
                 if (dr.Id == id)
                 {
-                    temp = dr;
+                    temp = new Drone
+                    {
+                        Id = dr.Id,
+                        Model = dr.Model,
+                        MaxWeight = dr.MaxWeight,
+                        Status = dr.Status,
+                        Battery = dr.Battery,
+                        Parcel = GetDelivery(dr.ParcelId),
+                        Location = dr.DroneLocation,
+
+                    };
                     break;
                 }
 
@@ -240,21 +275,27 @@ namespace BL
         {
             if (!myDal.GetAllCustomers().Any(c => c.Id == id))
                 throw new CustomerException($"cuatomer -  {id} dosen't exist ");
-            var customer = myDal.GetAllCustomers()
-                .Where(c => c.Id == id)
-                .Select(customer =>
-                    new Customer
+            Customer temp = null;
+            foreach (IDAL.DO.Customer customer in myDal.GetAllCustomers())
+            {
+                if (customer.Id == id)
+                {
+                    Location l = new Location(); ;
+                    l.Longtitude = customer.Longitude;
+                    l.Lattitude = customer.Lattitude;
+                    temp = new Customer
                     {
                         Id = customer.Id,
                         Name = customer.Name,
                         Phone = customer.Phone,
-                        CustomerLocation.Longtitude = customer.Longitude,
-                        CustomerLocation.Lattitude = customer.Lattitude,
+                        CustomerLocation = l,
                         From = GetAllOutGoingDeliveries(customer.Id),
                         To = GetAllOutGoingDeliveries(customer.Id),
 
-                    });
-            return (Customer)customer;
+                    };
+                }
+            }
+            return temp;
 
         }
         public Parcel GetParcel(int id)
@@ -291,7 +332,21 @@ namespace BL
                     });
             return (CustomerDelivery)customer;
         }
-        
+
+
+        public Delivery GetDelivery(int id)
+        {
+            throw new ParcelException();
+        }
+        public Location GetBasestationLocation(int id)
+        {
+            return GetBaseStation(id).StationLocation;
+        }
+
+
+
+
+
         /// <summary>
         /// send a drone to charge at nearest base station
         /// </summary>
@@ -312,10 +367,10 @@ namespace BL
                 throw new DroneException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            int stationId = GetNearestBasestationID(Drones[index].Location, GetAllBaseStations());
+            int stationId = GetNearestBasestationID(Drones[index].DroneLocation, GetAllBaseStations());
             BaseStation st = GetBaseStation(stationId);
 
-            double distance = Distance.GetDistance( st.StationLocation, Drones[index].Location);
+            double distance = Distance.GetDistance( st.StationLocation, Drones[index].DroneLocation);
 
             // check if drone has enough battery to cover the  distance
             if ((Drones[index].Battery - distance* DroneElecUseEmpty) <= 0)
@@ -323,8 +378,8 @@ namespace BL
             
             // update drone's details 
             Drones[index].Battery -= (int)(distance * DroneElecUseEmpty);
-            Drones[index].Location.Longtitude = st.StationLocation.Longtitude;
-            Drones[index].Location.Lattitude = st.StationLocation.Lattitude;
+            Drones[index].DroneLocation.Longtitude = st.StationLocation.Longtitude;
+            Drones[index].DroneLocation.Lattitude = st.StationLocation.Lattitude;
             Drones[index].Status = DroneStatus.Maintenance;
 
             // update necessary details in datasource
