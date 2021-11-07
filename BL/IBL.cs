@@ -20,8 +20,9 @@ namespace IBL
         void ChargeDrone(int id);
         void DischargeDrone(int id, int time);
         void UpdateDrone(int id, string model);
-        public void UpdateBaseStation(int id, int count, string name);
-        public void UpdateCustomer(int id, string phone, string name);
+        void UpdateBaseStation(int id, int count, string name);
+        void UpdateCustomer(int id, string phone, string name);
+        void LinkDroneToParcel(int id);
         #endregion
 
         #region Delete part of C.R.U.D
@@ -38,7 +39,8 @@ namespace IBL
         IEnumerable<Parcel> GetAllParcels();
         IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId);
         IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId);
-
+        IEnumerable<Parcel> GetAllUnlinkedParcels();
+        
         #endregion
         #region Read single element  
         BaseStation GetBaseStation(int id);
@@ -51,9 +53,11 @@ namespace IBL
         ParcelInList GetParcelInList(int id);
         #endregion
         #region Read Specific details of element
-        int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);
+        int GetNearestBasestationID(Location l);
+        int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels);
         int GetParcelStatusIndicator(int id);
         CustomerInParcel GetCustomerInParcel(int senderId);
+        bool CheckDistanceCoverageAbility(Drone dr,Parcel prc, WeightCategories w);
         
         #endregion
         #endregion

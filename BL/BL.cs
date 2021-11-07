@@ -154,7 +154,18 @@ namespace BL
         }
         public void UpdateCustomer(int id,string phone,string name)
         {
+            if (!myDal.GetAllCustomers().Any(c => c.Id == id))
+                throw new CustomerException($"cuatomer - {id} dosen't exist ");
+            Customer cstmr = GetCustomer(id);
+            myDal.UpdateCustomer(new IDAL.DO.Customer
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+                Longitude = cstmr.CustomerLocation.Longtitude,
+                Lattitude = cstmr.CustomerLocation.Lattitude,
 
+            });
         }
         public IEnumerable<BaseStation> GetAllBaseStations()
         {
@@ -248,7 +259,16 @@ namespace BL
             }
             return temp;
         }
-
+        public IEnumerable<Parcel> GetAllUnlinkedParcels()
+        {
+            List<Parcel> temp = null;
+            foreach (IDAL.DO.Parcel prc in myDal.GetUnlinkedParcels())
+            {
+                temp.Add(GetParcel(prc.Id));
+            }
+            return temp;
+        }
+        
         public BaseStation GetBaseStation(int id)
         {
             if (!myDal.GetAllBaseStations().Any(b => b.Id == id))
@@ -418,7 +438,6 @@ namespace BL
             return (DroneInParcel)drone;
 
         }
-
         public Location GetBasestationLocation(int id)
         {
             return GetBaseStation(id).StationLocation;
@@ -448,7 +467,7 @@ namespace BL
                 throw new DroneException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            int stationId = GetNearestBasestationID(Drones[index].DroneLocation, GetAllBaseStations());
+            int stationId = GetNearestBasestationID(Drones[index].DroneLocation);
             BaseStation st = GetBaseStation(stationId);
 
             double distance = Distance.GetDistance( st.StationLocation, Drones[index].DroneLocation);
@@ -483,7 +502,36 @@ namespace BL
             int stationId = myDal.GetDroneCharge(id).StationId;
             myDal.ReleaseDroneCharge(myDal.GetBaseStation(stationId), myDal.GetDrone(id));
         }
+        public void LinkDroneToParcel(int id)
+        {
+            Drone dr = GetDrone(id);
+            int index = GetAllDrones().ToList().FindIndex(dr => dr.Id == id);
+           
+            for (int i = (int)Priority.Emergency; i >0; i--)
+            {
+                List<Parcel> temp = GetUnlinkedParcel().ToList().FindAll(prc => prc.Priority == (Priority)i);
+                if (temp.Count > 0)
+                {
+                    for (int j = (int)dr.MaxWeight; j > 0; j--)
+                    {
+                        temp = temp.FindAll(prc => prc.Weight == (WeightCategories)j);
+                        if (temp.Count() > 0)
+                        {
+                            Parcel prc = GetParcel(GetNearestParcelID(dr.Location, temp));
+                            if (CheckDistanceCoverageAbility(dr, prc, dr.MaxWeight))
+                            {
+                                myDal.LinkParcelToDrone(myDal.GetParcel(prc.Id), myDal.GetDrone(dr.Id));
+                                Drones[index].Status = DroneStatus.Delivery;
+                                Drones[index].ParcelId = prc.Id;
+                                return;
+                            }
 
+                        }
+                    }
+                }
+            }
+             throw new DroneException($"drone - {id} has no compatible parcel to link");
+        }
         // extra functions
         /// <summary>
         /// Get id of nearest base station with available charging slots from 
@@ -492,8 +540,9 @@ namespace BL
         /// <param name="l"> location to calculate from </param>
         /// <param name="stations"> list of all base stations</param>
         /// <returns> int </returns>
-        public int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations)
+        public int GetNearestBasestationID(Location l)
         {
+            IEnumerable<BaseStation> stations = GetAllBaseStations();
             double min = double.PositiveInfinity;
             double temp;
             int id = stations.First().Id;
@@ -508,6 +557,23 @@ namespace BL
             }
             return id;
         }
+        public int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels)
+        {
+             
+            double min = double.PositiveInfinity;
+            double temp;
+            int id = parcels.First().Id;
+            foreach (Parcel prc in parcels)
+            {
+                temp = Distance.GetDistance(prc.Sender.CustomerLocation, l);
+                if (temp < min )
+                {
+                    min = temp;
+                    id = prc.Id;
+                }
+            }
+            return id;
+        }
         public int GetParcelStatusIndicator(int id)
         {
             if (myDal.GetParcel(id).Scheduled == DateTime.MinValue)
@@ -518,7 +584,41 @@ namespace BL
                 return 3;
             return 4;
         }
-
+        public bool CheckDistanceCoverageAbility(Drone dr, Parcel prc, WeightCategories w)
+        {
+            double DroneToSender = Distance.GetDistance(dr.Location, prc.Sender.CustomerLocation)*DroneElecUseEmpty;
+            double SenderToTarget = Distance.GetDistance(prc.Sender.CustomerLocation, prc.Target.CustomerLocation);
+            double TargetToBaseStation = Distance.GetDistance(prc.Target.CustomerLocation, GetBasestationLocation(GetNearestBasestationID(prc.Target.CustomerLocation)))*DroneElecUseEmpty;
+          switch (w)
+            {
+                case WeightCategories.Light:
+                    {
+                        if (dr.Battery - DroneToSender - DroneElecUseLight * SenderToTarget - TargetToBaseStation > 0)
+                            return true;
+                        else
+                            return false;
+                    }
+                case WeightCategories.Medium:
+                    {
+                        if (dr.Battery - DroneToSender - DroneElecUseMedium * SenderToTarget - TargetToBaseStation > 0)
+                            return true;
+                        else
+                            return false;
+                    }
+                    
+                case WeightCategories.Heavy:
+                    {
+                        if (dr.Battery - DroneToSender - DroneElecUseHeavy * SenderToTarget - TargetToBaseStation > 0)
+                            return true;
+                        else
+                            return false;
+                    }
+                default:
+                    return false;
+                    
+                
+            }
+        }
 
     }
     

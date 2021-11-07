@@ -248,8 +248,7 @@ namespace DalObject
         {
            
 
-            // update drone and station information
-            //dr.Status = (DroneStatus)2;
+            // update station information
             bst.NumOfSlots--;
 
             // create new charging entity and add to list
@@ -260,8 +259,7 @@ namespace DalObject
             };
             DataSource.Charges.Add(charge);
 
-            // replace non updated objects in lists with new updated objects
-            UpdateDrone(dr);                // ??? why 
+            // replace non updated objects in lists with new updated objects 
             UpdateBaseStation(bst);
         }
 
