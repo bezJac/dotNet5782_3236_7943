@@ -506,10 +506,10 @@ namespace BL
         {
             Drone dr = GetDrone(id);
             int index = GetAllDrones().ToList().FindIndex(dr => dr.Id == id);
-           
+            List<Parcel> unlinked = GetUnlinkedParcel().ToList();
             for (int i = (int)Priority.Emergency; i >0; i--)
             {
-                List<Parcel> temp = GetUnlinkedParcel().ToList().FindAll(prc => prc.Priority == (Priority)i);
+                List<Parcel> temp = unlinked.FindAll(prc => prc.Priority == (Priority)i);
                 if (temp.Count > 0)
                 {
                     for (int j = (int)dr.MaxWeight; j > 0; j--)
