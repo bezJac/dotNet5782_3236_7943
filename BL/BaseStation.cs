@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace IBL.BO
 {
@@ -11,13 +12,20 @@ namespace IBL.BO
             public IEnumerable<DroneCharge> DronesCharging { get; set; }
             public override string ToString()
             {
+                int i = 1;
                 string result = "";
-                result += $"Id is {Id}\n";
-                result += $"Name is {Name}\n";
-                result += $"Location is { StationLocation }\n";
-                result += $"NumOfSlots is {NumOfSlots}\n";
-                foreach (DroneCharge dr in DronesCharging)
-                result += dr.ToString();
+                result += $"Id: {Id}\n";
+                result += $"Name: {Name}\n";
+                result += $"Location: { StationLocation }\n";
+                result += $"Number of available chatging slots: {NumOfSlots}\n";
+                if (DronesCharging.Any())
+                {
+                    result += $"List of Drones being charged at station:\n";
+                    foreach (DroneCharge dr in DronesCharging)
+                    {
+                        result += $"{i++}:\n {dr}";
+                    }
+                }
                 return result;
             }
 

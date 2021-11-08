@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IBL;
 using IBL.BO;
 
@@ -59,7 +60,7 @@ namespace ConsoleUI_BL
                                     }
                                 case "parcel":
                                     {
-
+                                        break;
                                         
                                     }
 
@@ -140,11 +141,96 @@ namespace ConsoleUI_BL
             person.Phone = Console.ReadLine();
             return person;
         }
-            /// <summary>
-            /// create and get user input for new parcel
-            /// </summary>
-            /// <returns> Parcel object</returns>
-        
+
+        /// <summary>
+        /// print information of a list of base stations
+        /// </summary>
+        /// <param name="stations"> IEnumerable<BaseStation> type </param>
+        private static void PrintBaseStations(IEnumerable<BaseStation> stations)
+        {
+            Console.WriteLine("Base Stations List:\n");
+            foreach (BaseStation stn in stations)
+            {
+                Console.WriteLine(stn);
+            }
+        }
+
+        /// <summary>
+        /// print information of a list of drones
+        /// </summary>
+        /// <param name="drones"> IEnumerable<Drone> type </param>
+        public static void printDrones(IEnumerable<Drone> drones)
+        {
+            Console.WriteLine("Drones List:\n");
+            foreach (Drone dr in drones)
+            {
+                Console.WriteLine(dr);
+            }
+        }
+
+        /// <summary>
+        /// print information of a list of customers
+        /// </summary>
+        /// <param name="customers"> IEnumerable<Customer> type </param>
+        public static void printCustomers(IEnumerable<Customer> customers)
+        {
+            Console.WriteLine("Customers List:\n");
+            foreach (Customer cst in customers)
+            {
+                Console.WriteLine(cst);
+            }
+        }
+
+        /// <summary>
+        /// print information of a list of parcels
+        /// </summary>
+        /// <param name = "parcels"> IEnumerable<Parcel> type </param>
+        public static void printParcels(IEnumerable<Parcel> parcels)
+        {
+            Console.WriteLine("Parcels List:\n");
+            foreach (Parcel prcl in parcels)
+            {
+                Console.WriteLine(prcl);
+            }
+        }
+
+        /// <summary>
+        /// print details of a single base station
+        /// </summary>
+        /// <param name="st"> base object station to print</param>
+        public static void PrintBaseStation(BaseStation st)
+        {
+            Console.WriteLine("Base station details:\n");
+            Console.WriteLine(st);
+        }
+        /// <summary>
+        /// print details of a single drone
+        /// </summary>
+        /// <param name="dr"> drone object to print</param>
+        public static void PrintDrone(Drone dr)
+        {
+            Console.WriteLine("Drone details:\n");
+            Console.WriteLine(dr);
+        }
+        /// <summary>
+        /// print details of a single Customer
+        /// </summary>
+        /// <param name="cstmr"> customer object to print</param>
+        public static void PrintCustomer(Customer cstmr)
+        {
+            Console.WriteLine("Customer  details:\n");
+            Console.WriteLine(cstmr);
+        }
+        /// <summary>
+        /// print details of a single parcel
+        /// </summary>
+        /// <param name="prc"> parcel object to print</param>
+        public static void PrintParcel(Parcel prc)
+        {
+            Console.WriteLine("Base station details:\n");
+            Console.WriteLine(prc);
+        }
+
 
     }
    

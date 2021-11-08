@@ -15,10 +15,10 @@ namespace IBL.BO
         public override string ToString()
         {
             string result = "";
-            result += $"Id is {Id}\n";
-            result += $"Name is {Name}\n";
-            result += $"Num of Available Slots { AvailableSlots }\n";
-            result += $"Num of Occupied Slots {OccupiedSlots}\n";
+            result += $"Id: {Id}\n";
+            result += $"Name: {Name}\n";
+            result += $"Num of Available Slots: { AvailableSlots }\n";
+            result += $"Num of Occupied Slots: {OccupiedSlots}\n";
             return result;
         }
     }

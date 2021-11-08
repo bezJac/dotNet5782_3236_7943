@@ -10,7 +10,7 @@ namespace IBL.BO
     {
         public static double GetDistance(Location location1, Location location2)
         { 
-            // uses conversions class DegToRad function to convert results to radians
+            
             double R = 6371;                    // Radius of the earth in km
             double dLat = DegToRad(location2.Lattitude - location1.Lattitude);
             double dLon = DegToRad(location2.Longtitude - location1.Lattitude);
@@ -20,10 +20,10 @@ namespace IBL.BO
               ;
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double d = R * c;                  // Distance in km
-            return d;
+            return Math.Abs(d);
         }
 
-        public static double DegToRad(double num)
+        private static double DegToRad(double num)
         {
             return num * (Math.PI / 180);
         }

@@ -23,6 +23,8 @@ namespace IBL
         void UpdateBaseStation(int id, int count, string name);
         void UpdateCustomer(int id, string phone, string name);
         void LinkDroneToParcel(int id);
+        void DroneParcelPickUp(int id);
+        void DroneParcelDelivery(int id);
         #endregion
 
         #region Delete part of C.R.U.D
@@ -53,12 +55,13 @@ namespace IBL
         ParcelInList GetParcelInList(int id);
         #endregion
         #region Read Specific details of element
-        int GetNearestBasestationID(Location l);
+        int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);
         int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels);
         int GetParcelStatusIndicator(int id);
         CustomerInParcel GetCustomerInParcel(int senderId);
-        bool CheckDistanceCoverageAbility(Drone dr,Parcel prc, WeightCategories w);
-        
+        bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);
+        double GetElectricUseForDrone(WeightCategories w);
+
         #endregion
         #endregion
 

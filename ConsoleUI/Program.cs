@@ -396,6 +396,7 @@ namespace ConsoleUI
         /// <param name="stations"> IEnumerable<BaseStation> type </param>
         private static void printBaseStations(IEnumerable<BaseStation> stations)
         {
+            Console.WriteLine("Base Stations List:\n");
             foreach (BaseStation stn in stations)
             {
                 Console.WriteLine(stn.ToString());
@@ -408,6 +409,7 @@ namespace ConsoleUI
         /// <param name="drones"> IEnumerable<Drone> type </param>
         public static void printDrones(IEnumerable<Drone> drones)
         {
+            Console.WriteLine("Drones List:\n");
             foreach (Drone dr in drones)
             {
                 Console.WriteLine(dr.ToString());
@@ -420,6 +422,7 @@ namespace ConsoleUI
         /// <param name="customers"> IEnumerable<Customer> type </param>
         public static void printCustomers(IEnumerable<Customer> customers)
         {
+            Console.WriteLine("Customers List:\n");
             foreach (Customer cst in customers)
             {
                 Console.WriteLine(cst.ToString());
@@ -432,11 +435,14 @@ namespace ConsoleUI
         /// <param name = "parcels"> IEnumerable<Parcel> type </param>
         public static void printParcels(IEnumerable<Parcel> parcels)
         {
+            Console.WriteLine("Parcels List:\n");
             foreach (Parcel prcl in parcels)
             {
                 Console.WriteLine(prcl.ToString());
             }
         }
+
+        
 
 
     }

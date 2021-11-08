@@ -205,12 +205,10 @@ namespace DalObject
             // update parcel information
             prc.PickedUp = DateTime.Now;
 
-            // get copy of parcel's linked drone to update
-            Drone tempDr = GetDrone(prc.DroneId);
-            //tempDr.Status = (DroneStatus)3;
+            
 
             // replace non updated objects in list with new updated objects
-            UpdateDrone(tempDr);
+            
             UpdateParcel(prc);
 
         }
@@ -221,20 +219,9 @@ namespace DalObject
         /// <param name="prc"> parcel to be delivered</param> 
         public void ParcelDelivery(Parcel prc)
         {
-            
-
             // update parcel information
             prc.Delivered = DateTime.Now;
-
-            // get copy of parcel's linked drone to update
-            Drone tempDr = GetDrone(prc.DroneId);
-            //tempDr.Status = (DroneStatus)1;
             prc.DroneId = 0;
-            
-            
-
-            // replace non updated objects in list with new updated objects
-            UpdateDrone(tempDr);
             UpdateParcel(prc);
            
         }

@@ -17,5 +17,20 @@ namespace IBL.BO
         public Location SenderLocation { get; set; }
         public Location TargetLocation { get; set; }
         public double DeliveryDistance { get; set; }
+        public override string ToString()
+        {
+            string result = "";
+            result += $"Id: {Id}\n";
+            result += $"Delivery status: {Status}\n";
+            result += $"Sending customer basic details:\n { Sender }";
+            result += $"Target customer basic  details:\n { Target }";
+            result += $"Priority: { Priority }\n";
+            result += $"Weight: { Weight }\n";
+            result += $"Sending Customer location:\n {SenderLocation}";
+            result += $"Target Customer location:\n {TargetLocation}";
+            result += $"Distance of delivery in KM: {DeliveryDistance}\n";
+            return result;
+
+        }
     }
 }

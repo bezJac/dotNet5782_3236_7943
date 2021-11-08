@@ -10,8 +10,8 @@ namespace IBL.BO
         public override string ToString()
         {
             string str = "";
-            str += "Longitude is " + StringAdapter.LongtitudeToDMS(Longtitude) + "\n";
-            str += "Latitude is " + StringAdapter.LattitudeToDMS(Lattitude) + "\n";
+            str += $"Longitude:  { StringAdapter.LongtitudeToDMS(Longtitude)}\n";
+            str += $"Latitude: { StringAdapter.LattitudeToDMS(Lattitude)} \n";
             return str;
         }
     }

@@ -18,16 +18,17 @@ namespace IBL.BO
         public override string ToString()
         {
             string result = "";
-            result += "Id is " + Id + "\n";
-            result += $"Sender is { Sender }\n";
-            result += $"Target is { Target }\n";
-            result += $"Weight is { Weight }\n";
-            //result += $"Priority is { Priority }\n";
-            //result += $"Requested is { Requested }\n";
-            //result += $"DroneId is { DroneId }\n";
-            //result += $"Scheduled is { Scheduled }\n";
-            //result += $"PickedUp is { PickedUp }\n";
-            //result += $"Delivered is { Delivered }\n";
+            result += $"Id: {Id}\n";
+            result += $"Sending customer details:\n { Sender }";
+            result += $"Target customer details:\n { Target }";
+            result += $"Weight: { Weight }\n";
+            result += $"Priority: { Priority }\n";
+            if(Drone!= null)
+                result += $"Drone in parcel details:\n {Drone}";
+            result += $"Parcel was ordered at: {Ordered}\n";
+            result += $"Drone was linked to parcel at: {Ordered}\n";
+            result += $"Drone picked up parcel from sender at {PickedUp}\n";
+            result += $"Drone delievered parcel to target at {Delivered}\n";
             return result;
 
         }

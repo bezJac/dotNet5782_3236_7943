@@ -18,11 +18,28 @@ namespace IBL.BO
         public IEnumerable<ParcelAtCustomer> To { get; set; }
         public override string ToString()
         {
+            int i = 1,j = 1;
             string result = "";
-            result += $"Id is {Id}\n";
-            result += $"Name is {Name}\n";
-            result += $"Phone is {Phone}\n";
-            result += $"Location is { CustomerLocation }\n"; 
+            result += $"Id: {Id}\n";
+            result += $"Name: {Name}\n";
+            result += $"Phone: {Phone}\n";
+            result += $"Location:\n{ CustomerLocation }";
+            if (From.Any())
+            {
+                result += $"List of parcels from customer:\n";
+                foreach (ParcelAtCustomer prc in From)
+                {
+                    result += $"{i++}:\n {prc}";
+                }
+            }
+            if (To.Any())
+            {
+                result += $"List of parcels to customer:\n";
+                foreach (ParcelAtCustomer prc in To)
+                {
+                    result += $"{j++}:\n {prc}";
+                }
+            }
             return result;
         }
     }
