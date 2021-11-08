@@ -40,12 +40,12 @@ namespace ConsoleUI_BL
                             {
                                 case "station":
                                     {
-                                        data.AddBaseStation(InputBaseStation());
+                                        data.AddBaseStation(inputBaseStation());
                                         break;
                                     }
                                 case "drone":
                                     {
-                                        Drone temp = InputDrone();
+                                        Drone temp = inputDrone();
                                         Console.WriteLine("Enter Base station Id for initial charge\n");
                                         int.TryParse(Console.ReadLine(), out num1);
                                         data.AddDrone(temp ,num1);
@@ -82,7 +82,7 @@ namespace ConsoleUI_BL
         /// create and get user input for new base station
         /// </summary>
         /// <returns> Base Station object</returns>
-         private static BaseStation InputBaseStation()
+         private static BaseStation inputBaseStation()
         {
             BaseStation station = new BaseStation();
             int num;
@@ -106,7 +106,7 @@ namespace ConsoleUI_BL
         /// create and get user input for new drone
         /// </summary>
         /// <returns> Drone object</returns>
-        private static Drone InputDrone()
+        private static Drone inputDrone()
         {
             Drone dr = new Drone();
             int num;
@@ -127,7 +127,7 @@ namespace ConsoleUI_BL
         /// create and get user input for new customer
         /// </summary>
         /// <returns> Customer object</returns>
-        private static Customer InputCustomer()
+        private static Customer inputCustomer()
         {
             Customer person = new Customer();
             int num;
@@ -146,7 +146,7 @@ namespace ConsoleUI_BL
         /// print information of a list of base stations
         /// </summary>
         /// <param name="stations"> IEnumerable<BaseStation> type </param>
-        private static void PrintBaseStations(IEnumerable<BaseStation> stations)
+        private static void printBaseStations(IEnumerable<BaseStation> stations)
         {
             Console.WriteLine("Base Stations List:\n");
             foreach (BaseStation stn in stations)
@@ -159,7 +159,7 @@ namespace ConsoleUI_BL
         /// print information of a list of drones
         /// </summary>
         /// <param name="drones"> IEnumerable<Drone> type </param>
-        public static void printDrones(IEnumerable<Drone> drones)
+        private static void printDrones(IEnumerable<Drone> drones)
         {
             Console.WriteLine("Drones List:\n");
             foreach (Drone dr in drones)
@@ -172,12 +172,13 @@ namespace ConsoleUI_BL
         /// print information of a list of customers
         /// </summary>
         /// <param name="customers"> IEnumerable<Customer> type </param>
-        public static void printCustomers(IEnumerable<Customer> customers)
+        private static void printCustomers(IEnumerable<Customer> customers)
         {
             Console.WriteLine("Customers List:\n");
             foreach (Customer cst in customers)
             {
-                Console.WriteLine(cst);
+                Console.WriteLine($"id: {cst.Id}\n"+$"name: {cst.Name}\n"
+                    +$"Location: \n {cst.CustomerLocation}");
             }
         }
 
@@ -185,7 +186,7 @@ namespace ConsoleUI_BL
         /// print information of a list of parcels
         /// </summary>
         /// <param name = "parcels"> IEnumerable<Parcel> type </param>
-        public static void printParcels(IEnumerable<Parcel> parcels)
+        private static void printParcels(IEnumerable<Parcel> parcels)
         {
             Console.WriteLine("Parcels List:\n");
             foreach (Parcel prcl in parcels)
@@ -198,7 +199,7 @@ namespace ConsoleUI_BL
         /// print details of a single base station
         /// </summary>
         /// <param name="st"> base object station to print</param>
-        public static void PrintBaseStation(BaseStation st)
+        private static void printBaseStation(BaseStation st)
         {
             Console.WriteLine("Base station details:\n");
             Console.WriteLine(st);
@@ -207,7 +208,7 @@ namespace ConsoleUI_BL
         /// print details of a single drone
         /// </summary>
         /// <param name="dr"> drone object to print</param>
-        public static void PrintDrone(Drone dr)
+        private static void printDrone(Drone dr)
         {
             Console.WriteLine("Drone details:\n");
             Console.WriteLine(dr);
@@ -216,7 +217,7 @@ namespace ConsoleUI_BL
         /// print details of a single Customer
         /// </summary>
         /// <param name="cstmr"> customer object to print</param>
-        public static void PrintCustomer(Customer cstmr)
+        private static void printCustomer(Customer cstmr)
         {
             Console.WriteLine("Customer  details:\n");
             Console.WriteLine(cstmr);
@@ -225,12 +226,12 @@ namespace ConsoleUI_BL
         /// print details of a single parcel
         /// </summary>
         /// <param name="prc"> parcel object to print</param>
-        public static void PrintParcel(Parcel prc)
+        private static void printParcel(Parcel prc)
         {
             Console.WriteLine("Base station details:\n");
             Console.WriteLine(prc);
         }
-
+        
 
     }
    

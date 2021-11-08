@@ -407,7 +407,7 @@ namespace ConsoleUI
         /// print information of a list of drones
         /// </summary>
         /// <param name="drones"> IEnumerable<Drone> type </param>
-        public static void printDrones(IEnumerable<Drone> drones)
+        private static void printDrones(IEnumerable<Drone> drones)
         {
             Console.WriteLine("Drones List:\n");
             foreach (Drone dr in drones)
@@ -420,7 +420,7 @@ namespace ConsoleUI
         /// print information of a list of customers
         /// </summary>
         /// <param name="customers"> IEnumerable<Customer> type </param>
-        public static void printCustomers(IEnumerable<Customer> customers)
+        private static void printCustomers(IEnumerable<Customer> customers)
         {
             Console.WriteLine("Customers List:\n");
             foreach (Customer cst in customers)
@@ -433,7 +433,7 @@ namespace ConsoleUI
         /// print information of a list of parcels
         /// </summary>
         /// <param name = "parcels"> IEnumerable<Parcel> type </param>
-        public static void printParcels(IEnumerable<Parcel> parcels)
+        private static void printParcels(IEnumerable<Parcel> parcels)
         {
             Console.WriteLine("Parcels List:\n");
             foreach (Parcel prcl in parcels)

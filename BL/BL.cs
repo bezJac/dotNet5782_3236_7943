@@ -241,7 +241,7 @@ namespace BL
                     });
             return deliveris;
         }
-        public IEnumerable<BaseStation> GetAllAvailableBAseStations()
+        public IEnumerable<BaseStation> GetAllAvailableBaseStations()
         {
             List<BaseStation> temp = null;
             foreach (IDAL.DO.BaseStation station in myDal.GetAvailableCharge())
@@ -307,32 +307,35 @@ namespace BL
             {
                 if (dr.Id == id)
                 {
-
-                    temp = new Drone
+                    if (GetAllParcels().Any(prc => prc.Drone.Id == dr.Id))
                     {
-                        Id = dr.Id,
-                        Model = dr.Model,
-                        MaxWeight = dr.MaxWeight,
-                        Status = dr.Status,
-                        Battery = dr.Battery,
-                        Parcel = GetParcelInDelivery(dr.ParcelId),
-                        Location = dr.DroneLocation,
+                        temp = new Drone
+                        {
+                            Id = dr.Id,
+                            Model = dr.Model,
+                            MaxWeight = dr.MaxWeight,
+                            Status = dr.Status,
+                            Battery = dr.Battery,
+                            Parcel = GetParcelInDelivery(dr.ParcelId),
+                            Location = dr.DroneLocation,
 
-                    };
-                }
-                else
-                {
-                    temp = new Drone
+                        };
+                    }
+                    else
                     {
-                        Id = dr.Id,
-                        Model = dr.Model,
-                        MaxWeight = dr.MaxWeight,
-                        Status = dr.Status,
-                        Battery = dr.Battery,
-                        Parcel = null,
-                        Location = dr.DroneLocation,
-                    };
+                        temp = new Drone
+                        {
+                            Id = dr.Id,
+                            Model = dr.Model,
+                            MaxWeight = dr.MaxWeight,
+                            Status = dr.Status,
+                            Battery = dr.Battery,
+                            Parcel = null,
+                            Location = dr.DroneLocation,
+                        };
+                    }
                 }
+             
                 break;
             }
             return temp;
@@ -356,7 +359,7 @@ namespace BL
                         Phone = customer.Phone,
                         CustomerLocation = l,
                         From = GetAllOutGoingDeliveries(customer.Id),
-                        To = GetAllOutGoingDeliveries(customer.Id),
+                        To = GetAllIncomingDeliveries(customer.Id),
 
                     };
                 }
@@ -430,7 +433,8 @@ namespace BL
                 flag = true;
 
             return new ParcelInDelivery
-                {Id=prc1.Id,
+                {
+                Id=prc1.Id,
                 Status=flag,
                 Priority=prc1.Priority,
                 Weight=prc1.Weight,
@@ -502,7 +506,7 @@ namespace BL
                 throw new DroneException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            int stationId = GetNearestBasestationID(Drones[index].DroneLocation , GetAllAvailableBAseStations());
+            int stationId = GetNearestBasestationID(Drones[index].DroneLocation , GetAllAvailableBaseStations());
             BaseStation st = GetBaseStation(stationId);
 
             double distance = Distance.GetDistance( st.StationLocation, Drones[index].DroneLocation);
@@ -544,6 +548,8 @@ namespace BL
             Drone dr = GetDrone(id);
             int index = GetAllDrones().ToList().FindIndex(dr => dr.Id == id);
             List<Parcel> unlinked = GetUnlinkedParcel().ToList();
+            if (unlinked.Count==0)
+                throw new ParcelException($"no available parcels to link");
             for (int i = (int)Priority.Emergency; i >0; i--)
             {
                 List<Parcel> temp = unlinked.FindAll(prc => prc.Priority == (Priority)i);
@@ -658,7 +664,7 @@ namespace BL
         {
             double DroneToSender = Distance.GetDistance(dr.Location, prc.Sender.CustomerLocation)*DroneElecUseEmpty;
             double SenderToTarget = Distance.GetDistance(prc.Sender.CustomerLocation, prc.Target.CustomerLocation);
-            double TargetToBaseStation = Distance.GetDistance(prc.Target.CustomerLocation, GetBasestationLocation(GetNearestBasestationID(prc.Target.CustomerLocation,GetAllAvailableBAseStations())))*DroneElecUseEmpty;
+            double TargetToBaseStation = Distance.GetDistance(prc.Target.CustomerLocation, GetBasestationLocation(GetNearestBasestationID(prc.Target.CustomerLocation,GetAllAvailableBaseStations())))*DroneElecUseEmpty;
           switch (w)
           {
                 case WeightCategories.Light:

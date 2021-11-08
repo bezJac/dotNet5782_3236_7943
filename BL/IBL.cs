@@ -35,7 +35,7 @@ namespace IBL
         #region Read list of elements
         IEnumerable<DroneCharge> GetAllDroneCharges(int stationId);
         IEnumerable<BaseStation> GetAllBaseStations();
-        IEnumerable<BaseStation> GetAllAvailableBAseStations();
+        IEnumerable<BaseStation> GetAllAvailableBaseStations();
         IEnumerable<Drone> GetAllDrones();
         IEnumerable<Customer> GetAllCustomers();
         IEnumerable<Parcel> GetAllParcels();
