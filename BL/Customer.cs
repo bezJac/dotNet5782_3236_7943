@@ -29,7 +29,7 @@ namespace IBL.BO
                 result += $"List of parcels from customer:\n";
                 foreach (ParcelAtCustomer prc in From)
                 {
-                    result += $"{i++}:\n {prc}";
+                    result += $"{i++}.\n{prc}";
                 }
             }
             if (To.Any())
@@ -37,7 +37,7 @@ namespace IBL.BO
                 result += $"List of parcels to customer:\n";
                 foreach (ParcelAtCustomer prc in To)
                 {
-                    result += $"{j++}:\n {prc}";
+                    result += $"{j++}.\n{prc}";
                 }
             }
             return result;

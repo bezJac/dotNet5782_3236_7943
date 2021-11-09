@@ -14,8 +14,8 @@
             result += $"Id: {Id}\n";
             result += $"Weight: { Weight }\n";
             result += $"Priority: { Priority }\n";
-            result += $"Status: {Status}";
-            result += $"Counter Customer details are:\n {CounterCustomer}";
+            result += $"Status: {Status}\n";
+            result += $"Counter Customer details are:\n{CounterCustomer}";
 
             return result;
         }

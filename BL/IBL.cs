@@ -42,7 +42,8 @@ namespace IBL
         IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId);
         IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId);
         IEnumerable<Parcel> GetAllUnlinkedParcels();
-        
+        IEnumerable<BaseStationInList> GetALLBaseStationInList();
+        IEnumerable<ParcelInList> GetAllParcelInList();
         #endregion
         #region Read single element  
         BaseStation GetBaseStation(int id);
@@ -52,7 +53,7 @@ namespace IBL
         DroneInParcel GetDroneInParcel(int id);
         Location GetBasestationLocation(int id);
         ParcelInDelivery GetParcelInDelivery(int id);
-        ParcelInList GetParcelInList(int id);
+        //ParcelInList GetParcelInList(int id);
         #endregion
         #region Read Specific details of element
         int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);

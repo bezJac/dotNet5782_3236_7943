@@ -44,6 +44,7 @@ namespace IDAL
         IEnumerable<Parcel> GetAllParcels();
         IEnumerable<BaseStation> GetAvailableCharge();
         IEnumerable<Parcel> GetUnlinkedParcels();
+        IEnumerable<Parcel> GetLinkedParcels();
         IEnumerable<Drone> GetLinkedDrones();
         IEnumerable<DroneCharge> GetAllDronecharges();
         #endregion

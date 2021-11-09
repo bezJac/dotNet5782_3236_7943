@@ -479,8 +479,21 @@ namespace DalObject
             return unlinked;
         }
 
+        /// <summary>
+        /// get a copy list containing parcels that are  linked to a  drone
+        /// </summary>
+        /// <returns> IEnumerable<Parcel> type </returns>
+        public IEnumerable<Parcel> GetLinkedParcels()
+        {
+            List<Parcel> linked = new List<Parcel>();
+            foreach (Parcel prcl in DataSource.Parcels)
+            {
+                if (prcl.DroneId != 0)
+                    linked.Add(prcl);
+            }
+            return linked;
 
-
+        }
 
 
 
