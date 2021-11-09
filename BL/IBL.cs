@@ -61,7 +61,7 @@ namespace IBL
         CustomerInParcel GetCustomerInParcel(int senderId);
         bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);
         double GetElectricUseForDrone(WeightCategories w);
-
+        int GetMinimalCharge(Location l, Parcel prc);
         #endregion
         #endregion
 
