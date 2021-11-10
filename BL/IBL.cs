@@ -52,18 +52,18 @@ namespace IBL
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
         DroneInParcel GetDroneInParcel(int id);
-        Location GetBasestationLocation(int id);
+      
         ParcelInDelivery GetParcelInDelivery(int id);
         //ParcelInList GetParcelInList(int id);
         #endregion
         #region Read Specific details of element
-        int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);
+        BaseStation GetNearestBasestation(Location l);
         int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels);
         ParcelStatus GetParcelStatus(DateTime time1, DateTime time2, DateTime time3);
         CustomerInParcel GetCustomerInParcel(int senderId);
         bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);
         double GetElectricUseForDrone(WeightCategories w);
-        int GetMinimalCharge(Location l, Parcel prc);
+        int GetMinimalCharge(Location current, Location sender, Location target, Location station, WeightCategories w);
         #endregion
         #endregion
 

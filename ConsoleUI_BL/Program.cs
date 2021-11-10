@@ -12,6 +12,7 @@ namespace ConsoleUI_BL
             IBL.IBL data = new BL.BL();
             string str;
             int num1, num2;
+            printParcels(data.GetAllParcelInList());
             do
             {
                 System.Console.WriteLine("select your choice:\n"
@@ -146,10 +147,10 @@ namespace ConsoleUI_BL
         /// print information of a list of base stations
         /// </summary>
         /// <param name="stations"> IEnumerable<BaseStation> type </param>
-        private static void printBaseStations(IEnumerable<BaseStation> stations)
+        private static void printBaseStations(IEnumerable<BaseStationInList> stations)
         {
             Console.WriteLine("Base Stations List:\n");
-            foreach (BaseStation stn in stations)
+            foreach (BaseStationInList stn in stations)
             {
                 Console.WriteLine(stn);
             }
@@ -159,10 +160,10 @@ namespace ConsoleUI_BL
         /// print information of a list of drones
         /// </summary>
         /// <param name="drones"> IEnumerable<Drone> type </param>
-        private static void printDrones(IEnumerable<Drone> drones)
+        private static void printDrones(IEnumerable<DroneInList> drones)
         {
             Console.WriteLine("Drones List:\n");
-            foreach (Drone dr in drones)
+            foreach (DroneInList dr in drones)
             {
                 Console.WriteLine(dr);
             }
@@ -172,13 +173,13 @@ namespace ConsoleUI_BL
         /// print information of a list of customers
         /// </summary>
         /// <param name="customers"> IEnumerable<Customer> type </param>
-        private static void printCustomers(IEnumerable<Customer> customers)
+        private static void printCustomers(IEnumerable<CustomerInList> customers)
         {
             Console.WriteLine("Customers List:\n");
-            foreach (Customer cst in customers)
+            foreach (CustomerInList cst in customers)
             {
-                Console.WriteLine($"id: {cst.Id}\n"+$"name: {cst.Name}\n"
-                    +$"Location: \n {cst.CustomerLocation}");
+                Console.WriteLine(cst);
+                   
             }
         }
 
@@ -186,10 +187,10 @@ namespace ConsoleUI_BL
         /// print information of a list of parcels
         /// </summary>
         /// <param name = "parcels"> IEnumerable<Parcel> type </param>
-        private static void printParcels(IEnumerable<Parcel> parcels)
+        private static void printParcels(IEnumerable<ParcelInList> parcels)
         {
             Console.WriteLine("Parcels List:\n");
-            foreach (Parcel prcl in parcels)
+            foreach (ParcelInList prcl in parcels)
             {
                 Console.WriteLine(prcl);
             }
