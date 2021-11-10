@@ -58,7 +58,7 @@ namespace IBL
         #endregion
         #region Read Specific details of element
         BaseStation GetNearestBasestation(Location l);
-        int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels);
+        Parcel GetNearestParcel(Location l, IEnumerable<Parcel> parcels);
         ParcelStatus GetParcelStatus(DateTime time1, DateTime time2, DateTime time3);
         CustomerInParcel GetCustomerInParcel(int senderId);
         bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);

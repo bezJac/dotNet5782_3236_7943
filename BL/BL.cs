@@ -312,7 +312,7 @@ namespace BL
                         temp = temp.FindAll(prc => prc.Weight == (WeightCategories)j);
                         if (temp.Count() > 0)
                         {
-                            Parcel prc = GetParcel(GetNearestParcelID(dr.Location, temp));
+                            Parcel prc = GetNearestParcel(dr.Location, temp);
                             if (CheckDroneDistanceCoverage(dr, prc, dr.MaxWeight))
                             {
                                 myDal.LinkParcelToDrone(myDal.GetParcel(prc.Id), myDal.GetDrone(dr.Id));
@@ -715,22 +715,22 @@ namespace BL
             }
             return GetBaseStation(id);
         }
-        public int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels)
+        public Parcel GetNearestParcel(Location l, IEnumerable<Parcel> parcels)
         {
 
             double min = double.PositiveInfinity;
             double temp;
-            int id = parcels.First().Id;
+            Parcel pr = new Parcel();
             foreach (Parcel prc in parcels)
             {
                 temp = Distance.GetDistance(prc.Sender.CustomerLocation, l);
                 if (temp < min)
                 {
                     min = temp;
-                    id = prc.Id;
+                    pr = prc;
                 }
             }
-            return id;
+            return pr;
         }
         public ParcelStatus GetParcelStatus(DateTime scheduled, DateTime pickedUp, DateTime delivered)
         {
