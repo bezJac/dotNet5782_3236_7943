@@ -29,11 +29,11 @@ namespace DalObject
         /// add a base station to stations list in data source layer
         /// </summary>
         /// <param name="st"> station object to be added </param>
-        /// <exception cref = "BaseStationException"> thrown if id already exists  </exception>
+        /// <exception cref = "BaseStationExceptionDAL"> thrown if id already exists  </exception>
         public void AddBaseStation(BaseStation st)
         {
             if(DataSource.Stations.Any(station => (station.Id == st.Id)))
-                throw new BaseStationException("id already exists");
+                throw new BaseStationExceptionDAL("id already exists");
             DataSource.Stations.Add(st);
         }
 
@@ -41,11 +41,11 @@ namespace DalObject
         /// add a drone to drones list in data source layer
         /// </summary>
         /// <param name="dr"> Drone object to be added </param>
-        /// <exception cref = "DroneException" > thrown if id already exists</exception>
+        /// <exception cref = "DroneExceptionDAL" > thrown if id already exists</exception>
         public void AddDrone(Drone dr)
         {
             if(DataSource.Drones.Any(drone => (drone.Id == dr.Id)))
-                throw new DroneException("id already exists");
+                throw new DroneExceptionDAL("id already exists");
             DataSource.Drones.Add(dr);
         }
 
@@ -53,11 +53,11 @@ namespace DalObject
         /// add a customer to customers list in data source layer
         /// </summary>
         /// <param name="person"> customer object to be added </param>
-        /// <exception cref = "CustomerException"> thrown if id already exists  </exception>
+        /// <exception cref = "CustomerExceptionDAL"> thrown if id already exists  </exception>
         public void AddCustomer(Customer person)
         {
             if(DataSource.Customers.Any(customer => (customer.Id == person.Id)))
-                throw new CustomerException("id already exists");
+                throw new CustomerExceptionDAL("id already exists");
             DataSource.Customers.Add(person);
         }
 
@@ -65,11 +65,11 @@ namespace DalObject
         /// add a parcel to parcels list in data source layer
         /// </summary>
         /// <param name="pack"> parcel object to be added</param>
-        /// <exception cref = "ParcelException"> thrown if id already exists   </exception>
+        /// <exception cref = "ParcelExceptionDAL"> thrown if id already exists   </exception>
         public void AddParcel(Parcel pack)
         {
             if(DataSource.Parcels.Any(parcel => (parcel.Id == pack.Id)))
-                throw new ParcelException("id already exists");
+                throw new ParcelExceptionDAL("id already exists");
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
@@ -78,12 +78,12 @@ namespace DalObject
         /// update a base station in the list
         /// </summary>
         /// <param name="bst"> updated version of base station </param>
-        ///  <exception cref = "BaseStationException"> thrown if id not found  </exception>
+        ///  <exception cref = "BaseStationExceptionDAL"> thrown if id not found  </exception>
         public void UpdateBaseStation(BaseStation bst)
         {
            int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationException("id not found");
+                throw new BaseStationExceptionDAL("id not found");
             DataSource.Stations[index] = bst;
         }
 
@@ -91,12 +91,12 @@ namespace DalObject
         /// update a dronein the list
         /// </summary>
         /// <param name="dr"> updated version of drone </param>
-        ///  <exception cref = "DroneException"> thrown if id not founf  </exception>
+        ///  <exception cref = "DroneExceptionDAL"> thrown if id not founf  </exception>
         public void UpdateDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneException("id not found");
+                throw new DroneExceptionDAL("id not found");
             DataSource.Drones[index] = dr;
         }
 
@@ -105,12 +105,12 @@ namespace DalObject
         /// update a customer in the list
         /// </summary>
         /// <param name="person"> updated version of customer </param>
-        ///  <exception cref = "CustomerException"> thrown if id not founf  </exception>
+        ///  <exception cref = "CustomerExceptionDAL"> thrown if id not founf  </exception>
         public void UpdateCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerException("id not found");
+                throw new CustomerExceptionDAL("id not found");
             DataSource.Customers[index] = person;
         }
 
@@ -118,12 +118,12 @@ namespace DalObject
         /// update a parcel in the list
         /// </summary>
         /// <param name="person"> updated version of parcel </param>
-        ///  <exception cref = "ParcelException"> thrown if id not founf  </exception>
+        ///  <exception cref = "ParcelExceptionDAL"> thrown if id not founf  </exception>
         public void UpdateParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelException("id not found");
+                throw new ParcelExceptionDAL("id not found");
             DataSource.Parcels[index] =pack;
         }
 
@@ -131,12 +131,12 @@ namespace DalObject
         /// delete a base station from list
         /// </summary>
         /// <param name="bst"> base station to be  removed </param>
-        ///  <exception cref = "BaseStationException"> thrown if id not found  </exception>
+        ///  <exception cref = "BaseStationExceptionDAL"> thrown if id not found  </exception>
         public void RemoveBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationException("id not found");
+                throw new BaseStationExceptionDAL("id not found");
             DataSource.Stations.RemoveAt(index);
         }
 
@@ -144,12 +144,12 @@ namespace DalObject
         /// remove a drone from list
         /// </summary>
         /// <param name="dr"> drone to be  removed </param>
-        /// <exception cref = "DroneException"> thrown if id not found  </exception>
+        /// <exception cref = "DroneExceptionDAL"> thrown if id not found  </exception>
         public void RemoveDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneException("id not found");
+                throw new DroneExceptionDAL("id not found");
             DataSource.Drones.RemoveAt(index);
         }
 
@@ -157,12 +157,12 @@ namespace DalObject
         /// remove a customer from list
         /// </summary>
         /// <param name="person"> customer to be removed </param>
-        /// <exception cref = "CustomerException"> thrown if id not found  </exception> 
+        /// <exception cref = "CustomerExceptionDAL"> thrown if id not found  </exception> 
         public void RemoveCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerException("id not found");
+                throw new CustomerExceptionDAL("id not found");
             DataSource.Customers.RemoveAt(index);
         }
 
@@ -170,12 +170,12 @@ namespace DalObject
         /// remove a parcel from list
         /// </summary>
         /// <param name="pack"> parcel to be removed </param>
-        /// <exception cref = "ParcelException"> thrown if id not found  </exception> 
+        /// <exception cref = "ParcelExceptionDAL"> thrown if id not found  </exception> 
         public void RemoveParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelException("id not found");
+                throw new ParcelExceptionDAL("id not found");
             DataSource.Parcels.RemoveAt(index);
         }
        
@@ -275,7 +275,7 @@ namespace DalObject
         /// get a copy of a single base station 
         /// </summary>
         /// <param name = "id">  base station's ID </param>
-        /// <exception cref = "BaseStationException"> thrown if id not founf in list </exception>
+        /// <exception cref = "BaseStationExceptionDAL"> thrown if id not founf in list </exception>
         /// <returns> copy of base station matching the id </returns>
         public BaseStation GetBaseStation(int id)
         {
@@ -290,7 +290,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new BaseStationException("id not found");
+                throw new BaseStationExceptionDAL("id not found");
             }
             return (BaseStation)temp;   
         }
@@ -299,7 +299,7 @@ namespace DalObject
         /// get a copy of a single Drone 
         /// </summary>
         /// <param name="id">  drone's ID </param>
-        /// <exception cref="DroneException"> thrown if id not founf in list </exception>
+        /// <exception cref="DroneExceptionDAL"> thrown if id not founf in list </exception>
         /// <returns> copy of drone matching the id </returns>
         public Drone GetDrone(int id)
         {
@@ -315,7 +315,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new DroneException("id not found");
+                throw new DroneExceptionDAL("id not found");
             }
             return (Drone)temp;
         }
@@ -324,7 +324,7 @@ namespace DalObject
         /// get a copy of a single customer 
         /// </summary>
         /// <param name="id">  customer's ID </param>
-        /// <exception cref="DroneException"> thrown if id not founf in list </exception>
+        /// <exception cref="DroneExceptionDAL"> thrown if id not founf in list </exception>
         /// <returns> copy of customer matching the id </returns>
         public Customer GetCustomer(int id)
         {
@@ -340,7 +340,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new CustomerException("id not found");
+                throw new CustomerExceptionDAL("id not found");
             }
             return (Customer)temp;
         }
@@ -349,7 +349,7 @@ namespace DalObject
         /// get a copy of a single parcal
         /// </summary>
         /// <param name="id">  parcel's ID </param>
-        /// <exception cref="ParcelException"> thrown if id not founf in list </exception>
+        /// <exception cref="ParcelExceptionDAL"> thrown if id not founf in list </exception>
         /// <returns> copy of parcel matching the id </returns>
         public Parcel GetParcel(int id)
         {
@@ -366,7 +366,7 @@ namespace DalObject
             }
             if(temp == null)
             {
-                throw new ParcelException("id not found");
+                throw new ParcelExceptionDAL("id not found");
             }
             return (Parcel)temp;
         }
@@ -390,7 +390,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new DroneException("id not found");
+                throw new DroneExceptionDAL("id not found");
             }
             return (DroneCharge)temp;
         }
@@ -400,110 +400,56 @@ namespace DalObject
         /// get a copy list of all base stations 
         /// </summary>
         ///  <returns> IEnumerable<BaseStation> type </returns>
-        public IEnumerable<BaseStation> GetAllBaseStations()
+        public IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null)
         {
-            return DataSource.Stations.ToList();
+            if (predicate == null)
+                return DataSource.Stations.ToList();
+            return DataSource.Stations.FindAll(predicate).ToList();
         }
 
         /// <summary>
         /// get a copy list containing all drones 
         /// </summary>
         /// <returns> IEnumerable<Drone> type </returns>
-        public IEnumerable<Drone> GetAllDrones()
+        public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
-            return DataSource.Drones.ToList();
-        }
-
-        /// <summary>
-        /// get a copy list containing all drones linked to parcels
-        /// </summary>
-        /// <returns> IEnumerable<Drone> type </returns>
-        public IEnumerable<Drone> GetLinkedDrones()
-        {
-            List<Drone> temp = new List<Drone>();
-            foreach (Parcel parcel in DataSource.Parcels)
-            {
-                if (parcel.DroneId != 0)
-                    temp.Add(GetDrone(parcel.DroneId));
-            }
-            return temp;
+            if (predicate == null)
+                return DataSource.Drones.ToList();
+            return DataSource.Drones.FindAll(predicate).ToList();
         }
 
         /// <summary>
         /// get a copy list containing all customers
         /// </summary>
         /// <returns> IEnumerable<Customer> type </returns>
-        public IEnumerable<Customer> GetAllCustomers()
+        public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
-            return DataSource.Customers.ToList();
+            if(predicate==null)
+                return DataSource.Customers.ToList();
+            return DataSource.Customers.FindAll(predicate).ToList();
         }
 
         /// <summary>
         /// get a copy list containing all parcels 
         /// </summary>
         /// <returns> IEnumerable<Parcel> type </returns>
-        public IEnumerable<Parcel> GetAllParcels()
+        public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
-            return DataSource.Parcels.ToList();
+            if (predicate == null)
+                return DataSource.Parcels.ToList();
+            return DataSource.Parcels.FindAll(predicate).ToList();
+            
         }
-
-        /// <summary>
-        /// get a copy list containing base Stations with available 
-        /// charging slots
-        /// </summary>
-        /// <returns> IEnumerable<BaseStation> type </returns>
-        public IEnumerable<BaseStation> GetAvailableCharge()
-        {
-            List<BaseStation> available = new List<BaseStation>();
-            foreach (BaseStation stn in DataSource.Stations)
-            {
-                if (stn.NumOfSlots > 0)
-                    available.Add(stn);
-
-            }
-            return available;
-        }
-
-        /// <summary>
-        /// get a copy list containing parcels that are  unlinked yet to a  drone
-        /// </summary>
-        /// <returns> IEnumerable<Parcel> type </returns>
-        public IEnumerable<Parcel> GetUnlinkedParcels()
-        {
-            List<Parcel> unlinked = new List<Parcel>();
-            foreach (Parcel prcl in DataSource.Parcels)
-            {
-                if (prcl.DroneId == 0)
-                    unlinked.Add(prcl);
-            }
-            return unlinked;
-        }
-
-        /// <summary>
-        /// get a copy list containing parcels that are  linked to a  drone
-        /// </summary>
-        /// <returns> IEnumerable<Parcel> type </returns>
-        public IEnumerable<Parcel> GetLinkedParcels()
-        {
-            List<Parcel> linked = new List<Parcel>();
-            foreach (Parcel prcl in DataSource.Parcels)
-            {
-                if (prcl.DroneId != 0)
-                    linked.Add(prcl);
-            }
-            return linked;
-
-        }
-
-
 
         /// <summary>
         /// get a copy list containing all drone charges entity 
         /// </summary>
         /// <returns> IEnumerable<DroneCharge> type </returns>
-        public IEnumerable<DroneCharge> GetAllDronecharges()
+        public IEnumerable<DroneCharge> GetAllDronecharges(Predicate<DroneCharge> predicate = null)
         {
-            return DataSource.Charges.ToList();
+            if (predicate == null)
+                return DataSource.Charges.ToList();
+            return DataSource.Charges.FindAll(predicate).ToList();
         }
 
         /// <summary>

@@ -226,12 +226,12 @@ namespace ConsoleUI
                             }
                             case "unlinked":
                             {
-                                printParcels(data.GetUnlinkedParcels());
+                                printParcels(data.GetAllParcels(prc => prc.DroneId == 0));
                                 break;
                             }
                             case "charge":
-                            {    
-                                printBaseStations(data.GetAvailableCharge());
+                            {
+                                printBaseStations(data.GetAllBaseStations(st => st.NumOfSlots > 0));
                                 break;
                             }
                             default:

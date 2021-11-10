@@ -14,6 +14,7 @@ namespace IBL
         void AddDrone(Drone drone , int stationId);
         void AddParcel(Parcel parcel);
         void AddCustomer(Customer customer);
+        Location CreateLocation(double lon, double lat);
         #endregion
 
         #region Update part of C.R.U.d
@@ -58,7 +59,7 @@ namespace IBL
         #region Read Specific details of element
         int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations);
         int GetNearestParcelID(Location l, IEnumerable<Parcel> parcels);
-        int GetParcelStatusIndicator(int id);
+        ParcelStatus GetParcelStatus(DateTime time1, DateTime time2, DateTime time3);
         CustomerInParcel GetCustomerInParcel(int senderId);
         bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);
         double GetElectricUseForDrone(WeightCategories w);

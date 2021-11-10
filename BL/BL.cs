@@ -13,14 +13,14 @@ namespace BL
 {
     public class BL : IBL.IBL
     {
-        
+
         IDAL.IDal myDal;
         public static double DroneElecUseEmpty;
         public static double DroneElecUseLight;
         public static double DroneElecUseMedium;
         public static double DroneElecUseHeavy;
         public static double DroneHourlyChargeRate;
-        public List<DroneInList> Drones  ;
+        public List<DroneInList> Drones;
         public BL()
 
         {
@@ -35,7 +35,7 @@ namespace BL
             Random rnd = new Random();
             foreach (IDAL.DO.Drone dr in myDal.GetAllDrones())
             {
-                if (myDal.GetLinkedParcels().ToList().Any(prc => prc.DroneId == dr.Id))
+                if (myDal.GetAllParcels(p => p.DroneId != 0).ToList().Any(prc => prc.DroneId == dr.Id)) 
                 {
                     IEnumerable<IDAL.DO.Parcel> Parcel = myDal.GetAllParcels().Where(prc => prc.DroneId == dr.Id);
                     IDAL.DO.Parcel prc = Parcel.First();
@@ -136,7 +136,7 @@ namespace BL
             }
 
         }
-        
+
         #region Adding new entity methods
         public void AddBaseStation(BaseStation station)
         {
@@ -149,8 +149,6 @@ namespace BL
                 Longitude = station.StationLocation.Longtitude,
                 Lattitude = station.StationLocation.Lattitude,
                 NumOfSlots = station.NumOfSlots,
-
-
             });
         }
         public void AddDrone(Drone drone, int stationId)
@@ -161,10 +159,7 @@ namespace BL
                 throw new BaseStationException($"base station - {stationId} dosen't exist");
             if (myDal.GetBaseStation(stationId).NumOfSlots == 0)
                 throw new BaseStationException($"base station - {stationId} has no charging slots available");
-
-
             Random rnd = new Random();
-
             Drones.Add(new DroneInList
             {
                 Id = drone.Id,
@@ -179,8 +174,8 @@ namespace BL
                 Id = drone.Id,
                 Model = drone.Model,
                 MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
-
             });
+            myDal.ChargeDrone(myDal.GetBaseStation(stationId), myDal.GetDrone(drone.Id));
         }
         public void AddParcel(Parcel parcel)
         {
@@ -221,6 +216,10 @@ namespace BL
                 Lattitude = customer.CustomerLocation.Lattitude,
 
             });
+        }
+        public Location CreateLocation(double lon, double lat)
+        {
+            return new Location { Longtitude = lon, Lattitude = lat };
         }
         #endregion
         #region Updating a Entity methods 
@@ -288,7 +287,7 @@ namespace BL
                 throw new DroneException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            int stationId = GetNearestBasestationID(Drones[index].DroneLocation, GetAllAvailableBaseStations());
+            int stationId = GetNearestBasestationID(Drones[index].DroneLocation, GetAllBaseStations().ToList().FindAll(st=>st.NumOfSlots>0));
             BaseStation st = GetBaseStation(stationId);
 
             double distance = Distance.GetDistance(st.StationLocation, Drones[index].DroneLocation);
@@ -474,7 +473,7 @@ namespace BL
         }
         public IEnumerable<DroneCharge> GetAllDroneCharges(int stationId)
         {
-            return myDal.GetAllDronecharges().Where(st => st.StationId == stationId).Select(Charge => new DroneCharge { Id = Charge.DroneId, Battery = GetDrone(Charge.DroneId).Battery });
+            return myDal.GetAllDronecharges(st => st.StationId == stationId).Select(Charge => new DroneCharge { Id = Charge.DroneId, Battery = GetDrone(Charge.DroneId).Battery });
         }
         public IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId)
         {
@@ -486,7 +485,7 @@ namespace BL
                         Id = parcel.Id,
                         Weight = (WeightCategories)parcel.Weight,
                         Priority = (Priority)parcel.Priority,
-                        Status = (ParcelStatus)GetParcelStatusIndicator(parcel.Id),
+                        Status = GetParcelStatus(parcel.Scheduled, parcel.PickedUp, parcel.Delivered),
                         CounterCustomer = GetCustomerInParcel(parcel.TargetId),
 
                     });
@@ -502,7 +501,7 @@ namespace BL
                         Id = parcel.Id,
                         Weight = (WeightCategories)parcel.Weight,
                         Priority = (Priority)parcel.Priority,
-                        Status = (ParcelStatus)GetParcelStatusIndicator(parcel.Id),
+                        Status = GetParcelStatus(parcel.Scheduled,parcel.PickedUp,parcel.Delivered),
                         CounterCustomer = GetCustomerInParcel(parcel.SenderId),
 
                     });
@@ -511,7 +510,7 @@ namespace BL
         public IEnumerable<BaseStation> GetAllAvailableBaseStations()
         {
             List<BaseStation> temp = new List<BaseStation>();
-            foreach (IDAL.DO.BaseStation station in myDal.GetAvailableCharge())
+            foreach (IDAL.DO.BaseStation station in myDal.GetAllBaseStations(st => st.NumOfSlots>0))
             {
                 temp.Add(GetBaseStation(station.Id));
             }
@@ -520,7 +519,7 @@ namespace BL
         public IEnumerable<Parcel> GetUnlinkedParcel()
         {
             List<Parcel> temp = new List<Parcel>();
-            foreach (IDAL.DO.Parcel parcel in myDal.GetUnlinkedParcels())
+            foreach (IDAL.DO.Parcel parcel in myDal.GetAllParcels(p => p.DroneId==0))
             {
                 temp.Add(GetParcel(parcel.Id));
             }
@@ -529,7 +528,7 @@ namespace BL
         public IEnumerable<Parcel> GetAllUnlinkedParcels()
         {
             List<Parcel> temp = new List<Parcel>();
-            foreach (IDAL.DO.Parcel prc in myDal.GetUnlinkedParcels())
+            foreach (IDAL.DO.Parcel prc in myDal.GetAllParcels(p => p.DroneId != 0))
             {
                 temp.Add(GetParcel(prc.Id));
             }
@@ -537,227 +536,183 @@ namespace BL
         }
         public IEnumerable<ParcelInList> GetAllParcelInList()
         {
-
             List<ParcelInList> tmp = new List<ParcelInList>();
-            foreach (Parcel p in GetAllParcels())
+            foreach (IDAL.DO.Parcel p in myDal.GetAllParcels())
             {
-
                 tmp.Add(new ParcelInList
                 {
                     Id = p.Id,
-                    SenderName = p.Sender.Name,
-                    TargetName = p.Target.Name,
+                    SenderName = myDal.GetCustomer(p.SenderId).Name,
+                    TargetName = myDal.GetCustomer(p.TargetId).Name,
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priority)p.Priority,
-                    Status = (ParcelStatus)GetParcelStatusIndicator(p.Id),
-                });
-
-
+                    Status = GetParcelStatus(p.Scheduled, p.PickedUp, p.Delivered),
+                }) ;
             }
-
             return tmp;
         }
         #endregion
         #region get single element  
         public BaseStation GetBaseStation(int id)
         {
-            if (!myDal.GetAllBaseStations().Any(b => b.Id == id))
-                throw new BaseStationException($"base station -  {id} dosen't exist ");
-            BaseStation temp = null;
-            foreach (IDAL.DO.BaseStation st in myDal.GetAllBaseStations())
+            IDAL.DO.BaseStation st;
+            try
             {
-                if (st.Id == id)
-                {
-                    Location l = new Location(); ;
-                    l.Longtitude = st.Longitude;
-                    l.Lattitude = st.Lattitude;
-                    temp = new BaseStation
-                    {
-                        Id = st.Id,
-                        Name = st.Name,
-                        StationLocation = l,
-                        NumOfSlots = st.NumOfSlots,
-                        DronesCharging = GetAllDroneCharges(id),
-                    };
-                    break;
-                }
-
+                st = myDal.GetBaseStation(id);
             }
-            if (temp == null)
-                throw new BaseStationException($"base station - {id} wasen't found");
-            return temp;
+            catch (IDAL.BaseStationExceptionDAL ex)
+            {
+                throw new BaseStationException("Base Station Exception: ", ex);
+            }
+            return new BaseStation
+            {
+                Id = st.Id,
+                Name = st.Name,
+                StationLocation = CreateLocation(st.Longitude, st.Lattitude),
+                NumOfSlots = st.NumOfSlots,
+                DronesCharging = GetAllDroneCharges(id),
+            };
         }
         public Drone GetDrone(int id)
         {
-
-            if (!myDal.GetAllDrones().ToList().Any(dr => dr.Id == id))
+            IDAL.DO.Drone dr;
+            try
             {
-                throw new DroneException("id not found");
+                dr = myDal.GetDrone(id);
             }
-            Drone temp = null;
-            foreach (DroneInList dr in Drones)
+            catch (IDAL.DroneExceptionDAL ex)
             {
-                if (dr.Id == id)
+                throw new DroneException("Drone Exception: ", ex);
+            }
+            Drone tmp = null;
+            foreach (DroneInList drone in Drones)
+            {
+                if (drone.Id == id)
                 {
-                    if (GetAllParcels().Any(prc => prc.Drone.Id == dr.Id))
+                    if (myDal.GetAllParcels().Any(prc => prc.DroneId == drone.Id))
                     {
-                        temp = new Drone
+                        tmp = new Drone
                         {
-                            Id = dr.Id,
-                            Model = dr.Model,
-                            MaxWeight = dr.MaxWeight,
-                            Status = dr.Status,
-                            Battery = dr.Battery,
-                            Parcel = GetParcelInDelivery(dr.ParcelId),
-                            Location = dr.DroneLocation,
-
+                            Id = drone.Id,
+                            Model = drone.Model,
+                            MaxWeight = drone.MaxWeight,
+                            Status = drone.Status,
+                            Battery = drone.Battery,
+                            Parcel = GetParcelInDelivery(drone.ParcelId),  
+                            Location = drone.DroneLocation,
                         };
+                        break;
                     }
                     else
                     {
-                        temp = new Drone
+                        tmp = new Drone
                         {
-                            Id = dr.Id,
-                            Model = dr.Model,
-                            MaxWeight = dr.MaxWeight,
-                            Status = dr.Status,
-                            Battery = dr.Battery,
+                            Id = drone.Id,
+                            Model = drone.Model,
+                            MaxWeight = drone.MaxWeight,
+                            Status = drone.Status,
+                            Battery = drone.Battery,
                             Parcel = null,
-                            Location = dr.DroneLocation,
+                            Location = drone.DroneLocation,
                         };
+                        break;
                     }
-                    break;
-                }
-
-                break;
-            }
-            return temp;
-        }
-        public DroneInParcel GetDroneInParcel(int id)
-        {
-            DroneInParcel tmp = new DroneInParcel();
-            foreach (IDAL.DO.Parcel prc in myDal.GetAllParcels())
-            {
-                if (prc.DroneId == id && prc.DroneId != 0)
-                {
-                    tmp = new DroneInParcel
-                    {
-                        Id = GetDrone(id).Id,
-                        Battery = GetDrone(id).Battery,
-                        DroneLocation = GetDrone(id).Location,
-                    };
-                    break;
                 }
             }
             return tmp;
-
-
+        }
+        public DroneInParcel GetDroneInParcel(int id)
+        { 
+            Drone dr = GetDrone(id);
+            return new DroneInParcel
+            {
+                Id = dr.Id,
+                Battery = dr.Battery,
+                DroneLocation = dr.Location,
+            };
         }
         public Customer GetCustomer(int id)
         {
-            if (!myDal.GetAllCustomers().Any(c => c.Id == id))
-                throw new CustomerException($"cuatomer -  {id} dosen't exist ");
-            Customer temp = null;
-            foreach (IDAL.DO.Customer customer in myDal.GetAllCustomers())
+            IDAL.DO.Customer cstmr;
+            try
             {
-                if (customer.Id == id)
-                {
-                    Location l = new Location(); ;
-                    l.Longtitude = customer.Longitude;
-                    l.Lattitude = customer.Lattitude;
-                    temp = new Customer
-                    {
-                        Id = customer.Id,
-                        Name = customer.Name,
-                        Phone = customer.Phone,
-                        CustomerLocation = l,
-                        From = GetAllOutGoingDeliveries(customer.Id),
-                        To = GetAllIncomingDeliveries(customer.Id),
-
-                    };
-                    break;
-                }
+                cstmr = myDal.GetCustomer(id);
             }
-            return temp;
-
+            catch (IDAL.CustomerExceptionDAL ex)
+            {
+                throw new CustomerException("Customer Exception: ", ex);
+            }
+            return new Customer
+            {
+                Id = cstmr.Id,
+                Name = cstmr.Name,
+                Phone = cstmr.Phone,
+                CustomerLocation = CreateLocation(cstmr.Longitude, cstmr.Lattitude),
+                From = GetAllOutGoingDeliveries(id),
+                To = GetAllIncomingDeliveries(id),
+            };
         }
         public Parcel GetParcel(int id)
         {
-            if (!myDal.GetAllParcels().Any(p => p.Id == id))
-                throw new CustomerException($"parcel -  {id} dosen't exist ");
-            Parcel parcel = null;
-            foreach (IDAL.DO.Parcel prc in myDal.GetAllParcels())
+            IDAL.DO.Parcel pr;
+            try
             {
-                if (prc.Id == id)
-                {
-                    if ((ParcelStatus)GetParcelStatusIndicator(id) == ParcelStatus.Linked || (ParcelStatus)GetParcelStatusIndicator(id) == ParcelStatus.PickedUp)
-                    {
-                        parcel =
-
-                           new Parcel
-                           {
-                               Id = prc.Id,
-                               Sender = GetCustomer(prc.SenderId),
-                               Target = GetCustomer(prc.TargetId),
-                               Weight = (WeightCategories)prc.Weight,
-                               Priority = (Priority)prc.Priority,
-                               Drone = GetDroneInParcel(prc.DroneId),
-                               Ordered = prc.Requested,
-                               Linked = prc.Scheduled,
-                               PickedUp = prc.PickedUp,
-                               Delivered = prc.Delivered,
-                           };
-                        break;
-
-                    }
-                    else
-                    {
-                        parcel = new Parcel
-                        {
-                            Id = prc.Id,
-                            Sender = GetCustomer(prc.SenderId),
-                            Target = GetCustomer(prc.TargetId),
-                            Weight = (WeightCategories)prc.Weight,
-                            Priority = (Priority)prc.Priority,
-                            Drone = null,
-                            Ordered = prc.Requested,
-                            Linked = prc.Scheduled,
-                            PickedUp = prc.PickedUp,
-                            Delivered = prc.Delivered,
-                        };
-                        break;
-                    }
-                }
+                pr = myDal.GetParcel(id);
             }
-            return parcel;
+            catch (IDAL.ParcelExceptionDAL ex)
+            {
+                throw new ParcelException("Parcel Exception: ", ex);
+            }
+            Parcel tmp = null;
+            if (pr.DroneId != 0)
+            {
+                tmp = new Parcel
+                {
+                    Id = pr.Id,
+                    Sender = GetCustomer(pr.SenderId),
+                    Target = GetCustomer(pr.TargetId),
+                    Weight = (WeightCategories)pr.Weight,
+                    Priority = (Priority)pr.Priority,
+                    Drone = GetDroneInParcel(pr.DroneId),
+                    Ordered = pr.Requested,
+                    Linked = pr.Scheduled,
+                    PickedUp = pr.PickedUp,
+                    Delivered = pr.Delivered,
+                };
+            }
+            else
+            {
+                tmp = new Parcel
+                {
+                    Id = pr.Id,
+                    Sender = GetCustomer(pr.SenderId),
+                    Target = GetCustomer(pr.TargetId),
+                    Weight = (WeightCategories)pr.Weight,
+                    Priority = (Priority)pr.Priority,
+                    Drone = null,
+                    Ordered = pr.Requested,
+                    Linked = pr.Scheduled,
+                    PickedUp = pr.PickedUp,
+                    Delivered = pr.Delivered,
+                };
+            }
+            return tmp;
         }
         public CustomerInParcel GetCustomerInParcel(int id)
         {
-            CustomerInParcel temp = null;
-            foreach (IDAL.DO.Customer cs in myDal.GetAllCustomers())
+            IDAL.DO.Customer cstmr = myDal.GetCustomer(id);
+            return new CustomerInParcel
             {
-                if (cs.Id == id)
-
-                {
-                    temp = new CustomerInParcel
-                    {
-                        Id = myDal.GetCustomer(id).Id,
-                        Name = myDal.GetCustomer(id).Name,
-                    };
-                    break;
-                }
-
-            }
-            return temp;
+                Id = cstmr.Id,
+                Name = cstmr.Name,
+            };
         }
         public ParcelInDelivery GetParcelInDelivery(int id)
         {
-
             Parcel prc2 = GetParcel(id);
             bool flag = false;
-            if ((ParcelStatus)GetParcelStatusIndicator(id) == ParcelStatus.PickedUp)
+            if (GetParcelStatus(prc2.Linked, prc2.PickedUp, prc2.Delivered) == ParcelStatus.PickedUp)
                 flag = true;
-
             return new ParcelInDelivery
             {
                 Id = prc2.Id,
@@ -769,7 +724,6 @@ namespace BL
                 SenderLocation = prc2.Sender.CustomerLocation,
                 TargetLocation = prc2.Target.CustomerLocation,
                 DeliveryDistance = Distance.GetDistance(prc2.Sender.CustomerLocation, prc2.Target.CustomerLocation),
-
             };
         }
         #endregion
@@ -787,14 +741,13 @@ namespace BL
         }
         public int GetNearestBasestationID(Location l, IEnumerable<BaseStation> stations)
         {
-
             double min = double.PositiveInfinity;
             double temp;
             int id = stations.First().Id;
             foreach (BaseStation st in stations)
             {
                 temp = Distance.GetDistance(st.StationLocation, l);
-                if (temp < min && st.NumOfSlots > 0)
+                if (temp < min)
                 {
                     min = temp;
                     id = st.Id;
@@ -819,15 +772,15 @@ namespace BL
             }
             return id;
         }
-        public int GetParcelStatusIndicator(int id)
+        public ParcelStatus GetParcelStatus(DateTime scheduled, DateTime pickedUp, DateTime delivered)
         {
-            if (myDal.GetParcel(id).Scheduled == DateTime.MinValue)
-                return 1;
-            if (myDal.GetParcel(id).PickedUp == DateTime.MinValue)
-                return 2;
-            if (myDal.GetParcel(id).Delivered == DateTime.MinValue)
-                return 3;
-            return 4;
+            if (scheduled == DateTime.MinValue)
+                return ParcelStatus.Orderd;
+            if (pickedUp == DateTime.MinValue)
+                return ParcelStatus.Linked;
+            if (delivered == DateTime.MinValue)
+                return ParcelStatus.PickedUp;
+            return ParcelStatus.Delivered;
         }
         public bool CheckDroneDistanceCoverage(Drone dr, Parcel prc, WeightCategories w)
         {
@@ -913,11 +866,11 @@ namespace BL
         }
         #endregion
         #endregion
-        
-        
+
+
 
 
     }
 }
-    
+
 

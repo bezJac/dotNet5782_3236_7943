@@ -38,15 +38,11 @@ namespace IDAL
 
         #region Read part of C.R.U.D
         #region Read list of elements
-        IEnumerable<BaseStation> GetAllBaseStations();
-        IEnumerable<Drone> GetAllDrones();
-        IEnumerable<Customer> GetAllCustomers();
-        IEnumerable<Parcel> GetAllParcels();
-        IEnumerable<BaseStation> GetAvailableCharge();
-        IEnumerable<Parcel> GetUnlinkedParcels();
-        IEnumerable<Parcel> GetLinkedParcels();
-        IEnumerable<Drone> GetLinkedDrones();
-        IEnumerable<DroneCharge> GetAllDronecharges();
+        IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null);
+        IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null);
+        IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null);
+        IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null);
+        IEnumerable<DroneCharge> GetAllDronecharges(Predicate<DroneCharge> predicate = null);
         #endregion
         #region Read single element  
         BaseStation GetBaseStation(int id);
