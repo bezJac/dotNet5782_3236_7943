@@ -33,6 +33,7 @@ namespace DalObject
             internal static double DroneElecUseMedium;
             internal static double DroneElecUseHeavy;
             internal static double DroneHourlyChargeRate;
+            
 
         }
 

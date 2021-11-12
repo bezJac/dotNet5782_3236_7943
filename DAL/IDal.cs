@@ -15,6 +15,7 @@ namespace IDAL
         void AddDrone(Drone dr);
         void AddCustomer(Customer person);
         void AddParcel(Parcel pack);
+        void AddDroneCharge(DroneCharge dc);
         #endregion
 
         #region Update part of C.R.U.d
@@ -22,11 +23,6 @@ namespace IDAL
         void UpdateDrone(Drone dr);
         void UpdateCustomer(Customer person);
         void UpdateParcel(Parcel pack);
-        void LinkParcelToDrone(Parcel prc, Drone dr);
-        void DroneParcelPickup(Parcel prc);
-        void ParcelDelivery(Parcel prc);
-        void ChargeDrone(BaseStation bst, Drone dr);
-        void ReleaseDroneCharge(BaseStation bst, Drone dr);
         #endregion
 
         #region Delete part of C.R.U.D
@@ -34,6 +30,7 @@ namespace IDAL
         void RemoveDrone(Drone dr);
         void RemoveCustomer(Customer person);
         void RemoveParcel(Parcel pack);
+        void RemoveDroneCharge(DroneCharge dc);
         #endregion
 
         #region Read part of C.R.U.D
@@ -57,9 +54,7 @@ namespace IDAL
         #endregion
 
      
-        double GetDistance(double longt, double latt, BaseStation station);
-        double GetDistance(double longt, double latt, Customer cstmr);
-        double DistanceCalc(double lat1, double lon1, double lat2, double lon2);
+        
         
 
 

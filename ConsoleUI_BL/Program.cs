@@ -12,7 +12,6 @@ namespace ConsoleUI_BL
             IBL.IBL data = new BL.BL();
             string str;
             int num1, num2;
-            printParcels(data.GetAllParcelInList());
             do
             {
                 System.Console.WriteLine("select your choice:\n"

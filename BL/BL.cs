@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace BL
 {
-    public class BL : IBL.IBL
+    public partial class BL : IBL.IBL
     {
 
         IDAL.IDal myDal;
@@ -102,7 +102,11 @@ namespace BL
                             ParcelId = 0,
                             DroneLocation = CreateLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
                         });
-                        myDal.ChargeDrone(myDal.GetBaseStation(tempSt.ElementAt(index).Id), myDal.GetDrone(dr.Id));
+                        IDAL.DO.BaseStation st = tempSt.ElementAt(index);
+                        st.NumOfSlots--;
+                        myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = dr.Id, StationId = st.Id });
+                        myDal.UpdateBaseStation(st);
+                        
                     }
                 }
             }
@@ -146,7 +150,10 @@ namespace BL
                 Model = drone.Model,
                 MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
             });
-            myDal.ChargeDrone(myDal.GetBaseStation(stationId), myDal.GetDrone(drone.Id));
+            IDAL.DO.BaseStation st = myDal.GetBaseStation(stationId);
+            st.NumOfSlots--;
+            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id });
+            myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)
         {
@@ -269,12 +276,14 @@ namespace BL
 
             // update drone's details 
             Drones[index].Battery -= (int)(distance * DroneElecUseEmpty);
-            Drones[index].DroneLocation.Longtitude = st.StationLocation.Longtitude;
-            Drones[index].DroneLocation.Lattitude = st.StationLocation.Lattitude;
+            Drones[index].DroneLocation = st.StationLocation;
             Drones[index].Status = DroneStatus.Maintenance;
 
             // update necessary details in datasource
-            myDal.ChargeDrone(myDal.GetBaseStation(st.Id), myDal.GetDrone(id));
+            IDAL.DO.BaseStation tempSt = myDal.GetBaseStation(st.Id);
+            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = id, StationId = tempSt.Id });
+            tempSt.NumOfSlots--;
+            myDal.UpdateBaseStation(tempSt);
         }
         public void DischargeDrone(int id, int time)
         {
@@ -290,16 +299,19 @@ namespace BL
             Drones[index].Battery = Math.Max(Drones[index].Battery + (int)DroneHourlyChargeRate * time, 100);
             Drones[index].Status = DroneStatus.Available;
 
-            int stationId = myDal.GetDroneCharge(id).StationId;
-            myDal.ReleaseDroneCharge(myDal.GetBaseStation(stationId), myDal.GetDrone(id));
+            IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
+            IDAL.DO.BaseStation tempSt = myDal.GetBaseStation(tempCharge.StationId);
+            myDal.RemoveDroneCharge(tempCharge);
+            tempSt.NumOfSlots++;
+            myDal.UpdateBaseStation(tempSt);
         }
         public void LinkDroneToParcel(int id)
         {
-            if (Drones.Any(dr => dr.Id == id))
+            if (!Drones.Any(dr => dr.Id == id))
                 throw new DroneException($"Drone - {id} doesn't exist");
             Drone dr = GetDrone(id);
-            int index = GetAllDrones().ToList().FindIndex(dr => dr.Id == id);
-            List<Parcel> unlinked = GetUnlinkedParcel().ToList();
+            int index = GetAllDroneInList().ToList().FindIndex(dr => dr.Id == id);
+            List<Parcel> unlinked = GetAllUnlinkedParcels().ToList();
             if (unlinked.Count == 0)
                 throw new ParcelException($"no available parcels to link");
             for (int i = (int)Priority.Emergency; i > 0; i--)
@@ -313,9 +325,13 @@ namespace BL
                         if (temp.Count() > 0)
                         {
                             Parcel prc = GetNearestParcel(dr.Location, temp);
+                         
                             if (CheckDroneDistanceCoverage(dr, prc, dr.MaxWeight))
                             {
-                                myDal.LinkParcelToDrone(myDal.GetParcel(prc.Id), myDal.GetDrone(dr.Id));
+                                IDAL.DO.Parcel p = myDal.GetParcel(prc.Id);
+                                p.DroneId = id;
+                                p.Scheduled = DateTime.Now;
+                                myDal.UpdateParcel(p);
                                 Drones[index].Status = DroneStatus.Delivery;
                                 Drones[index].ParcelId = prc.Id;
                                 return;
@@ -340,7 +356,10 @@ namespace BL
             int index = GetAllDrones().ToList().FindIndex(dr => dr.Id == id);
             Drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.SenderLocation) * DroneElecUseEmpty);
             Drones[index].DroneLocation = dr.Parcel.SenderLocation;
-            myDal.DroneParcelPickup(myDal.GetParcel(dr.Parcel.Id));
+
+            IDAL.DO.Parcel p = myDal.GetParcel(dr.Parcel.Id);
+            p.PickedUp = DateTime.Now;
+            myDal.UpdateParcel(p);
         }
         public void DroneParcelDelivery(int id)
         {
@@ -358,7 +377,11 @@ namespace BL
             Drones[index].DroneLocation = dr.Parcel.TargetLocation;
             Drones[index].Status = DroneStatus.Available;
 
-            myDal.ParcelDelivery(myDal.GetParcel(dr.Parcel.Id));
+            IDAL.DO.Parcel tempPrc = myDal.GetParcel(prc.Id);
+            tempPrc.Delivered = DateTime.Now;
+            tempPrc.DroneId = 0;
+            myDal.UpdateParcel(tempPrc);
+            
         }
         #endregion
         #endregion
@@ -400,9 +423,9 @@ namespace BL
             }
             return temp;
         }
-        public IEnumerable<DroneInList> GetAllDroneInLists()
+        public IEnumerable<DroneInList> GetAllDroneInList()
         {
-            return Drones;
+            return Drones.ToList();
         }
         public IEnumerable<CustomerInList> GetAllCustomerInList()
         {
@@ -456,7 +479,7 @@ namespace BL
                         Id = parcel.Id,
                         Weight = (WeightCategories)parcel.Weight,
                         Priority = (Priority)parcel.Priority,
-                        Status = GetParcelStatus(parcel.Scheduled, parcel.PickedUp, parcel.Delivered),
+                        Status = GetParcelStatus(parcel),
                         CounterCustomer = GetCustomerInParcel(parcel.TargetId),
 
                     });
@@ -472,7 +495,7 @@ namespace BL
                         Id = parcel.Id,
                         Weight = (WeightCategories)parcel.Weight,
                         Priority = (Priority)parcel.Priority,
-                        Status = GetParcelStatus(parcel.Scheduled,parcel.PickedUp,parcel.Delivered),
+                        Status = GetParcelStatus(parcel),
                         CounterCustomer = GetCustomerInParcel(parcel.SenderId),
 
                     });
@@ -517,7 +540,7 @@ namespace BL
                     TargetName = myDal.GetCustomer(p.TargetId).Name,
                     Weight = (WeightCategories)p.Weight,
                     Priority = (Priority)p.Priority,
-                    Status = GetParcelStatus(p.Scheduled, p.PickedUp, p.Delivered),
+                    Status = GetParcelStatus(p),
                 }) ;
             }
             return tmp;
@@ -682,7 +705,7 @@ namespace BL
         {
             Parcel prc2 = GetParcel(id);
             bool flag = false;
-            if (GetParcelStatus(prc2.Linked, prc2.PickedUp, prc2.Delivered) == ParcelStatus.PickedUp)
+            if (GetParcelStatus(myDal.GetParcel(prc2.Id)) == ParcelStatus.PickedUp)
                 flag = true;
             return new ParcelInDelivery
             {
@@ -732,13 +755,13 @@ namespace BL
             }
             return pr;
         }
-        public ParcelStatus GetParcelStatus(DateTime scheduled, DateTime pickedUp, DateTime delivered)
+        private ParcelStatus GetParcelStatus(IDAL.DO.Parcel pr)
         {
-            if (scheduled == DateTime.MinValue)
+            if (pr.Scheduled == DateTime.MinValue)
                 return ParcelStatus.Orderd;
-            if (pickedUp == DateTime.MinValue)
+            if (pr.PickedUp == DateTime.MinValue)
                 return ParcelStatus.Linked;
-            if (delivered == DateTime.MinValue)
+            if (pr.Delivered == DateTime.MinValue)
                 return ParcelStatus.PickedUp;
             return ParcelStatus.Delivered;
         }
@@ -792,7 +815,7 @@ namespace BL
             }
 
         }
-        public int GetMinimalCharge(Location current,Location sender, Location target,Location station ,WeightCategories w)
+        private int GetMinimalCharge(Location current,Location sender, Location target,Location station ,WeightCategories w)
         {
             double currToSender = Distance.GetDistance(current, sender) * DroneElecUseEmpty;
             double SenderToTarget = Distance.GetDistance(sender ,target);
