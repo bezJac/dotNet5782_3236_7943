@@ -10,7 +10,7 @@ namespace IDAL
         {
         }
 
-        public ParcelExceptionDAL(string message) : base("Parcel Exception: " +message)
+        public ParcelExceptionDAL(string message) : base("DAL - Parcel Exception: " +message)
         {
         }
 

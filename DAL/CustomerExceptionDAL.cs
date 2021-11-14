@@ -10,7 +10,7 @@ namespace IDAL
         {
         }
 
-        public CustomerExceptionDAL(string message) : base("Customer Exception: " + message)
+        public CustomerExceptionDAL(string message) : base("DAL - Customer Exception: " + message)
         {
         }
 

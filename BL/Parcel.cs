@@ -6,8 +6,8 @@ namespace IBL.BO
     public class Parcel
     {
         public int Id { get; set; }
-        public Customer Sender { get; set; }
-        public Customer Target { get; set; }
+        public CustomerInParcel Sender { get; set; }
+        public CustomerInParcel Target { get; set; }
         public WeightCategories Weight { get; set; }
         public Priority Priority { get; set; }
         public DroneInParcel Drone { get; set; }

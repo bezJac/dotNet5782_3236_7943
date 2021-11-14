@@ -10,7 +10,7 @@ namespace IDAL
         {
         }
 
-        public DroneExceptionDAL(string message) : base("Drone Exception: " + message)
+        public DroneExceptionDAL(string message) : base("DAL: Drone Exception: " + message)
         {
         }
 

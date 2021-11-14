@@ -12,7 +12,7 @@
         {
             string result = "";
             result += $"Id: {Id}\n";
-            result += $"Sending Customer name: { SenderName }\n ";
+            result += $"Sending Customer name: { SenderName }\n";
             result += $"Target Customer name: { TargetName }\n";
             result += $"Weight: { Weight }\n";
             result += $"Priority: { Priority }\n";

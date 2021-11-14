@@ -82,7 +82,11 @@ namespace DalObject
         {
             if (predicate == null)
                 return DataSource.Drones.ToList();
-            return DataSource.Drones.FindAll(predicate).ToList();
+            List<Drone> tmp = DataSource.Drones.FindAll(predicate).ToList();
+            if (tmp.Count() > 0)
+                return tmp;
+            else
+                throw new DroneExceptionDAL("No Drones in list match predicate");
         }
 
     }

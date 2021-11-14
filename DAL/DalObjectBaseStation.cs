@@ -81,7 +81,11 @@ namespace DalObject
         {
             if (predicate == null)
                 return DataSource.Stations.ToList();
-            return DataSource.Stations.FindAll(predicate).ToList();
+            List<BaseStation> tmp =  DataSource.Stations.FindAll(predicate).ToList();
+            if (tmp.Count() > 0)
+                return tmp;
+            else
+                throw new BaseStationExceptionDAL("No Base Stations in list match predicate");
         }
     }
 }

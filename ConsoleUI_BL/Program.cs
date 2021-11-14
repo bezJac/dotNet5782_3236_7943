@@ -12,6 +12,34 @@ namespace ConsoleUI_BL
             IBL.IBL data = new BL.BL();
             string str;
             int num1, num2;
+            try
+            {
+                printDrones(data.GetAllDronesInList());
+                int.TryParse(Console.ReadLine(), out num1);
+                printDrone(data.GetDrone(num1));
+               
+                data.LinkDroneToParcel(num1);
+                
+                printDrone(data.GetDrone(num1));
+                
+                data.DroneParcelPickUp(num1);
+               
+                printDrone(data.GetDrone(num1));
+               
+                data.DroneParcelDelivery(num1);
+                
+                printDrone(data.GetDrone(num1));
+                
+
+
+           
+            }
+            catch (Exception ex )
+            {
+
+                Console.WriteLine(ex);
+            }
+           
             do
             {
                 System.Console.WriteLine("select your choice:\n"

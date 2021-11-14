@@ -10,7 +10,7 @@ namespace IDAL
         {
         }
 
-        public BaseStationExceptionDAL(string message) : base("Base Station Exception:" + message)
+        public BaseStationExceptionDAL(string message) : base("DAL - Base Station Exception:" + message)
         {
         }
 

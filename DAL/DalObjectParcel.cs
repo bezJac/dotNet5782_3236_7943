@@ -83,7 +83,11 @@ namespace DalObject
         {
             if (predicate == null)
                 return DataSource.Parcels.ToList();
-            return DataSource.Parcels.FindAll(predicate).ToList();
+            List<Parcel> tmp = DataSource.Parcels.FindAll(predicate).ToList();
+            if (tmp.Count() > 0)
+                return tmp;
+            else
+                throw new ParcelExceptionDAL("No Parcels in list match predicate");
 
         }
     }

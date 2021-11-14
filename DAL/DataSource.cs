@@ -27,12 +27,12 @@ namespace DalObject
         /// </summary>
         internal class Config
         {    
-            internal static int RunIdParcel = 0;
-            internal static double DroneElecUseEmpty;
-            internal static double DroneElecUseLight;
-            internal static double DroneElecUseMedium;
-            internal static double DroneElecUseHeavy;
-            internal static double DroneHourlyChargeRate;
+            internal static int RunIdParcel = 20000;
+            internal static double DroneElecUseEmpty = 2.5;
+            internal static double DroneElecUseLight = 3;
+            internal static double DroneElecUseMedium = 3.5;
+            internal static double DroneElecUseHeavy = 4;
+            internal static double DroneHourlyChargeRate =67;
             
 
         }
@@ -42,9 +42,10 @@ namespace DalObject
         /// </summary>
         public static void Initialize()
         {
-            /// array for stations names
-            String[] locations = { "Jerusalem", "Haifa", "Tel Aviv", "Ashdod", "Eilat" };
-
+            ///// array for stations names
+            //String[] locations = { "Jerusalem", "Haifa", "Tel Aviv", "Ashdod", "Eilat" };
+            double[] randCoordinates = { 0.00134, 0.00876, 0.001432, 0.002345, 0.001987, 0.00976, 0.001532, 0.006432, 0.002845, 0.00201 };
+            double[] randCoordinates2 = { 0.003456, 0.004567, 0.005932, 0.001234, 0.003217, 0.004786, 0.004321, 0.002331, 0.003921, 0.00299 };
             /// array for customer names
             string[] names = {"Wallace Winter","Cavan Cleveland","Muhammed Kirkpatrick","Deon Smyth","Vicky Mason","Mehak Tanner",
              "Gavin Powell","Ieuan Knapp","Charity Goodwin","Lara Huffman","Luther Mackenzie","Amalia Sykes",
@@ -58,22 +59,67 @@ namespace DalObject
             string[] dronesModel = { "Yuneec H520", "DJI Mavic 2 Pro", "DJI Phantom 4", "Flyability Elios" };
 
             /// initialize 2-5 basestations and add to list
-            int j = rnd.Next(2, 5);
-            for (int i = 0; i < j; i++)
-            {
-
+          
                 Stations.Add(new BaseStation
                 {
                     Id = rnd.Next(1000, 10000),
-                    Name = locations[i],
-                    Lattitude = rnd.Next(29, 33) + rnd.NextDouble(),
-                    Longitude = rnd.Next(33, 36) + rnd.NextDouble(),
-                    NumOfSlots = rnd.Next(0, 6),
+                    Name = "Ramat Aviv Gimmel",
+                    Lattitude = 32.12534,
+                    Longitude = 34.79722,
+                    NumOfSlots = 20,
                 });
-            }
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "Jaffa Port",
+                Lattitude = 32.05234,
+                Longitude = 34.74900,
+                NumOfSlots = 20,
+            });
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "Ha-Medina Square",
+                Lattitude = 32.08672,
+                Longitude = 34.78960,
+                NumOfSlots = 20,
+            });
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "Kiryat Shalom",
+                Lattitude = 32.04115,
+                Longitude = 34.77621,
+                NumOfSlots = 20,
+            });
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "Tel Aviv University",
+                Lattitude = 32.10640,
+                Longitude = 34.80088,
+                NumOfSlots = 20,
+            });
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "Neve Tzedek",
+                Lattitude = 32.06239,
+                Longitude = 34.76428,
+                NumOfSlots = 20,
+            });
+            Stations.Add(new BaseStation
+            {
+                Id = rnd.Next(1000, 10000),
+                Name = "City Center",
+                Lattitude = 32.08187,
+                Longitude = 34.77226,
+                NumOfSlots = 20,
+            });
+
 
             /// initialize 5-10 drones and add to list
-            j = rnd.Next(16, 25);
+            int j = 20;
             for (int i = 0; i < j; i++)
             {
                 Drones.Add(new Drone
@@ -81,13 +127,11 @@ namespace DalObject
                     Id = rnd.Next(2000, 9999),
                     MaxWeight = (WeightCategories)rnd.Next(1, 4),
                     Model = dronesModel[rnd.Next(0, 4)],
-                    //Status = (DroneStatus)2,
-                   // Battery = rnd.Next(0, 101),
                 })  ;
             }
 
             /// initialize 10-20 customers and add to list
-            j = rnd.Next(10, 21);
+             j = 10;
             for (int i = 0; i < j; i++)
             {
                 Customers.Add(new Customer
@@ -95,14 +139,27 @@ namespace DalObject
                     Id = rnd.Next(100000, 1000000),
                     Name = names[rnd.Next(0, 43)],
                     Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
-                    Longitude = rnd.Next(33, 36) + rnd.NextDouble(),
-                    Lattitude = rnd.Next(29, 33) + rnd.NextDouble(),
+                    Longitude = 34.74861 + randCoordinates2[rnd.Next(10)],
+                    Lattitude = 32.03669 + randCoordinates[rnd.Next(10)],
+
                 }) ;
             
             }
+            for (int i = 0; i < j; i++)
+            {
+                Customers.Add(new Customer
+                {
+                    Id = rnd.Next(100000, 1000000),
+                    Name = names[rnd.Next(0, 43)],
+                    Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
+                    Longitude = 34.77900 + randCoordinates2[rnd.Next(10)],
+                    Lattitude = 32.07582 + randCoordinates[rnd.Next(10)] ,
+                });
+
+            }
 
             /// initialize 10-15 parcels and add to list
-            j = rnd.Next(10, 20);
+            j = 10;
             for (int i = 0; i < j; i++)
             {
                 
@@ -120,7 +177,8 @@ namespace DalObject
                 
                 
             }
-            for (int k = 0; k < 5; k++)
+            j = 5;
+            for (int k = 0; k < j; k++)
             {
                 Parcels.Add(new Parcel
                 {
@@ -142,7 +200,7 @@ namespace DalObject
                     Id = ++Config.RunIdParcel,
                     SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
                     TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    DroneId = Drones[0].Id,
+                    DroneId = Drones[k + 5].Id,
                     Weight = (WeightCategories)Drones[k + 5].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
                     Requested = DateTime.Now,
@@ -157,7 +215,7 @@ namespace DalObject
                     Id = ++Config.RunIdParcel,
                     SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
                     TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    DroneId = Drones[0].Id,
+                    DroneId = Drones[k + 10].Id,
                     Weight = (WeightCategories)Drones[k + 10].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
                     Requested = DateTime.Now,

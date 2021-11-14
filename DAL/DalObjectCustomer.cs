@@ -81,7 +81,11 @@ namespace DalObject
         {
             if (predicate == null)
                 return DataSource.Customers.ToList();
-            return DataSource.Customers.FindAll(predicate).ToList();
+            List<Customer> tmp = DataSource.Customers.FindAll(predicate).ToList();
+            if (tmp.Count() > 0)
+                return tmp;
+            else
+                throw new CustomerExceptionDAL("No Customers in list match predicate");
         }
 
     }

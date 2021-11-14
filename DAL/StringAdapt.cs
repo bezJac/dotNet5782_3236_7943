@@ -32,10 +32,7 @@ namespace IDAL
                 else
                     return result + "S";
             }
-            public static double DegToRad(double num)
-            {
-                return num * (Math.PI / 180);
-            }
+            
         }
     }
 }

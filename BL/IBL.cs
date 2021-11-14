@@ -45,7 +45,7 @@ namespace IBL
         IEnumerable<Parcel> GetAllUnlinkedParcels();
         IEnumerable<BaseStationInList> GetALLBaseStationInList();
         IEnumerable<ParcelInList> GetAllParcelInList();
-        IEnumerable<DroneInList> GetAllDroneInList();
+        IEnumerable<DroneInList> GetAllDronesInList();
         #endregion
         #region Read single element  
         BaseStation GetBaseStation(int id);
@@ -53,19 +53,14 @@ namespace IBL
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
         DroneInParcel GetDroneInParcel(int id);
-      
+        CustomerInParcel GetCustomerInParcel(int senderId);
         ParcelInDelivery GetParcelInDelivery(int id);
         //ParcelInList GetParcelInList(int id);
         #endregion
-        #region Read Specific details of element
-        BaseStation GetNearestBasestation(Location l);
-        Parcel GetNearestParcel(Location l, IEnumerable<Parcel> parcels);
-        CustomerInParcel GetCustomerInParcel(int senderId);
-        bool CheckDroneDistanceCoverage(Drone dr,Parcel prc, WeightCategories w);
-        double GetElectricUseForDrone(WeightCategories w);
+        
         
         #endregion
-        #endregion
+       
 
 
 

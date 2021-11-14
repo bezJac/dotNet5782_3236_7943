@@ -45,15 +45,19 @@ namespace IDAL.DO
         {
             // uses conversions class DegToRad function to convert results to radians
             double R = 6371;                    // Radius of the earth in km
-            double dLat = StringAdapt.DegToRad(lat2 - lat1);
-            double dLon = StringAdapt.DegToRad(lon2 - lon1);
+            double dLat = DegToRad(lat2 - lat1);
+            double dLon = DegToRad(lon2 - lon1);
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-              Math.Cos(StringAdapt.DegToRad(lat1)) * Math.Cos(StringAdapt.DegToRad(lat2)) *
+              Math.Cos(DegToRad(lat1)) * Math.Cos(DegToRad(lat2)) *
               Math.Sin(dLon / 2) * Math.Sin(dLon / 2)
               ;
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double d = R * c;                  // Distance in km
             return d;
+        }
+        private static double DegToRad(double num)
+        {
+            return num * (Math.PI / 180);
         }
     }
 }
