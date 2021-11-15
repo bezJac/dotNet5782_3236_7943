@@ -18,7 +18,7 @@ namespace DalObject
         public void AddDrone(Drone dr)
         {
             if (DataSource.Drones.Any(drone => (drone.Id == dr.Id)))
-                throw new DroneExceptionDAL("id already exists");
+                throw new DroneExceptionDAL($"id number {dr.Id} already exists");
             DataSource.Drones.Add(dr);
         }
 
@@ -31,7 +31,7 @@ namespace DalObject
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneExceptionDAL("id not found");
+                throw new DroneExceptionDAL($"id number: {dr.Id} not found");
             DataSource.Drones[index] = dr;
         }
 
@@ -44,7 +44,7 @@ namespace DalObject
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneExceptionDAL("id not found");
+                throw new DroneExceptionDAL($"id number: {dr.Id} not found");
             DataSource.Drones.RemoveAt(index);
         }
 
@@ -68,7 +68,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new DroneExceptionDAL("id not found");
+                throw new DroneExceptionDAL($"id number: {id} not found");
             }
             return (Drone)temp;
         }

@@ -18,7 +18,7 @@ namespace DalObject
         public void AddBaseStation(BaseStation st)
         {
             if (DataSource.Stations.Any(station => (station.Id == st.Id)))
-                throw new BaseStationExceptionDAL("id already exists");
+                throw new BaseStationExceptionDAL($"id number {st.Id} already exists");
             DataSource.Stations.Add(st);
         }
 
@@ -31,7 +31,7 @@ namespace DalObject
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationExceptionDAL("id not found");
+                throw new BaseStationExceptionDAL($"id number: {bst.Id} not found");
             DataSource.Stations[index] = bst;
         }
 
@@ -44,7 +44,7 @@ namespace DalObject
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationExceptionDAL("id not found");
+                throw new BaseStationExceptionDAL($"id number: {bst.Id} not found");
             DataSource.Stations.RemoveAt(index);
         }
 
@@ -67,7 +67,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new BaseStationExceptionDAL("id not found");
+                throw new BaseStationExceptionDAL($"id number: {id} not found");
             }
             return (BaseStation)temp;
         }

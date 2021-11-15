@@ -17,7 +17,7 @@ namespace BL
             {
             }
 
-            public BaseStationException(string message, Exception innerException) : base(message, innerException)
+            public BaseStationException(string message, Exception innerException) : base(message+info, innerException)
             {
             }
 

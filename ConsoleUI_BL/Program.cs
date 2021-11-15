@@ -44,9 +44,9 @@ namespace ConsoleUI_BL
             {
                 System.Console.WriteLine("select your choice:\n"
                     + "add - add a new object\n"
-                    + "update - update an object\n"
+                    + "update - update an object details\n"
                     + "show - show details of object\n" + "list - show details of array\n"
-                    + "distance - get distance from coordinates to base station or customer location\n"
+                    + "action- \n"
                     + "exit - exit\n");
 
                 str = System.Console.ReadLine();
@@ -77,17 +77,16 @@ namespace ConsoleUI_BL
                                         Console.WriteLine("Enter Base station Id for initial charge\n");
                                         int.TryParse(Console.ReadLine(), out num1);
                                         data.AddDrone(temp ,num1);
-                                        Console.WriteLine("Enter Base station Id for initial charge\n");
-                                        int.TryParse(Console.ReadLine(), out num1);
                                         break;
                                     }
                                 case "customer":
                                     {
-
+                                        data.AddCustomer(inputCustomer());
                                         break;
                                     }
                                 case "parcel":
                                     {
+                                        data.AddParcel(inputParcel());
                                         break;
                                         
                                     }
@@ -98,6 +97,60 @@ namespace ConsoleUI_BL
                                         Console.WriteLine("Wrong selection, restart the process.\n");
                                         break;
                                     }
+                            }
+                            break;
+                        }
+                    case"action":
+                            {
+                            System.Console.WriteLine("Select your choice:\n"
+                                                        + "charge -send drone to charge\n"
+                                                        + "discharge - release a drone from charge\n"
+                                                        + "link - link a drone to  a parcel\n"
+                                                        + "pickup - pickup parcel by its linked drone from sender\n"
+                                                        + "deliver - deliver parcel to target\n");
+
+                            str = System.Console.ReadLine();
+                            switch (str)
+                            {
+                                case "charge":
+                                    {
+                                        Console.WriteLine("Enter drone ID: ");
+                                        if (int.TryParse(Console.ReadLine(), out num1))
+                                            data.ChargeDrone(num1);
+                                        break;
+                                    }
+                                case "discharge":
+                                    {
+                                        Console.WriteLine("Enter drone ID: ");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine("Enter time of charge in hours: ");
+                                        int.TryParse(Console.ReadLine(), out num2);
+                                        data.DischargeDrone(num1, num2);
+                                        break; 
+                                    }
+                                case "link":
+                                    {
+                                        Console.WriteLine("Enter drone ID: ");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        data.LinkDroneToParcel(num1);
+                                        break;
+                                    }
+                                case "pickup":
+                                    {
+                                        Console.WriteLine("Enter drone ID: ");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        data.DroneParcelPickUp(num1);
+                                        break;
+                                    }
+                                case "deliver":
+                                    {
+                                        Console.WriteLine("Enter drone ID: ");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        data.DroneParcelDelivery(num1);
+                                        break;
+                                    }
+                                default:
+                                    break;
                             }
                             break;
                         }
@@ -126,7 +179,10 @@ namespace ConsoleUI_BL
             Console.WriteLine("enter Base Station's lattitude coordinate");
             if (double.TryParse(Console.ReadLine(), out x))
                 station.StationLocation.Lattitude = x;
-            station.NumOfSlots = 10;
+            Console.WriteLine("enter Base Station's number of available charging");
+            if(int.TryParse(Console.ReadLine(),out num))
+            station.NumOfSlots = num;
+            station.DronesCharging = null;
             return station;
         }
 
@@ -167,7 +223,38 @@ namespace ConsoleUI_BL
             person.Name = Console.ReadLine();
             Console.WriteLine("Enter Customers's Phone Number");
             person.Phone = Console.ReadLine();
+            Console.WriteLine("Enter Customer's Longtitude coordinate");
+            if (double.TryParse(Console.ReadLine(), out x))
+                person.CustomerLocation.Longtitude=x;
+            Console.WriteLine("Enter Customer's Lattitude coordinate");
+            if (double.TryParse(Console.ReadLine(), out x))
+                person.CustomerLocation.Lattitude = x;
             return person;
+        }
+        private static Parcel inputParcel()
+        {
+            Parcel package = new Parcel();
+            int num;
+            Console.WriteLine("Enter Parcel's sender id");
+            if (int.TryParse(Console.ReadLine(), out num))
+                package.Sender.Id = num;
+            Console.WriteLine("Enter Parcel's target id");
+            if (int.TryParse(Console.ReadLine(), out num))
+                package.Target.Id = num;
+            Console.WriteLine("Enter Parcel's Weight category" +
+                                "1: light   2: medium   3: heavy \n");
+            if (int.TryParse(Console.ReadLine(), out num))
+                package.Weight = (WeightCategories)num;
+            Console.WriteLine("Enter Parcel's Priority category" +
+                                "1:Regular   2: Express   3: Emergency \n");
+            if (int.TryParse(Console.ReadLine(), out num))
+                package.Priority = (Priority)num;
+            package.Ordered = DateTime.Now;
+            package.Linked = DateTime.MinValue;
+            package.PickedUp = DateTime.MinValue;
+            package.Delivered = DateTime.MinValue;
+            package.Drone = null;
+            return package;
         }
 
         /// <summary>

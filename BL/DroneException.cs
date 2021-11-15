@@ -15,7 +15,7 @@ namespace BL.BO
         {
         }
 
-        public DroneException(string message, Exception innerException) : base(message, innerException)
+        public DroneException(string message, Exception innerException) : base(message+info, innerException)
         {
         }
 

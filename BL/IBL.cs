@@ -14,7 +14,6 @@ namespace IBL
         void AddDrone(Drone drone , int stationId);
         void AddParcel(Parcel parcel);
         void AddCustomer(Customer customer);
-        Location CreateLocation(double lon, double lat);
         #endregion
 
         #region Update part of C.R.U.d

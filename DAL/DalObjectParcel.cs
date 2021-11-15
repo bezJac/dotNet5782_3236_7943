@@ -18,7 +18,7 @@ namespace DalObject
         public void AddParcel(Parcel pack)
         {
             if (DataSource.Parcels.Any(parcel => (parcel.Id == pack.Id)))
-                throw new ParcelExceptionDAL("id already exists");
+                throw new ParcelExceptionDAL($"id number {pack.Id} already exists");
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
@@ -32,7 +32,7 @@ namespace DalObject
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelExceptionDAL("id not found");
+                throw new ParcelExceptionDAL($"id number: {pack.Id} not found");
             DataSource.Parcels[index] = pack;
         }
 
@@ -45,7 +45,7 @@ namespace DalObject
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelExceptionDAL("id not found");
+                throw new ParcelExceptionDAL($"id number: {pack.Id} not found");
             DataSource.Parcels.RemoveAt(index);
         }
 
@@ -70,7 +70,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new ParcelExceptionDAL("id not found");
+                throw new ParcelExceptionDAL($"id number: {id} not found");
             }
             return (Parcel)temp;
         }

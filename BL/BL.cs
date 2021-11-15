@@ -120,25 +120,46 @@ namespace BL
         #region Adding new entity methods
         public void AddBaseStation(BaseStation station)
         {
-            if (myDal.GetAllBaseStations().Any(st => st.Id == station.Id))
-                throw new BaseStationException($" {station.Id} exist already");
-            myDal.AddBaseStation(new IDAL.DO.BaseStation
+            try
             {
-                Id = station.Id,
-                Name = station.Name,
-                Longitude = station.StationLocation.Longtitude,
-                Lattitude = station.StationLocation.Lattitude,
-                NumOfSlots = station.NumOfSlots,
-            });
+                myDal.AddBaseStation(new IDAL.DO.BaseStation
+                {
+                    Id = station.Id,
+                    Name = station.Name,
+                    Longitude = station.StationLocation.Longtitude,
+                    Lattitude = station.StationLocation.Lattitude,
+                    NumOfSlots = station.NumOfSlots,
+                });
+            }
+            catch (IDAL.BaseStationExceptionDAL ex)
+            {
+                throw new BaseStationException("BL: ",ex);
+            }
         }
         public void AddDrone(Drone drone, int stationId)
         {
-            if (myDal.GetAllDrones().Any(dr => dr.Id == drone.Id))
-                throw new DroneException($" {drone.Id} exist already");
-            if (!myDal.GetAllBaseStations().Any(st => st.Id == stationId))
-                throw new BaseStationException($"base station - {stationId} dosen't exist");
-            if (myDal.GetBaseStation(stationId).NumOfSlots == 0)
-                throw new BaseStationException($"base station - {stationId} has no charging slots available");
+            IDAL.DO.BaseStation st;
+            try
+            {
+                st = myDal.GetBaseStation(stationId);
+                if (st.NumOfSlots == 0)
+                    throw new BaseStationException($"base station - {stationId} has no charging slots available");
+                myDal.AddDrone(new IDAL.DO.Drone
+                {
+                    Id = drone.Id,
+                    Model = drone.Model,
+                    MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
+                });
+            }
+            catch (IDAL.BaseStationExceptionDAL Ex)
+            {
+                throw new BaseStationException("BL: ",Ex);
+            }
+            catch (IDAL.DroneExceptionDAL Ex)
+            {
+                throw new DroneException("BL: ", Ex);
+            }
+            
             Random rnd = new Random();
             Drones.Add(new DroneInList
             {
@@ -147,31 +168,23 @@ namespace BL
                 MaxWeight = drone.MaxWeight,
                 Status = DroneStatus.Maintenance,
                 Battery = rnd.Next(20, 41),
-                DroneLocation = GetBaseStation(stationId).StationLocation,
+                DroneLocation = CreateLocation(st.Longitude,st.Lattitude),
             });
-            myDal.AddDrone(new IDAL.DO.Drone
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
-            });
-            IDAL.DO.BaseStation st = myDal.GetBaseStation(stationId);
             st.NumOfSlots--;
             myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id });
             myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)
         {
-
-            if (!myDal.GetAllCustomers().Any(cs => cs.Id == parcel.Sender.Id))
-                throw new CustomerException($"customer - {parcel.Sender.Id} dosen't exist");
-            if (!myDal.GetAllCustomers().Any(cs => cs.Id == parcel.Target.Id))
-                throw new CustomerException($"customer - {parcel.Target.Id} dosen't exist");
-
-            parcel.Ordered = DateTime.Now;
-            parcel.PickedUp = DateTime.MinValue;
-            parcel.Linked = DateTime.MinValue;
-            parcel.Delivered = DateTime.MinValue;
+            try
+            {
+                myDal.GetCustomer(parcel.Sender.Id);
+                myDal.GetCustomer(parcel.Target.Id);
+            }
+            catch (IDAL.CustomerExceptionDAL Ex)
+            {
+                throw new ParcelException("BL: ",Ex);
+            }
             myDal.AddParcel(new IDAL.DO.Parcel
             {
                 SenderId = parcel.Sender.Id,
@@ -183,27 +196,28 @@ namespace BL
                 Scheduled = parcel.Linked,
                 PickedUp = parcel.PickedUp,
                 Delivered = parcel.Delivered,
-
             });
         }
         public void AddCustomer(Customer customer)
         {
-            if (myDal.GetAllCustomers().Any(cst => cst.Id == customer.Id))
-                throw new CustomerException($" {customer.Id} exist already");
-            myDal.AddCustomer(new IDAL.DO.Customer
+            try
             {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Longitude = customer.CustomerLocation.Longtitude,
-                Lattitude = customer.CustomerLocation.Lattitude,
+                myDal.AddCustomer(new IDAL.DO.Customer
+                {
+                    Id = customer.Id,
+                    Name = customer.Name,
+                    Phone = customer.Phone,
+                    Longitude = customer.CustomerLocation.Longtitude,
+                    Lattitude = customer.CustomerLocation.Lattitude,
 
-            });
+                });
+            }
+            catch (IDAL.CustomerExceptionDAL Ex)
+            {
+                throw new CustomerException("BL: ",Ex);
+            }
         }
-        public Location CreateLocation(double lon, double lat)
-        {
-            return new Location { Longtitude = lon, Lattitude = lat };
-        }
+      
         #endregion
         #region Updating a Entity methods 
         #region user specific entity static details update 
@@ -880,6 +894,10 @@ namespace BL
             return (int)(currToSender + SenderToTarget + TargetToSt);
 
 
+        }
+        private Location CreateLocation(double lon, double lat)
+        {
+            return new Location { Longtitude = lon, Lattitude = lat };
         }
         #endregion
         #endregion

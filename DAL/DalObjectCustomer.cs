@@ -18,7 +18,7 @@ namespace DalObject
         public void AddCustomer(Customer person)
         {
             if (DataSource.Customers.Any(customer => (customer.Id == person.Id)))
-                throw new CustomerExceptionDAL("id already exists");
+                throw new CustomerExceptionDAL($"id number: {person.Id} already exists");
             DataSource.Customers.Add(person);
         }
 
@@ -31,7 +31,7 @@ namespace DalObject
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerExceptionDAL("id not found");
+                throw new CustomerExceptionDAL($"id number: {person.Id} not found");
             DataSource.Customers[index] = person;
         }
 
@@ -44,7 +44,7 @@ namespace DalObject
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerExceptionDAL("id not found");
+                throw new CustomerExceptionDAL($"id number: {person.Id} not found");
             DataSource.Customers.RemoveAt(index);
         }
 
@@ -68,7 +68,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new CustomerExceptionDAL("id not found");
+                throw new CustomerExceptionDAL($"id number: {id} not found");
             }
             return (Customer)temp;
         }

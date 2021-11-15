@@ -17,7 +17,7 @@ namespace IBL.BO
                 result += $"Id: {Id}\n";
                 result += $"Name: {Name}\n";
                 result += $"Location: { StationLocation }\n";
-                result += $"Number of available chatging slots: {NumOfSlots}\n";
+                result += $"Number of available charging slots: {NumOfSlots}\n";
                 if (DronesCharging.Any())
                 {
                     result += $"List of Drones being charged at station:\n";
