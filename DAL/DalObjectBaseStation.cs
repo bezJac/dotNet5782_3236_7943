@@ -80,7 +80,11 @@ namespace DalObject
         public IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null)
         {
             if (predicate == null)
+            {
+                if (DataSource.Stations.Count() <= 0)
+                    throw new BaseStationExceptionDAL("no stations in list");
                 return DataSource.Stations.ToList();
+            }    
             List<BaseStation> tmp =  DataSource.Stations.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;

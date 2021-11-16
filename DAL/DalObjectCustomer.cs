@@ -80,7 +80,11 @@ namespace DalObject
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
             if (predicate == null)
+            {
+                if (DataSource.Customers.Count() <= 0)
+                    throw new CustomerExceptionDAL("no customers in list");
                 return DataSource.Customers.ToList();
+            }
             List<Customer> tmp = DataSource.Customers.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;

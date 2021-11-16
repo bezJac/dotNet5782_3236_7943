@@ -82,7 +82,11 @@ namespace DalObject
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             if (predicate == null)
+            {
+                if (DataSource.Parcels.Count() <= 0)
+                    throw new ParcelExceptionDAL("no parcels in list");
                 return DataSource.Parcels.ToList();
+            }
             List<Parcel> tmp = DataSource.Parcels.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;

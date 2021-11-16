@@ -81,7 +81,11 @@ namespace DalObject
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             if (predicate == null)
+            {
+                if (DataSource.Drones.Count() <= 0)
+                    throw new DroneExceptionDAL("no drones in list");
                 return DataSource.Drones.ToList();
+            }
             List<Drone> tmp = DataSource.Drones.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;

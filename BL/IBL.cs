@@ -33,18 +33,19 @@ namespace IBL
 
         #region Read part of C.R.U.D
         #region Read list of elements
-        IEnumerable<DroneCharge> GetAllDroneCharges(int stationId);
         IEnumerable<BaseStation> GetAllBaseStations();
-        IEnumerable<BaseStation> GetAllAvailableBaseStations();
+        IEnumerable<BaseStationInList> GetALLBaseStationInList();
+        IEnumerable<BaseStationInList> GetAllAvailablBaseStations();
         IEnumerable<Drone> GetAllDrones();
         IEnumerable<Customer> GetAllCustomers();
         IEnumerable<Parcel> GetAllParcels();
         IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId);
         IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId);
-        IEnumerable<Parcel> GetAllUnlinkedParcels();
-        IEnumerable<BaseStationInList> GetALLBaseStationInList();
-        IEnumerable<ParcelInList> GetAllParcelInList();
+        IEnumerable<ParcelInList> GetAllUnlinkedParcels();
+        IEnumerable<ParcelInList> GetAllParcelsInList();
         IEnumerable<DroneInList> GetAllDronesInList();
+        IEnumerable<CustomerInList> GetAllCustomersInList();
+        IEnumerable<DroneCharge> GetAllDronesCharging(int stationId);
         #endregion
         #region Read single element  
         BaseStation GetBaseStation(int id);

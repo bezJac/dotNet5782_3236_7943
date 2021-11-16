@@ -12,34 +12,7 @@ namespace ConsoleUI_BL
             IBL.IBL data = new BL.BL();
             string str;
             int num1, num2;
-            try
-            {
-                printDrones(data.GetAllDronesInList());
-                int.TryParse(Console.ReadLine(), out num1);
-                printDrone(data.GetDrone(num1));
-               
-                data.LinkDroneToParcel(num1);
-                
-                printDrone(data.GetDrone(num1));
-                
-                data.DroneParcelPickUp(num1);
-               
-                printDrone(data.GetDrone(num1));
-               
-                data.DroneParcelDelivery(num1);
-                
-                printDrone(data.GetDrone(num1));
-                
-
-
-           
-            }
-            catch (Exception ex )
-            {
-
-                Console.WriteLine(ex);
-            }
-           
+            
             do
             {
                 System.Console.WriteLine("select your choice:\n"
@@ -100,7 +73,113 @@ namespace ConsoleUI_BL
                             }
                             break;
                         }
-                    case"action":
+                    case "show":
+                        {
+                            System.Console.WriteLine("select your choice:\n" +
+                                "base station - show a BaseStation's information\n" +
+                                "drone - show a Drone's information\n" +
+                                "customer - show a Customer's information\n" +
+                                "parcel - show a Parcel's information\n");
+
+                            str = System.Console.ReadLine();
+
+                            /// get functions return copy of specific object identified by user input
+                            /// details are printed to user
+                            switch (str)
+                            {
+                                case "base station":
+                                    {
+                                        Console.WriteLine("Enter the Base Station's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine(data.GetBaseStation(num1).ToString());
+                                        break;
+                                    }
+                                case "drone":
+                                    {
+                                        Console.WriteLine("Enter the Drone's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine(data.GetDrone(num1).ToString());
+                                        break;
+                                    }
+                                case "customer":
+                                    {
+                                        Console.WriteLine("Enter the Customer's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine(data.GetCustomer(num1).ToString());
+                                        break; ;
+                                    }
+                                case "parcel":
+                                    {
+                                        Console.WriteLine("Enter the Parcel's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine(data.GetParcel(num1).ToString());
+                                        break;
+
+                                    }
+                                default:
+                                    {
+                                        Console.WriteLine("Wrong selection, restart the process.\n");
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    case "list":
+                        {
+                            System.Console.WriteLine("select your choice:\n" +
+                                                "stations - show Base Stations list \n" +
+                                                "drones - show Drones list\n" +
+                                                "customers - show Customers list\n" +
+                                                "parcels - show Parcels list\n" +
+                                                "unlinked - show unlinked parcels list\n" +
+                                                "charge - show Base Statios with available charging slots list\n");
+
+                            str = System.Console.ReadLine();
+
+                            /// get functions return a  copy of a list of objects
+                            /// the copy is sent to print function to print for user
+                            switch (str)
+                            {
+                                case "stations":
+                                    {
+                                        printBaseStations(data.GetALLBaseStationInList());
+                                        break;
+                                    }
+                                case "drones":
+                                    {
+                                        printDrones(data.GetAllDronesInList());
+                                        break;
+                                    }
+                                case "customers":
+                                    {
+                                        printCustomers(data.GetAllCustomersInList());
+                                        break;
+                                    }
+                                case "parcels":
+                                    {
+                                        printParcels(data.GetAllParcelsInList());
+                                        break;
+                                    }
+                                case "unlinked":
+                                    {
+                                        printParcels(data.GetAllUnlinkedParcels());
+                                        break;
+                                    }
+                                case "charge":
+                                    {
+                                        printBaseStations(data.GetAllAvailablBaseStations());
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        Console.WriteLine("Wrong selection, restart the process.\n");
+                                        break;
+                                    }
+                            }
+
+                            break;
+                        }
+                    case "action":
                             {
                             System.Console.WriteLine("Select your choice:\n"
                                                         + "charge -send drone to charge\n"
@@ -154,6 +233,7 @@ namespace ConsoleUI_BL
                             }
                             break;
                         }
+                    
                 }
 
             } while (str != "exit");
