@@ -88,7 +88,7 @@ namespace BL
                             Model = dr.Model,
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Available,
-                            Battery = 99,//rnd.Next(tempBattery, 101),
+                            Battery = rnd.Next(tempBattery, 101),
                             ParcelId = 0,
                             DroneLocation = current,
                         });
@@ -408,6 +408,7 @@ namespace BL
             Drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
             Drones[index].DroneLocation = dr.Parcel.TargetLocation;
             Drones[index].Status = DroneStatus.Available;
+            Drones[index].ParcelId = 0;
 
             IDAL.DO.Parcel tempPrc = myDal.GetParcel(prc.Id);
             tempPrc.Delivered = DateTime.Now;

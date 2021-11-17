@@ -20,7 +20,7 @@
                 result += $"Battery level is: { Battery }\n";
                 if(Parcel!=null)
                     result += $"Parcel in delivery details are:\n {Parcel}";
-                result += $"Drone location is: {Location}";
+                result += $"Drone location is:\n{Location}";
                 return result;
             }
         }

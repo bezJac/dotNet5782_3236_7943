@@ -28,7 +28,7 @@ namespace IBL.BO
             result += $"Weight: { Weight }\n";
             result += $"Sending Customer location:\n {SenderLocation}";
             result += $"Target Customer location:\n {TargetLocation}";
-            result += $"Distance of delivery in KM: {DeliveryDistance}\n";
+            result += $"Distance of delivery in KM:" + String.Format("{0:0.00}",DeliveryDistance)+"\n";
             return result;
 
         }
