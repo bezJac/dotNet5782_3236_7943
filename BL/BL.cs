@@ -240,27 +240,36 @@ namespace BL
             BaseStation station = GetBaseStation(id);
             if (station.DronesCharging.Count() > count)
                 throw new BaseStationException($"base station: {id} Occupied slots exceed requested update");
-            myDal.UpdateBaseStation(new IDAL.DO.BaseStation
-            {
-                Id = id,
-                Name = name,
-                Longitude = station.StationLocation.Longtitude,
-                Lattitude = station.StationLocation.Lattitude,
-                NumOfSlots = station.NumOfSlots - station.DronesCharging.Count()
-            });
+            IDAL.DO.BaseStation st=new IDAL.DO.BaseStation();
+            st.Id = id;
+            if (name != "")
+                st.Name = name;
+            else
+                st.Name = station.Name;
+            st.Longitude = station.StationLocation.Longtitude;
+            st.Lattitude = station.StationLocation.Lattitude;
+            if (count == 0)
+                st.NumOfSlots = station.NumOfSlots;
+            else
+                st.NumOfSlots = count - station.DronesCharging.Count();
+            myDal.UpdateBaseStation(st) ;
         }
         public void UpdateCustomer(int id, string phone, string name)
         {
-            Customer cstmr = GetCustomer(id);
-            myDal.UpdateCustomer(new IDAL.DO.Customer
+            IDAL.DO.Customer cstmr;
+            try
             {
-                Id = id,
-                Name = name,
-                Phone = phone,
-                Longitude = cstmr.CustomerLocation.Longtitude,
-                Lattitude = cstmr.CustomerLocation.Lattitude,
-
-            });
+                cstmr = myDal.GetCustomer(id);
+            }
+            catch (IDAL.CustomerExceptionDAL Ex)
+            {
+                throw new CustomerException ("BL: ",Ex);
+            }
+            if( name!="")
+            cstmr.Name = name;
+            if(phone!="")
+            cstmr.Phone = phone;
+            myDal.UpdateCustomer(cstmr);
         }
         #endregion
         #region actions causing updates
@@ -286,7 +295,6 @@ namespace BL
             // find nearest base station
 
             IDAL.DO.BaseStation st = getNearestBasestation(Drones[index].DroneLocation);
-            Console.WriteLine("STATION CHARGING " + st.Id);
             Location stLocation = createLocation(st.Longitude, st.Lattitude);
             double distance = Distance.GetDistance(stLocation, Drones[index].DroneLocation);
 
@@ -349,10 +357,9 @@ namespace BL
                         temp = temp.FindAll(prc => (WeightCategories)prc.Weight == (WeightCategories)j);
                         if (temp.Count() > 0)
                         {
-                            IDAL.DO.Customer sender = new IDAL.DO.Customer();
-                            IDAL.DO.Customer target = new IDAL.DO.Customer();
-                            IDAL.DO.Parcel prc = getNearestParcel(dr.DroneLocation, ref sender, ref target, temp);
-
+                            IDAL.DO.Parcel prc = getNearestParcel(dr.DroneLocation, temp);
+                            IDAL.DO.Customer sender = myDal.GetCustomer(prc.SenderId);
+                            IDAL.DO.Customer target = myDal.GetCustomer(prc.TargetId);
                             if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Longitude), dr.MaxWeight))
                             {
                                 prc.DroneId = id;
@@ -362,7 +369,6 @@ namespace BL
                                 Drones[index].ParcelId = prc.Id;
                                 return;
                             }
-
                         }
                     }
                 }
@@ -491,15 +497,7 @@ namespace BL
         }
         public IEnumerable<CustomerInList> GetAllCustomersInList()
         {
-            IEnumerable<Customer> customers;
-            try
-            {
-                customers = GetAllCustomers();
-            }
-            catch (CustomerException ex)
-            {
-                throw new CustomerException("BL: ", ex);
-            }
+            IEnumerable<Customer> customers = GetAllCustomers();
             List<CustomerInList> tmp = new List<CustomerInList>();
             foreach (Customer cs in customers)
             {
@@ -730,24 +728,21 @@ namespace BL
             }
             return myDal.GetBaseStation(id);
         }
-        private IDAL.DO.Parcel getNearestParcel(Location l, ref IDAL.DO.Customer sender, ref IDAL.DO.Customer target, IEnumerable<IDAL.DO.Parcel> parcels)
+        private IDAL.DO.Parcel getNearestParcel(Location l, IEnumerable<IDAL.DO.Parcel> parcels)
         {
-
             double min = double.PositiveInfinity;
             double temp;
             IDAL.DO.Parcel parcel = new IDAL.DO.Parcel();
             foreach (IDAL.DO.Parcel prc in parcels)
             {
                 IDAL.DO.Customer cs = myDal.GetCustomer(prc.SenderId);
-                temp = Distance.GetDistance(createLocation(sender.Longitude, sender.Lattitude), l);
+                temp = Distance.GetDistance(createLocation(cs.Longitude, cs.Lattitude), l);
                 if (temp < min)
                 {
                     min = temp;
                     parcel = prc;
-                    sender = cs;
                 }
             }
-            target = myDal.GetCustomer(parcel.TargetId);
             return parcel;
         }
         private ParcelStatus getParcelStatus(IDAL.DO.Parcel pr)

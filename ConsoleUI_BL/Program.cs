@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
         static void Main(string[] args)
         {
             IBL.IBL data = new BL.BL();
-            string str;
+            string str, str2,str3;
             int num1, num2;
             
             do
@@ -63,13 +63,61 @@ namespace ConsoleUI_BL
                                         break;
                                         
                                     }
+                              default:
+                                    {
+                                        Console.WriteLine("Wrong selection, restart the process.\n");
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    case "update":
+                        {
+                            System.Console.WriteLine("select your choice:\n" +
+                                                "base station - update a base stations details\n" +
+                                                "drone - update a drones details \n" +
+                                                "customer - update a customers details\n");
 
-
+                            str = System.Console.ReadLine();
+                            switch(str)
+                            {
+                                case "base station":
+                                    {
+                                        Console.WriteLine("Enter the Base Station's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine("Enter the Base Station's name, or enter to skip\n");
+                                        str2 = Console.ReadLine();
+                                        Console.WriteLine("Enter the Base Station's total charging slots, or enter to skip\n");
+                                        int.TryParse(Console.ReadLine(), out num2);
+                                            data.UpdateBaseStation(num1, num2, str2);
+                                        break;
+                                    }
+                                case "drone":
+                                    {
+                                        Console.WriteLine("Enter the Drone's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine("Enter the Drone's model\n");
+                                        str2= Console.ReadLine();
+                                        data.UpdateDrone(num1, str2);
+                                        break;
+                                    }
+                                case "customer":
+                                    {
+                                        Console.WriteLine("Enter the Customer's id\n");
+                                        int.TryParse(Console.ReadLine(), out num1);
+                                        Console.WriteLine("Enter the Customer's name, or enter to skip\n");
+                                        str2 = Console.ReadLine();
+                                        Console.WriteLine("Enter the Customer's phone, or enter to skip\n");
+                                        str3= Console.ReadLine();
+                                        data.UpdateCustomer(num1, str3, str2);
+                                        break;
+                                    }
                                 default:
                                     {
                                         Console.WriteLine("Wrong selection, restart the process.\n");
                                         break;
                                     }
+                                   
                             }
                             break;
                         }

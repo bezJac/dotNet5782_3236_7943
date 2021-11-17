@@ -149,7 +149,7 @@ namespace DalObject
             {
                 Customers.Add(new Customer
                 {
-                    Id = rnd.Next(100000, 1000000),
+                    Id = rnd.Next(10000000, 100000000),
                     Name = names[rnd.Next(0, 43)],
                     Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
                     Longitude = 34.77900 + randCoordinates2[rnd.Next(10)],
