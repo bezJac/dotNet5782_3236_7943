@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace IDAL
 {
     [Serializable]
-    public class BaseStationExceptionDAL : Exception
+    internal class BaseStationExceptionDAL : Exception
     {
         public BaseStationExceptionDAL()
         {

@@ -131,7 +131,7 @@ namespace BL
                     NumOfSlots = station.NumOfSlots,
                 });
             }
-            catch (IDAL.BaseStationExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new BaseStationException("BL: ", ex);
             }
@@ -142,8 +142,15 @@ namespace BL
             try
             {
                 st = myDal.GetBaseStation(stationId);
-                if (st.NumOfSlots == 0)
+            }
+            catch (Exception ex)
+            {
+                throw new BaseStationException("BL: ", ex);
+            }
+            if (st.NumOfSlots == 0)
                     throw new BaseStationException($"base station - {stationId} has no charging slots available");
+            try
+            { 
                 myDal.AddDrone(new IDAL.DO.Drone
                 {
                     Id = drone.Id,
@@ -151,11 +158,7 @@ namespace BL
                     MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
                 });
             }
-            catch (IDAL.BaseStationExceptionDAL Ex)
-            {
-                throw new BaseStationException("BL: ", Ex);
-            }
-            catch (IDAL.DroneExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new DroneException("BL: ", Ex);
             }
@@ -180,7 +183,7 @@ namespace BL
                 myDal.GetCustomer(parcel.Sender.Id);
                 myDal.GetCustomer(parcel.Target.Id);
             }
-            catch (IDAL.CustomerExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new ParcelException("BL: ", Ex);
             }
@@ -211,7 +214,7 @@ namespace BL
 
                 });
             }
-            catch (IDAL.CustomerExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new CustomerException("BL: ", Ex);
             }
@@ -226,7 +229,7 @@ namespace BL
             {
                 dr = myDal.GetDrone(id);
             }
-            catch (IDAL.DroneExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new DroneException("BL: ", Ex);
             }
@@ -261,7 +264,7 @@ namespace BL
             {
                 cstmr = myDal.GetCustomer(id);
             }
-            catch (IDAL.CustomerExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new CustomerException ("BL: ",Ex);
             }
@@ -341,7 +344,7 @@ namespace BL
             {
                 unlinked = myDal.GetAllParcels(pr => pr.DroneId == 0).ToList();
             }
-            catch (IDAL.ParcelExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new ParcelException("BL - ", ex);
             }
@@ -410,11 +413,19 @@ namespace BL
             Drones[index].Status = DroneStatus.Available;
             Drones[index].ParcelId = 0;
 
-            IDAL.DO.Parcel tempPrc = myDal.GetParcel(prc.Id);
-            tempPrc.Delivered = DateTime.Now;
-            tempPrc.DroneId = 0;
-            myDal.UpdateParcel(tempPrc);
-
+            myDal.UpdateParcel(new IDAL.DO.Parcel
+            {
+                Id = prc.Id,
+                SenderId = prc.Sender.Id,
+                TargetId = prc.Target.Id,
+                Weight = (IDAL.DO.WeightCategories)prc.Weight,
+                Priority = (IDAL.DO.Priorities)prc.Priority,
+                Requested = prc.Ordered,
+                Scheduled = prc.Linked,
+                PickedUp = prc.PickedUp,
+                Delivered = DateTime.Now,
+                DroneId = 0,
+            });
         }
         #endregion
         #endregion
@@ -427,7 +438,7 @@ namespace BL
             {
                 stations = myDal.GetAllBaseStations();
             }
-            catch (IDAL.BaseStationExceptionDAL Ex)
+            catch (Exception Ex)
             {
                 throw new BaseStationException("BL: ", Ex);
             }
@@ -490,7 +501,7 @@ namespace BL
             {
                 customers = myDal.GetAllCustomers();
             }
-            catch (IDAL.CustomerExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new CustomerException("Bl: ", ex);
             }
@@ -524,7 +535,7 @@ namespace BL
             {
                 parcels = myDal.GetAllParcels();
             }
-            catch (IDAL.ParcelExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new ParcelException("Bl: ", ex);
             }
@@ -537,7 +548,7 @@ namespace BL
             {
                 parcels = myDal.GetAllParcels();
             }
-            catch (IDAL.ParcelExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new ParcelException("Bl: ", ex);
             }
@@ -550,7 +561,7 @@ namespace BL
             {
                 parcels = myDal.GetAllParcels(prc => prc.DroneId == 0);
             }
-            catch (IDAL.ParcelExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new ParcelException("Bl: ", ex);
             }
@@ -606,7 +617,7 @@ namespace BL
             {
                 st = myDal.GetBaseStation(id);
             }
-            catch (IDAL.BaseStationExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new BaseStationException("Base Station Exception: ", ex);
             }
@@ -619,7 +630,7 @@ namespace BL
             {
                 dr = myDal.GetDrone(id);
             }
-            catch (IDAL.DroneExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new DroneException("Drone Exception: ", ex);
             }
@@ -642,7 +653,7 @@ namespace BL
             {
                 cstmr = myDal.GetCustomer(id);
             }
-            catch (IDAL.CustomerExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new CustomerException("Customer Exception: ", ex);
             }
@@ -655,7 +666,7 @@ namespace BL
             {
                 prc = myDal.GetParcel(id);
             }
-            catch (IDAL.ParcelExceptionDAL ex)
+            catch (Exception ex)
             {
                 throw new ParcelException("Parcel Exception: ", ex);
             }
@@ -678,15 +689,17 @@ namespace BL
             try
             {
                 parcel = myDal.GetParcel(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ParcelException("BL - Parcel Exception: ", ex);
+            }
+            try
+            {
                 sender = myDal.GetCustomer(parcel.SenderId);
                 target = myDal.GetCustomer(parcel.TargetId);
             }
-            catch (IDAL.ParcelExceptionDAL ex)
-            {
-
-                throw new ParcelException("BL - Parcel Exception: ", ex);
-            }
-            catch (IDAL.CustomerExceptionDAL ex)
+            catch (Exception ex)
             {
 
                 throw new CustomerException("BL - CustomerException: ", ex);

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace IDAL
 {
     [Serializable]
-    public class ParcelExceptionDAL : Exception
+    internal class ParcelExceptionDAL : Exception
     {
         public ParcelExceptionDAL()
         {

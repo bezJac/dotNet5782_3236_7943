@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace IDAL
 {
     [Serializable]
-    public class DroneExceptionDAL : Exception
+   internal class DroneExceptionDAL : Exception
     {
         public DroneExceptionDAL()
         {

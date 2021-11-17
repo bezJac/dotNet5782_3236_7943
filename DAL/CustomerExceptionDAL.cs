@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace IDAL
 {
     [Serializable]
-    public class CustomerExceptionDAL : Exception
+    internal class CustomerExceptionDAL : Exception
     {
         public CustomerExceptionDAL()
         {
