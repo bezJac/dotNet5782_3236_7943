@@ -9,11 +9,11 @@ using IDAL.DO;
 namespace DalObject
 {
     /// <summary>
-    /// class manages data source level for DAL
+    /// class contains data lists in DAL
     /// </summary>
     internal class DataSource
     {
-        /// data bases 
+        
         internal static List<BaseStation> Stations = new List<BaseStation>();
         internal static List<Drone> Drones = new List<Drone>();
         internal static List<Customer> Customers = new List<Customer>();
@@ -23,7 +23,7 @@ namespace DalObject
         static Random rnd = new Random();
 
         /// <summary>
-        /// class manges parcel id
+        /// class contains  parcel id and configurations dor drone electric use
         /// </summary>
         internal class Config
         {
@@ -38,14 +38,16 @@ namespace DalObject
         }
 
         /// <summary>
-        /// initialize the list 
+        ///  function manualy initializes the list 
         /// </summary>
         public static void Initialize()
         {
-            
+            /// <summary>
+            ///  random mesurments to add to station and customer location coordinates
+            /// </summary>
             double[] randCoordinates = { 0.00134, 0.00876, 0.001432, 0.002345, 0.001987, 0.00976, 0.001532, 0.006432, 0.002845, 0.00201 };
             double[] randCoordinates2 = { 0.003456, 0.004567, 0.005932, 0.001234, 0.003217, 0.004786, 0.004321, 0.002331, 0.003921, 0.00299 };
-            /// array for customer names
+
             string[] firstNames = {"Wallace","Cavan","Elina","Deon","Vicky","Mehak",
              "Gavin","Ieuan","Charity","Lara","Luther","Amalia","Svetlana",
              "Zachary","Aleeza","Patrycja","Sadiyah","Martina","Gianluca",
@@ -53,6 +55,7 @@ namespace DalObject
              "Stanley","Eesa","Elen","Jia","Kathryn", "Julia","Carter","Oliver",
              "Mary","Anne","Terry","Debra","Louise","Michelle","Maria","Gordon",
               "Carl","Betty","Jessica","Timothy","Theresa","Katie","Simona","David","Donny" };
+
             string[] lastNames = {"Velasquez","Farley","Keller","Moreno","Hayes","Matthew","Rich","Haney","Alvarez","Faulkner","Wilkinson","Joseph",
              "Little","Reid","Salas","Herrera","Hamilton","Hunt","Petty","Hubbard","Lang","Daniel","Calderon","Adkins","Pearson","Berg",
             "Gibson","Mata","Fry","Houst","Jimenez","Huff","Combs","Hogan","Padilla","Escobar","Bird","Bautista",
@@ -62,11 +65,14 @@ namespace DalObject
             "Clayton","May","Hendricks","Valencia","Dickson","Watkins","Kelly","Acevedo","Stokes","Garza",
             "Parrish","Austin","Rollins","Wagner","Mcintosh","Hodge","Snow","Mckay","Rhodes","Melton","Heath","Frazier",
             "Lynch","Hartman"};
-            /// array for drones models names
-            string[] dronesModel = { "Yuneec H520", "DJI Mavic 2 Pro", "DJI Phantom 4", "Flyability Elios" };
 
-            /// initialize 2-5 basestations and add to list
+            
+            string[] droneModels = { "Yuneec H520", "DJI Mavic 2 Pro", "DJI Phantom 4", "Flyability Elios" };
 
+
+            /// <summary>
+            ///  initialize and adds to list 6 base stations
+            /// </summary>
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
@@ -125,7 +131,9 @@ namespace DalObject
             });
 
 
-            /// initialize 5-10 drones and add to list
+            /// <summary>
+            ///  initialize and adds to list 20 drones
+            /// </summary>
             int j = 20;
             for (int i = 0; i < j; i++)
             {
@@ -133,11 +141,15 @@ namespace DalObject
                 {
                     Id = rnd.Next(2000, 9999),
                     MaxWeight = (WeightCategories)rnd.Next(1, 4),
-                    Model = dronesModel[rnd.Next(0, 4)],
+                    Model = droneModels[rnd.Next(0, 4)],
                 });
             }
 
-            /// initialize 10-20 customers and add to list
+            /// <summary>
+            ///  initialize and adds to list 20 customers
+            ///  10 locations are in north part of tel aviv
+            ///  11 locations are in sout part of tel aviv
+            /// </summary>
             j = 10;
             for (int i = 0; i < j; i++)
             {
@@ -165,7 +177,9 @@ namespace DalObject
 
             }
 
-            /// initialize 10-15 parcels and add to list
+            /// <summary>
+            ///  initialize and adds to list 10 unlinked parcels
+            /// </summary>
             j = 10;
             for (int i = 0; i < j; i++)
             {
@@ -184,8 +198,12 @@ namespace DalObject
 
 
             }
-            j = 5;
-            for (int k = 0; k < j; k++)
+
+
+            /// <summary>
+            ///  initialize and adds to list 5 linked to drone parcels
+            /// </summary>
+            for (int k = 0; k < 5; k++)
             {
                 Parcels.Add(new Parcel
                 {
@@ -200,6 +218,10 @@ namespace DalObject
 
                 });
             }
+
+            /// <summary>
+            ///  initialize and adds to list 5 pickedup by drone parcels
+            /// </summary>
             for (int k = 0; k < 5; k++)
             {
                 Parcels.Add(new Parcel
@@ -215,6 +237,10 @@ namespace DalObject
                     PickedUp = DateTime.Now.AddMinutes(rnd.Next(180, 500)),
                 });
             }
+
+            /// <summary>
+            ///  initialize and adds to list 5 delivered parcels
+            /// </summary>
             for (int k = 0; k < 5; k++)
             {
                 Parcels.Add(new Parcel

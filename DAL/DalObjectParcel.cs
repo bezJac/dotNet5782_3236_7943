@@ -8,17 +8,21 @@ using IDAL;
 
 namespace DalObject
 {
+    /// <summary>
+    /// partial DalObject class responsible for CRUD of Parcel entities. 
+    /// </summary>
     public partial class DalObject:IDal
     {
+
         /// <summary>
         /// add a parcel to parcels list in data source layer
         /// </summary>
         /// <param name="pack"> parcel object to be added</param>
-        /// <exception cref = "ParcelExceptionDAL"> thrown if id already exists   </exception>
+        /// <exception cref = "ExsistException"> thrown if id already exists   </exception>
         public void AddParcel(Parcel pack)
         {
             if (DataSource.Parcels.Any(parcel => (parcel.Id == pack.Id)))
-                throw new ParcelExceptionDAL($"id number {pack.Id} already exists");
+                throw new ExsistException($"id number {pack.Id} already exists");
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
@@ -27,12 +31,12 @@ namespace DalObject
         /// update a parcel in the list
         /// </summary>
         /// <param name="person"> updated version of parcel </param>
-        ///  <exception cref = "ParcelExceptionDAL"> thrown if id not founf  </exception>
+        ///  <exception cref = "NonExistsException"> thrown if id not founf  </exception>
         public void UpdateParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelExceptionDAL($"id number: {pack.Id} not found");
+                throw new NonExistsException($"id number: {pack.Id} not found");
             DataSource.Parcels[index] = pack;
         }
 
@@ -40,12 +44,12 @@ namespace DalObject
         /// remove a parcel from list
         /// </summary>
         /// <param name="pack"> parcel to be removed </param>
-        /// <exception cref = "ParcelExceptionDAL"> thrown if id not found  </exception> 
+        /// <exception cref = "NonExistsException"> thrown if id not found  </exception> 
         public void RemoveParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new ParcelExceptionDAL($"id number: {pack.Id} not found");
+                throw new NonExistsException($"id number: {pack.Id} not found");
             DataSource.Parcels.RemoveAt(index);
         }
 
@@ -53,7 +57,7 @@ namespace DalObject
         /// get a copy of a single parcal
         /// </summary>
         /// <param name="id">  parcel's ID </param>
-        /// <exception cref="ParcelExceptionDAL"> thrown if id not founf in list </exception>
+        /// <exception cref="NonExistsException"> thrown if id not found in list </exception>
         /// <returns> copy of parcel matching the id </returns>
         public Parcel GetParcel(int id)
         {
@@ -70,28 +74,34 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new ParcelExceptionDAL($"id number: {id} not found");
+                throw new NonExistsException($"id number: {id} not found");
             }
             return (Parcel)temp;
         }
 
+
+
         /// <summary>
-        /// get a copy list containing all parcels 
+        /// get a copy list cof parcels 
         /// </summary>
-        /// <returns> IEnumerable<Parcel> type </returns>
+        /// <param name="predicate"> condition to filter list by </param>
+        /// <returns> by default an IEnumerable<Parcel> copy of full list , if predicate was sent as argument
+        /// an IEnumerable<Parcel> copy of list  of entities matching predicate </returns>
+        /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
+        /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
         {
             if (predicate == null)
             {
                 if (DataSource.Parcels.Count() <= 0)
-                    throw new ParcelExceptionDAL("no parcels in list");
+                    throw new EmptyListException("no parcels in list");
                 return DataSource.Parcels.ToList();
             }
             List<Parcel> tmp = DataSource.Parcels.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;
             else
-                throw new ParcelExceptionDAL("No Parcels in list match predicate");
+                throw new FilteredListException("No Parcels in list match predicate");
 
         }
     }

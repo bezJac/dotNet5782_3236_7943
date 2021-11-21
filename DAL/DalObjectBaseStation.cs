@@ -8,17 +8,21 @@ using IDAL;
 
 namespace DalObject
 {
+    /// <summary>
+    /// partial DalObject class responsible for CRUD of BaseStation entities. 
+    /// </summary>
     public partial class DalObject : IDal
     {
+
         /// <summary>
         /// add a base station to stations list in data source layer
         /// </summary>
         /// <param name="st"> station object to be added </param>
-        /// <exception cref = "BaseStationExceptionDAL"> thrown if id already exists  </exception>
+        /// <exception cref = "ExsistException"> thrown if id already exists  </exception>
         public void AddBaseStation(BaseStation st)
         {
             if (DataSource.Stations.Any(station => (station.Id == st.Id)))
-                throw new BaseStationExceptionDAL($"id number {st.Id} already exists");
+                throw new ExsistException($"id number: {st.Id}, already exists");
             DataSource.Stations.Add(st);
         }
 
@@ -26,12 +30,12 @@ namespace DalObject
         /// update a base station in the list
         /// </summary>
         /// <param name="bst"> updated version of base station </param>
-        ///  <exception cref = "BaseStationExceptionDAL"> thrown if id not found  </exception>
+        ///  <exception cref = "NonExistsException"> thrown if id not found  </exception>
         public void UpdateBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationExceptionDAL($"id number: {bst.Id} not found");
+                throw new NonExistsException($"id number: {bst.Id} not found");
             DataSource.Stations[index] = bst;
         }
 
@@ -39,12 +43,12 @@ namespace DalObject
         /// delete a base station from list
         /// </summary>
         /// <param name="bst"> base station to be  removed </param>
-        ///  <exception cref = "BaseStationExceptionDAL"> thrown if id not found  </exception>
+        ///  <exception cref = "NonExistsException"> thrown if id not found  </exception>
         public void RemoveBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => (x.Id == bst.Id));
             if (index == -1)
-                throw new BaseStationExceptionDAL($"id number: {bst.Id} not found");
+                throw new NonExistsException($"id number: {bst.Id} not found");
             DataSource.Stations.RemoveAt(index);
         }
 
@@ -52,7 +56,7 @@ namespace DalObject
         /// get a copy of a single base station 
         /// </summary>
         /// <param name = "id">  base station's ID </param>
-        /// <exception cref = "BaseStationExceptionDAL"> thrown if id not founf in list </exception>
+        /// <exception cref = "NonExistsException"> thrown if id not founf in list </exception>
         /// <returns> copy of base station matching the id </returns>
         public BaseStation GetBaseStation(int id)
         {
@@ -67,29 +71,33 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new BaseStationExceptionDAL($"id number: {id} not found");
+                throw new NonExistsException($"id number: {id} not found");
             }
             return (BaseStation)temp;
         }
 
         ///  <returns> IEnumerable<BaseStation> type </returns>
         /// <summary>
-        /// get a copy list of all base stations 
+        /// get a copy list of all base stations matching a predicate 
         /// </summary>
-        ///  <returns> IEnumerable<BaseStation> type </returns>
+        /// <param name="predicate"> condition to filter list by </param>
+        /// <returns> by default an IEnumerable<BaseStation> copy of full list , if predicate was sent as argument
+        /// an IEnumerable<BaseStation> copy of list  of entities matching predicate </returns>
+        /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
+        /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         public IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null)
         {
             if (predicate == null)
             {
                 if (DataSource.Stations.Count() <= 0)
-                    throw new BaseStationExceptionDAL("no stations in list");
+                    throw new EmptyListException("No stations in list");
                 return DataSource.Stations.ToList();
             }    
             List<BaseStation> tmp =  DataSource.Stations.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;
             else
-                throw new BaseStationExceptionDAL("No Base Stations in list match predicate");
+                throw new FilteredListException("No Base Stations in list match predicate");
         }
     }
 }

@@ -8,17 +8,21 @@ using IDAL;
 
 namespace DalObject
 {
+    /// <summary>
+    /// partial DalObject class responsible for CRUD of Drone entities. 
+    /// </summary>
     public partial class DalObject :IDal
     {
+
         /// <summary>
         /// add a drone to drones list in data source layer
         /// </summary>
         /// <param name="dr"> Drone object to be added </param>
-        /// <exception cref = "DroneExceptionDAL" > thrown if id already exists</exception>
+        /// <exception cref = "ExsistException" > thrown if id already exists</exception>
         public void AddDrone(Drone dr)
         {
             if (DataSource.Drones.Any(drone => (drone.Id == dr.Id)))
-                throw new DroneExceptionDAL($"id number {dr.Id} already exists");
+                throw new ExsistException($"id number {dr.Id} already exists");
             DataSource.Drones.Add(dr);
         }
 
@@ -26,12 +30,12 @@ namespace DalObject
         /// update a dronein the list
         /// </summary>
         /// <param name="dr"> updated version of drone </param>
-        ///  <exception cref = "DroneExceptionDAL"> thrown if id not founf  </exception>
+        ///  <exception cref = "NonExistsException"> thrown if id not found </exception>
         public void UpdateDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneExceptionDAL($"id number: {dr.Id} not found");
+                throw new NonExistsException($"id number: {dr.Id} not found");
             DataSource.Drones[index] = dr;
         }
 
@@ -39,12 +43,12 @@ namespace DalObject
         /// remove a drone from list
         /// </summary>
         /// <param name="dr"> drone to be  removed </param>
-        /// <exception cref = "DroneExceptionDAL"> thrown if id not found  </exception>
+        /// <exception cref = "NonExistsException"> thrown if id not found  </exception>
         public void RemoveDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new DroneExceptionDAL($"id number: {dr.Id} not found");
+                throw new NonExistsException($"id number: {dr.Id} not found");
             DataSource.Drones.RemoveAt(index);
         }
 
@@ -52,7 +56,7 @@ namespace DalObject
         /// get a copy of a single Drone 
         /// </summary>
         /// <param name="id">  drone's ID </param>
-        /// <exception cref="DroneExceptionDAL"> thrown if id not founf in list </exception>
+        /// <exception cref="NonExistsException"> thrown if id not found in list </exception>
         /// <returns> copy of drone matching the id </returns>
         public Drone GetDrone(int id)
         {
@@ -68,29 +72,33 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new DroneExceptionDAL($"id number: {id} not found");
+                throw new NonExistsException($"id number: {id} not found");
             }
             return (Drone)temp;
         }
 
 
         /// <summary>
-        /// get a copy list containing all drones 
+        /// get a copy list containing of drones 
         /// </summary>
-        /// <returns> IEnumerable<Drone> type </returns>
+        /// <param name="predicate"> condition to filter list by </param>
+        /// <returns> by default an IEnumerable<Drone> copy of full list , if predicate was sent as argument
+        /// an IEnumerable<Drone> copy of list  of entities matching predicate </returns>
+        /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
+        /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             if (predicate == null)
             {
                 if (DataSource.Drones.Count() <= 0)
-                    throw new DroneExceptionDAL("no drones in list");
+                    throw new EmptyListException("no drones in list");
                 return DataSource.Drones.ToList();
             }
             List<Drone> tmp = DataSource.Drones.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;
             else
-                throw new DroneExceptionDAL("No Drones in list match predicate");
+                throw new FilteredListException("No Drones in list match predicate");
         }
 
     }

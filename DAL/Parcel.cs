@@ -9,6 +9,9 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// struct representing a parcel
+        /// </summary>
         public struct Parcel
         {
             public int Id { get; set; }

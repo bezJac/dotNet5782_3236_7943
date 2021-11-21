@@ -8,8 +8,12 @@ namespace IDAL
 {
     namespace DO
     {
+        /// <summary>
+        /// class responsible to convert longtitude and lattitude coordinates to DMS 
+        /// </summary>
         internal class StringAdapt
         {
+            
             public static String LongtitudeToDMS(double val)
             {
                 int tmp = (int)val;

@@ -8,17 +8,21 @@ using IDAL;
 
 namespace DalObject
 {
+    /// <summary>
+    /// partial DalObject class responsible for CRUD of Customer entities. 
+    /// </summary>
     public partial class DalObject:IDal
     {
+
         /// <summary>
         /// add a customer to customers list in data source layer
         /// </summary>
         /// <param name="person"> customer object to be added </param>
-        /// <exception cref = "CustomerExceptionDAL"> thrown if id already exists  </exception>
+        /// <exception cref = "ExsistException"> thrown if id already exists  </exception>
         public void AddCustomer(Customer person)
         {
             if (DataSource.Customers.Any(customer => (customer.Id == person.Id)))
-                throw new CustomerExceptionDAL($"id number: {person.Id} already exists");
+                throw new ExsistException($"id number: {person.Id} already exists");
             DataSource.Customers.Add(person);
         }
 
@@ -26,12 +30,12 @@ namespace DalObject
         /// update a customer in the list
         /// </summary>
         /// <param name="person"> updated version of customer </param>
-        ///  <exception cref = "CustomerExceptionDAL"> thrown if id not founf  </exception>
+        ///  <exception cref = "NonExistsException"> thrown if id not found  </exception>
         public void UpdateCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerExceptionDAL($"id number: {person.Id} not found");
+                throw new NonExistsException($"id number: {person.Id} not found");
             DataSource.Customers[index] = person;
         }
 
@@ -39,12 +43,12 @@ namespace DalObject
         /// remove a customer from list
         /// </summary>
         /// <param name="person"> customer to be removed </param>
-        /// <exception cref = "CustomerExceptionDAL"> thrown if id not found  </exception> 
+        /// <exception cref = "NonExistsException"> thrown if id not found  </exception> 
         public void RemoveCustomer(Customer person)
         {
             int index = DataSource.Customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
-                throw new CustomerExceptionDAL($"id number: {person.Id} not found");
+                throw new NonExistsException($"id number: {person.Id} not found");
             DataSource.Customers.RemoveAt(index);
         }
 
@@ -52,7 +56,7 @@ namespace DalObject
         /// get a copy of a single customer 
         /// </summary>
         /// <param name="id">  customer's ID </param>
-        /// <exception cref="DroneExceptionDAL"> thrown if id not founf in list </exception>
+        /// <exception cref="NonExistsException"> thrown if id not found in list </exception>
         /// <returns> copy of customer matching the id </returns>
         public Customer GetCustomer(int id)
         {
@@ -68,28 +72,32 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new CustomerExceptionDAL($"id number: {id} not found");
+                throw new NonExistsException($"id number: {id} not found");
             }
             return (Customer)temp;
         }
 
         /// <summary>
-        /// get a copy list containing all customers
+        /// get a copy list containing of customers
         /// </summary>
-        /// <returns> IEnumerable<Customer> type </returns>
+        /// <param name="predicate"> condition to filter list by </param>
+        /// <returns> by default an IEnumerable<Customer> copy of full list , if predicate was sent as argument
+        /// an IEnumerable<Customer> copy of list  of entities matching predicate </returns>
+        /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
+        /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
         {
             if (predicate == null)
             {
                 if (DataSource.Customers.Count() <= 0)
-                    throw new CustomerExceptionDAL("no customers in list");
+                    throw new NonExistsException("no customers in list");
                 return DataSource.Customers.ToList();
             }
             List<Customer> tmp = DataSource.Customers.FindAll(predicate).ToList();
             if (tmp.Count() > 0)
                 return tmp;
             else
-                throw new CustomerExceptionDAL("No Customers in list match predicate");
+                throw new NonExistsException("No Customers in list match predicate");
         }
 
     }
