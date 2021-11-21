@@ -23,7 +23,7 @@ namespace IBL.BO
                     result += $"List of Drones being charged at station:\n";
                     foreach (DroneCharge dr in DronesCharging)
                     {
-                        result += $"{i++}:\n {dr}";
+                        result += $"------{i++}------\n {dr}";
                     }
                 }
                 return result;

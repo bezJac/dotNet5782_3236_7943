@@ -16,7 +16,7 @@
             result += $"Target Customer name: { TargetName }\n";
             result += $"Weight: { Weight }\n";
             result += $"Priority: { Priority }\n";
-            result += $"Status: {Status}";
+            result += $"Status: {Status}\n";
             return result;
 
         }

@@ -183,12 +183,12 @@ namespace DalObject
             j = 10;
             for (int i = 0; i < j; i++)
             {
-
+                int num = rnd.Next(0, Customers.Count()-1);
                 Parcels.Add(new Parcel
                 {
                     Id = ++Config.RunIdParcel,
-                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    SenderId = Customers[num].Id,
+                    TargetId = Customers[num+1].Id,
                     Weight = (WeightCategories)rnd.Next(1, 4),
                     Priority = (Priorities)rnd.Next(1, 4),
                     Requested = DateTime.Now,
@@ -204,12 +204,12 @@ namespace DalObject
             ///  initialize and adds to list 5 linked to drone parcels
             /// </summary>
             for (int k = 0; k < 5; k++)
-            {
+            { 
                 Parcels.Add(new Parcel
                 {
                     Id = ++Config.RunIdParcel,
-                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    SenderId = Customers[rnd.Next(0, (int)(Customers.Count()/2))].Id,
+                    TargetId = Customers[rnd.Next(((int)(Customers.Count() / 2)+1), Customers.Count())].Id,
                     DroneId = Drones[k].Id,
                     Weight = (WeightCategories)Drones[k].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
@@ -227,8 +227,8 @@ namespace DalObject
                 Parcels.Add(new Parcel
                 {
                     Id = ++Config.RunIdParcel,
-                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    SenderId = Customers[rnd.Next(0, (int)(Customers.Count() / 2))].Id,
+                    TargetId = Customers[rnd.Next(((int)(Customers.Count() / 2) + 1), Customers.Count())].Id,
                     DroneId = Drones[k + 5].Id,
                     Weight = (WeightCategories)Drones[k + 5].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
@@ -246,8 +246,8 @@ namespace DalObject
                 Parcels.Add(new Parcel
                 {
                     Id = ++Config.RunIdParcel,
-                    SenderId = Customers[rnd.Next(0, Customers.Count())].Id,
-                    TargetId = Customers[rnd.Next(0, Customers.Count())].Id,
+                    SenderId = Customers[rnd.Next(0, (int)(Customers.Count() / 2))].Id,
+                    TargetId = Customers[rnd.Next(((int)(Customers.Count() / 2) + 1), Customers.Count())].Id,
                     DroneId = Drones[k + 10].Id,
                     Weight = (WeightCategories)Drones[k + 10].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
