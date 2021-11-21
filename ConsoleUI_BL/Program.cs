@@ -53,7 +53,7 @@ namespace ConsoleUI_BL
                             }
                         case "exit":
                             {
-                                break; 
+                                break;
                             }
                         default:
                             {
@@ -93,12 +93,40 @@ namespace ConsoleUI_BL
             {
                 case "station":
                     {
-                        data.AddBaseStation(inputBaseStation());
+                        bool flag = true;
+                        do
+                        {
+                            try
+                            {
+                                data.AddBaseStation(inputBaseStation());
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message + ".\nPlease restart the input process");
+                                flag = false;
+                            }
+                        }
+                        while (flag != true);
+
                         break;
                     }
                 case "drone":
                     {
-                        Drone temp = inputDrone();
+                        Drone temp = new Drone { Parcel = null };
+                        bool flag = true;
+                        do
+                        {
+                            try
+                            {
+                                temp = inputDrone();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message + ".\nPlease restart the input process");
+                                flag = false;
+                            }
+                        }
+                        while (flag != true);
                         Console.WriteLine("Enter Base station Id for initial charge\n");
                         int.TryParse(Console.ReadLine(), out num1);
                         data.AddDrone(temp, num1);
@@ -106,12 +134,40 @@ namespace ConsoleUI_BL
                     }
                 case "customer":
                     {
-                        data.AddCustomer(inputCustomer());
+                        bool flag = true;
+                        do
+                        {
+                            try
+                            {
+                                data.AddCustomer(inputCustomer());
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message + ".\nPlease restart  the input process");
+                                flag = false;
+                            }
+                        }
+                        while (flag != true);
+
                         break;
                     }
                 case "parcel":
                     {
-                        data.AddParcel(inputParcel());
+                        bool flag = true;
+                        do
+                        {
+                            try
+                            {
+                                data.AddParcel(inputParcel());
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message + ".\nPlease restart  the input process");
+                                flag = false;
+                            }
+                        }
+                        while (flag != true);
+
                         break;
 
                     }
@@ -122,6 +178,7 @@ namespace ConsoleUI_BL
                     }
             }
         }
+
         private static void updateEntityDetailsMenu(IBL.IBL data)
         {
             int input1, input2;
@@ -343,22 +400,30 @@ namespace ConsoleUI_BL
         /// <returns> Base Station object</returns>
         private static BaseStation inputBaseStation()
         {
-            BaseStation station = new BaseStation();
+            BaseStation station = new BaseStation { StationLocation = new Location(), };
             int num;
             double x;
-            Console.WriteLine("enter Base Station's id");
-            if (int.TryParse(Console.ReadLine(), out num))
-                station.Id = num;
+            Console.WriteLine("enter a 4 digit number of Base Station's id");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 1000 || num >= 10000)
+                throw new Exception("id not in required range");
+            station.Id = num;
             Console.WriteLine("enter Base Station's name");
             station.Name = Console.ReadLine();
-            Console.WriteLine("enter Base Station's longtitude coordinate");
-            if (double.TryParse(Console.ReadLine(), out x))
-                station.StationLocation.Longtitude = x;
-            Console.WriteLine("enter Base Station's lattitude coordinate");
-            if (double.TryParse(Console.ReadLine(), out x))
-                station.StationLocation.Lattitude = x;
-            Console.WriteLine("enter Base Station's number of available charging");
-            if(int.TryParse(Console.ReadLine(),out num))
+            Console.WriteLine("enter Base Station's longtitude coordinate \n between 34.745 - 34.808 ");
+            double.TryParse(Console.ReadLine(), out x);
+            if (x < 34.745 || x > 34.808)
+                throw new Exception("longtitude input not in required range");
+            station.StationLocation.Longtitude = x;
+            Console.WriteLine("enter Base Station's lattitude coordinate \n  Range between 32.033 - 32.127");
+            double.TryParse(Console.ReadLine(), out x);
+            if (x < 32.033 || x > 32.127)
+                throw new Exception("lattitude input not in required range");
+            station.StationLocation.Lattitude = x;
+            Console.WriteLine("enter Base Station's number of available charging slots");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 0)
+                throw new Exception("number must be positive");
             station.NumOfSlots = num;
             station.DronesCharging = null;
             return station;
@@ -373,15 +438,19 @@ namespace ConsoleUI_BL
             Drone dr = new Drone();
             int num;
             double x;
-            Console.WriteLine("Enter Drone's id");
-            if (int.TryParse(Console.ReadLine(), out num))
-                dr.Id = num;
+            Console.WriteLine("Enter a 4 digit number for Drone's id , first digit must be 2 or larger");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 2000 || num >= 10000)
+                throw new Exception("id not in required range");
+            dr.Id = num;
             Console.WriteLine("Enter Drone's model");
             dr.Model = Console.ReadLine();
             Console.WriteLine("Enter Drone's Max Weight category" +
                                 "1: light   2: medium   3: heavy ");
-            if (int.TryParse(Console.ReadLine(), out num))
-                dr.MaxWeight = (WeightCategories)num;
+            int.TryParse(Console.ReadLine(), out num);
+            if (num != 1 && num != 2 && num != 3)
+                throw new Exception("input not valid");
+            dr.MaxWeight = (WeightCategories)num;
             return dr;
         }
 
@@ -391,42 +460,55 @@ namespace ConsoleUI_BL
         /// <returns> Customer object</returns>
         private static Customer inputCustomer()
         {
-            Customer person = new Customer();
+            Customer person = new Customer { CustomerLocation = new Location(), };
             int num;
             double x;
-            Console.WriteLine("enter Customer's id");
-            if (int.TryParse(Console.ReadLine(), out num))
-                person.Id = num;
+            Console.WriteLine("enter a 8 digit number for Customer's id");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 10000000 || num >= 100000000)
+                throw new Exception("id not in required range");
             Console.WriteLine("Enter Customer's name");
             person.Name = Console.ReadLine();
             Console.WriteLine("Enter Customers's Phone Number");
             person.Phone = Console.ReadLine();
-            Console.WriteLine("Enter Customer's Longtitude coordinate");
-            if (double.TryParse(Console.ReadLine(), out x))
-                person.CustomerLocation.Longtitude=x;
-            Console.WriteLine("Enter Customer's Lattitude coordinate");
-            if (double.TryParse(Console.ReadLine(), out x))
-                person.CustomerLocation.Lattitude = x;
+            Console.WriteLine("enter Customer's longtitude coordinate \n between 34.745 - 34.808 ");
+            double.TryParse(Console.ReadLine(), out x);
+            if (x < 34.745 || x > 34.808)
+                throw new Exception("longtitude input not in required range");
+            person.CustomerLocation.Longtitude = x;
+            Console.WriteLine("enter customers's lattitude coordinate \n  Range between 32.033 - 32.127");
+            double.TryParse(Console.ReadLine(), out x);
+            if (x < 32.033 || x > 32.127)
+                throw new Exception("lattitude input not in required range");
+            person.CustomerLocation.Lattitude = x;
             return person;
         }
         private static Parcel inputParcel()
         {
-            Parcel package = new Parcel();
+            Parcel package = new Parcel { Sender = new CustomerInParcel(), Target = new CustomerInParcel() };
             int num;
-            Console.WriteLine("Enter Parcel's sender id");
-            if (int.TryParse(Console.ReadLine(), out num))
-                package.Sender.Id = num;
-            Console.WriteLine("Enter Parcel's target id");
-            if (int.TryParse(Console.ReadLine(), out num))
-                package.Target.Id = num;
+            Console.WriteLine("Enter an 8 digit number for Parcel's sender id");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 10000000 || num >= 100000000)
+                throw new Exception("id not in required range");
+            package.Sender.Id = num;
+            Console.WriteLine("Enter an 8 digit number for Parcel's target id");
+            int.TryParse(Console.ReadLine(), out num);
+            if (num < 10000000 || num >= 100000000)
+                throw new Exception("id not in required range");
+            package.Target.Id = num;
             Console.WriteLine("Enter Parcel's Weight category" +
                                 "1: light   2: medium   3: heavy \n");
-            if (int.TryParse(Console.ReadLine(), out num))
-                package.Weight = (WeightCategories)num;
+            int.TryParse(Console.ReadLine(), out num);
+            if (num != 1 && num != 2 && num != 3)
+                throw new Exception("input not valid");
+            package.Weight = (WeightCategories)num;
             Console.WriteLine("Enter Parcel's Priority category" +
                                 "1:Regular   2: Express   3: Emergency \n");
-            if (int.TryParse(Console.ReadLine(), out num))
-                package.Priority = (Priority)num;
+            int.TryParse(Console.ReadLine(), out num);
+            if (num != 1 && num != 2 && num != 3)
+                throw new Exception("input not valid");
+            package.Priority = (Priority)num;
             package.Ordered = DateTime.Now;
             package.Linked = DateTime.MinValue;
             package.PickedUp = DateTime.MinValue;
@@ -471,7 +553,7 @@ namespace ConsoleUI_BL
             foreach (CustomerInList cst in customers)
             {
                 Console.WriteLine(cst);
-                   
+
             }
         }
 
@@ -524,8 +606,8 @@ namespace ConsoleUI_BL
             Console.WriteLine("Base station details:\n");
             Console.WriteLine(prc);
         }
-        
+
 
     }
-   
+
 }
