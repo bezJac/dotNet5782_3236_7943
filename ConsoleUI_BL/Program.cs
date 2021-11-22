@@ -350,29 +350,86 @@ namespace ConsoleUI_BL
             BaseStation station = new BaseStation { StationLocation = new Location(), };
             int num;
             double x;
+            bool flag;
             do
             {
-                bool flag = false;
-                Console.WriteLine("enter a 4 digit number of Base Station's id");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num >= 1000 && num < 10000)));
-            station.Id = num;
+                flag = true;
+                Console.WriteLine("enter a 4 digit number of Base Station's id"); 
+                try
+                {
+                    if (!(int.TryParse(Console.ReadLine(), out num)))
+                        throw new Exception("enter digits only");
+                    if(num < 1000 || num >= 10000)
+                        throw new Exception("ID not in range");
+                    station.Id = num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+            } while (flag==false);
             Console.WriteLine("enter Base Station's name");
             station.Name = Console.ReadLine();
             do
             {
+                flag = true;
                 Console.WriteLine("enter Base Station's longtitude coordinate \n Range between 34.745 - 34.808 ");
-            } while (!(double.TryParse(Console.ReadLine(), out x) && (x > 34.745 && x < 34.808)));
-            station.StationLocation.Longtitude = x;
+                try
+                {            
+                    if(!(double.TryParse(Console.ReadLine(), out x)))
+                        throw new Exception("enter digits only");
+                    if(x < 34.745 || x > 34.808)
+                        throw new Exception("coordinate out of range");
+                    station.StationLocation.Longtitude = x;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+
+            } while (flag==false);
+
             do
             {
-                Console.WriteLine("enter Base Station's lattitude coordinate \n  Range between 32.033 - 32.127");
-            } while (!(double.TryParse(Console.ReadLine(), out x) && (x > 32.033 && x < 32.127)));
-            station.StationLocation.Lattitude = x;
+                flag = true;
+                Console.WriteLine("enter Base Station's lattitude coordinate \n Range between 32.033 - 32.127 ");
+                try
+                {
+                    if (!(double.TryParse(Console.ReadLine(), out x)))
+                        throw new Exception("enter digits only");
+                    if (x < 32.033 || x > 32.127)
+                        throw new Exception("coordinate out of range");
+                    station.StationLocation.Lattitude = x;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+
+            } while (flag == false);
+
             do
             {
+                flag = true;
                 Console.WriteLine("enter Base Station's number of available charging slots");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (x > 0)));
-            station.NumOfSlots = num;
+                try
+                {
+                    if(!(int.TryParse(Console.ReadLine(), out num)))
+                        throw new Exception("enter digits only");
+                    if (num < 0)
+                        throw new Exception("positive number only");
+                    station.NumOfSlots = num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+            } while ( flag==false);
+           
             station.DronesCharging = null;
             return station;
         }
@@ -442,28 +499,80 @@ namespace ConsoleUI_BL
         {
             Parcel package = new Parcel { Sender = new CustomerInParcel(), Target = new CustomerInParcel() };
             int num;
+            bool flag;
             do
             {
+                flag = true;
                 Console.WriteLine("Enter an 8 digit number for Parcel's sender id");
-            } while (!(int.TryParse(Console.ReadLine(), out num)&& (num >= 10000000 && num < 100000000))); 
-            package.Sender.Id = num;
+                try
+                {
+                    if (!(int.TryParse(Console.ReadLine(), out num)))
+                        throw new Exception("enter digits only");
+                    if(num < 10000000 ||num >= 100000000)
+                        throw new Exception("ID not in range");
+                    package.Sender.Id = num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+                
+            } while (flag==false); 
+           
             do
             {
+                flag = true;
                 Console.WriteLine("Enter an 8 digit number for Parcel's target id");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num >= 10000000 && num < 100000000)));
-            package.Target.Id = num;
+                try
+                {
+                    if (!(int.TryParse(Console.ReadLine(), out num)))
+                        throw new Exception("enter digits only");
+                    if (num < 10000000 || num >= 100000000)
+                        throw new Exception("ID not in range");
+                    package.Target.Id = num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+            } while (flag==false);
+          
             do
             {
-                Console.WriteLine("Enter Parcel's Weight category" +
-                                "1: light   2: medium   3: heavy ");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)));
-            package.Weight = (WeightCategories)num;
+                flag = true;
+                Console.WriteLine("Enter Parcel's Weight category \n light: 1   medium: 2   heavy:3 ");
+                try
+                {
+                    if (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
+                        throw new Exception("Enter one of optional choices only");
+                    package.Weight = (WeightCategories)num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+            } while (flag==false);
+            
             do
             {
-                Console.WriteLine("Enter Parcel's Priority category" +
-                             "1:Regular   2: Express   3: Emergency ");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)));
-            package.Priority = (Priority)num;
+                flag = true;
+                Console.WriteLine("Enter Parcel's Priority category \nRegular: 1  Express: 2  Emergency: 3 ");
+                try
+                {
+                    if(!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
+                        throw new Exception("Enter one of optional choices only");
+                    package.Priority = (Priority)num;
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    flag = false;
+                }
+            } while (flag==false);
+           
             package.Ordered = DateTime.Now;
             package.Linked = DateTime.MinValue;
             package.PickedUp = DateTime.MinValue;
