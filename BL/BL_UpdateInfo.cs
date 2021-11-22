@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BL.BO;
 using IBL.BO;
 namespace BL
 {
@@ -22,7 +21,7 @@ namespace BL
         {
             BaseStation station = GetBaseStation(id);
             if (station.DronesCharging.Count() > count)
-                throw new BaseStationException($"base station: {id} Occupied slots exceed requested update");
+                throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
             IDAL.DO.BaseStation st = new IDAL.DO.BaseStation();
             st.Id = id;
             if (name != "")
@@ -52,7 +51,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new DroneException("BL: ", Ex);
+                throw new UpdateException("", Ex);
             }
             dr.Model = model;
             myDal.UpdateDrone(dr);
@@ -75,7 +74,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new CustomerException("BL: ", Ex);
+                throw new UpdateException("", Ex);
             }
             if (name != "")
                 cstmr.Name = name;

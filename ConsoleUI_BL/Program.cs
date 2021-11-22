@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using IBL;
 using IBL.BO;
 
+
 namespace ConsoleUI_BL
 {
     class Program
@@ -358,14 +359,14 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(int.TryParse(Console.ReadLine(), out num)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if(num < 1000 || num >= 10000)
-                        throw new Exception("ID not in range");
+                        throw new Exception("ID not in range!");
                     station.Id = num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
             } while (flag==false);
@@ -378,14 +379,14 @@ namespace ConsoleUI_BL
                 try
                 {            
                     if(!(double.TryParse(Console.ReadLine(), out x)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if(x < 34.745 || x > 34.808)
-                        throw new Exception("coordinate out of range");
+                        throw new Exception("coordinate out of range!");
                     station.StationLocation.Longtitude = x;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
 
@@ -398,14 +399,14 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(double.TryParse(Console.ReadLine(), out x)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (x < 32.033 || x > 32.127)
-                        throw new Exception("coordinate out of range");
+                        throw new Exception("coordinate out of range!");
                     station.StationLocation.Lattitude = x;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
 
@@ -418,14 +419,14 @@ namespace ConsoleUI_BL
                 try
                 {
                     if(!(int.TryParse(Console.ReadLine(), out num)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (num < 0)
-                        throw new Exception("positive number only");
+                        throw new Exception("positive number only!");
                     station.NumOfSlots = num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
             } while ( flag==false);
@@ -450,9 +451,9 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!int.TryParse(Console.ReadLine(), out num))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (!(num >= 2000 && num < 10000))
-                        throw new Exception("id not in range");
+                        throw new Exception("id not in range!");
                     dr.Id = num;
                 }
                 catch (Exception ex)
@@ -472,7 +473,7 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
-                        throw new Exception("enter one of optional choices only");
+                        throw new Exception("enter one of optional choices only!");
                     dr.MaxWeight = (WeightCategories)num;
                 }
                 catch (Exception ex)
@@ -506,9 +507,9 @@ namespace ConsoleUI_BL
                 {
                     flag = true;
                     if (!int.TryParse(Console.ReadLine(), out num))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (!(num >= 10000000 && num < 100000000))
-                        throw new Exception("id not in range");
+                        throw new Exception("id not in range!");
                     person.Id = num;
                 }
                 catch (Exception ex)
@@ -528,9 +529,9 @@ namespace ConsoleUI_BL
                 {
                     person.Phone = Console.ReadLine();
                     if (!int.TryParse(person.Phone, out num))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (!(person.Phone.Length == 10 ))
-                        throw new Exception("phone number must be 10 digits long");
+                        throw new Exception("phone number must be 10 digits long!");
                     person.Id = num;
                 }
                 catch (Exception ex)
@@ -547,9 +548,9 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(double.TryParse(Console.ReadLine(), out x)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (!(x > 34.745 && x < 34.808))
-                        throw new Exception("coordinate out of range");
+                        throw new Exception("coordinate out of range!");
                     person.CustomerLocation.Longtitude = x;
                 }
                 catch (Exception ex)
@@ -567,9 +568,9 @@ namespace ConsoleUI_BL
                 try
                 {
                     if(!(double.TryParse(Console.ReadLine(), out x)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (! (x > 32.033 && x < 32.127))
-                        throw new Exception("coordinate out of range");
+                        throw new Exception("coordinate out of range!");
                     person.CustomerLocation.Lattitude = x;
                 }
                 catch (Exception ex)
@@ -594,14 +595,14 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(int.TryParse(Console.ReadLine(), out num)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if(num < 10000000 ||num >= 100000000)
-                        throw new Exception("ID not in range");
+                        throw new Exception("ID not in range!");
                     package.Sender.Id = num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
                 
@@ -614,14 +615,14 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(int.TryParse(Console.ReadLine(), out num)))
-                        throw new Exception("enter digits only");
+                        throw new Exception("enter digits only!");
                     if (num < 10000000 || num >= 100000000)
-                        throw new Exception("ID not in range");
+                        throw new Exception("ID not in range!");
                     package.Target.Id = num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
             } while (flag==false);
@@ -633,12 +634,12 @@ namespace ConsoleUI_BL
                 try
                 {
                     if (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
-                        throw new Exception("Enter one of optional choices only");
+                        throw new Exception("Enter one of optional choices only!");
                     package.Weight = (WeightCategories)num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
             } while (flag==false);
@@ -650,12 +651,12 @@ namespace ConsoleUI_BL
                 try
                 {
                     if(!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
-                        throw new Exception("Enter one of optional choices only");
+                        throw new Exception("Enter one of optional choices only!");
                     package.Priority = (Priority)num;
                 }
                 catch (Exception Ex)
                 {
-                    Console.WriteLine(Ex);
+                    Console.WriteLine(Ex.Message);
                     flag = false;
                 }
             } while (flag==false);

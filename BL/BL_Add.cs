@@ -1,4 +1,4 @@
-﻿using BL.BO;
+﻿
 using IBL.BO;
 
 using System;
@@ -33,7 +33,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new BaseStationException("BL: ", ex);
+                throw new AddException("", ex);
             }
         }
 
@@ -51,10 +51,10 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new BaseStationException("BL: ", ex);
+                throw new AddException("", ex);
             }
             if (st.NumOfSlots == 0)
-                throw new BaseStationException($"base station - {stationId} has no charging slots available");
+                throw new AddException($"base station - {stationId} has no charging slots available");
             try
             {
                 myDal.AddDrone(new IDAL.DO.Drone
@@ -66,7 +66,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new DroneException("BL: ", Ex);
+                throw new AddException("", Ex);
             }
             Random rnd = new Random();
             Drones.Add(new DroneInList
@@ -96,7 +96,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new ParcelException("BL: ", Ex);
+                throw new AddException("", Ex);
             }
             myDal.AddParcel(new IDAL.DO.Parcel
             {
@@ -132,7 +132,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new CustomerException("BL: ", Ex);
+                throw new AddException("", Ex);
             }
         }
     }

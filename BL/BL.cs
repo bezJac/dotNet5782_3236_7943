@@ -1,5 +1,4 @@
-﻿using BL.BO;
-using IBL.BO;
+﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

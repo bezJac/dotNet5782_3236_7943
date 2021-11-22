@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IBL.BO;
-using BL.BO;
 
 namespace BL
 {
@@ -27,7 +26,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new BaseStationException("Base Station Exception: ", ex);
+                throw new GetInstanceException("", ex);
             }
             return convertToBaseStation(st);
         }
@@ -46,7 +45,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new DroneException("Drone Exception: ", ex);
+                throw new GetInstanceException("", ex);
             }
             return convertToDrone(Drones.Find(drone => drone.Id == dr.Id));
         }
@@ -81,7 +80,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new CustomerException("Customer Exception: ", ex);
+                throw new GetInstanceException("", ex);
             }
             return convertToCustomer(cstmr);
         }
@@ -100,7 +99,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("Parcel Exception: ", ex);
+                throw new GetInstanceException("", ex);
             }
             return convertToParcel(prc);
         }
@@ -136,7 +135,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("BL - Parcel Exception: ", ex);
+                throw new GetInstanceException("", ex);
             }
             try
             {
@@ -146,7 +145,7 @@ namespace BL
             catch (Exception ex)
             {
 
-                throw new CustomerException("BL - CustomerException: ", ex);
+                throw new GetInstanceException("", ex);
             }
             bool flag = false;
             if (getParcelStatus(parcel) == ParcelStatus.PickedUp)

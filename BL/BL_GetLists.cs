@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BL.BO;
 using IBL.BO;
 
 namespace BL
@@ -26,7 +25,7 @@ namespace BL
             }
             catch (Exception Ex)
             {
-                throw new BaseStationException("BL: ", Ex);
+                throw new GetListException("", Ex);
             }
             return stations.Select(st => convertToBaseStation(st));
         }
@@ -42,9 +41,9 @@ namespace BL
             {
                 stations = GetAllBaseStations();
             }
-            catch (BaseStationException ex)
+            catch (Exception Ex)
             {
-                throw new BaseStationException("BL: ", ex);
+                throw new GetListException("", Ex);
             }
             return stations.Select(st => new BaseStationInList
             {
@@ -66,9 +65,9 @@ namespace BL
             {
                 stations = myDal.GetAllBaseStations(st => st.NumOfSlots > 0);
             }
-            catch (BaseStationException ex)
+            catch (Exception ex)
             {
-                throw new BaseStationException("BL: ", ex);
+                throw new GetListException("", ex);
             }
             return stations.Select(st => convertToBaseStation(st)).Select(st => new BaseStationInList
             {
@@ -86,7 +85,7 @@ namespace BL
         public IEnumerable<Drone> GetAllDrones()
         {
             if (Drones.Count() <= 0)
-                throw new DroneException("no drones in list");
+                throw new GetListException("no drones in list");
             return Drones.Select(dr => convertToDrone(dr));
         }
 
@@ -98,7 +97,7 @@ namespace BL
         {
             if (Drones.Count() > 0)
                 return Drones.ToList();
-            throw new DroneException("no drones in list");
+            throw new GetListException("no drones in list");
         }
 
         /// <summary>
@@ -114,7 +113,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new CustomerException("Bl: ", ex);
+                throw new GetListException("", ex);
             }
             return customers.Select(cstmr => convertToCustomer(cstmr));
         }
@@ -158,7 +157,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("Bl: ", ex);
+                throw new GetListException("", ex);
             }
             return parcels.Select(prc => convertToParcel(prc));
         }
@@ -176,7 +175,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("Bl: ", ex);
+                throw new GetListException("", ex);
             }
             return parcels.Select(prc => convertToParcelInList(prc));
         }
@@ -194,7 +193,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("Bl: ", ex);
+                throw new GetListException("", ex);
             }
             return parcels.Select(prc => convertToParcelInList(prc));
         }

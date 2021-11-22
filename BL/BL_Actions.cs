@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BL.BO;
 using IBL.BO;
 
 namespace BL
@@ -20,16 +19,17 @@ namespace BL
         public void ChargeDrone(int id)
         {
             // check if drone exists
+
             if (!Drones.Any(dr => dr.Id == id))
-                throw new DroneException($" {id} dosen't exist already");
+                throw new ActionException($" {id} dosen't exist already");
 
             int index = Drones.FindIndex(x => (x.Id == id));
 
             // check if drone is available to charge
             if (Drones[index].Status == DroneStatus.Maintenance)
-                throw new DroneException($"drone - {id} is already charging");
+                throw new ActionException($"drone - {id} is already charging");
             if (Drones[index].Status == DroneStatus.Delivery)
-                throw new DroneException($"drone - {id} is en route , cannot be charged right now");
+                throw new ActionException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
             IDAL.DO.BaseStation st = getNearestBasestation(Drones[index].DroneLocation);
@@ -38,7 +38,7 @@ namespace BL
 
             // check if drone has enough battery to cover the  distance
             if ((Drones[index].Battery - distance * DroneElecUseEmpty) <= 0)
-                throw new DroneException($"drone - {id} does not have enough battery to reach nearest base station");
+                throw new ActionException($"drone - {id} does not have enough battery to reach nearest base station");
 
             // update drone's details 
             Drones[index].Battery -= (int)(distance * DroneElecUseEmpty);
@@ -60,14 +60,14 @@ namespace BL
         {
             // check if drone exists
             if (!Drones.Any(dr => dr.Id == id))
-                throw new DroneException($" {id} dosen't exist ");
+                throw new ActionException($" {id} dosen't exist ");
             int index = Drones.FindIndex(x => (x.Id == id));
 
             // check if drone is currently charging
             if ((Drones[index].Status == DroneStatus.Available))
-                throw new DroneException($"drone - {id} is currently  not at  charging dock");
+                throw new ActionException($"drone - {id} is currently  not at  charging dock");
             if (Drones[index].Status == DroneStatus.Delivery)
-                throw new DroneException($"drone - {id} is en route , currently  not at  charging dock");
+                throw new ActionException($"drone - {id} is en route , currently  not at  charging dock");
 
             // update drone 
             Drones[index].Battery = Math.Max(Drones[index].Battery + (int)DroneHourlyChargeRate * time, 100);
@@ -89,7 +89,7 @@ namespace BL
         {
             // check if drones exists
             if (!Drones.Any(dr => dr.Id == id))
-                throw new DroneException($"Drone - {id} doesn't exist");
+                throw new ActionException($"Drone - {id} doesn't exist");
 
             // get all unlinked parcels
             List<IDAL.DO.Parcel> unlinked;
@@ -99,7 +99,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-                throw new ParcelException("BL - ", ex);
+                throw new ActionException("", ex);
             }
             DroneInList dr = GetAllDronesInList().FirstOrDefault(dr => dr.Id == id);
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
@@ -141,7 +141,7 @@ namespace BL
                 }
             }
             // no compatible parcels to link
-            throw new DroneException($"drone - {id} has no compatible parcel to link");
+            throw new ActionException($"drone - {id} has no compatible parcel to link");
         }
 
         /// <summary>
@@ -154,9 +154,9 @@ namespace BL
 
             // check that drone and parcel are linked
             if (dr.Parcel == null)
-                throw new DroneException($"Drone - {id} isen't linked yet to a parcel");
+                throw new ActionException($"Drone - {id} isen't linked yet to a parcel");
             if ((dr.Parcel.Status == true))
-                throw new DroneException($"Drone - {id} already picked up parcel");
+                throw new ActionException($"Drone - {id} already picked up parcel");
 
             // deduct drone battery and set drone's location to sender's location
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
@@ -178,11 +178,11 @@ namespace BL
             Drone dr = GetDrone(id);
             // check that drone and parcel are linked
             if (dr.Parcel == null)
-                throw new DroneException($"Drone - {id} isen't linked yet to a parcel");
+                throw new ActionException($"Drone - {id} isen't linked yet to a parcel");
             // check that parcel wasen't delivered yet
             Parcel prc = GetParcel(dr.Parcel.Id);
             if (prc.Delivered != DateTime.MinValue)
-                throw new DroneException($"Drone - {id} already delievered  parcel");
+                throw new ActionException($"Drone - {id} already delievered  parcel");
             
             // deduct drone battery , set location to target's location , and mark drone  as available
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
