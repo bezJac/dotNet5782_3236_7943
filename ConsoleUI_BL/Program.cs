@@ -442,20 +442,46 @@ namespace ConsoleUI_BL
         {
             Drone dr = new Drone();
             int num;
-            double x;
+            bool flag; 
             do
             {
-                Console.WriteLine("Enter a 4 digit number for Drone's id , first digit must be 2 or larger");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num >= 2000 && num < 10000)));
-            dr.Id = num;
-            Console.WriteLine("Enter Drone's model");
+                flag = true;
+                Console.WriteLine("enter a 4 digit number for Drone's id , first digit must be 2 or larger");
+                try
+                {
+                    if (!int.TryParse(Console.ReadLine(), out num))
+                        throw new Exception("enter digits only");
+                    if (!(num >= 2000 && num < 10000))
+                        throw new Exception("id not in range");
+                    dr.Id = num;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+            } while (flag == false);
+
+            Console.WriteLine("enter Drone's model");
             dr.Model = Console.ReadLine();
+
             do
             {
-                Console.WriteLine("Enter Drone's Max Weight category" +
-                                "1: light   2: medium   3: heavy ");
-            } while (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)));
-            dr.MaxWeight = (WeightCategories)num;
+                flag = true;
+                Console.WriteLine("enter Drone's Max Weight category\nLight: 1   Medium: 2   Heavy: 3 ");
+                try
+                {
+                    if (!(int.TryParse(Console.ReadLine(), out num) && (num == 1 || num == 2 || num == 3)))
+                        throw new Exception("enter one of optional choices only");
+                    dr.MaxWeight = (WeightCategories)num;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+
+            } while (flag == false);
             dr.Parcel = null;
             return dr;
         }
@@ -467,32 +493,93 @@ namespace ConsoleUI_BL
         /// <returns> Customer object</returns>
         private static Customer inputCustomer()
         {
+
             Customer person = new Customer { CustomerLocation = new Location(), };
             int num;
             double x;
+            bool flag;
             do
             {
+                flag = true;
                 Console.WriteLine("enter a 8 digit number for Customer's id");
-            } while (!(int.TryParse(Console.ReadLine(), out num)&& (num >= 10000000 && num < 100000000)));
-            person.Id = num;
-            Console.WriteLine("Enter Customer's name");
+                try
+                {
+                    flag = true;
+                    if (!int.TryParse(Console.ReadLine(), out num))
+                        throw new Exception("enter digits only");
+                    if (!(num >= 10000000 && num < 100000000))
+                        throw new Exception("id not in range");
+                    person.Id = num;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+            } while (flag == false);
+
+            Console.WriteLine("enter Customer's name");
             person.Name = Console.ReadLine();
             do
             {
-                Console.WriteLine("Enter Customers's Phone Number");
-                person.Phone = Console.ReadLine();
-            } while (!(person.Phone.Length==10 && (int.TryParse(person.Phone,out num))));
-            
+                flag = true;
+                Console.WriteLine("enter Customers's Phone Number");
+                try
+                {
+                    person.Phone = Console.ReadLine();
+                    if (!int.TryParse(person.Phone, out num))
+                        throw new Exception("enter digits only");
+                    if (!(person.Phone.Length == 10 ))
+                        throw new Exception("phone number must be 10 digits long");
+                    person.Id = num;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+            } while (flag == false);
+
             do
             {
+                flag = true;
                 Console.WriteLine("enter Customer's longtitude coordinate \n between 34.745 - 34.808 ");
-            } while (!(double.TryParse(Console.ReadLine(), out x))&& (x > 34.745 && x < 34.808));
-            person.CustomerLocation.Longtitude = x;
+                try
+                {
+                    if (!(double.TryParse(Console.ReadLine(), out x)))
+                        throw new Exception("enter digits only");
+                    if (!(x > 34.745 && x < 34.808))
+                        throw new Exception("coordinate out of range");
+                    person.CustomerLocation.Longtitude = x;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+
+            } while (flag == false);
+
             do
             {
+                flag = true;
                 Console.WriteLine("enter customers's lattitude coordinate \n  Range between 32.033 - 32.127");
-            } while (!(double.TryParse(Console.ReadLine(), out x)&& (x > 32.033 && x < 32.127)));
-            person.CustomerLocation.Lattitude = x;
+                try
+                {
+                    if(!(double.TryParse(Console.ReadLine(), out x)))
+                        throw new Exception("enter digits only");
+                    if (! (x > 32.033 && x < 32.127))
+                        throw new Exception("coordinate out of range");
+                    person.CustomerLocation.Lattitude = x;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    flag = false;
+                }
+               
+            } while (flag == false);
+          
             return person;
         }
         private static Parcel inputParcel()
