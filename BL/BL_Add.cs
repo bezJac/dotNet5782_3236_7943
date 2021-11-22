@@ -9,11 +9,18 @@ using System.Threading.Tasks;
 
 namespace BL
 {
+    /// <summary>
+    /// partial class manages all add related methods for BL
+    /// </summary>
     public partial class BL:IBL.IBL
     {
+        /// <summary>
+        /// add a Base Station to DAL data source
+        /// </summary>
+        /// <param name="station"> BL BaseStation to add </param>
         public void AddBaseStation(BaseStation station)
         {
-            try
+            try 
             {
                 myDal.AddBaseStation(new IDAL.DO.BaseStation
                 {
@@ -29,6 +36,12 @@ namespace BL
                 throw new BaseStationException("BL: ", ex);
             }
         }
+
+       /// <summary>
+       /// add a drone to DAL Data Source
+       /// </summary>
+       /// <param name="drone"> BL drone to add</param>
+       /// <param name="stationId"> id of station for initial charge of drone</param>
         public void AddDrone(Drone drone, int stationId)
         {
             IDAL.DO.BaseStation st;
@@ -69,6 +82,11 @@ namespace BL
             myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id });
             myDal.UpdateBaseStation(st);
         }
+
+        /// <summary>
+        /// add a parcel to DAL Data Source
+        /// </summary>
+        /// <param name="parcel"> BL Parcel to add </param>
         public void AddParcel(Parcel parcel)
         {
             try
@@ -93,6 +111,11 @@ namespace BL
                 Delivered = parcel.Delivered,
             });
         }
+
+        /// <summary>
+        /// add a customer to DAL Data Source
+        /// </summary>
+        /// <param name="customer"> BL customer to add </param>
         public void AddCustomer(Customer customer)
         {
             try

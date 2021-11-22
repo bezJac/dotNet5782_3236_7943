@@ -26,7 +26,7 @@ namespace IBL.BO
             result += $"Location:\n{ CustomerLocation }";
             if (From.Any())
             {
-                result += $"List of parcels from customer:\n";
+                result += $"List of parcels FROM customer:\n";
                 foreach (ParcelAtCustomer prc in From)
                 {
                     result += $"------{i++}------\n{prc}";
@@ -34,7 +34,7 @@ namespace IBL.BO
             }
             if (To.Any())
             {
-                result += $"List of parcels to customer:\n";
+                result += $"List of parcels TO customer:\n";
                 foreach (ParcelAtCustomer prc in To)
                 {
                     result += $"------{j++}------\n{prc}";

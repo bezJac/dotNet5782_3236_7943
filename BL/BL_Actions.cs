@@ -8,8 +8,15 @@ using IBL.BO;
 
 namespace BL
 {
+    /// <summary>
+    /// partial class manages all action related methods for BL
+    /// </summary>
     public partial class BL: IBL.IBL
     {
+        /// <summary>
+        /// send a drone to Base Station for charging
+        /// </summary>
+        /// <param name="id"> drone's ID </param>
         public void ChargeDrone(int id)
         {
             // check if drone exists
@@ -25,7 +32,6 @@ namespace BL
                 throw new DroneException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-
             IDAL.DO.BaseStation st = getNearestBasestation(Drones[index].DroneLocation);
             Location stLocation = createLocation(st.Longitude, st.Lattitude);
             double distance = Distance.GetDistance(stLocation, Drones[index].DroneLocation);
@@ -44,30 +50,48 @@ namespace BL
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
+
+        /// <summary>
+        /// discharge a drone from charging slot
+        /// </summary>
+        /// <param name="id"> drone's ID</param>
+        /// <param name="time"> time of charge in hours </param>
         public void DischargeDrone(int id, int time)
         {
             // check if drone exists
             if (!Drones.Any(dr => dr.Id == id))
                 throw new DroneException($" {id} dosen't exist ");
             int index = Drones.FindIndex(x => (x.Id == id));
+
+            // check if drone is currently charging
             if ((Drones[index].Status == DroneStatus.Available))
                 throw new DroneException($"drone - {id} is currently  not at  charging dock");
             if (Drones[index].Status == DroneStatus.Delivery)
                 throw new DroneException($"drone - {id} is en route , currently  not at  charging dock");
 
+            // update drone 
             Drones[index].Battery = Math.Max(Drones[index].Battery + (int)DroneHourlyChargeRate * time, 100);
             Drones[index].Status = DroneStatus.Available;
 
+            // update DAL
             IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
             IDAL.DO.BaseStation tempSt = myDal.GetBaseStation(tempCharge.StationId);
             myDal.RemoveDroneCharge(tempCharge);
             tempSt.NumOfSlots++;
             myDal.UpdateBaseStation(tempSt);
         }
+
+        /// <summary>
+        /// link a drone to a  compatible parcel for initial process of a delivery
+        /// </summary>
+        /// <param name="id"> drone's ID</param>
         public void LinkDroneToParcel(int id)
         {
+            // check if drones exists
             if (!Drones.Any(dr => dr.Id == id))
                 throw new DroneException($"Drone - {id} doesn't exist");
+
+            // get all unlinked parcels
             List<IDAL.DO.Parcel> unlinked;
             try
             {
@@ -77,21 +101,32 @@ namespace BL
             {
                 throw new ParcelException("BL - ", ex);
             }
-            DroneInList dr = GetAllDronesInList().ToList().Find(dr => dr.Id == id);
+            DroneInList dr = GetAllDronesInList().FirstOrDefault(dr => dr.Id == id);
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
+
+            // loop from highest parcel delivery priority down
+            // for each level check all weight categories compatible for drone  if a parcel can be
+            // delivered by the drone.  
             for (int i = (int)Priority.Emergency; i > 0; i--)
             {
+                // filter unlinked parcels list to parcels matching current priority level
                 List<IDAL.DO.Parcel> temp = unlinked.FindAll(prc => (Priority)prc.Priority == (Priority)i);
                 if (temp.Count > 0)
                 {
+                    // check all weight categories for current priority level
                     for (int j = (int)dr.MaxWeight; j > 0; j--)
                     {
+                        // filter parcel list down to parcels also matching curreny weight category
                         temp = temp.FindAll(prc => (WeightCategories)prc.Weight == (WeightCategories)j);
                         if (temp.Count() > 0)
                         {
+                            // find nearest parcel
                             IDAL.DO.Parcel prc = getNearestParcel(dr.DroneLocation, temp);
                             IDAL.DO.Customer sender = myDal.GetCustomer(prc.SenderId);
                             IDAL.DO.Customer target = myDal.GetCustomer(prc.TargetId);
+
+                            // if checkDroneDistanceCoverage() return true - drone can execute delivery - link drone to parcel 
+                            // and end function
                             if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Longitude), dr.MaxWeight))
                             {
                                 prc.DroneId = id;
@@ -105,43 +140,58 @@ namespace BL
                     }
                 }
             }
+            // no compatible parcels to link
             throw new DroneException($"drone - {id} has no compatible parcel to link");
         }
+
+        /// <summary>
+        /// pick up a parcel by its linked drone
+        /// </summary>
+        /// <param name="id"> drone ID </param>
         public void DroneParcelPickUp(int id)
         {
-            if (!Drones.Any(dr => dr.Id == id))
-                throw new DroneException($"Drone - {id} doesn't exist");
             Drone dr = GetDrone(id);
+
+            // check that drone and parcel are linked
             if (dr.Parcel == null)
                 throw new DroneException($"Drone - {id} isen't linked yet to a parcel");
             if ((dr.Parcel.Status == true))
                 throw new DroneException($"Drone - {id} already picked up parcel");
 
+            // deduct drone battery and set drone's location to sender's location
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
             Drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.SenderLocation) * DroneElecUseEmpty);
             Drones[index].DroneLocation = dr.Parcel.SenderLocation;
 
+            // update DAL
             IDAL.DO.Parcel p = myDal.GetParcel(dr.Parcel.Id);
             p.PickedUp = DateTime.Now;
             myDal.UpdateParcel(p);
         }
+
+        /// <summary>
+        /// deliver a parcel by its linked drone
+        /// </summary>
+        /// <param name="id"> drone ID </param>
         public void DroneParcelDelivery(int id)
         {
-            if (!Drones.Any(dr => dr.Id == id))
-                throw new DroneException($"Drone - {id} doesn't exist");
             Drone dr = GetDrone(id);
+            // check that drone and parcel are linked
             if (dr.Parcel == null)
                 throw new DroneException($"Drone - {id} isen't linked yet to a parcel");
+            // check that parcel wasen't delivered yet
             Parcel prc = GetParcel(dr.Parcel.Id);
             if (prc.Delivered != DateTime.MinValue)
                 throw new DroneException($"Drone - {id} already delievered  parcel");
-
+            
+            // deduct drone battery , set location to target's location , and mark drone  as available
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
             Drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
             Drones[index].DroneLocation = dr.Parcel.TargetLocation;
             Drones[index].Status = DroneStatus.Available;
             Drones[index].ParcelId = 0;
 
+            // update DAL
             myDal.UpdateParcel(new IDAL.DO.Parcel
             {
                 Id = prc.Id,

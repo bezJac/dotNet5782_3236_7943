@@ -11,16 +11,25 @@ using System.Runtime.InteropServices;
 
 namespace BL
 {
+    /// <summary>
+    /// class manages BL logic for DAL.
+    /// </summary>
     public partial class BL : IBL.IBL
     {
 
-        IDAL.IDal myDal;
-        public static double DroneElecUseEmpty;
-        public static double DroneElecUseLight;
-        public static double DroneElecUseMedium;
-        public static double DroneElecUseHeavy;
-        public static double DroneHourlyChargeRate;
-        public List<DroneInList> Drones;
+        private IDAL.IDal myDal;
+        private List<DroneInList> Drones;
+        private static double DroneElecUseEmpty;
+        private static double DroneElecUseLight;
+        private static double DroneElecUseMedium;
+        private static double DroneElecUseHeavy;
+        private static double DroneHourlyChargeRate;
+
+        
+
+        /// <summary>
+        /// cunstroctor
+        /// </summary>
         public BL()
 
         {
@@ -118,6 +127,11 @@ namespace BL
         }
 
         #region private methods for local  calculations
+        /// <summary>
+        /// calculate nearest base station to specific location 
+        /// </summary>
+        /// <param name="l"> location to calculate distance from </param>
+        /// <returns> IDAL.DO.BaseStation instance of nearest station </returns>
         private IDAL.DO.BaseStation getNearestBasestation(Location l)
         {
             double min = double.PositiveInfinity;
@@ -134,6 +148,13 @@ namespace BL
             }
             return myDal.GetBaseStation(id);
         }
+
+        /// <summary>
+        /// calculate nearest parcel  to specific location 
+        /// </summary>
+        /// <param name="l"> location to calculate distance from </param>
+        /// <param name="parcels"> list of parcels to run through </param>
+        /// <returns>IDAL.DO.Parcel instance of nearest parcel </returns>
         private IDAL.DO.Parcel getNearestParcel(Location l, IEnumerable<IDAL.DO.Parcel> parcels)
         {
             double min = double.PositiveInfinity;
@@ -151,6 +172,12 @@ namespace BL
             }
             return parcel;
         }
+
+        /// <summary>
+        /// calculate parcel status indicated by delivery stages time values
+        /// </summary>
+        /// <param name="pr"> parcel to calculate status of </param>
+        /// <returns> ParcelStatus enum value </returns>
         private ParcelStatus getParcelStatus(IDAL.DO.Parcel pr)
         {
             if (pr.Scheduled == DateTime.MinValue)
@@ -161,6 +188,15 @@ namespace BL
                 return ParcelStatus.PickedUp;
             return ParcelStatus.Delivered;
         }
+
+        /// <summary>
+        /// check if a drone has enough battery to execute a specific delivery of a parcel
+        /// </summary>
+        /// <param name="dr"> the drone</param>
+        /// <param name="sender"> location of parcel's sender customer  </param>
+        /// <param name="target"> location of parcel's target customer </param>
+        /// <param name="w"> weight category of parcel </param>
+        /// <returns> bool </returns>
         private bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
             IDAL.DO.BaseStation tmp = getNearestBasestation(target);
@@ -197,6 +233,12 @@ namespace BL
 
             }
         }
+
+        /// <summary>
+        /// calculate electric use per hour for a given drone
+        /// </summary>
+        /// <param name="w"> dron max weight category</param>
+        /// <returns> double </returns>
         private double getElectricUseForDrone(WeightCategories w)
         {
             switch (w)
@@ -212,6 +254,16 @@ namespace BL
             }
 
         }
+
+        /// <summary>
+        /// calculte minimal battery charge value for a drone to execute a delivery
+        /// </summary>
+        /// <param name="current"> current location of drone </param>
+        /// <param name="sender"> location of sender customer </param>
+        /// <param name="target"> location of target customer </param>
+        /// <param name="station"> location post delivery charging station </param>
+        /// <param name="w"> parcel weight category </param>
+        /// <returns>  int - minimal battery charge </returns>
         private int getMinimalCharge(Location current, Location sender, Location target, Location station, WeightCategories w)
         {
             double currToSender = Distance.GetDistance(current, sender) * DroneElecUseEmpty;
@@ -242,10 +294,23 @@ namespace BL
 
 
         }
+
+        /// <summary>
+        /// create a location class object from a longtitude and lattitude coordinates
+        /// </summary>
+        /// <param name="lon"> longtitiude coordinate </param>
+        /// <param name="lat"> lattitude coordinate </param>
+        /// <returns> location class containing both coordinates</returns>
         private Location createLocation(double lon, double lat)
         {
             return new Location { Longtitude = lon, Lattitude = lat };
         }
+
+        /// <summary>
+        /// convert DAL BaseStation object to a BL BaseStation object
+        /// </summary>
+        /// <param name="st"> DAL BaseStation </param>
+        /// <returns> BL BaseStation</returns>
         private BaseStation convertToBaseStation(IDAL.DO.BaseStation st)
         {
             return new BaseStation
@@ -257,6 +322,12 @@ namespace BL
                 DronesCharging = GetAllDronesCharging(st.Id),
             };
         }
+
+        /// <summary>
+        /// convert BL DroneInList object to a BL Drone object
+        /// </summary>
+        /// <param name="drone"> BL DroneInList </param>
+        /// <returns> BL Drone </returns>
         private Drone convertToDrone(DroneInList drone)
         {
             if (drone.ParcelId != 0)
@@ -286,6 +357,12 @@ namespace BL
                 };
             }
         }
+
+        /// <summary>
+        /// convert DAL Customer object to a BL Customer object
+        /// </summary>
+        /// <param name="cstmr"> DAL Customer </param>
+        /// <returns> BL Customer </returns>
         private Customer convertToCustomer(IDAL.DO.Customer cstmr)
         {
             return new Customer
@@ -298,6 +375,12 @@ namespace BL
                 To = GetAllIncomingDeliveries(cstmr.Id),
             };
         }
+
+        /// <summary>
+        /// convert DAL Parcel object to a BL Parcel object
+        /// </summary>
+        /// <param name="prc"> DAL Parcel </param>
+        /// <returns> BL Parcel </returns>
         private Parcel convertToParcel(IDAL.DO.Parcel prc)
         {
             if (prc.DroneId != 0)
@@ -333,6 +416,12 @@ namespace BL
                 };
             }
         }
+
+        /// <summary>
+        /// convert DAL Parcel object to a BL ParcelInList object
+        /// </summary>
+        /// <param name="prc"> DAL Parcel </param>
+        /// <returns> BL ParcelInList </returns>
         private ParcelInList convertToParcelInList(IDAL.DO.Parcel prc)
         {
             return new ParcelInList
