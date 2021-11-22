@@ -387,6 +387,7 @@ namespace ConsoleUI_BL
             double x;
             do
             {
+                bool flag = false;
                 Console.WriteLine("Enter a 4 digit number for Drone's id , first digit must be 2 or larger");
             } while (!(int.TryParse(Console.ReadLine(), out num) && (num >= 2000 && num < 10000)));
             dr.Id = num;
