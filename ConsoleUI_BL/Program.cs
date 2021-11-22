@@ -352,6 +352,7 @@ namespace ConsoleUI_BL
             double x;
             do
             {
+                bool flag = false;
                 Console.WriteLine("enter a 4 digit number of Base Station's id");
             } while (!(int.TryParse(Console.ReadLine(), out num) && (num >= 1000 && num < 10000)));
             station.Id = num;
