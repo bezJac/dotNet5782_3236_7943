@@ -35,7 +35,7 @@ namespace DalObject
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new NonExistsException($"id number: {dr.Id} not found");
+                throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones[index] = dr;
         }
 
@@ -48,7 +48,7 @@ namespace DalObject
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
             if (index == -1)
-                throw new NonExistsException($"id number: {dr.Id} not found");
+                throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones.RemoveAt(index);
         }
 
@@ -72,14 +72,14 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new NonExistsException($"id number: {id} not found");
+                throw new NonExistsException($"id number {id} not found");
             }
             return (Drone)temp;
         }
 
 
         /// <summary>
-        /// get a copy list containing of drones 
+        /// get a copy list  of drones 
         /// </summary>
         /// <param name="predicate"> condition to filter list by </param>
         /// <returns> by default an IEnumerable<Drone> copy of full list , if predicate was sent as argument

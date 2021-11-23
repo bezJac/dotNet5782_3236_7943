@@ -45,13 +45,8 @@ namespace BL
             {
                 throw new GetListException("", Ex);
             }
-            return stations.Select(st => new BaseStationInList
-            {
-                Id = st.Id,
-                Name = st.Name,
-                AvailableSlots = st.NumOfSlots,
-                OccupiedSlots = st.DronesCharging.Count(),
-            });
+            return stations.Select(st => convertToBaseStationInList(st));
+            
         }
 
         /// <summary>
@@ -69,13 +64,7 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return stations.Select(st => convertToBaseStation(st)).Select(st => new BaseStationInList
-            {
-                Id = st.Id,
-                Name = st.Name,
-                AvailableSlots = st.NumOfSlots,
-                OccupiedSlots = st.DronesCharging.Count(),
-            });
+            return stations.Select(st => convertToBaseStation(st)).Select(st => convertToBaseStationInList(st));
         }
 
         /// <summary>
@@ -124,24 +113,17 @@ namespace BL
         /// <returns> IEnumerable<CustomerInList> type </returns>
         public IEnumerable<CustomerInList> GetAllCustomersInList()
         {
-            IEnumerable<Customer> customers = GetAllCustomers();
-            List<CustomerInList> tmp = new List<CustomerInList>();
-            foreach (Customer cs in customers)
+
+            IEnumerable<Customer> customers;
+            try
             {
-                int sum1 = cs.From.Count(prc => prc.Status != ParcelStatus.Delivered);
-                int sum2 = cs.To.Count(prc => prc.Status == ParcelStatus.Delivered);
-                tmp.Add(new CustomerInList
-                {
-                    Id = cs.Id,
-                    Name = cs.Name,
-                    Phone = cs.Phone,
-                    SentCount = sum1,
-                    DeliveredCount = cs.From.Count() - sum1,
-                    RecievedCount = sum2,
-                    ExpectedCount = cs.To.Count() - sum2,
-                });
+               customers = GetAllCustomers();
             }
-            return tmp;
+            catch (Exception ex)
+            {
+                throw new GetListException("", ex);
+            }
+            return customers.Select(cs => convertToCustomerInList(cs));
         }
 
         /// <summary>
@@ -227,19 +209,17 @@ namespace BL
         /// <returns> IEnumerable<ParcelAtCustomer> type </returns>
         public IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId)
         {
-            var deliveris = myDal.GetAllParcels()
+            return myDal.GetAllParcels()
                 .Where(p => p.TargetId == targetId)
-                .Select(parcel =>
-                    new ParcelAtCustomer
-                    {
-                        Id = parcel.Id,
-                        Weight = (WeightCategories)parcel.Weight,
-                        Priority = (Priority)parcel.Priority,
-                        Status = getParcelStatus(parcel),
-                        CounterCustomer = GetCustomerInParcel(parcel.SenderId),
+                .Select(parcel =>  new ParcelAtCustomer
+                {
+                    Id = parcel.Id,
+                    Weight = (WeightCategories)parcel.Weight,
+                    Priority = (Priority)parcel.Priority,
+                    Status = getParcelStatus(parcel),
+                    CounterCustomer = GetCustomerInParcel(parcel.SenderId),
 
-                    });
-            return deliveris;
+                });                    
         }
 
         /// <summary>

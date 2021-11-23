@@ -89,7 +89,7 @@ namespace BL
         /// get a parcel by its ID
         /// </summary>
         /// <param name="id"> parcel's ID </param>
-        /// <returns> Bl Parcel Instance matching the ID</returns>
+        /// <returns> Bl Parcel Instance matching the ID </returns>
         public Parcel GetParcel(int id)
         {
             IDAL.DO.Parcel prc;
@@ -108,7 +108,7 @@ namespace BL
         /// get customerInParcel representation of a customer by his ID 
         /// </summary>
         /// <param name="id"> customer's ID</param>
-        /// <returns> BL CustomerInParcel instance  matching the ID</returns>
+        /// <returns> BL CustomerInParcel instance matching the ID</returns>
         public CustomerInParcel GetCustomerInParcel(int id)
         {
             IDAL.DO.Customer cstmr = myDal.GetCustomer(id);
@@ -147,11 +147,13 @@ namespace BL
 
                 throw new GetInstanceException("", ex);
             }
+
             bool flag = false;
             if (getParcelStatus(parcel) == ParcelStatus.PickedUp)
                 flag = true;
             Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
             Location targetLocation = createLocation(target.Longitude, target.Lattitude);
+
             return new ParcelInDelivery
             {
                 Id = parcel.Id,

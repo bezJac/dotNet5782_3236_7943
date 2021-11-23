@@ -19,7 +19,6 @@ namespace BL
         public void ChargeDrone(int id)
         {
             // check if drone exists
-
             if (!Drones.Any(dr => dr.Id == id))
                 throw new ActionException($" {id} dosen't exist already");
 
@@ -105,7 +104,7 @@ namespace BL
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
 
             // loop from highest parcel delivery priority down
-            // for each level check all weight categories compatible for drone  if a parcel can be
+            // for each priority level check all weight categories compatible for drone  if a parcel can be
             // delivered by the drone.  
             for (int i = (int)Priority.Emergency; i > 0; i--)
             {
@@ -150,8 +149,17 @@ namespace BL
         /// <param name="id"> drone ID </param>
         public void DroneParcelPickUp(int id)
         {
-            Drone dr = GetDrone(id);
-
+            // check if drones exsists
+            Drone dr;
+            try
+            {
+                dr = GetDrone(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ActionException("", ex);
+            }
+             
             // check that drone and parcel are linked
             if (dr.Parcel == null)
                 throw new ActionException($"Drone - {id} isen't linked yet to a parcel");
@@ -175,12 +183,31 @@ namespace BL
         /// <param name="id"> drone ID </param>
         public void DroneParcelDelivery(int id)
         {
-            Drone dr = GetDrone(id);
+            // check if drones exsists
+            Drone dr;
+            try
+            {
+                dr = GetDrone(id);
+            }
+            catch (Exception ex)
+            {
+                throw new ActionException("", ex);
+            }
             // check that drone and parcel are linked
             if (dr.Parcel == null)
                 throw new ActionException($"Drone - {id} isen't linked yet to a parcel");
             // check that parcel wasen't delivered yet
-            Parcel prc = GetParcel(dr.Parcel.Id);
+            Parcel prc;
+            try
+            {
+                prc = GetParcel(dr.Parcel.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new ActionException("", ex);
+            }
+        
+             
             if (prc.Delivered != DateTime.MinValue)
                 throw new ActionException($"Drone - {id} already delievered  parcel");
             

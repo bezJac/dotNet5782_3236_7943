@@ -18,7 +18,7 @@ namespace IBL.BO
         public IEnumerable<ParcelAtCustomer> To { get; set; }
         public override string ToString()
         {
-            int i = 1,j = 1;
+            int i = 1, j = 1;
             string result = "";
             result += $"Id: {Id}\n";
             result += $"Name: {Name}\n";

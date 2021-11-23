@@ -36,7 +36,7 @@ namespace DalObject
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new NonExistsException($"id number: {pack.Id} not found");
+                throw new NonExistsException($"id number {pack.Id} not found");
             DataSource.Parcels[index] = pack;
         }
 
@@ -49,7 +49,7 @@ namespace DalObject
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
             if (index == -1)
-                throw new NonExistsException($"id number: {pack.Id} not found");
+                throw new NonExistsException($"id number {pack.Id} not found");
             DataSource.Parcels.RemoveAt(index);
         }
 
@@ -74,7 +74,7 @@ namespace DalObject
             }
             if (temp == null)
             {
-                throw new NonExistsException($"id number: {id} not found");
+                throw new NonExistsException($"id number {id} not found");
             }
             return (Parcel)temp;
         }

@@ -98,18 +98,25 @@ namespace BL
             {
                 throw new AddException("", Ex);
             }
-            myDal.AddParcel(new IDAL.DO.Parcel
+            try
             {
-                SenderId = parcel.Sender.Id,
-                TargetId = parcel.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)parcel.Weight,
-                Priority = (IDAL.DO.Priorities)parcel.Priority,
-                DroneId = 0,
-                Requested = parcel.Ordered,
-                Scheduled = parcel.Linked,
-                PickedUp = parcel.PickedUp,
-                Delivered = parcel.Delivered,
-            });
+                myDal.AddParcel(new IDAL.DO.Parcel
+                {
+                    SenderId = parcel.Sender.Id,
+                    TargetId = parcel.Target.Id,
+                    Weight = (IDAL.DO.WeightCategories)parcel.Weight,
+                    Priority = (IDAL.DO.Priorities)parcel.Priority,
+                    DroneId = 0,
+                    Requested = parcel.Ordered,
+                    Scheduled = parcel.Linked,
+                    PickedUp = parcel.PickedUp,
+                    Delivered = parcel.Delivered,
+                });
+            }
+            catch (Exception Ex)
+            {
+                throw new AddException("", Ex);
+            }
         }
 
         /// <summary>

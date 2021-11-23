@@ -19,7 +19,16 @@ namespace BL
         /// <param name="name"> new  name </param>
         public void UpdateBaseStation(int id, int count, string name)
         {
-            BaseStation station = GetBaseStation(id);
+            BaseStation station;
+            try
+            {
+                 station = GetBaseStation(id);
+            }
+            catch (Exception ex )
+            {
+
+                throw new UpdateException("",ex);
+            }
             if (station.DronesCharging.Count() > count)
                 throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
             IDAL.DO.BaseStation st = new IDAL.DO.BaseStation();

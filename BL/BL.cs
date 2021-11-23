@@ -24,7 +24,7 @@ namespace BL
         private static double DroneElecUseHeavy;
         private static double DroneHourlyChargeRate;
 
-        
+
 
         /// <summary>
         /// cunstroctor
@@ -300,7 +300,7 @@ namespace BL
         /// <param name="lon"> longtitiude coordinate </param>
         /// <param name="lat"> lattitude coordinate </param>
         /// <returns> location class containing both coordinates</returns>
-        private Location createLocation(double lon, double lat)
+        private  Location createLocation(double lon, double lat)
         {
             return new Location { Longtitude = lon, Lattitude = lat };
         }
@@ -319,6 +319,22 @@ namespace BL
                 StationLocation = createLocation(st.Longitude, st.Lattitude),
                 NumOfSlots = st.NumOfSlots,
                 DronesCharging = GetAllDronesCharging(st.Id),
+            };
+        }
+
+        /// <summary>
+        /// convert BL BaseStation object to a BL BaseStationInList object
+        /// </summary>
+        /// <param name="st"> DAL BaseStation </param>
+        /// <returns>  the base station in BL BaseStationInList representation</returns>
+        private BaseStationInList convertToBaseStationInList(BaseStation st)
+        {
+            return new BaseStationInList
+            {
+                Id = st.Id,
+                Name = st.Name,
+                AvailableSlots = st.NumOfSlots,
+                OccupiedSlots = st.DronesCharging.Count(),
             };
         }
 
@@ -376,6 +392,30 @@ namespace BL
         }
 
         /// <summary>
+        /// convert BL Customer object to a BL CustomerInList object
+        /// </summary>
+        /// <param name="cstmr"> DAL Customer </param>
+        /// <returns> BL CustomerInList </returns>
+        private CustomerInList convertToCustomerInList(Customer cstmr)
+        {
+            // calculate number of parcels from customer no delivered yet
+            int fromCount = cstmr.From.Count(prc => prc.Status != ParcelStatus.Delivered);
+            // calculate number of parcels to customer that already arrived
+            int toCount = cstmr.To.Count(prc => prc.Status == ParcelStatus.Delivered);
+            return new CustomerInList
+            {
+                Id = cstmr.Id,
+                Name = cstmr.Name,
+                Phone = cstmr.Phone,
+                SentCount = fromCount,
+                DeliveredCount = cstmr.From.Count() - fromCount,
+                ExpectedCount = cstmr.To.Count() - toCount,
+                RecievedCount = toCount,
+
+            };
+        }
+
+        /// <summary>
         /// convert DAL Parcel object to a BL Parcel object
         /// </summary>
         /// <param name="prc"> DAL Parcel </param>
@@ -421,7 +461,7 @@ namespace BL
         /// </summary>
         /// <param name="prc"> DAL Parcel </param>
         /// <returns> BL ParcelInList </returns>
-        private ParcelInList convertToParcelInList(IDAL.DO.Parcel prc)
+        private ParcelInList convertToParcelInList(IDAL.DO.Parcel prc )
         {
             return new ParcelInList
             {
@@ -433,12 +473,10 @@ namespace BL
                 Status = getParcelStatus(prc),
             };
         }
+    
+      
+
         #endregion
-
-
-
-
-
     }
 }
 

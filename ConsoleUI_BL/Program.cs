@@ -69,7 +69,7 @@ namespace ConsoleUI_BL
                     string msg = ex.Message;
                     while (ex.InnerException != null)
                     {
-                        msg += ex.InnerException.Message;
+                        msg += " => " + ex.InnerException.Message;
                         ex = ex.InnerException;
                     }
                     Console.WriteLine(msg);
