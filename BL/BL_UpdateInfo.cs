@@ -11,12 +11,6 @@ namespace BL
     /// </summary>
     public partial class BL: IBL.IBL
     {
-        /// <summary>
-        /// update an exsisting base station's name or total number of  charging slots
-        /// </summary>
-        /// <param name="id"> base station's ID </param>
-        /// <param name="count"> new count if  total charging slots </param>
-        /// <param name="name"> new  name </param>
         public void UpdateBaseStation(int id, int count, string name)
         {
             BaseStation station;
@@ -45,12 +39,6 @@ namespace BL
                 st.NumOfSlots = count - station.DronesCharging.Count();
             myDal.UpdateBaseStation(st);
         }
-
-        /// <summary>
-        /// update an exsisting drone's model name 
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
-        /// <param name="model"> new drone model name </param>
         public void UpdateDrone(int id, string model)
         {
             IDAL.DO.Drone dr;
@@ -67,13 +55,6 @@ namespace BL
             int index = Drones.FindIndex(dr => dr.Id == id);
             Drones[index].Model = model;
         }
-
-        /// <summary>
-        /// update an exsisting customer's name or phone number
-        /// </summary>
-        /// <param name="id"> customer's ID</param>
-        /// <param name="phone"> new phone number</param>
-        /// <param name="name"> new name </param>
         public void UpdateCustomer(int id, string phone, string name)
         {
             IDAL.DO.Customer cstmr;

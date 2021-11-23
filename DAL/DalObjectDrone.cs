@@ -13,24 +13,12 @@ namespace DalObject
     /// </summary>
     public partial class DalObject :IDal
     {
-
-        /// <summary>
-        /// add a drone to drones list in data source layer
-        /// </summary>
-        /// <param name="dr"> Drone object to be added </param>
-        /// <exception cref = "ExsistException" > thrown if id already exists</exception>
         public void AddDrone(Drone dr)
         {
             if (DataSource.Drones.Any(drone => (drone.Id == dr.Id)))
                 throw new ExsistException($"id number {dr.Id} already exists");
             DataSource.Drones.Add(dr);
         }
-
-        /// <summary>
-        /// update a dronein the list
-        /// </summary>
-        /// <param name="dr"> updated version of drone </param>
-        ///  <exception cref = "NonExistsException"> thrown if id not found </exception>
         public void UpdateDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
@@ -38,12 +26,6 @@ namespace DalObject
                 throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones[index] = dr;
         }
-
-        /// <summary>
-        /// remove a drone from list
-        /// </summary>
-        /// <param name="dr"> drone to be  removed </param>
-        /// <exception cref = "NonExistsException"> thrown if id not found  </exception>
         public void RemoveDrone(Drone dr)
         {
             int index = DataSource.Drones.FindIndex(x => (x.Id == dr.Id));
@@ -51,13 +33,6 @@ namespace DalObject
                 throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones.RemoveAt(index);
         }
-
-        /// <summary>
-        /// get a copy of a single Drone 
-        /// </summary>
-        /// <param name="id">  drone's ID </param>
-        /// <exception cref="NonExistsException"> thrown if id not found in list </exception>
-        /// <returns> copy of drone matching the id </returns>
         public Drone GetDrone(int id)
         {
             Drone? temp = null;
@@ -76,16 +51,6 @@ namespace DalObject
             }
             return (Drone)temp;
         }
-
-
-        /// <summary>
-        /// get a copy list  of drones 
-        /// </summary>
-        /// <param name="predicate"> condition to filter list by </param>
-        /// <returns> by default an IEnumerable<Drone> copy of full list , if predicate was sent as argument
-        /// an IEnumerable<Drone> copy of list  of entities matching predicate </returns>
-        /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
-        /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
         {
             if (predicate == null)
@@ -100,6 +65,5 @@ namespace DalObject
             else
                 throw new FilteredListException("No Drones in list match predicate");
         }
-
     }
 }

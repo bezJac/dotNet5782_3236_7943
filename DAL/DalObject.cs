@@ -22,11 +22,6 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
-
-        /// <summary>
-        /// get array containing with DataSource.Config fields
-        /// </summary>
-        /// <returns> IEnumerable<double> </returns>
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
@@ -34,7 +29,6 @@ namespace DalObject
             DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneHourlyChargeRate };
             return electric;
         }
-  
     }
 }
        

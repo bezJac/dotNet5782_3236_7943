@@ -12,11 +12,6 @@ namespace BL
     /// </summary>
     public partial class BL :IBL.IBL
     {
-        /// <summary>
-        /// get a base station by its ID
-        /// </summary>
-        /// <param name="id"> base stations's ID </param>
-        /// <returns> BL BaseStation instance matching the ID </returns>
         public BaseStation GetBaseStation(int id)
         {
             IDAL.DO.BaseStation st;
@@ -30,12 +25,6 @@ namespace BL
             }
             return convertToBaseStation(st);
         }
-
-        /// <summary>
-        /// get a drone by its ID
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
-        /// <returns> BL Drone instance matching the ID </returns>
         public Drone GetDrone(int id)
         {
             IDAL.DO.Drone dr;
@@ -49,12 +38,6 @@ namespace BL
             }
             return convertToDrone(Drones.Find(drone => drone.Id == dr.Id));
         }
-
-        /// <summary>
-        /// get a representation of a drone in a parcel by its ID
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
-        /// <returns> BL DroneInParcel instance of drone matching the ID </returns>
         public DroneInParcel GetDroneInParcel(int id)
         {
             DroneInList dr = Drones.Find(dr => dr.Id == id);
@@ -65,12 +48,6 @@ namespace BL
                 DroneLocation = dr.DroneLocation,
             };
         }
-
-        /// <summary>
-        /// get a customer by his ID
-        /// </summary>
-        /// <param name="id"> customer's ID </param>
-        /// <returns> BL Customer instance matching the ID </returns>
         public Customer GetCustomer(int id)
         {
             IDAL.DO.Customer cstmr;
@@ -84,12 +61,6 @@ namespace BL
             }
             return convertToCustomer(cstmr);
         }
-
-        /// <summary>
-        /// get a parcel by its ID
-        /// </summary>
-        /// <param name="id"> parcel's ID </param>
-        /// <returns> Bl Parcel Instance matching the ID </returns>
         public Parcel GetParcel(int id)
         {
             IDAL.DO.Parcel prc;
@@ -103,12 +74,6 @@ namespace BL
             }
             return convertToParcel(prc);
         }
-
-        /// <summary>
-        /// get customerInParcel representation of a customer by his ID 
-        /// </summary>
-        /// <param name="id"> customer's ID</param>
-        /// <returns> BL CustomerInParcel instance matching the ID</returns>
         public CustomerInParcel GetCustomerInParcel(int id)
         {
             IDAL.DO.Customer cstmr = myDal.GetCustomer(id);
@@ -118,12 +83,6 @@ namespace BL
                 Name = cstmr.Name,
             };
         }
-
-        /// <summary>
-        ///  get ParcelInDelivery representation of a parcel by its  ID 
-        /// </summary>
-        /// <param name="id"> parcel's ID </param>
-        /// <returns> Bl ParcelInDelivery instance matching the ID </returns>
         public ParcelInDelivery GetParcelInDelivery(int id)
         {
             IDAL.DO.Parcel parcel;

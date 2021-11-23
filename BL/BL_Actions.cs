@@ -12,10 +12,6 @@ namespace BL
     /// </summary>
     public partial class BL: IBL.IBL
     {
-        /// <summary>
-        /// send a drone to Base Station for charging
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
         public void ChargeDrone(int id)
         {
             // check if drone exists
@@ -49,12 +45,6 @@ namespace BL
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
-
-        /// <summary>
-        /// discharge a drone from charging slot
-        /// </summary>
-        /// <param name="id"> drone's ID</param>
-        /// <param name="time"> time of charge in hours </param>
         public void DischargeDrone(int id, int time)
         {
             // check if drone exists
@@ -79,30 +69,24 @@ namespace BL
             tempSt.NumOfSlots++;
             myDal.UpdateBaseStation(tempSt);
         }
-
-        /// <summary>
-        /// link a drone to a  compatible parcel for initial process of a delivery
-        /// </summary>
-        /// <param name="id"> drone's ID</param>
         public void LinkDroneToParcel(int id)
         {
             // check if drones exists
             if (!Drones.Any(dr => dr.Id == id))
                 throw new ActionException($"Drone - {id} doesn't exist");
-
+            DroneInList dr = GetAllDronesInList().FirstOrDefault(dr => dr.Id == id);
+            int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
             // get all unlinked parcels
             List<IDAL.DO.Parcel> unlinked;
             try
             {
-                unlinked = myDal.GetAllParcels(pr => pr.DroneId == 0).ToList();
+                unlinked = myDal.GetAllParcels(pr => pr.DroneId == 0 && (WeightCategories)pr.Weight <= dr.MaxWeight).ToList();
             }
             catch (Exception ex)
             {
                 throw new ActionException("", ex);
             }
-            DroneInList dr = GetAllDronesInList().FirstOrDefault(dr => dr.Id == id);
-            int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
-
+            
             // loop from highest parcel delivery priority down
             // for each priority level check all weight categories compatible for drone  if a parcel can be
             // delivered by the drone.  
@@ -142,11 +126,6 @@ namespace BL
             // no compatible parcels to link
             throw new ActionException($"drone - {id} has no compatible parcel to link");
         }
-
-        /// <summary>
-        /// pick up a parcel by its linked drone
-        /// </summary>
-        /// <param name="id"> drone ID </param>
         public void DroneParcelPickUp(int id)
         {
             // check if drones exsists
@@ -176,11 +155,6 @@ namespace BL
             p.PickedUp = DateTime.Now;
             myDal.UpdateParcel(p);
         }
-
-        /// <summary>
-        /// deliver a parcel by its linked drone
-        /// </summary>
-        /// <param name="id"> drone ID </param>
         public void DroneParcelDelivery(int id)
         {
             // check if drones exsists
@@ -206,8 +180,7 @@ namespace BL
             {
                 throw new ActionException("", ex);
             }
-        
-             
+    
             if (prc.Delivered != DateTime.MinValue)
                 throw new ActionException($"Drone - {id} already delievered  parcel");
             
@@ -233,6 +206,5 @@ namespace BL
                 DroneId = 0,
             });
         }
-
     }
 }

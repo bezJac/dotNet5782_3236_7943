@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
-
+    /// <summary>
+    /// Exception for invalid attempt to add new  entity to list
+    /// </summary>
     [Serializable]
     internal class AddException : Exception
     {
@@ -20,6 +22,9 @@ namespace IBL.BO
           StreamingContext context) : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception for invalid attempt to execute an action with a drone
+    /// </summary>
     [Serializable]
     internal class ActionException : Exception
     {
@@ -32,6 +37,9 @@ namespace IBL.BO
           StreamingContext context) : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception for invalid attempt to update an entities details
+    /// </summary>
     [Serializable]
     internal class UpdateException : Exception
     {
@@ -44,6 +52,9 @@ namespace IBL.BO
           StreamingContext context) : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception for invalid attempt to get a single entity
+    /// </summary>
     [Serializable]
     internal class GetInstanceException : Exception
     {
@@ -56,6 +67,9 @@ namespace IBL.BO
           StreamingContext context) : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception for invalid attempt to get a list of  entities
+    /// </summary>
     [Serializable]
     internal class GetListException : Exception
     {
