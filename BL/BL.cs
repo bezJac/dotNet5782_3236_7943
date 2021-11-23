@@ -42,16 +42,19 @@ namespace BL
             DroneHourlyChargeRate = temp[4];
             Random rnd = new Random();
             foreach (IDAL.DO.Drone dr in myDal.GetAllDrones())
-            {
+            { 
+                // drone is linked to a parcel
                 if (myDal.GetAllParcels(p => p.DroneId != 0).ToList().Any(prc => prc.DroneId == dr.Id))
                 {
-                    IDAL.DO.Parcel parcel = myDal.GetAllParcels().ToList().Find(prc => prc.DroneId == dr.Id);
+                    IDAL.DO.Parcel parcel = myDal.GetAllParcels(p => p.DroneId != 0).FirstOrDefault(prc => prc.DroneId == dr.Id);
                     IDAL.DO.Customer sender = myDal.GetCustomer(parcel.SenderId);
                     IDAL.DO.Customer target = myDal.GetCustomer(parcel.TargetId);
                     Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
                     Location targetLocation = createLocation(target.Longitude, target.Lattitude);
                     IDAL.DO.BaseStation charge = getNearestBasestation(targetLocation);
-                    Location station = createLocation(charge.Longitude, charge.Lattitude);
+                    Location chargingStation = createLocation(charge.Longitude, charge.Lattitude);
+
+                    // drone did not pick up parcel yet - set location to nearest base station to sender
                     if (parcel.PickedUp == DateTime.MinValue)
                     {
                         IDAL.DO.BaseStation st = getNearestBasestation(senderLocation);
@@ -62,11 +65,12 @@ namespace BL
                             Model = dr.Model,
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Delivery,
-                            Battery = rnd.Next(getMinimalCharge(current, senderLocation, targetLocation, station, (WeightCategories)parcel.Weight), 101),
+                            Battery = rnd.Next(getMinimalCharge(current, senderLocation, targetLocation, chargingStation, (WeightCategories)parcel.Weight), 101),
                             ParcelId = parcel.Id,
                             DroneLocation = current,
                         });
                     }
+                    // drone already picked up parcel - set location at sender
                     else
                     {
                         Drones.Add(new DroneInList
@@ -75,15 +79,20 @@ namespace BL
                             Model = dr.Model,
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Delivery,
-                            Battery = rnd.Next(getMinimalCharge(senderLocation, senderLocation, targetLocation, station, (WeightCategories)parcel.Weight), 101),
+                            Battery = rnd.Next(getMinimalCharge(senderLocation, senderLocation, targetLocation, chargingStation, (WeightCategories)parcel.Weight), 101),
                             ParcelId = parcel.Id,
                             DroneLocation = senderLocation,
                         });
                     }
                 }
+
+                // drone isn't linked to a parcel
                 else
                 {
+                    // randomly set drone status to either available or maintanence
                     DroneStatus tmpStatus = (DroneStatus)rnd.Next(1, 3);
+
+                    // if status is aailable set location to one of customers with delivered parcel
                     if (tmpStatus == DroneStatus.Available)
                     {
                         List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != DateTime.MinValue).ToList();
@@ -101,6 +110,8 @@ namespace BL
                             DroneLocation = current,
                         });
                     }
+
+                    // status is maintanence - set drone location to randomly selected station
                     else
                     {
                         IEnumerable<IDAL.DO.BaseStation> tempSt = myDal.GetAllBaseStations();
@@ -115,6 +126,7 @@ namespace BL
                             ParcelId = 0,
                             DroneLocation = createLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
                         });
+                        // drone was set as charging - update DAL with chrge details
                         IDAL.DO.BaseStation st = tempSt.ElementAt(index);
                         st.NumOfSlots--;
                         myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = dr.Id, StationId = st.Id });
@@ -473,9 +485,6 @@ namespace BL
                 Status = getParcelStatus(prc),
             };
         }
-    
-      
-
         #endregion
     }
 }

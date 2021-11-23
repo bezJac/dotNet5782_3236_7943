@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
+    /// <summary>
+    /// class converts longittude and lattitude coordinates to their DMS form
+    /// </summary>
     internal class StringAdapter
     {
-
+        /// <summary>
+        /// convert a decimal point longtitude coordinate to its DMS form
+        /// </summary>
+        /// <param name="val"> coordinate in decimal point</param>
+        /// <returns> a string with coordinate in DMS form </returns>
         public static String LongtitudeToDMS(double val)
         {
             int tmp = (int)val;
@@ -20,6 +27,12 @@ namespace IBL.BO
             else
                 return result + "W";
         }
+
+        /// <summary>
+        /// convert a decimal point lattitude coordinate to its DMS form
+        /// </summary>
+        /// <param name="val"> coordinate in decimal point</param>
+        /// <returns> a string with coordinate in DMS form </returns>
         public static String LattitudeToDMS(double val)
         {
             int tmp = (int)val;
@@ -31,7 +44,13 @@ namespace IBL.BO
             else
                 return result + "S";
         }
-        public static double DegToRad(double num)
+
+        /// <summary>
+        /// convert a decimal degree to radians
+        /// </summary>
+        /// <param name="num"> decimal degree</param>
+        /// <returns> degree in radians</returns>
+        private static double DegToRad(double num)
         {
             return num * (Math.PI / 180);
         }
