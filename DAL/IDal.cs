@@ -125,7 +125,7 @@ namespace IDAL
         /// an IEnumerable<BaseStation> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
-        IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null);
+        IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation,bool> predicate = null);
 
         /// <summary>
         /// get a copy list  of drones 
@@ -135,7 +135,7 @@ namespace IDAL
         /// an IEnumerable<Drone> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
-        IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null);
+        IEnumerable<Drone> GetAllDrones(Func<Drone, bool> predicate = null);
 
         /// <summary>
         /// get a copy list containing of customers
@@ -145,7 +145,7 @@ namespace IDAL
         /// an IEnumerable<Customer> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
-        IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null);
+        IEnumerable<Customer> GetAllCustomers(Func<Customer,bool> predicate = null);
 
         /// <summary>
         /// get a copy list cof parcels 
@@ -155,7 +155,7 @@ namespace IDAL
         /// an IEnumerable<Parcel> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
-        IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null);
+        IEnumerable<Parcel> GetAllParcels(Func<Parcel,bool> predicate = null);
 
         /// <summary>
         /// get a copy list containing of drone charges  
@@ -165,7 +165,7 @@ namespace IDAL
         /// an IEnumerable<Drone> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
-        IEnumerable<DroneCharge> GetAllDronecharges(Predicate<DroneCharge> predicate = null);
+        IEnumerable<DroneCharge> GetAllDronecharges(Func<DroneCharge,bool> predicate = null);
         #endregion
         #region Read single element  
         /// <summary>

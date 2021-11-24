@@ -78,6 +78,7 @@ namespace ConsoleUI_BL
             } while (str != "exit");
         }
 
+        
         private static void addNewEntityMenu(IBL.IBL data)
         {
             int num1;
@@ -101,7 +102,7 @@ namespace ConsoleUI_BL
                     {
                         Drone temp = new Drone { Parcel = null };
                         temp = inputDrone();
-                        Console.WriteLine("Enter Choose Base station Id out of list for initial charge\n");
+                        Console.WriteLine("Enter a Base station Id out of list for initial charge\n");
                         printBaseStations(data.GetAllAvailablBaseStations());
                         int.TryParse(Console.ReadLine(), out num1);
                         data.AddDrone(temp, num1);
@@ -124,7 +125,6 @@ namespace ConsoleUI_BL
                     }
             }
         }
-
         private static void updateEntityDetailsMenu(IBL.IBL data)
         {
             int input1, input2;

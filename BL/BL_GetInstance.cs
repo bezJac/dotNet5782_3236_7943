@@ -36,11 +36,11 @@ namespace BL
             {
                 throw new GetInstanceException("", ex);
             }
-            return convertToDrone(Drones.Find(drone => drone.Id == dr.Id));
+            return convertToDrone(drones.Find(drone => drone.Id == dr.Id));
         }
         public DroneInParcel GetDroneInParcel(int id)
         {
-            DroneInList dr = Drones.Find(dr => dr.Id == id);
+            DroneInList dr = drones.Find(dr => dr.Id == id);
             return new DroneInParcel
             {
                 Id = dr.Id,
@@ -106,17 +106,18 @@ namespace BL
 
                 throw new GetInstanceException("", ex);
             }
-
+            // parcel's in transit status initialized by flag 
             bool flag = false;
+            // if parcel was already picked up set flag  to true 
             if (getParcelStatus(parcel) == ParcelStatus.PickedUp)
                 flag = true;
+            
             Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
             Location targetLocation = createLocation(target.Longitude, target.Lattitude);
-
             return new ParcelInDelivery
             {
                 Id = parcel.Id,
-                Status = flag,
+                InTransit = flag,
                 Priority = (Priority)parcel.Priority,
                 Weight = (WeightCategories)parcel.Weight,
                 Sender = GetCustomerInParcel(parcel.SenderId),

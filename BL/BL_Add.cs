@@ -34,6 +34,7 @@ namespace BL
         }
         public void AddDrone(Drone drone, int stationId)
         {
+            // check that base station for charging exsist
             IDAL.DO.BaseStation st;
             try
             {
@@ -43,8 +44,11 @@ namespace BL
             {
                 throw new AddException("", ex);
             }
+            // check that base station has available charging slots
             if (st.NumOfSlots == 0)
                 throw new AddException($"base station - {stationId} has no charging slots available");
+
+            // add drone to DAL
             try
             {
                 myDal.AddDrone(new IDAL.DO.Drone
@@ -58,8 +62,9 @@ namespace BL
             {
                 throw new AddException("", Ex);
             }
+            // add drone to list in BL
             Random rnd = new Random();
-            Drones.Add(new DroneInList
+            drones.Add(new DroneInList
             {
                 Id = drone.Id,
                 Model = drone.Model,
@@ -68,12 +73,14 @@ namespace BL
                 Battery = rnd.Next(20, 41),
                 DroneLocation = createLocation(st.Longitude, st.Lattitude),
             });
+            // update base station in dal , add new drone charge entity to list
             st.NumOfSlots--;
             myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id });
             myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)
         {
+            // check that customer id's from user are valid customers
             try
             {
                 myDal.GetCustomer(parcel.Sender.Id);
@@ -83,6 +90,7 @@ namespace BL
             {
                 throw new AddException("", Ex);
             }
+            // add parcel
             try
             {
                 myDal.AddParcel(new IDAL.DO.Parcel

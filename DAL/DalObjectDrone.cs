@@ -51,7 +51,7 @@ namespace DalObject
             }
             return (Drone)temp;
         }
-        public IEnumerable<Drone> GetAllDrones(Predicate<Drone> predicate = null)
+        public IEnumerable<Drone> GetAllDrones(Func<Drone,bool> predicate = null)
         {
             if (predicate == null)
             {
@@ -59,7 +59,7 @@ namespace DalObject
                     throw new EmptyListException("no drones in list");
                 return DataSource.Drones.ToList();
             }
-            List<Drone> tmp = DataSource.Drones.FindAll(predicate).ToList();
+            IEnumerable<Drone> tmp = DataSource.Drones.Where(predicate);
             if (tmp.Count() > 0)
                 return tmp;
             else

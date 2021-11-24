@@ -19,12 +19,12 @@ namespace IDAL
             public int TargetId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
-            public DateTime Requested { get; set; }
+            public DateTime? Requested { get; set; }
+            public DateTime? Scheduled { get; set; }
+            public DateTime? PickedUp { get; set; }
+            public DateTime? Delivered { get; set; }
             public int DroneId { get; set; }
-            public DateTime Scheduled { get; set; }
-            public DateTime PickedUp { get; set; }
-            public DateTime Delivered { get; set; }
-           
+
             public override string ToString()
             {
                 string result = "";
@@ -33,8 +33,8 @@ namespace IDAL
                 result += $"TargetId is { TargetId }\n";
                 result += $"Weight is { Weight }\n";
                 result += $"Priority is { Priority }\n";
-                result += $"Requested is { Requested }\n";
                 result += $"DroneId is { DroneId }\n";
+                result += $"Requested is { Requested }\n";
                 result += $"Scheduled is { Scheduled }\n";
                 result += $"PickedUp is { PickedUp }\n";
                 result += $"Delivered is { Delivered }\n";

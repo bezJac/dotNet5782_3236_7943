@@ -25,7 +25,7 @@ namespace DalObject
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
-              DataSource.Config.DroneElecUseLight, DataSource.Config.DroneElecUseMedium,
+            DataSource.Config.DroneElecUseLight, DataSource.Config.DroneElecUseMedium,
             DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneHourlyChargeRate };
             return electric;
         }

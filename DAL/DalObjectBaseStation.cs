@@ -50,15 +50,15 @@ namespace DalObject
             }
             return (BaseStation)temp;
         }
-        public IEnumerable<BaseStation> GetAllBaseStations(Predicate<BaseStation> predicate = null)
+        public IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation, bool> predicate = null)
         {
             if (predicate == null)
             {
                 if (DataSource.Stations.Count() <= 0)
                     throw new EmptyListException("No stations in list");
-                return DataSource.Stations.ToList();
+                return DataSource.Stations;
             }    
-            List<BaseStation> tmp =  DataSource.Stations.FindAll(predicate).ToList();
+            IEnumerable<BaseStation> tmp =  DataSource.Stations.Where(predicate);
             if (tmp.Count() > 0)
                 return tmp;
             else

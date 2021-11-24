@@ -10,7 +10,7 @@ namespace IBL.BO
     public class ParcelInDelivery
     {
         public int Id { get; set; }
-        public bool Status { get; set; }
+        public bool InTransit { get; set; }
         public Priority Priority { get; set; }
         public WeightCategories Weight { get; set; }
         public CustomerInParcel Sender { get; set; }
@@ -22,7 +22,7 @@ namespace IBL.BO
         {
             string result = "";
             result += $"Id: {Id}\n";
-            result += $"Delivery status: {Status}\n";
+            result += $"Delivery status: {InTransit}\n";
             result += $"Sending customer basic details:\n { Sender }";
             result += $"Target customer basic  details:\n { Target }";
             result += $"Priority: { Priority }\n";

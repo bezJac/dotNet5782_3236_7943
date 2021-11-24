@@ -77,56 +77,56 @@ namespace DalObject
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Ramat Aviv Gimmel",
-                Lattitude = 32.12534,
-                Longitude = 34.79722,
+                Lattitude = 32.12709757390123,
+                Longitude = 34.79629265687941,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Jaffa Port",
-                Lattitude = 32.05234,
-                Longitude = 34.74900,
+                Lattitude = 32.05316055248277,
+                Longitude = 34.751583585054114,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Ha-Medina Square",
-                Lattitude = 32.08672,
-                Longitude = 34.78960,
+                Lattitude = 32.087062438465516,
+                Longitude = 34.78989506663188,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Kiryat Shalom",
-                Lattitude = 32.04115,
-                Longitude = 34.77621,
+                Lattitude = 32.04242153854747,
+                Longitude = 34.77338821800359,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Tel Aviv University",
-                Lattitude = 32.10640,
-                Longitude = 34.80088,
+                Lattitude = 32.11124999207207,
+                Longitude = 34.80313039968891,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Neve Tzedek",
-                Lattitude = 32.06239,
-                Longitude = 34.76428,
+                Lattitude = 32.0640775421612,
+                Longitude = 34.76549682772839,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "City Center",
-                Lattitude = 32.08187,
-                Longitude = 34.77226,
+                Lattitude = 32.07761654225346,
+                Longitude = 34.77430851985402,
                 NumOfSlots = 20,
             });
 
@@ -158,8 +158,8 @@ namespace DalObject
                     Id = rnd.Next(10000000, 100000000),
                     Name = firstNames[rnd.Next(firstNames.Length)] + " " + lastNames[rnd.Next(lastNames.Length)],
                     Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
-                    Longitude = 34.74861 + randCoordinates2[rnd.Next(10)],
-                    Lattitude = 32.03669 + randCoordinates[rnd.Next(10)],
+                    Longitude = 34.751306352418034 + randCoordinates2[rnd.Next(10)],
+                    Lattitude = 32.030141048120105 + randCoordinates[rnd.Next(10)],
 
                 });;
 
@@ -171,8 +171,8 @@ namespace DalObject
                     Id = rnd.Next(10000000, 100000000),
                     Name = firstNames[rnd.Next(firstNames.Length)] + " " + lastNames[rnd.Next(lastNames.Length)],
                     Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
-                    Longitude = 34.77900 + randCoordinates2[rnd.Next(10)],
-                    Lattitude = 32.07582 + randCoordinates[rnd.Next(10)],
+                    Longitude = 34.751306352418034 + randCoordinates2[rnd.Next(10)],
+                    Lattitude = 32.08274520059217 + randCoordinates[rnd.Next(10)],
                 });
 
             }

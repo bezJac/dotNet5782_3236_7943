@@ -51,7 +51,7 @@ namespace DalObject
             }
             return (Customer)temp;
         }
-        public IEnumerable<Customer> GetAllCustomers(Predicate<Customer> predicate = null)
+        public IEnumerable<Customer> GetAllCustomers(Func<Customer,bool> predicate = null)
         {
             if (predicate == null)
             {
@@ -59,7 +59,7 @@ namespace DalObject
                     throw new NonExistsException("no customers in list");
                 return DataSource.Customers.ToList();
             }
-            List<Customer> tmp = DataSource.Customers.FindAll(predicate).ToList();
+            IEnumerable<Customer> tmp = DataSource.Customers.Where(predicate);
             if (tmp.Count() > 0)
                 return tmp;
             else

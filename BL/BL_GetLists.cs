@@ -54,14 +54,14 @@ namespace BL
         }
         public IEnumerable<Drone> GetAllDrones()
         {
-            if (Drones.Count() <= 0)
+            if (drones.Count() <= 0)
                 throw new GetListException("no drones in list");
-            return Drones.Select(dr => convertToDrone(dr));
+            return drones.Select(dr => convertToDrone(dr));
         }
         public IEnumerable<DroneInList> GetAllDronesInList()
         {
-            if (Drones.Count() > 0)
-                return Drones.ToList();
+            if (drones.Count() > 0)
+                return drones.ToList();
             throw new GetListException("no drones in list");
         }
         public IEnumerable<Customer> GetAllCustomers()

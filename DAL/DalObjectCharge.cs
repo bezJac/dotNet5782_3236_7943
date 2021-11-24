@@ -44,11 +44,11 @@ namespace DalObject
             }
             return (DroneCharge)temp;
         }
-        public IEnumerable<DroneCharge> GetAllDronecharges(Predicate<DroneCharge> predicate = null)
+        public IEnumerable<DroneCharge> GetAllDronecharges(Func<DroneCharge,bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.Charges.ToList();
-            return DataSource.Charges.FindAll(predicate).ToList();
+            return DataSource.Charges.Where(predicate);
         }
     }
 }

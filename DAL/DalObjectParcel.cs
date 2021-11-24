@@ -53,7 +53,7 @@ namespace DalObject
             }
             return (Parcel)temp;
         }
-        public IEnumerable<Parcel> GetAllParcels(Predicate<Parcel> predicate = null)
+        public IEnumerable<Parcel> GetAllParcels(Func<Parcel,bool> predicate = null)
         {
             if (predicate == null)
             {
@@ -61,7 +61,7 @@ namespace DalObject
                     throw new EmptyListException("no parcels in list");
                 return DataSource.Parcels.ToList();
             }
-            List<Parcel> tmp = DataSource.Parcels.FindAll(predicate).ToList();
+            IEnumerable<Parcel> tmp = DataSource.Parcels.Where(predicate);
             if (tmp.Count() > 0)
                 return tmp;
             else

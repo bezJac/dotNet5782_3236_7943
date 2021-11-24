@@ -52,8 +52,8 @@ namespace BL
             }
             dr.Model = model;
             myDal.UpdateDrone(dr);
-            int index = Drones.FindIndex(dr => dr.Id == id);
-            Drones[index].Model = model;
+            int index = drones.FindIndex(dr => dr.Id == id);
+            drones[index].Model = model;
         }
         public void UpdateCustomer(int id, string phone, string name)
         {
