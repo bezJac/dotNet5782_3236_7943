@@ -35,8 +35,11 @@ namespace IDAL
                 result += $"Priority is { Priority }\n";
                 result += $"DroneId is { DroneId }\n";
                 result += $"Requested is { Requested }\n";
+                if(Scheduled!=null)
                 result += $"Scheduled is { Scheduled }\n";
+                if(PickedUp!=null)
                 result += $"PickedUp is { PickedUp }\n";
+                if(Delivered!=null)
                 result += $"Delivered is { Delivered }\n";
                 return result;
 

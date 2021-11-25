@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ListDronesWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="ListDronesWindow" Height="640" Width="800">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox Name="StatusSelector" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+            <TextBox HorizontalAlignment="Center" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
+            <ComboBox Name="WeightSelector"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="WeightSelector_SelectionChanged" ToolTip="Filter drones by weight"/>
+            <Button Content="Add Drone" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="22" Width="70"/>
+        </Grid>
+        <ListView x:Name="DroneListView" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+
+
+        </ListView>
+
+
     </Grid>
 </Window>

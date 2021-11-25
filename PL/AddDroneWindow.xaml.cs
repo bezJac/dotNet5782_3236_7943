@@ -12,27 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using IBL.BO;
+
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddDroneWindow : Window
     {
-        private IBL.IBL myBL;
-
-        public MainWindow()
+        private IBL.IBL theBL;
+        private Drone newDrone;
+        public AddDroneWindow(IBL.IBL bL)
         {
-            myBL = new BL.BL();
             InitializeComponent();
-
+            theBL = bL;
         }
-
-        private void ShowDronesButton_Click(object sender, RoutedEventArgs e)
-        {
-            new ListDronesWindow(myBL).Show();
-        }
-
-     
     }
 }

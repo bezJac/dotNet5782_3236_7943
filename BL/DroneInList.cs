@@ -18,11 +18,12 @@ namespace IBL.BO
         public override string ToString()
         {
             string result = "";
-            result += $"Id: { Id }\n";
+            result += $"ID: { Id }\n";
             result += $"Model: { Model }\n";
             result += $"MaxWeight: { MaxWeight }\n";
             result += $"Status: { Status }\n";
             result += $"Battery level: { Battery }\n";
+            if(ParcelId!=0)
             result += $"Parcel in delivery Id: {ParcelId}\n";
             result += $"Location:\n{DroneLocation}";
             return result;

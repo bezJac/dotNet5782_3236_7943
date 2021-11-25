@@ -55,7 +55,7 @@ namespace BL
                     Location chargingStation = createLocation(charge.Longitude, charge.Lattitude);
 
                     // drone did not pick up parcel yet - set location to nearest base station to sender
-                    if (parcel.PickedUp == DateTime.MinValue)
+                    if (parcel.PickedUp == null)
                     {
                         IDAL.DO.BaseStation st = getNearestBasestation(senderLocation);
                         Location current = createLocation(st.Longitude, st.Lattitude);
@@ -158,30 +158,6 @@ namespace BL
                 }
             }
             return tmpStation;
-        }
-
-        /// <summary>
-        /// calculate nearest parcel  to specific location 
-        /// </summary>
-        /// <param name="l"> location to calculate distance from </param>
-        /// <param name="parcels"> list of parcels to run through </param>
-        /// <returns>IDAL.DO.Parcel instance of nearest parcel </returns>
-        private IDAL.DO.Parcel getNearestParcel(Location l, IEnumerable<IDAL.DO.Parcel> parcels)
-        {
-            double min = double.PositiveInfinity;
-            double temp;
-            IDAL.DO.Parcel parcel = new IDAL.DO.Parcel();
-            foreach (IDAL.DO.Parcel prc in parcels)
-            {
-                IDAL.DO.Customer cs = myDal.GetCustomer(prc.SenderId);
-                temp = Distance.GetDistance(createLocation(cs.Longitude, cs.Lattitude), l);
-                if (temp < min)
-                {
-                    min = temp;
-                    parcel = prc;
-                }
-            }
-            return parcel;
         }
 
         /// <summary>

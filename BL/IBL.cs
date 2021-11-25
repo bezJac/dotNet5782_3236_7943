@@ -126,7 +126,7 @@ namespace IBL
         /// get copy list of all drones in BL DroneInList representation
         /// </summary>
         /// <returns> IEnumerable<DroneInList>  </returns>
-        IEnumerable<DroneInList> GetAllDronesInList();
+        IEnumerable<DroneInList> GetAllDronesInList(Func<DroneInList, bool> predicate = null);
 
         /// <summary>
         ///  get copy list of all customers in  BL Customer entities representation

@@ -58,11 +58,18 @@ namespace BL
                 throw new GetListException("no drones in list");
             return drones.Select(dr => convertToDrone(dr));
         }
-        public IEnumerable<DroneInList> GetAllDronesInList()
+        public IEnumerable<DroneInList> GetAllDronesInList(Func<DroneInList,bool> predicate = null)
         {
-            if (drones.Count() > 0)
-                return drones.ToList();
-            throw new GetListException("no drones in list");
+            if (predicate == null)
+            {
+                if (drones.Count() > 0)
+                    return drones.ToList();
+                throw new GetListException("no drones in list");
+            }
+            IEnumerable<DroneInList> tmp = drones.Where(predicate);
+            if(tmp.Count()<=0)
+             throw new GetListException("no drones in list");
+            return tmp;
         }
         public IEnumerable<Customer> GetAllCustomers()
         {
