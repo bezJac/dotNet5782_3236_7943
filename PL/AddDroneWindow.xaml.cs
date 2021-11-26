@@ -26,6 +26,8 @@ namespace PL
         {
             InitializeComponent();
             theBL = bL;
+            newDrone = new Drone();
+            this.MaxWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
     }
 }

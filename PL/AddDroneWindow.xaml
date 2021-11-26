@@ -6,7 +6,32 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="AddDroneWindow" Height="450" Width="800">
+
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="droneGrid" Margin="58,15,119,27">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Id" Grid.Row="0"/>
+            <Label Content="Model" Grid.Row="1"/>
+            <Label Content="Max Weight" Grid.Row="2"/>
+            <Label Content="Station ID" Grid.Row="3"/>
+            <TextBox Grid.Column="1"  x:Name="Id" Text="{Binding Id}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="Model" Text="{Binding Model}"/>
+            <ComboBox Grid.Column="1" Grid.Row="2" x:Name="MaxWeight" SelectedItem="{Binding MaxWeight}"/>
+            <TextBox Grid.Column="1" Grid.Row="3" x:Name="StationId" Text="{Binding StationId}"/>
+        </Grid>
+
     </Grid>
 </Window>

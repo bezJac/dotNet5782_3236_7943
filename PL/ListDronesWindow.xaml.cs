@@ -44,5 +44,10 @@ namespace PL
             this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
             this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
         }
+
+        private void AddDroneButton_Click(object sender, RoutedEventArgs e)
+        {
+            new AddDroneWindow(theBL).Show();
+        }
     }
 }
