@@ -77,8 +77,8 @@ namespace DalObject
             {
                 Id = rnd.Next(1000, 10000),
                 Name = "Ramat Aviv Gimmel",
-                Lattitude = 32.12709757390123,
-                Longitude = 34.79629265687941,
+                Lattitude = 32.124133402626434,                ,
+                Longitude = 34.79810381504321,
                 NumOfSlots = 20,
             });
             Stations.Add(new BaseStation
