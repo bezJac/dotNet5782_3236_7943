@@ -30,6 +30,7 @@ namespace BL
             IEnumerable<BaseStation> stations;
             try
             {
+                ///
                 stations = GetAllBaseStations();
             }
             catch (Exception Ex)
