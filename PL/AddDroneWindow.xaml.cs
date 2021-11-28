@@ -22,48 +22,12 @@ namespace PL
     {
         private IBL.IBL theBL;
         private Drone newDrone;
-        private int  stationID;
         public AddDroneWindow(IBL.IBL bL)
         {
             InitializeComponent();
             theBL = bL;
             newDrone = new Drone();
             this.MaxWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-            bool flag = true;
-            newDrone.Id = Convert.ToInt32(GetBindingExpression(TextBox.TextProperty));
-            try
-            {
-                theBL.AddDrone(newDrone, stationID);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButton.OK);
-                flag = false;
-            }
-            if(flag)
-            {
-                MessageBox.Show("drone add successful", "", MessageBoxButton.OK);
-                this.Close();
-               
-            }
-
-        }
-
-        
-
-        private void CancelButton_Click_1(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

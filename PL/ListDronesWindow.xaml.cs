@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class ListDronesWindow : Window
     {
-        private IBL.IBL theBL;
+       private IBL.IBL theBL;
         public ListDronesWindow(IBL.IBL bL)
         {
             InitializeComponent();
@@ -49,18 +49,5 @@ namespace PL
         {
             new AddDroneWindow(theBL).Show();
         }
-
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-
-        private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
     }
-
-        
 }
