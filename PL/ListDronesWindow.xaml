@@ -9,7 +9,8 @@
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="50*"/>
-            <RowDefinition Height="400*"/>
+            <RowDefinition Height="380*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
         VerticalAlignment="Stretch" Width="auto">
@@ -21,7 +22,8 @@
             </Grid.ColumnDefinitions >
             <ComboBox Name="StatusSelector" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
             <TextBox HorizontalAlignment="Center" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-            <ComboBox Name="WeightSelector"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="WeightSelector_SelectionChanged" ToolTip="Filter drones by weight"/>
+            <ComboBox  Name="WeightSelector"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="WeightSelector_SelectionChanged" ToolTip="Filter drones by weight"/>
+
             <Button Content="Add Drone" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="22" Width="70" Click="AddDroneButton_Click"/>
         </Grid>
         <ListView x:Name="DroneListView" Grid.Row="1">
@@ -33,6 +35,7 @@
 
 
         </ListView>
+        <Button Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Click="CloseWindowButton_Click"/>
 
 
     </Grid>
