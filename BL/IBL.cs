@@ -21,7 +21,7 @@ namespace IBL
         /// </summary>
         /// <param name="drone"> drone to add</param>
         /// <param name="stationId"> station ID  of initial charge station for drone</param>
-        void AddDrone(Drone drone, int stationId);
+        void AddDrone(Drone drone);
 
         /// <summary>
         /// Add a new Parcel to list

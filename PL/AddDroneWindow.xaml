@@ -31,6 +31,8 @@
             <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Model:"/>
             <TextBox x:Name="modelTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
         </Grid>
+        <Button Content="Add" HorizontalAlignment="Left" Margin="666,111,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="666,146,0,0" VerticalAlignment="Top" Click="CancelButton_Click"/>
 
     </Grid>
 </Window>

@@ -178,6 +178,7 @@ namespace DalObject
                     Model = droneModels[rnd.Next(0, 4)],
                 });
             }
+           
 
             /// <summary>
             ///  initialize and adds to list 20 customers
