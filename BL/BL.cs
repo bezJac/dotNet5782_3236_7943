@@ -95,7 +95,7 @@ namespace BL
                     // if status is aailable set location to one of customers with delivered parcel
                     if (tmpStatus == DroneStatus.Available)
                     {
-                        List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != DateTime.MinValue).ToList();
+                        List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
                         Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count())).TargetId).CustomerLocation;
                         IDAL.DO.BaseStation st = getNearestBasestation(current);
                         int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
