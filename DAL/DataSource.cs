@@ -185,7 +185,7 @@ namespace DalObject
             ///  10 locations are in north part of tel aviv
             ///  11 locations are in sout part of tel aviv
             /// </summary>
-            j = 10;
+            j = 20;
             for (int i = 0,l=0; i < j; i++,l+=2)
             {
                 Customers.Add(new Customer
@@ -199,18 +199,7 @@ namespace DalObject
                 });;
 
             }
-            for (int i = 0,l=20; i < j; i++,l+=2)
-            {
-                Customers.Add(new Customer
-                {
-                    Id = rnd.Next(10000000, 100000000),
-                    Name = firstNames[rnd.Next(firstNames.Length)] + " " + lastNames[rnd.Next(lastNames.Length)],
-                    Phone = $"0{ rnd.Next(50, 58)}{ rnd.Next(1000000, 9999999)}",
-                    Longitude = coordinates[l+1],
-                    Lattitude = coordinates[l],
-                });
-
-            }
+            
 
             /// <summary>
             ///  initialize and adds to list 10 unlinked parcels
