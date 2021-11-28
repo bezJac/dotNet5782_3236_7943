@@ -10,7 +10,7 @@ namespace IDAL
     /// </summary>
     internal class EmptyListException : Exception
     {
-        private static string info = "DAL - EmptyListException():  ";
+        private static readonly string info = "DAL - EmptyListException():  ";
         public EmptyListException()
         {
         }

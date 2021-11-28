@@ -55,7 +55,7 @@ namespace BL
         }
         public IEnumerable<Drone> GetAllDrones()
         {
-            if (drones.Count() <= 0)
+            if (drones.Count <= 0)
                 throw new GetListException("no drones in list");
             return drones.Select(dr => convertToDrone(dr));
         }
@@ -63,12 +63,12 @@ namespace BL
         {
             if (predicate == null)
             {
-                if (drones.Count() > 0)
+                if (drones.Count > 0)
                     return drones.ToList();
                 throw new GetListException("no drones in list");
             }
             IEnumerable<DroneInList> tmp = drones.Where(predicate);
-            if(tmp.Count()<=0)
+            if(!tmp.Any())
              throw new GetListException("no drones in list");
             return tmp;
         }

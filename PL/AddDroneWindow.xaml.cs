@@ -28,7 +28,15 @@ namespace PL
             InitializeComponent();
             theBL = bL;
             newDrone = new Drone();
-            this.MaxWeight.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+        } 
+        public AddDroneWindow(IBL.IBL bL,Drone exsistingDrone)
+        {
+            InitializeComponent();
+            theBL = bL;
+            newDrone = exsistingDrone;
+            this.grid1.
+            this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

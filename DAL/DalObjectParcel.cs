@@ -57,12 +57,12 @@ namespace DalObject
         {
             if (predicate == null)
             {
-                if (DataSource.Parcels.Count() <= 0)
+                if (DataSource.Parcels.Count <= 0)
                     throw new EmptyListException("no parcels in list");
                 return DataSource.Parcels.ToList();
             }
             IEnumerable<Parcel> tmp = DataSource.Parcels.Where(predicate);
-            if (tmp.Count() > 0)
+            if (tmp.Any())
                 return tmp;
             else
                 throw new FilteredListException("No Parcels in list match predicate");

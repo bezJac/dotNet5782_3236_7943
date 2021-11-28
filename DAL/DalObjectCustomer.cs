@@ -55,12 +55,12 @@ namespace DalObject
         {
             if (predicate == null)
             {
-                if (DataSource.Customers.Count() <= 0)
+                if (DataSource.Customers.Count <= 0)
                     throw new NonExistsException("no customers in list");
                 return DataSource.Customers.ToList();
             }
             IEnumerable<Customer> tmp = DataSource.Customers.Where(predicate);
-            if (tmp.Count() > 0)
+            if (tmp.Any())
                 return tmp;
             else
                 throw new NonExistsException("No Customers in list match predicate");

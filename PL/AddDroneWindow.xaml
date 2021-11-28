@@ -8,32 +8,29 @@
         Title="AddDroneWindow" Height="450" Width="800">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid x:Name="droneGrid" Margin="58,15,119,27">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid x:Name="grid1" VerticalAlignment="Top" Margin="120,108,0,0" HorizontalAlignment="Left" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Id" Grid.Row="0"/>
-            <Label Content="Model" Grid.Row="1"/>
-            <Label Content="Max Weight" Grid.Row="2"/>
-            <Label Content="Station ID" Grid.Row="3"/>
-            <TextBox Grid.Column="1"  x:Name="Id" Text="{Binding Id}" Margin="0,0,-108,0"/>
-            <TextBox Grid.Column="1" x:Name="Model" Text="{Binding Model}" Margin="0,98,-108,0" Grid.RowSpan="2"/>
-            <ComboBox Grid.Column="1" Grid.Row="1" x:Name="MaxWeight" SelectedItem="{Binding MaxWeight}" Margin="0,98,-108,0" Grid.RowSpan="2"/>
-            <TextBox Grid.Column="1" Grid.Row="2" x:Name="StationId" Text="{Binding StationId}" Margin="0,98,-108,0" Grid.RowSpan="2"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Id:"/>
+            <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max Weight:"/>
+            <ComboBox x:Name="maxWeightComboBox" Width="120" VerticalAlignment="Center" Grid.Row="1" Margin="3"  Height="Auto" HorizontalAlignment="Left" SelectedItem="{Binding MaxWeight}" Grid.Column="1">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Model:"/>
+            <TextBox x:Name="modelTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
         </Grid>
-        <Button Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="490,41,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
-        <Button Content="Cancel" Grid.Column="1" HorizontalAlignment="Left" Margin="490,75,0,0" VerticalAlignment="Top" Click="CancelButton_Click_1"/>
 
     </Grid>
 </Window>

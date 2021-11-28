@@ -10,18 +10,19 @@ namespace IBL.BO
     {
         public static double GetDistance(Location location1, Location location2)
         {
-            
-            double R = 6371;                    // Radius of the earth in km
-            double dLat = DegToRad(location2.Lattitude - location1.Lattitude);
-            double dLon = DegToRad(location2.Longtitude - location1.Lattitude);
-            double a =( Math.Sin(dLat / 2) * Math.Sin(dLat / 2) )+
-             ( Math.Cos(DegToRad(location1.Lattitude)) * Math.Cos(DegToRad(location2.Lattitude)) *
+
+            var R = 6371;                    // Radius of the earth in km
+            var dLat = DegToRad(location2.Lattitude - location1.Lattitude);
+            var dLon = DegToRad(location2.Longtitude - location1.Longtitude);
+            var a = (Math.Sin(dLat / 2) * Math.Sin(dLat / 2)) +
+             (Math.Cos(DegToRad(location1.Lattitude)) * Math.Cos(DegToRad(location2.Lattitude)) *
               Math.Sin(dLon / 2) * Math.Sin(dLon / 2))
               ;
-            double b = a /(1 - a);
-            double c = 2* Math.Atan( b);
-            double d = (R) * c;                  // Distance in km
-            return Math.Abs(d);
+            //double b = a / (1 - a);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var d = (R) * c;                  // Distance in km
+            return d/100;
+            
             
         }
 

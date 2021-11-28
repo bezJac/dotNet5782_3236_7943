@@ -91,17 +91,6 @@ namespace BL
             // by shortest distance from drone to parcel's sender location in ascending order 
             unlinked = unlinked.OrderByDescending(prc => prc.Priority).ThenByDescending(prc => prc.Weight).ThenBy
                 (prc => Distance.GetDistance(createLocation(myDal.GetCustomer(prc.SenderId).Longitude, myDal.GetCustomer(prc.SenderId).Lattitude), dr.DroneLocation));
-            foreach(IDAL.DO.Parcel prc in unlinked)
-            {
-                // create copy of prc for update purposes
-                IDAL.DO.Parcel tmp = prc;
-                // get parcel's sender and target customers
-                IDAL.DO.Customer sender = myDal.GetCustomer(prc.SenderId);
-                IDAL.DO.Customer target = myDal.GetCustomer(prc.TargetId);
-                Console.WriteLine(prc);
-                Console.WriteLine(Distance.GetDistance(createLocation(myDal.GetCustomer(prc.SenderId).Longitude, myDal.GetCustomer(prc.SenderId).Lattitude), dr.DroneLocation));
-                checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Lattitude), dr.MaxWeight);
-            }
             foreach (IDAL.DO.Parcel prc in unlinked)
             {
                 // create copy of prc for update purposes
@@ -110,7 +99,7 @@ namespace BL
                 IDAL.DO.Customer sender = myDal.GetCustomer(prc.SenderId);
                 IDAL.DO.Customer target = myDal.GetCustomer(prc.TargetId);
                 // if drone can execute delivery for current parcel - link parcel to drone - return 
-                if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Longitude), dr.MaxWeight))
+                if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Lattitude), dr.MaxWeight))
                 {
                     tmp.DroneId = id;
                     tmp.Scheduled = DateTime.Now;

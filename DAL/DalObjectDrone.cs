@@ -55,12 +55,12 @@ namespace DalObject
         {
             if (predicate == null)
             {
-                if (DataSource.Drones.Count() <= 0)
+                if (DataSource.Drones.Count <= 0)
                     throw new EmptyListException("no drones in list");
                 return DataSource.Drones.ToList();
             }
             IEnumerable<Drone> tmp = DataSource.Drones.Where(predicate);
-            if (tmp.Count() > 0)
+            if (tmp.Any())
                 return tmp;
             else
                 throw new FilteredListException("No Drones in list match predicate");

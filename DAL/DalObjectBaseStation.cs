@@ -54,12 +54,12 @@ namespace DalObject
         {
             if (predicate == null)
             {
-                if (DataSource.Stations.Count() <= 0)
+                if (DataSource.Stations.Count <= 0)
                     throw new EmptyListException("No stations in list");
                 return DataSource.Stations;
             }    
             IEnumerable<BaseStation> tmp =  DataSource.Stations.Where(predicate);
-            if (tmp.Count() > 0)
+            if (tmp.Any())
                 return tmp;
             else
                 throw new FilteredListException("No Base Stations in list match predicate");
