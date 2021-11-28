@@ -6,8 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button  Content="Drones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="ShowDronesButton_Click"/>
+    <Grid Background="LightGreen">
+
+        <Button Background="ForestGreen" Content="Drones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="ShowDronesButton_Click"/>
        
     </Grid>
 </Window>

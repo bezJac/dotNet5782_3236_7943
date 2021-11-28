@@ -223,7 +223,7 @@ namespace DalObject
 
             }
 
-
+            DateTime time = DateTime.Now.Subtract(new TimeSpan(4, 0, 0));
             /// <summary>
             ///  initialize and adds to list 5 linked to drone parcels
             /// </summary>
@@ -237,8 +237,8 @@ namespace DalObject
                     DroneId = Drones[k].Id,
                     Weight = (WeightCategories)Drones[k].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60, 180)),
+                    Requested = time,
+                    Scheduled = time.AddMinutes(rnd.Next(60, 180)),
 
                 });
             }
@@ -256,9 +256,9 @@ namespace DalObject
                     DroneId = Drones[k + 5].Id,
                     Weight = (WeightCategories)Drones[k + 5].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60, 180)),
-                    PickedUp = DateTime.Now.AddMinutes(rnd.Next(180, 500)),
+                    Requested = time,
+                    Scheduled = time.AddMinutes(rnd.Next(60, 180)),
+                    PickedUp = time.AddMinutes(rnd.Next(180, 500)),
                 });
             }
 
@@ -275,10 +275,10 @@ namespace DalObject
                     DroneId = Drones[k + 10].Id,
                     Weight = (WeightCategories)Drones[k + 10].MaxWeight,
                     Priority = (Priorities)rnd.Next(1, 4),
-                    Requested = DateTime.Now,
-                    Scheduled = DateTime.Now.AddMinutes(rnd.Next(60, 180)),
-                    PickedUp = DateTime.Now.AddMinutes(rnd.Next(180, 500)),
-                    Delivered = DateTime.Now.AddMinutes(rnd.Next(500, 680)),
+                    Requested = time,
+                    Scheduled = time.AddMinutes(rnd.Next(60, 180)),
+                    PickedUp = time.AddMinutes(rnd.Next(180, 500)),
+                    Delivered = time.AddMinutes(rnd.Next(500, 680)),
                 });
             }
         }

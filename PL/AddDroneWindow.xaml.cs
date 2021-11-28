@@ -22,9 +22,9 @@ namespace PL
     {
         private IBL.IBL theBL;
         private Drone newDrone;
-        
         public AddDroneWindow(IBL.IBL bL)
         {
+
             InitializeComponent();
             theBL = bL;
             newDrone = new Drone();
@@ -49,6 +49,8 @@ namespace PL
             bool flag = true;
             try
             {
+                if (newDrone.Id <= 0)
+                    throw new Exception("Id must be positive");
                 theBL.AddDrone(newDrone);
             }
             catch (Exception ex)
@@ -58,7 +60,8 @@ namespace PL
             }
             if (flag)
             {
-                MessageBox.Show(theBL.GetDrone(newDrone.Id).ToString());
+                MessageBox.Show("Drone was added successfully to list");
+                
                 this.Close();
                 
 
