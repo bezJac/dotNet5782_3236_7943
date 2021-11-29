@@ -41,11 +41,11 @@ namespace BL
             drones[index].Status = DroneStatus.Maintenance;
 
             // update base station in DAL , add a new drone charge entity to list
-            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = id, StationId = st.Id });
+            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = id, StationId = st.Id,EntranceTime=DateTime.Now });
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
-        public void DischargeDrone(int id, int time)
+        public void DischargeDrone(int id)
         {
             // check if drone exists
             if (!drones.Any(dr => dr.Id == id))
@@ -59,12 +59,15 @@ namespace BL
             if (drones[index].Status == DroneStatus.Delivery)
                 throw new ActionException($"drone - {id} is en route , currently  not at  charging dock");
 
+            IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
+            TimeSpan duration = DateTime.Now.Subtract((DateTime)tempCharge.EntranceTime);
+            double time = duration.Hours + (int)(duration.Minutes / 60)+ (int)(duration.Seconds/3600);
             // update drone 
-            drones[index].Battery = Math.Max(drones[index].Battery + (int)droneHourlyChargeRate * time, 100);
+            drones[index].Battery = Math.Max(drones[index].Battery + (int)(droneHourlyChargeRate * time), 100);
             drones[index].Status = DroneStatus.Available;
 
             // update base station available charging slots in DAL , remove drone charge entity from list
-            IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
+            
             IDAL.DO.BaseStation tempSt = myDal.GetBaseStation(tempCharge.StationId);
             myDal.RemoveDroneCharge(tempCharge);
             tempSt.NumOfSlots++;

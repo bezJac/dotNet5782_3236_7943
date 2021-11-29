@@ -73,7 +73,7 @@ namespace IBL
         /// </summary>
         /// <param name="id"> drone's ID</param>
         /// <param name="time"> duration of charge in hours </param>
-        void DischargeDrone(int id, int time);
+        void DischargeDrone(int id);
 
         /// <summary>
         /// Start delivery process by linking a drone to a compatible

@@ -40,7 +40,7 @@ namespace BL
             droneElecUseMedium = temp[2];
             droneElecUseHeavy = temp[3];
             droneHourlyChargeRate = temp[4];
-            Random rnd = new Random();
+            Random rnd = new();
             foreach (IDAL.DO.Drone dr in myDal.GetAllDrones())
             { 
                 // drone is linked to a parcel
@@ -92,7 +92,7 @@ namespace BL
                     // randomly set drone status to either available or maintanence
                     DroneStatus tmpStatus = (DroneStatus)rnd.Next(1, 3);
 
-                    // if status is aailable set location to one of customers with delivered parcel
+                    // if status is avilable set location to one of customers with delivered parcel
                     if (tmpStatus == DroneStatus.Available)
                     {
                         List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
@@ -129,7 +129,7 @@ namespace BL
                         // drone was set as charging - update DAL with chrge details
                         IDAL.DO.BaseStation st = tempSt.ElementAt(index);
                         st.NumOfSlots--;
-                        myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = dr.Id, StationId = st.Id });
+                        myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = dr.Id, StationId = st.Id ,EntranceTime = DateTime.Now.Subtract(new TimeSpan(rnd.Next(2),rnd.Next(30),0))});
                         myDal.UpdateBaseStation(st);
 
                     }
@@ -233,18 +233,13 @@ namespace BL
         /// <returns> double </returns>
         private double getElectricUseForDrone(WeightCategories w)
         {
-            switch (w)
+            return w switch
             {
-                case WeightCategories.Light:
-                    return droneElecUseLight;
-                case WeightCategories.Medium:
-                    return droneElecUseMedium;
-                case WeightCategories.Heavy:
-                    return droneElecUseHeavy;
-                default:
-                    return 0;
-            }
-
+                WeightCategories.Light => droneElecUseLight,
+                WeightCategories.Medium => droneElecUseMedium,
+                WeightCategories.Heavy => droneElecUseHeavy,
+                _ => 0,
+            };
         }
 
         /// <summary>

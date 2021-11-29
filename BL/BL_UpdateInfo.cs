@@ -25,14 +25,13 @@ namespace BL
             }
             if (station.DronesCharging.Count() > count)
                 throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
-            IDAL.DO.BaseStation st = new IDAL.DO.BaseStation();
-            st.Id = id;
+
+            IDAL.DO.BaseStation st = new() { Id = id, Longitude = station.StationLocation.Longtitude, Lattitude = station.StationLocation.Lattitude };
             if (name != "")
                 st.Name = name;
             else
                 st.Name = station.Name;
-            st.Longitude = station.StationLocation.Longtitude;
-            st.Lattitude = station.StationLocation.Lattitude;
+           
             if (count == 0)
                 st.NumOfSlots = station.NumOfSlots;
             else

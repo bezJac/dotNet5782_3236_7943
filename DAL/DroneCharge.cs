@@ -12,11 +12,13 @@ namespace IDAL
         {
             public int DroneId { get; set; }
             public int StationId { get; set; }
+            public DateTime? EntranceTime { get; set; }
             public override string ToString()
             {
                 string result = "";
                 result+= $"DroneId is { DroneId }\n";
                 result+= $"StationId is { StationId }\n";
+                result+= $"Entrance time is { EntranceTime }\n";
                 return result;
 
             }

@@ -13,7 +13,7 @@ namespace IBL.BO
     [Serializable]
     internal class AddException : Exception
     {
-        static string info = "AddException() ";
+        readonly static string  info = "AddException() ";
         public AddException() { }
         public AddException(string message) : base(info + message) { }
         public AddException(string message, Exception inner) : base(info + message, inner) { }
@@ -28,7 +28,7 @@ namespace IBL.BO
     [Serializable]
     internal class ActionException : Exception
     {
-        static string info = "ActionException() ";
+        readonly static string info = "ActionException() ";
         public ActionException() { }
         public ActionException(string message) : base(info + message) { }
         public ActionException(string message, Exception inner) : base(info + message, inner) { }
@@ -43,7 +43,7 @@ namespace IBL.BO
     [Serializable]
     internal class UpdateException : Exception
     {
-        static string info = "UpdateException() ";
+        readonly static string info = "UpdateException() ";
         public UpdateException() { }
         public UpdateException(string message) : base(info + message) { }
         public UpdateException(string message, Exception inner) : base(info + message, inner) { }
@@ -58,7 +58,7 @@ namespace IBL.BO
     [Serializable]
     internal class GetInstanceException : Exception
     {
-        static string info = "GetInstanceException() ";
+        readonly static string info = "GetInstanceException() ";
         public GetInstanceException() { }
         public GetInstanceException(string message) : base(info+message) { }
         public GetInstanceException(string message, Exception inner) : base(info+message, inner) { }
@@ -73,7 +73,7 @@ namespace IBL.BO
     [Serializable]
     internal class GetListException : Exception
     {
-        static string info = "GetListException() ";
+        readonly static string info = "GetListException() ";
         public GetListException() { }
         public GetListException(string message) : base(info+message) { }
         public GetListException(string message, Exception inner) : base(info+message, inner) { }

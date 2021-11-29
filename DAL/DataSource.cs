@@ -14,13 +14,13 @@ namespace DalObject
     internal class DataSource
     {
         
-        internal static List<BaseStation> Stations = new List<BaseStation>();
-        internal static List<Drone> Drones = new List<Drone>();
-        internal static List<Customer> Customers = new List<Customer>();
-        internal static List<Parcel> Parcels = new List<Parcel>();
-        internal static List<DroneCharge> Charges = new List<DroneCharge>();
+        internal static List<BaseStation> Stations = new();
+        internal static List<Drone> Drones = new();
+        internal static List<Customer> Customers = new();
+        internal static List<Parcel> Parcels = new();
+        internal static List<DroneCharge> Charges = new();
 
-        static Random rnd = new Random();
+        static Random rnd = new();
 
         /// <summary>
         /// class contains  parcel id and configurations dor drone electric use
@@ -223,7 +223,7 @@ namespace DalObject
 
             }
 
-            DateTime time = DateTime.Now.Subtract(new TimeSpan(4, 0, 0));
+            DateTime time = DateTime.Now.Subtract(new TimeSpan(12, 0, 0));
             /// <summary>
             ///  initialize and adds to list 5 linked to drone parcels
             /// </summary>

@@ -78,7 +78,6 @@ namespace ConsoleUI_BL
             } while (str != "exit");
         }
 
-        
         private static void addNewEntityMenu(IBL.IBL data)
         {
             int num1;
@@ -100,7 +99,7 @@ namespace ConsoleUI_BL
                     }
                 case "drone":
                     {
-                        Drone temp = new Drone { Parcel = null };
+                        Drone temp = new() { Parcel = null };
                         temp = inputDrone();
                         //Console.WriteLine("Enter a Base station Id out of list for initial charge\n");
                         //printBaseStations(data.GetAllAvailablBaseStations());
@@ -307,9 +306,7 @@ namespace ConsoleUI_BL
                     {
                         Console.WriteLine("Enter drone ID: ");
                         int.TryParse(Console.ReadLine(), out input1);
-                        Console.WriteLine("Enter time of charge in hours: ");
-                        int.TryParse(Console.ReadLine(), out input2);
-                        data.DischargeDrone(input1, input2);
+                        data.DischargeDrone(input1);
                         break;
                     }
                 case "link":
@@ -345,10 +342,9 @@ namespace ConsoleUI_BL
         /// </summary>
         /// <returns> Base Station object</returns>
         /// 
-
         private static BaseStation inputBaseStation()
         {
-            BaseStation station = new BaseStation { StationLocation = new Location(), };
+            BaseStation station = new(){ StationLocation = new Location(), };
             int num;
             double x;
             bool flag;
@@ -441,7 +437,7 @@ namespace ConsoleUI_BL
         /// <returns> Drone object</returns>
         private static Drone inputDrone()
         {
-            Drone dr = new Drone();
+            Drone dr = new();
             int num;
             bool flag; 
             do
@@ -487,7 +483,6 @@ namespace ConsoleUI_BL
             return dr;
         }
      
-
         /// <summary>
         /// create and get user input for new customer
         /// </summary>
@@ -495,7 +490,7 @@ namespace ConsoleUI_BL
         private static Customer inputCustomer()
         {
 
-            Customer person = new Customer { CustomerLocation = new Location(), };
+            Customer person = new(){ CustomerLocation = new Location(), };
             int num;
             double x;
             bool flag;
@@ -583,9 +578,10 @@ namespace ConsoleUI_BL
           
             return person;
         }
+
         private static Parcel inputParcel()
         {
-            Parcel package = new Parcel { Sender = new CustomerInParcel(), Target = new CustomerInParcel() };
+            Parcel package = new(){ Sender = new CustomerInParcel(), Target = new CustomerInParcel() };
             int num;
             bool flag;
             do
@@ -721,45 +717,5 @@ namespace ConsoleUI_BL
                 Console.WriteLine(prcl);
             }
         }
-
-        /// <summary>
-        /// print details of a single base station
-        /// </summary>
-        /// <param name="st"> base object station to print</param>
-        private static void printBaseStation(BaseStation st)
-        {
-            Console.WriteLine("Base station details:\n");
-            Console.WriteLine(st);
-        }
-        /// <summary>
-        /// print details of a single drone
-        /// </summary>
-        /// <param name="dr"> drone object to print</param>
-        private static void printDrone(Drone dr)
-        {
-            Console.WriteLine("Drone details:\n");
-            Console.WriteLine(dr);
-        }
-        /// <summary>
-        /// print details of a single Customer
-        /// </summary>
-        /// <param name="cstmr"> customer object to print</param>
-        private static void printCustomer(Customer cstmr)
-        {
-            Console.WriteLine("Customer  details:\n");
-            Console.WriteLine(cstmr);
-        }
-        /// <summary>
-        /// print details of a single parcel
-        /// </summary>
-        /// <param name="prc"> parcel object to print</param>
-        private static void printParcel(Parcel prc)
-        {
-            Console.WriteLine("Base station details:\n");
-            Console.WriteLine(prc);
-        }
-
-
     }
-
 }

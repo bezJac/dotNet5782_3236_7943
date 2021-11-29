@@ -44,16 +44,6 @@ namespace IBL.BO
             else
                 return result + "S";
         }
-
-        /// <summary>
-        /// convert a decimal degree to radians
-        /// </summary>
-        /// <param name="num"> decimal degree</param>
-        /// <returns> degree in radians</returns>
-        private static double DegToRad(double num)
-        {
-            return num * (Math.PI / 180);
-        }
     }
 }
         

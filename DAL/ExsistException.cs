@@ -9,7 +9,7 @@ namespace IDAL
     [Serializable]
     internal class ExsistException : Exception
     {
-        private static string info = "DAL - ExsistException(): ";
+        readonly private static string info = "DAL - ExsistException(): ";
         public ExsistException()
         {
         }

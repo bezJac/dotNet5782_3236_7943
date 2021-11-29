@@ -34,7 +34,7 @@ namespace BL
         }
         public void AddDrone(Drone drone)
         {
-            Random rnd = new Random();
+            Random rnd = new ();
             // check that base station for charging exsist
             IDAL.DO.BaseStation st;
             try
