@@ -47,7 +47,7 @@ namespace PL
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddDroneWindow(theBL).ShowDialog();
+            new DroneWindow(theBL).ShowDialog();
   
     
         }
@@ -60,6 +60,8 @@ namespace PL
 
         private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            Drone dr = new();
+            new DroneWindow(theBL, dr).ShowDialog();
 
         }
     }

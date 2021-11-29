@@ -18,11 +18,11 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class AddDroneWindow : Window
+    public partial class DroneWindow : Window
     {
         private IBL.IBL theBL;
         private Drone newDrone;
-        public AddDroneWindow(IBL.IBL bL)
+        public DroneWindow(IBL.IBL bL)
         {
 
             InitializeComponent();
@@ -30,14 +30,16 @@ namespace PL
             newDrone = new Drone();
             DataContext = newDrone;
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+           
         } 
-        public AddDroneWindow(IBL.IBL bL,Drone exsistingDrone)
+        public DroneWindow(IBL.IBL bL,Drone exsistingDrone)
         {
             InitializeComponent();
             theBL = bL;
             newDrone = exsistingDrone;
-            
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            this.addDrone.Visibility = Visibility.Collapsed;
+            this.actionDrone.Visibility = Visibility.Visible;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -67,5 +69,6 @@ namespace PL
 
             }
         }
+
     }
 }
