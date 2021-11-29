@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-        <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Id:" Visibility="Visible"/>
+            <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Id:" Visibility="Visible"/>
             <TextBox x:Name="idTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
             <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max Weight:"/>
@@ -38,8 +38,26 @@
             <Button Content="Cancel" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="126,0,0,0" VerticalAlignment="Top" Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
 
         </Grid>
-        <Grid x:Name="actionDrone" Background="red" Visibility="Collapsed">
-            
+        <Grid x:Name="actionDrone"  Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="430*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Close Window" Grid.Column="1" HorizontalAlignment="Center" Margin="5,0,5,0" Grid.Row="1" VerticalAlignment="Center" Width="120" Click="CloseWindowButton_Click"/>
+            <TextBlock x:Name="droneView" TextAlignment="Center" FontWeight="Bold" FontStretch="Normal" FontFamily="Ariel" FontSize="10" FontStyle="Normal" Grid.Column="1" HorizontalAlignment="Stretch"  TextWrapping="Wrap"  VerticalAlignment="Stretch"/>
+            <Label Content="New Model:" HorizontalContentAlignment="Center" Grid.Column="2" HorizontalAlignment="Center" Margin="0,10,0,0"  VerticalAlignment="Top" Width="145" Height="25"/>
+            <TextBox Grid.Column="2"  HorizontalAlignment="Center" Height="20" Margin="0,40,0,0"  Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Top" Width="120"/>
+            <Button Content="Update" Grid.Column="2" HorizontalAlignment="Center" Margin="62,65,62,0" VerticalAlignment="Top" Width="74" Click="UpdateButton_Click" ToolTip="update the drone's model"/>
+            <Button Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="61,156,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="61,290,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="63,65,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="63,161,0,0" VerticalAlignment="Top" Width="75"/>
+            <Button Content="Button" HorizontalAlignment="Left" Margin="63,309,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
     </Grid>
 </Window>

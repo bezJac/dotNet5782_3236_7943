@@ -58,10 +58,11 @@ namespace PL
         }
 
 
-        private void DroneListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void DroneList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Drone dr = new();
-            new DroneWindow(theBL, dr).ShowDialog();
+            DroneInList dr = DroneListView.SelectedItem as DroneInList;
+            Drone drone = theBL.GetDrone(dr.Id);
+            new DroneWindow(theBL, drone).ShowDialog();
 
         }
     }

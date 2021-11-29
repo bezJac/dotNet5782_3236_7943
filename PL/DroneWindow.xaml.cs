@@ -40,6 +40,7 @@ namespace PL
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             this.addDrone.Visibility = Visibility.Collapsed;
             this.actionDrone.Visibility = Visibility.Visible;
+            this.droneView.Text = exsistingDrone.ToString();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -68,6 +69,14 @@ namespace PL
                 
 
             }
+        }
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

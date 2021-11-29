@@ -32,23 +32,22 @@ namespace BL
                 throw new AddException("", ex);
             }
         }
-        public void AddDrone(Drone drone)
+        public void AddDrone(Drone drone ,int stationId)
         {
-            Random rnd = new ();
+            Random rnd = new();
             // check that base station for charging exsist
             IDAL.DO.BaseStation st;
             try
             {
-                IEnumerable< IDAL.DO.BaseStation> tmp = myDal.GetAllBaseStations(st=>st.NumOfSlots>0);
-                st = tmp.ElementAt(rnd.Next(tmp.Count()));
+               st = myDal.GetBaseStation(stationId);
             }
             catch (Exception ex)
             {
                 throw new AddException("", ex);
             }
-            //// check that base station has available charging slots
-            //if (st.NumOfSlots == 0)
-            //    throw new AddException($"base station - {stationId} has no charging slots available");
+            // check that base station has available charging slots
+            if (st.NumOfSlots == 0)
+                throw new AddException($"base station - {stationId} has no charging slots available");
 
             //// add drone to DAL
             try
@@ -77,7 +76,7 @@ namespace BL
             });
             // update base station in dal , add new drone charge entity to list
             st.NumOfSlots--;
-            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id });
+            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
             myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)
