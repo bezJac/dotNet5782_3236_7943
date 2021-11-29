@@ -27,7 +27,7 @@ namespace BL
                 throw new ActionException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            IDAL.DO.BaseStation st = getNearestBasestation(drones[index].DroneLocation);
+            IDAL.DO.BaseStation st = getNearestAvailableBasestation(drones[index].DroneLocation);
             Location stLocation = createLocation(st.Longitude, st.Lattitude);
             double distance = Distance.GetDistance(stLocation, drones[index].DroneLocation);
 

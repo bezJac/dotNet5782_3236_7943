@@ -16,7 +16,7 @@ namespace BL
     public partial class BL : IBL.IBL
     {
 
-        private IDAL.IDal myDal;
+        readonly private IDAL.IDal myDal;
         private List<DroneInList> drones;
         private static double droneElecUseEmpty;
         private static double droneElecUseLight;
@@ -44,20 +44,20 @@ namespace BL
             foreach (IDAL.DO.Drone dr in myDal.GetAllDrones())
             { 
                 // drone is linked to a parcel
-                if (myDal.GetAllParcels(p => p.DroneId != 0).ToList().Any(prc => prc.DroneId == dr.Id))
+                if (myDal.GetAllParcels(p => p.DroneId != 0).Any(prc => prc.DroneId == dr.Id))
                 {
                     IDAL.DO.Parcel parcel = myDal.GetAllParcels(p => p.DroneId != 0).FirstOrDefault(prc => prc.DroneId == dr.Id);
                     IDAL.DO.Customer sender = myDal.GetCustomer(parcel.SenderId);
                     IDAL.DO.Customer target = myDal.GetCustomer(parcel.TargetId);
                     Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
                     Location targetLocation = createLocation(target.Longitude, target.Lattitude);
-                    IDAL.DO.BaseStation charge = getNearestBasestation(targetLocation);
+                    IDAL.DO.BaseStation charge = getNearestAvailableBasestation(targetLocation);
                     Location chargingStation = createLocation(charge.Longitude, charge.Lattitude);
 
                     // drone did not pick up parcel yet - set location to nearest base station to sender
                     if (parcel.PickedUp == null)
                     {
-                        IDAL.DO.BaseStation st = getNearestBasestation(senderLocation);
+                        IDAL.DO.BaseStation st = getNearestAvailableBasestation(senderLocation);
                         Location current = createLocation(st.Longitude, st.Lattitude);
                         drones.Add(new DroneInList
                         {
@@ -97,7 +97,7 @@ namespace BL
                     {
                         List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
                         Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count)).TargetId).CustomerLocation;
-                        IDAL.DO.BaseStation st = getNearestBasestation(current);
+                        IDAL.DO.BaseStation st = getNearestAvailableBasestation(current);
                         int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
                         drones.Add(new DroneInList
                         {
@@ -143,11 +143,11 @@ namespace BL
         /// </summary>
         /// <param name="l"> location to calculate distance from </param>
         /// <returns> IDAL.DO.BaseStation instance of nearest station </returns>
-        private IDAL.DO.BaseStation getNearestBasestation(Location l)
+        private IDAL.DO.BaseStation getNearestAvailableBasestation(Location l)
         {
             double min = double.PositiveInfinity;
             double distance;
-            IDAL.DO.BaseStation tmpStation = new IDAL.DO.BaseStation();
+            IDAL.DO.BaseStation tmpStation = new();
             foreach (IDAL.DO.BaseStation st in myDal.GetAllBaseStations(s => s.NumOfSlots > 0))
             {
                 distance = Distance.GetDistance(createLocation(st.Longitude, st.Lattitude), l);
@@ -187,7 +187,7 @@ namespace BL
         private bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
             // get nearest station to target with availability to charge 
-            IDAL.DO.BaseStation tmp = getNearestBasestation(target);
+            IDAL.DO.BaseStation tmp = getNearestAvailableBasestation(target);
             // claculate distance from drone current location to sender
             double DroneToSender = Distance.GetDistance(dr.DroneLocation, sender);
             // calculate distance from sender to target
