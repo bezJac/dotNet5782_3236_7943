@@ -30,6 +30,8 @@ namespace PL
             this.StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             this.WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
+      
+
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

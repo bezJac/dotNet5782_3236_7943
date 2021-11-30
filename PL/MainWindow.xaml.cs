@@ -30,7 +30,7 @@ namespace PL
 
         private void ShowDronesButton_Click(object sender, RoutedEventArgs e)
         {
-            new ListDronesWindow(myBL).Show();
+            new ListDronesWindow(myBL).ShowDialog();
         }
 
      

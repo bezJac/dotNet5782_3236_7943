@@ -8,11 +8,34 @@
         Title="DroneWindow" Height="450" Width="800">
 
     <Grid>
-        <Grid x:Name="addDrone" Visibility="Visible">
+        <Grid x:Name="actionDrone"  Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="430*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Close Window" Grid.Column="1" HorizontalAlignment="Center" Margin="5,0,5,0" Grid.Row="1" VerticalAlignment="Center" Width="120" Click="CloseWindowButton_Click"/>
+            <TextBlock x:Name="droneView" TextAlignment="Center" FontWeight="Bold" FontStretch="Normal" FontFamily="Ariel" FontSize="10" FontStyle="Normal" Grid.Column="1" HorizontalAlignment="Stretch"  TextWrapping="Wrap"  VerticalAlignment="Stretch"/>
+            <Label Content="New Model:" HorizontalContentAlignment="Center" Grid.Column="2" HorizontalAlignment="Center" Margin="0,10,0,0"  VerticalAlignment="Top" Width="145" Height="25"/>
+            <TextBox x:Name="newModel"  Grid.Column="2"  HorizontalAlignment="Center" Height="20" Margin="0,40,0,0"   VerticalAlignment="Top" Width="120"/>
+            <Button Content="Update" Grid.Column="2" HorizontalAlignment="Center" Margin="62,65,62,0" VerticalAlignment="Top" Width="74" Click="UpdateButton_Click" ToolTip="update the drone's model"/>
+            <Button Content="Charge" Grid.Column="2" HorizontalAlignment="Left" Margin="61,156,0,0" VerticalAlignment="Top" Width="75" ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"/>
+            <Button Content="Discharge" Grid.Column="2" HorizontalAlignment="Left" Margin="61,290,0,0" VerticalAlignment="Top" Width="75" Click="DischargeButton_Click" ToolTip="release drone from charge"/>
+            <Button Content="Schedule" HorizontalAlignment="Left" Margin="63,65,0,0" VerticalAlignment="Top" Width="75" Click="ScheduleButton_Click" ToolTip="link a drone to a parcel"/>
+            <Button Content="PickUp" HorizontalAlignment="Left" Margin="63,161,0,0" VerticalAlignment="Top" Width="75" Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>
+            <Button Content="Deliver" HorizontalAlignment="Left" Margin="63,309,0,0" VerticalAlignment="Top" Width="75" Click="DeliverButton_Click" />
+        </Grid>
+        <Grid x:Name="addDrone" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -34,30 +57,12 @@
             <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Model:"/>
             <TextBox x:Name="modelTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-            <Button Content="Add" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
+            <Label Content="choose station to charge:" Grid.Row="3"/>
+            <ComboBox Name="stationsList" Width="Auto"  Grid.Column="1" Grid.Row="3"/>
+                <Button Content="Add" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
             <Button Content="Cancel" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="126,0,0,0" VerticalAlignment="Top" Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
 
         </Grid>
-        <Grid x:Name="actionDrone"  Visibility="Collapsed">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="430*"/>
-                <RowDefinition Height="30*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="60*"/>
-                <ColumnDefinition Width="30*"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="Close Window" Grid.Column="1" HorizontalAlignment="Center" Margin="5,0,5,0" Grid.Row="1" VerticalAlignment="Center" Width="120" Click="CloseWindowButton_Click"/>
-            <TextBlock x:Name="droneView" TextAlignment="Center" FontWeight="Bold" FontStretch="Normal" FontFamily="Ariel" FontSize="10" FontStyle="Normal" Grid.Column="1" HorizontalAlignment="Stretch"  TextWrapping="Wrap"  VerticalAlignment="Stretch"/>
-            <Label Content="New Model:" HorizontalContentAlignment="Center" Grid.Column="2" HorizontalAlignment="Center" Margin="0,10,0,0"  VerticalAlignment="Top" Width="145" Height="25"/>
-            <TextBox Grid.Column="2"  HorizontalAlignment="Center" Height="20" Margin="0,40,0,0"  Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Top" Width="120"/>
-            <Button Content="Update" Grid.Column="2" HorizontalAlignment="Center" Margin="62,65,62,0" VerticalAlignment="Top" Width="74" Click="UpdateButton_Click" ToolTip="update the drone's model"/>
-            <Button Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="61,156,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="61,290,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="63,65,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="63,161,0,0" VerticalAlignment="Top" Width="75"/>
-            <Button Content="Button" HorizontalAlignment="Left" Margin="63,309,0,0" VerticalAlignment="Top" Width="75"/>
-        </Grid>
+    
     </Grid>
 </Window>

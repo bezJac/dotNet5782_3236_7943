@@ -22,14 +22,19 @@ namespace PL
     {
         private IBL.IBL theBL;
         private Drone newDrone;
+        private BaseStationInList station;
         public DroneWindow(IBL.IBL bL)
         {
 
             InitializeComponent();
             theBL = bL;
+            this.addDrone.Visibility = Visibility.Visible;
+            this.actionDrone.Visibility = Visibility.Collapsed;
             newDrone = new Drone();
             DataContext = newDrone;
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            this.stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
+
            
         } 
         public DroneWindow(IBL.IBL bL,Drone exsistingDrone)
@@ -37,10 +42,12 @@ namespace PL
             InitializeComponent();
             theBL = bL;
             newDrone = exsistingDrone;
+            if (newDrone.Status == DroneStatus.Available||newDrone.Status==DroneStatus.Delivery)
+                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             this.addDrone.Visibility = Visibility.Collapsed;
             this.actionDrone.Visibility = Visibility.Visible;
-            this.droneView.Text = exsistingDrone.ToString();
+            this.droneView.Text = newDrone.ToString();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -54,7 +61,8 @@ namespace PL
             {
                 if (newDrone.Id <= 0)
                     throw new Exception("Id must be positive");
-                theBL.AddDrone(newDrone);
+                station = stationsList.SelectedItem as BaseStationInList;
+                theBL.AddDrone(newDrone,station.Id);
             }
             catch (Exception ex)
             {
@@ -76,8 +84,91 @@ namespace PL
         }
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-
+            newDrone.Model = newModel.Text.ToString();
+            theBL.UpdateDrone(newDrone.Id, newDrone.Model);
+            this.droneView.Text = newDrone.ToString();
         }
 
+        private void ChargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                theBL.ChargeDrone(newDrone.Id);
+                MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+        }
+
+        private void DischargeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                theBL.DischargeDrone(newDrone.Id);
+                MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                theBL.LinkDroneToParcel(newDrone.Id);
+                MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void PickUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                theBL.DroneParcelPickUp(newDrone.Id);
+                MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DeliverButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                theBL.DroneParcelDelivery(newDrone.Id);
+                MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }

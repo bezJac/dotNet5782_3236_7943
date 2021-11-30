@@ -22,7 +22,7 @@ namespace IBL.BO
             result += $"Model: { Model }\n";
             result += $"MaxWeight: { MaxWeight }\n";
             result += $"Status: { Status }\n";
-            result += $"Battery level: { Battery }\n";
+            result += $"Battery level: { Battery } %\n";
             if(ParcelId!=0)
             result += $"Parcel in delivery Id: {ParcelId}\n";
             result += $"Location:\n{DroneLocation}";

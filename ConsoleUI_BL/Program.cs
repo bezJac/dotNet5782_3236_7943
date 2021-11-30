@@ -101,10 +101,10 @@ namespace ConsoleUI_BL
                     {
                         Drone temp = new() { Parcel = null };
                         temp = inputDrone();
-                        //Console.WriteLine("Enter a Base station Id out of list for initial charge\n");
-                        //printBaseStations(data.GetAllAvailablBaseStations());
-                        //int.TryParse(Console.ReadLine(), out num1);
-                        data.AddDrone(temp);
+                        Console.WriteLine("Enter a Base station Id out of list for initial charge\n");
+                        printBaseStations(data.GetAllAvailablBaseStations());
+                        int.TryParse(Console.ReadLine(), out num1);
+                        data.AddDrone(temp,num1);
                         break;
                     }
                 case "customer":

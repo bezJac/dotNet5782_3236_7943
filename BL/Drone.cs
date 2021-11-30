@@ -17,7 +17,7 @@
                 result += $"Model is: { Model }\n";
                 result += $"MaxWeight is: { MaxWeight }\n";
                 result += $"Status is: { Status }\n";
-                result += $"Battery level is: { Battery }\n";
+                result += $"Battery level is: { Battery } %\n";
                 if(Parcel!=null)
                     result += $"Parcel in delivery details are:\n {Parcel}";
                 result += $"Drone location is:\n{Location}";
