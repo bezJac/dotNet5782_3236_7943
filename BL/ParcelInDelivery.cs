@@ -23,13 +23,13 @@ namespace IBL.BO
             string result = "";
             result += $"Id: {Id}\n";
             result += $"Delivery status: {InTransit}\n";
-            result += $"Sending customer basic details:\n { Sender }";
-            result += $"Target customer basic  details:\n { Target }";
+            result += $"Sending customer details:\n { Sender }";
+            result += $"Target customer details:\n { Target }";
             result += $"Priority: { Priority }\n";
             result += $"Weight: { Weight }\n";
             result += $"Sending Customer location:\n {SenderLocation}";
             result += $"Target Customer location:\n {TargetLocation}";
-            result += $"Distance of delivery in KM:" + String.Format("{0:0.00}",DeliveryDistance)+"\n";
+            result += $"Distance of delivery: " + String.Format("{0:0.00}",DeliveryDistance)+ " KM\n";
             return result;
 
         }

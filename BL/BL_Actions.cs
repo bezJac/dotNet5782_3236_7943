@@ -61,9 +61,9 @@ namespace BL
 
             IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
             TimeSpan duration = DateTime.Now.Subtract((DateTime)tempCharge.EntranceTime);
-            double time = duration.Hours + (int)(duration.Minutes / 60)+ (int)(duration.Seconds/3600);
+            double time = duration.Hours + (duration.Minutes / 60) + (duration.Seconds / 3600);
             // update drone 
-            drones[index].Battery = Math.Max(drones[index].Battery + (int)(droneHourlyChargeRate * time), 100);
+            drones[index].Battery = Math.Min(drones[index].Battery + (int)(droneHourlyChargeRate * time), 100);
             drones[index].Status = DroneStatus.Available;
 
             // update base station available charging slots in DAL , remove drone charge entity from list
@@ -143,7 +143,7 @@ namespace BL
 
             // deduct battery use for flight to sender  from drone battery and set drone's location to sender's location
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
-            drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.SenderLocation) * droneElecUseEmpty);
+            drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.SenderLocation) * droneElecUseEmpty);
             drones[index].DroneLocation = dr.Parcel.SenderLocation;
 
             // update parcel in DAL 
@@ -184,7 +184,7 @@ namespace BL
             // deduct battery use of  flight from current drone location to target location  from drone's battery
             // set location to target's location , and mark drone  as available
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
-            drones[index].Battery -= (int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
+            drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
             drones[index].DroneLocation = dr.Parcel.TargetLocation;
             drones[index].Status = DroneStatus.Available;
             drones[index].ParcelId = 0;

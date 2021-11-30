@@ -21,7 +21,7 @@ namespace IBL.BO
             //double b = a / (1 - a);
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             var d = (R) * c;                  // Distance in km
-            return d/100;
+            return d;
             
             
         }

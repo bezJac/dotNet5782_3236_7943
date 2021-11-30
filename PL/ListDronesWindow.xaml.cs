@@ -37,14 +37,33 @@ namespace PL
         {
             DroneStatus status = (DroneStatus)StatusSelector.SelectedItem;
             this.StatusSelector.Text = StatusSelector.SelectedItem.ToString();
-            this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status);
+            try
+            {
+                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status);
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
 
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             WeightCategories weight = (WeightCategories)WeightSelector.SelectedItem;
             this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
-            this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
+            try
+            {
+                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)

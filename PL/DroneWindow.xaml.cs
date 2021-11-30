@@ -40,12 +40,53 @@ namespace PL
         public DroneWindow(IBL.IBL bL,Drone exsistingDrone)
         {
             InitializeComponent();
+            this.addDrone.Visibility = Visibility.Collapsed;
             theBL = bL;
             newDrone = exsistingDrone;
-            if (newDrone.Status == DroneStatus.Available||newDrone.Status==DroneStatus.Delivery)
+            switch (newDrone.Status)
+            {
+                case DroneStatus.Available:
+                    {
+                        this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                        break;
+                    }
+                case DroneStatus.Maintenance:
+                    {
+                        this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                        break;
+                    }
+                case DroneStatus.Delivery:
+                    {
+                        if(newDrone.Parcel.InTransit)
+                        {
+                            this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                            break;
+                        }
+                        else 
+                        {
+                            this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+            if (newDrone.Status == DroneStatus.Available)
                 this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+            if( newDrone.Status == DroneStatus.Delivery)
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-            this.addDrone.Visibility = Visibility.Collapsed;
+            
             this.actionDrone.Visibility = Visibility.Visible;
             this.droneView.Text = newDrone.ToString();
         }
@@ -96,7 +137,11 @@ namespace PL
                 theBL.ChargeDrone(newDrone.Id);
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
-                
+                this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[6].Visibility = Visibility.Visible;
+                this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
             }
             catch (Exception Ex)
             {
@@ -114,6 +159,9 @@ namespace PL
                 theBL.DischargeDrone(newDrone.Id);
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                this.actionDrone.Children[5].Visibility = Visibility.Visible;
+                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[7].Visibility = Visibility.Visible;
             }
             catch (Exception Ex)
             {
@@ -130,6 +178,10 @@ namespace PL
                 theBL.LinkDroneToParcel(newDrone.Id);
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[8].Visibility = Visibility.Visible;
             }
             catch (Exception Ex)
             {
@@ -146,6 +198,8 @@ namespace PL
                 theBL.DroneParcelPickUp(newDrone.Id);
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[9].Visibility = Visibility.Visible;
             }
             catch (Exception Ex)
             {
@@ -162,6 +216,11 @@ namespace PL
                 theBL.DroneParcelDelivery(newDrone.Id);
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                this.actionDrone.Children[5].Visibility = Visibility.Visible;
+                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[7].Visibility = Visibility.Visible;
+                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
             }
             catch (Exception Ex)
             {

@@ -58,7 +58,7 @@
             <TextBox x:Name="modelTextBox" Width="120" VerticalAlignment="Center" Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
             <Label Content="choose station to charge:" Grid.Row="3"/>
-            <ComboBox Name="stationsList" Width="Auto"  Grid.Column="1" Grid.Row="3"/>
+            <ComboBox x:Name="stationsList" Width="Auto"  Grid.Column="1" Grid.Row="3"/>
                 <Button Content="Add" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
             <Button Content="Cancel" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="126,0,0,0" VerticalAlignment="Top" Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
 
