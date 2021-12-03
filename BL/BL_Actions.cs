@@ -61,7 +61,7 @@ namespace BL
 
             IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
             TimeSpan duration = DateTime.Now.Subtract((DateTime)tempCharge.EntranceTime);
-            double time = duration.Hours + (duration.Minutes / 60) + (duration.Seconds / 3600);
+            double time = duration.Hours + (double)duration.Minutes / 60 + (double)duration.Seconds / 3600;
             // update drone 
             drones[index].Battery = Math.Min(drones[index].Battery + (int)(droneHourlyChargeRate * time), 100);
             drones[index].Status = DroneStatus.Available;

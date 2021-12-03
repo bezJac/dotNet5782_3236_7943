@@ -13,14 +13,14 @@
             public override string ToString()
             {
                 string result = "";
-                result += $"Id is: { Id }\n";
-                result += $"Model is: { Model }\n";
-                result += $"MaxWeight is: { MaxWeight }\n";
-                result += $"Status is: { Status }\n";
-                result += $"Battery level is: { Battery } %\n";
+                result += $"ID: { Id }\n";
+                result += $"Model: { Model }\n";
+                result += $"MaxWeight: { MaxWeight }\n";
+                result += $"Status: { Status }\n";
+                result += $"Battery level: { Battery } %\n";
                 if(Parcel!=null)
                     result += $"Parcel in delivery details are:\n {Parcel}";
-                result += $"Drone location is:\n{Location}";
+                result += $"Drone location:\n{Location}";
                 return result;
             }
         }

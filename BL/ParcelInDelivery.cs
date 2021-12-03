@@ -21,7 +21,7 @@ namespace IBL.BO
         public override string ToString()
         {
             string result = "";
-            result += $"Id: {Id}\n";
+            result += $"ID: {Id}\n";
             result += $"Delivery status: {InTransit}\n";
             result += $"Sending customer details:\n { Sender }";
             result += $"Target customer details:\n { Target }";
@@ -29,7 +29,7 @@ namespace IBL.BO
             result += $"Weight: { Weight }\n";
             result += $"Sending Customer location:\n {SenderLocation}";
             result += $"Target Customer location:\n {TargetLocation}";
-            result += $"Distance of delivery: " + String.Format("{0:0.00}",DeliveryDistance)+ " KM\n";
+            result += $"Distance of delivery: " + String.Format("{0:0.0}",DeliveryDistance)+ " KM\n";
             return result;
 
         }

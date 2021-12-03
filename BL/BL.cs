@@ -17,7 +17,7 @@ namespace BL
     {
 
         readonly private IDAL.IDal myDal;
-        private List<DroneInList> drones;
+        readonly private List<DroneInList> drones;
         private static double droneElecUseEmpty;
         private static double droneElecUseLight;
         private static double droneElecUseMedium;
@@ -165,9 +165,9 @@ namespace BL
         /// </summary>
         /// <param name="pr"> parcel to calculate status of </param>
         /// <returns> ParcelStatus enum value </returns>
-        private ParcelStatus getParcelStatus(IDAL.DO.Parcel pr)
+        private  ParcelStatus getParcelStatus(IDAL.DO.Parcel pr)
         {
-            if (pr.Scheduled == null)
+            if(pr.Scheduled == null)
                 return ParcelStatus.Orderd;
             if (pr.PickedUp == null)
                 return ParcelStatus.Linked;
@@ -184,7 +184,7 @@ namespace BL
         /// <param name="target"> location of parcel's target customer </param>
         /// <param name="w"> weight category of parcel </param>
         /// <returns> bool </returns>
-        private bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
+        private  bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
             // get nearest station to target with availability to charge 
             IDAL.DO.BaseStation tmp = getNearestAvailableBasestation(target);
@@ -231,7 +231,7 @@ namespace BL
         /// </summary>
         /// <param name="w"> dron max weight category</param>
         /// <returns> double </returns>
-        private double getElectricUseForDrone(WeightCategories w)
+        private  double getElectricUseForDrone(WeightCategories w)
         {
             return w switch
             {
@@ -288,7 +288,7 @@ namespace BL
         /// <param name="lon"> longtitiude coordinate </param>
         /// <param name="lat"> lattitude coordinate </param>
         /// <returns> location class containing both coordinates</returns>
-        private  Location createLocation(double lon, double lat)
+        private Location createLocation(double lon, double lat)
         {
             return new Location { Longtitude = lon, Lattitude = lat };
         }
