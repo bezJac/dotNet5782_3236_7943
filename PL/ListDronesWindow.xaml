@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ListDronesWindow" Height="640" Width="800">
-    <Grid x:Name="MainGrid">
+        Title="Drones List" Height="480" Width="800" Closing="Window_Closing"
+        Icon="C:\Users\PC\source\repos\bezJac\dotNet5782_3236_7943\PL\icons8_drone_60_yNM_icon.ico" >
+    <Grid x:Name="MainGrid" Background="#FFD5DCD0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="380*"/>
+            <RowDefinition Height="70*"/>
+            <RowDefinition Height="300*"/>
             <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
@@ -20,25 +21,32 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="StatusSelector" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
-            <TextBox HorizontalAlignment="Center" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-            <ComboBox  Name="WeightSelector"  Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="22" Width="82" SelectionChanged="WeightSelector_SelectionChanged" ToolTip="Filter drones by weight"/>
-
-            <Button Content="Add Drone" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="22" Width="70" Click="AddDroneButton_Click"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>   
+                
+               
+            <Label Content="Choose a Weight:" VerticalAlignment="Center" HorizontalAlignment="Center" FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="18"/>
+            <Label Content="Choose a Status:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="18"/>
+            <ComboBox  Name="WeightSelector"  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                       Height="22" Width="120" SelectionChanged="WeightSelector_SelectionChanged" 
+                     ToolTip="Filter drones by weight"/>
+            <ComboBox Name="StatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="22" Width="120" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+            <Button Content="Add Drone" Grid.Column="3" HorizontalAlignment="Center" 
+                    BorderThickness="1" BorderBrush="Black"  Background="#FF669966" Grid.RowSpan="2" 
+            VerticalAlignment="Center" Height="40" Width="100" Click="AddDroneButton_Click" FontSize="18" FontFamily="Comic Sans MS"/>
+            <Button Content="Clear" Grid.Column="2" HorizontalAlignment="Center" 
+                    BorderThickness="1" BorderBrush="Black"  Background="#FF669966" Grid.RowSpan="2" 
+                    VerticalAlignment="Center" Height="40" Width="100" Click="ClearButton_Click" FontSize="18" FontFamily="Comic Sans MS"/>
         </Grid>
         <ListView x:Name="DroneListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" >
-             
-            <ListView.View >
-                
-                <GridView>
-                    <GridViewColumn/>
-                   
-                </GridView>
-            </ListView.View>
 
-
+           
         </ListView>
-        <Button Content="Close Window" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" Click="CloseWindowButton_Click"/>
+        <Button Content="Close" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF669966"
+              BorderThickness="1" BorderBrush="Black" Width="50"
+                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" FontFamily="Comic Sans MS"/>
 
 
     </Grid>

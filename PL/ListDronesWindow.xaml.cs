@@ -35,46 +35,56 @@ namespace PL
 
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DroneStatus status = (DroneStatus)StatusSelector.SelectedItem;
-            this.StatusSelector.Text = StatusSelector.SelectedItem.ToString();
-            try
+            if (StatusSelector.SelectedItem != null)
             {
-                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status);
+                DroneStatus status = (DroneStatus)StatusSelector.SelectedItem;
+                this.StatusSelector.Text = StatusSelector.SelectedItem.ToString();
+                try
+                {
+                    if(WeightSelector.SelectedItem==null)
+                         this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status);
+                    else
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status&&dr.MaxWeight==(WeightCategories)WeightSelector.SelectedItem);
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            catch (Exception Ex)
-            {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            
         }
 
         private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            WeightCategories weight = (WeightCategories)WeightSelector.SelectedItem;
-            this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
-            try
+            if (WeightSelector.SelectedItem != null)
             {
-                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
-            }
-            catch (Exception Ex)
-            {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                WeightCategories weight = (WeightCategories)WeightSelector.SelectedItem;
+                this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
+                try
+                {
+                    if(StatusSelector.SelectedItem==null)
+                         this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
+                    else
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight && dr.Status== (DroneStatus)StatusSelector.SelectedItem);
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
             new DroneWindow(theBL).ShowDialog();
-  
-    
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+         
             this.Close();
         }
 
@@ -85,6 +95,20 @@ namespace PL
             Drone drone = theBL.GetDrone(dr.Id);
             new DroneWindow(theBL, drone).ShowDialog();
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            
+                e.Cancel =false;
+            
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.StatusSelector.SelectedItem = null;
+            this.WeightSelector.SelectedItem = null;
+            this.DroneListView.ItemsSource = theBL.GetAllDronesInList();
         }
     }
 

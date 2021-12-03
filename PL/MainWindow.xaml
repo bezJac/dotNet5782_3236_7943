@@ -5,10 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Background="LightGreen">
+        Title="" Height="400" Width="800" Icon="C:\Users\PC\source\repos\bezJac\dotNet5782_3236_7943\PL\icons8_drone_60_yNM_icon.ico">
+    <Grid Background="#FFD5DCD0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="40*"/>
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="0">            <TextBlock x:Name="txtBlck" Grid.Column="0" FontSize="20" FontStyle="Oblique"                        Padding="30" TextAlignment="Center"  FontWeight="ExtraBold"  ></TextBlock>        </Viewbox>
 
-        <Button Background="ForestGreen" Content="Drones" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="42" Width="89" Click="ShowDronesButton_Click"/>
-        
+
+
+        <Button Grid.Row="1" Background="#FF669966" Content="Show Drones" HorizontalAlignment="Center" Margin="20,0,0,0" VerticalAlignment="Top" 
+                MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="300" Click="ShowDronesButton_Click" 
+                FontFamily="Comic Sans MS" HorizontalContentAlignment="center" 
+                 FontSize="30" FontWeight="Bold" FontStretch="Normal" BorderBrush="Black"  >
+
+        </Button>
+
     </Grid>
 </Window>

@@ -20,6 +20,8 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
+        
+
         private IBL.IBL theBL;
         private Drone newDrone;
         private BaseStationInList station;
@@ -34,8 +36,6 @@ namespace PL
             DataContext = newDrone;
             this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             this.stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
-
-           
         } 
         public DroneWindow(IBL.IBL bL,Drone exsistingDrone)
         {
@@ -115,7 +115,7 @@ namespace PL
                 MessageBox.Show("Drone was added successfully to list");
                 
                 this.Close();
-                
+               
 
             }
         }
@@ -136,7 +136,8 @@ namespace PL
             {
                 theBL.ChargeDrone(newDrone.Id);
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                newDrone= theBL.GetDrone(newDrone.Id);
+                this.droneView.Text = newDrone.ToString();
                 this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[6].Visibility = Visibility.Visible;
                 this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
@@ -158,7 +159,8 @@ namespace PL
             {
                 theBL.DischargeDrone(newDrone.Id);
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                newDrone = theBL.GetDrone(newDrone.Id);
+                this.droneView.Text = newDrone.ToString();
                 this.actionDrone.Children[5].Visibility = Visibility.Visible;
                 this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[7].Visibility = Visibility.Visible;
@@ -177,7 +179,8 @@ namespace PL
             {
                 theBL.LinkDroneToParcel(newDrone.Id);
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                newDrone = theBL.GetDrone(newDrone.Id);
+                this.droneView.Text = newDrone.ToString();
                 this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
@@ -197,7 +200,8 @@ namespace PL
             {
                 theBL.DroneParcelPickUp(newDrone.Id);
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                newDrone = theBL.GetDrone(newDrone.Id);
+                this.droneView.Text = newDrone.ToString();
                 this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[9].Visibility = Visibility.Visible;
             }
@@ -215,7 +219,8 @@ namespace PL
             {
                 theBL.DroneParcelDelivery(newDrone.Id);
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = theBL.GetDrone(newDrone.Id).ToString();
+                newDrone = theBL.GetDrone(newDrone.Id);
+                this.droneView.Text = newDrone.ToString();
                 this.actionDrone.Children[5].Visibility = Visibility.Visible;
                 this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
                 this.actionDrone.Children[7].Visibility = Visibility.Visible;

@@ -25,6 +25,7 @@ namespace PL
         {
             myBL = new BL.BL();
             InitializeComponent();
+            this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
 
         }
 
