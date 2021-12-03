@@ -48,26 +48,26 @@
                    Height="50" Width="120" Click="UpdateButton_Click" ToolTip="update the drone's model"   Margin="35,65,34,25"/>
 
 
-            <Button Background="#FF669966" BorderThickness="1" BorderBrush="Black" Content="Charge" Grid.Column="2" Grid.Row="1" 
+            <Button  Content="Charge" Background="#FF669966" BorderThickness="1" BorderBrush="Black"  Grid.Column="2" Grid.Row="1" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"/>
-            <Button Background="#FF669966" BorderThickness="1" BorderBrush="Black" Content="Discharge"
+            <Button  Content="Discharge" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
                     Grid.Column="2" Grid.Row="2" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                      Click="DischargeButton_Click" ToolTip="release drone from charge"/>
-            <Button Background="#FF669966" BorderThickness="1" BorderBrush="Black" Content="Schedule" 
+            <Button Content="Schedule"  Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
                     Grid.Column="0" Grid.Row="0" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     Click="ScheduleButton_Click" ToolTip="link a drone to a parcel"/>
-            <Button Background="#FF669966" BorderThickness="1" BorderBrush="Black" Content="Pick Up" 
+            <Button Content="Pick Up"  Background="#FF669966" BorderThickness="1" BorderBrush="Black"
                     Grid.Column="0" Grid.Row="1" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>
-            <Button Background="#FF669966" BorderThickness="1" BorderBrush="Black" Content="Deliver"
+            <Button Content="Deliver" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
                     Grid.Column="0" Grid.Row="2" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
