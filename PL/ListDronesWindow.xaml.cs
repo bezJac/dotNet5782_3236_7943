@@ -21,7 +21,7 @@ namespace PL
     /// </summary>
     public partial class ListDronesWindow : Window
     {
-        private IBL.IBL theBL;
+        readonly private IBL.IBL theBL;
         public ListDronesWindow(IBL.IBL bL)
         {
             InitializeComponent();
@@ -80,6 +80,7 @@ namespace PL
         private void AddDroneButton_Click(object sender, RoutedEventArgs e)
         {
             new DroneWindow(theBL).ShowDialog();
+            refreshList();   
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -94,6 +95,17 @@ namespace PL
             DroneInList dr = DroneListView.SelectedItem as DroneInList;
             Drone drone = theBL.GetDrone(dr.Id);
             new DroneWindow(theBL, drone).ShowDialog();
+            try
+            {
+                refreshList();
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                this.DroneListView.ItemsSource = null;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
 
@@ -109,6 +121,24 @@ namespace PL
             this.StatusSelector.SelectedItem = null;
             this.WeightSelector.SelectedItem = null;
             this.DroneListView.ItemsSource = theBL.GetAllDronesInList();
+        }
+        private void refreshList()
+        {
+            if(StatusSelector.SelectedItem==null)
+            {
+                if (WeightSelector.SelectedItem == null)
+                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList();
+                else
+                  this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr=>dr.MaxWeight==(WeightCategories) WeightSelector.SelectedItem);
+
+            }
+            else
+            {
+                if (WeightSelector.SelectedItem == null)
+                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == (DroneStatus)StatusSelector.SelectedItem);
+                else
+                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == (WeightCategories)WeightSelector.SelectedItem && dr.Status == (DroneStatus)StatusSelector.SelectedItem);
+            }
         }
     }
 
