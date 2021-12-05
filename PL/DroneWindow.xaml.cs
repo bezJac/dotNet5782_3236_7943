@@ -47,35 +47,40 @@ namespace PL
             {
                 case DroneStatus.Available:
                     {
-                        this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                        this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
-                        this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[6].IsEnabled = false;
+                        this.actionDrone.Children[5].IsEnabled = true;
+                        this.actionDrone.Children[7].IsEnabled = true;
+                        this.actionDrone.Children[8].IsEnabled = false;
+                        this.actionDrone.Children[9].IsEnabled = false;
                         break;
                     }
                 case DroneStatus.Maintenance:
                     {
-                        this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
-                        this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
-                        this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
-                        this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                        this.actionDrone.Children[5].IsEnabled = false;
+                        this.actionDrone.Children[6].IsEnabled = true;
+                        this.actionDrone.Children[7].IsEnabled = false;
+                        this.actionDrone.Children[8].IsEnabled = false;
+                        this.actionDrone.Children[9].IsEnabled = false;
                         break;
                     }
                 case DroneStatus.Delivery:
                     {
                         if(newDrone.Parcel.InTransit)
                         {
-                            this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[5].IsEnabled = false;
+                            this.actionDrone.Children[6].IsEnabled = false;
+                            this.actionDrone.Children[7].IsEnabled = false;
+                            this.actionDrone.Children[8].IsEnabled = false;
+                            this.actionDrone.Children[9].IsEnabled = true;
                             break;
                         }
                         else 
                         {
-                            this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
-                            this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                            this.actionDrone.Children[5].IsEnabled = false;
+                            this.actionDrone.Children[6].IsEnabled = false;
+                            this.actionDrone.Children[7].IsEnabled = false;
+                            this.actionDrone.Children[9].IsEnabled = false;
+                            this.actionDrone.Children[8].IsEnabled = true;
                         }
                         break;
                     }
@@ -138,11 +143,11 @@ namespace PL
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newDrone= theBL.GetDrone(newDrone.Id);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[6].Visibility = Visibility.Visible;
-                this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[5].IsEnabled = false;
+                this.actionDrone.Children[6].IsEnabled = true;
+                this.actionDrone.Children[7].IsEnabled = false;
+                this.actionDrone.Children[8].IsEnabled = false;
+                this.actionDrone.Children[9].IsEnabled = false;
             }
             catch (Exception Ex)
             {
@@ -161,9 +166,12 @@ namespace PL
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newDrone = theBL.GetDrone(newDrone.Id);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[5].Visibility = Visibility.Visible;
-                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[7].Visibility = Visibility.Visible;
+                this.actionDrone.Children[6].IsEnabled = false;
+                this.actionDrone.Children[5].IsEnabled = true;
+                this.actionDrone.Children[7].IsEnabled = true;
+                this.actionDrone.Children[8].IsEnabled = false;
+                this.actionDrone.Children[9].IsEnabled = false;
+           
             }
             catch (Exception Ex)
             {
@@ -181,10 +189,11 @@ namespace PL
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newDrone = theBL.GetDrone(newDrone.Id);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[5].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[7].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[8].Visibility = Visibility.Visible;
+                this.actionDrone.Children[5].IsEnabled = false;
+                this.actionDrone.Children[6].IsEnabled = false;
+                this.actionDrone.Children[7].IsEnabled = false;
+                this.actionDrone.Children[9].IsEnabled = false;
+                this.actionDrone.Children[8].IsEnabled = true;
             }
             catch (Exception Ex)
             {
@@ -202,8 +211,12 @@ namespace PL
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newDrone = theBL.GetDrone(newDrone.Id);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[9].Visibility = Visibility.Visible;
+                this.actionDrone.Children[5].IsEnabled = false;
+                this.actionDrone.Children[6].IsEnabled = false;
+                this.actionDrone.Children[7].IsEnabled = false;
+                this.actionDrone.Children[8].IsEnabled = false;
+                this.actionDrone.Children[9].IsEnabled = true;
+                
             }
             catch (Exception Ex)
             {
@@ -221,11 +234,11 @@ namespace PL
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newDrone = theBL.GetDrone(newDrone.Id);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[5].Visibility = Visibility.Visible;
-                this.actionDrone.Children[6].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[7].Visibility = Visibility.Visible;
-                this.actionDrone.Children[8].Visibility = Visibility.Collapsed;
-                this.actionDrone.Children[9].Visibility = Visibility.Collapsed;
+                this.actionDrone.Children[6].IsEnabled = false;
+                this.actionDrone.Children[5].IsEnabled = true;
+                this.actionDrone.Children[7].IsEnabled = true;
+                this.actionDrone.Children[8].IsEnabled = false;
+                this.actionDrone.Children[9].IsEnabled = false;
             }
             catch (Exception Ex)
             {

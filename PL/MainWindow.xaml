@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="" Height="400" Width="800">
-    <!--Icon="C:\Users\PC\source\repos\bezJac\dotNet5782_3236_7943\PL\icons8_drone_60_yNM_icon.ico"-->
+    
     <Grid Background="#FFD5DCD0">
         <Grid.RowDefinitions>
             <RowDefinition Height="150*"/>
@@ -15,6 +15,7 @@
         <Viewbox Grid.Row="0">
             <TextBlock x:Name="txtBlck" Grid.Column="0" FontSize="20" FontStyle="Oblique" 
                        Padding="30" TextAlignment="Center"  FontWeight="ExtraBold"  ></TextBlock>
+          
         </Viewbox>
 
 

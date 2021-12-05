@@ -65,11 +65,11 @@ namespace BL
             {
                 if (drones.Count > 0)
                     return drones.ToList();
-                throw new GetListException("no drones in list");
+                throw new GetListException("No drones in list");
             }
             IEnumerable<DroneInList> tmp = drones.Where(predicate);
             if(!tmp.Any())
-             throw new GetListException("no drones in list");
+             throw new GetListException("No drones in list");
             return tmp;
         }
         public IEnumerable<Customer> GetAllCustomers()

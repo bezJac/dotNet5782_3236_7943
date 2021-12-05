@@ -103,8 +103,8 @@ namespace PL
             {
                 while (Ex.InnerException != null)
                     Ex = Ex.InnerException;
-                this.DroneListView.ItemsSource = null;
                 MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.ClearButton_Click(sender, e);
             }
 
         }
