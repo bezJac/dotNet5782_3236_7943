@@ -105,19 +105,53 @@ namespace PL
             bool flag = true;
             try
             {
-                if (newDrone.Id <= 0)
-                    throw new Exception("Id must be positive");
+                if(this.idTextBox.Text==string.Empty)
+                {
+                    this.idTextBox.BorderThickness = new Thickness(2);
+                    this.idTextBox.BorderBrush = Brushes.Red;
+                    throw new Exception("Drone's details missing");
+                }
+                if(this.modelTextBox.Text==string.Empty)
+                {
+                    this.modelTextBox.BorderThickness = new Thickness(2);
+                    this.modelTextBox.BorderBrush = Brushes.Red;
+                    throw new Exception("Drone's details missing");
+                }
+                if(this.maxWeightComboBox.SelectedItem==null)
+                {
+                    throw new Exception("Drone's details missing");
+                }
+                if(this.stationsList.SelectedItem==null)
+                {
+                    throw new Exception("Drone's details missing");
+                }
+                if(newDrone.Id <= 0)
+                {
+                    this.idTextBox.BorderThickness = new Thickness(2);
+                    this.idTextBox.BorderBrush = Brushes.Red;
+                    this.idTextBox.Text = string.Empty;
+                    throw new Exception("ID must be positive");
+                }
+                if (newDrone.Id < 1000)
+                {
+                    this.idTextBox.BorderThickness = new Thickness(2);
+                    this.idTextBox.BorderBrush = Brushes.Red;
+                    this.idTextBox.Text = string.Empty;
+                    throw new Exception("ID must be four digits");
+                }
                 station = stationsList.SelectedItem as BaseStationInList;
                 theBL.AddDrone(newDrone,station.Id);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButton.OK);
+                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK , MessageBoxImage.Warning);
                 flag = false;
             }
             if (flag)
             {
-                MessageBox.Show("Drone was added successfully to list");
+                this.idTextBox.BorderThickness = new Thickness(0);
+       
+                MessageBox.Show("Drone was added successfully to list" ,"SUCCESS",MessageBoxButton.OK,MessageBoxImage.Information);
                 
                 this.Close();
                
