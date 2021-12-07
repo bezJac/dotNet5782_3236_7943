@@ -168,8 +168,11 @@ namespace PL
             }
             catch (Exception ex) // add drone faild allow user to fix input
             {
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK , MessageBoxImage.Warning);
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
                 flag = false;
+                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK , MessageBoxImage.Warning);
+                
             }
             if (flag)   // drone was added successfully - close window 
             {
@@ -353,6 +356,39 @@ namespace PL
                 this.actionDrone.Children[8].IsEnabled = false;
                 this.actionDrone.Children[9].IsEnabled = false;
 
+            }
+        }
+
+        private void idTextValidation(object sender, RoutedEventArgs e)
+        {
+            if (newDrone.Id <= 0)
+            {
+                this.idTextBox.BorderThickness = new Thickness(2);
+                this.idTextBox.BorderBrush = Brushes.Red;
+                
+            }
+            if (idTextBox.Text.Length < 4)
+            {
+                this.idTextBox.BorderThickness = new Thickness(2);
+                this.idTextBox.BorderBrush = Brushes.Red;
+                
+            }
+            if(idTextBox.Text.Length == 4 &&  newDrone.Id>0)
+            {
+                this.idTextBox.BorderThickness = new Thickness(0);
+            }
+        }
+
+        private void modelTextValidation(object sender, RoutedEventArgs e)
+        {
+            if(modelTextBox.Text==string.Empty)
+            {
+                this.modelTextBox.BorderThickness = new Thickness(2);
+                this.modelTextBox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                this.modelTextBox.BorderThickness = new Thickness(0);
             }
         }
     }

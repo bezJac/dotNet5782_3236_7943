@@ -59,18 +59,37 @@ namespace BL
                 throw new GetListException("no drones in list");
             return drones.Select(dr => convertToDrone(dr));
         }
-        public IEnumerable<DroneInList> GetAllDronesInList(Func<DroneInList,bool> predicate = null)
+        public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null )
         {
-            if (predicate == null)
+            if (status == null && weight ==null)
             {
                 if (drones.Count > 0)
                     return drones.ToList();
                 throw new GetListException("No drones in list");
             }
-            IEnumerable<DroneInList> tmp = drones.Where(predicate);
-            if(!tmp.Any())
-             throw new GetListException("No drones in list");
-            return tmp;
+            IEnumerable<DroneInList> tmp;
+            if (status != null && weight != null)
+            {
+                tmp = drones.Where(dr => dr.Status == status && dr.MaxWeight == weight);
+                if (!tmp.Any())
+                    throw new GetListException("No drones in list match filtering choice");
+                return tmp;
+            }
+            if(status!=null)
+            {
+                tmp = drones.Where(dr => dr.Status == status);
+                if (!tmp.Any())
+                    throw new GetListException("No drones in list match filtering choice");
+                return tmp;
+            }
+            if (weight != null)
+            {
+                tmp = drones.Where(dr => dr.MaxWeight == weight);
+                if (!tmp.Any())
+                    throw new GetListException("No drones in list match filtering choice");
+                return tmp;
+            }
+            throw new GetListException("No drones in list");
         }
         public IEnumerable<Customer> GetAllCustomers()
         {

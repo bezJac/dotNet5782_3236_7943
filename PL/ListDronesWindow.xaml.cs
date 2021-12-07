@@ -37,7 +37,7 @@ namespace PL
             this.StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             this.WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
-      
+
         /// <summary>
         /// change in selected value of status comboBox
         /// </summary>
@@ -51,15 +51,16 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                    if (WeightSelector.SelectedItem == null)
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status);
+                    if(WeightSelector.SelectedItem != null) 
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
                     else
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == status && dr.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(status);
                 }
                 catch (Exception Ex)
                 {
                     while (Ex.InnerException != null)
                         Ex = Ex.InnerException;
+                    StatusSelector.SelectedItem = null;
                     MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -78,16 +79,18 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                    if(StatusSelector.SelectedItem==null)
-                         this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight);
+                    if (StatusSelector.SelectedItem != null)
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
                     else
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == weight && dr.Status== (DroneStatus)StatusSelector.SelectedItem);
+                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(null, weight);
                 }
                 catch (Exception Ex)
                 {
                     while (Ex.InnerException != null)
                         Ex = Ex.InnerException;
+                    WeightSelector.SelectedItem = null;
                     MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                   
                 }
             }
         }
@@ -99,7 +102,8 @@ namespace PL
         {
             new DroneWindow(theBL).ShowDialog();
             // refresh list view content in current window 
-            refreshList();
+            refreshListContent();
+
         }
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -120,7 +124,7 @@ namespace PL
             // exception accures if list is empty after refresh
             try
             {
-                refreshList();
+                refreshListContent();
             }
             catch (Exception Ex)
             {
@@ -143,36 +147,32 @@ namespace PL
         }
 
         /// <summary>
-        /// refresh content of drone list view
+        /// refresh content of drone list view by current selections in ComboBoxes
         /// </summary>
-        private void refreshList()
+        private void refreshListContent()
         {
-            // check which of two comboBoxes has a value selected and filter list accordingly
+            // nither comboBox has a selected choice - show all drones
+            if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) 
+            {
+                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
+                return;
+            }
+            // both comboBoxes have selected choice - filter by both parameters
+            if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null) 
+            {
+                this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                return;
+            }
+            // only status comboBox has choice - filter by status
+            if (StatusSelector.SelectedItem != null) 
+            {
+                this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                return;
+                
+            }
+            // only weight comboBox has choice - filter by weight
+            this.DroneListView.ItemsSource = theBL.GetAllDronesInList( null, (WeightCategories)WeightSelector.SelectedItem);
 
-            if(StatusSelector.SelectedItem==null)  // weight box has no selected value
-            {
-                if (WeightSelector.SelectedItem == null)     // no selection in either box - show all drones
-                {
-                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList();
-                }
-                else      // only status box has selection - filter by status only
-                {
-                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == (WeightCategories)WeightSelector.SelectedItem);
-                }
-            }
-            else    // weight box has selected value
-            {
-                if (WeightSelector.SelectedItem == null)     // status box has no selection - filter by weight only
-                {
-                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.Status == (DroneStatus)StatusSelector.SelectedItem);
-                }
-                else    // both boxes have selection - filter by both parameters
-                {
-                    this.DroneListView.ItemsSource = theBL.GetAllDronesInList(dr => dr.MaxWeight == (WeightCategories)WeightSelector.SelectedItem && dr.Status == (DroneStatus)StatusSelector.SelectedItem);
-                }
-            }
         }
     }
-
-        
 }

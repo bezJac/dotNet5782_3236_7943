@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="Drones List" Height="480" Width="800" Closing="Window_Closing">
+        Title="Drones List" Height="480" Width="800" >
     <!--Icon="C:\Users\PC\source\repos\bezJac\dotNet5782_3236_7943\PL\icons8_drone_60_yNM_icon.ico"--> 
     <Grid x:Name="MainGrid" Background="#FFD5DCD0">
         <Grid.RowDefinitions>
