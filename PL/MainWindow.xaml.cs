@@ -19,8 +19,11 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IBL.IBL myBL;
+        private readonly IBL.IBL myBL;
 
+        /// <summary>
+        /// cunstructor
+        /// </summary>
         public MainWindow()
         {
             myBL = new BL.BL();
@@ -29,11 +32,12 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Show Drones click - opens drone list window
+        /// </summary>
         private void ShowDronesButton_Click(object sender, RoutedEventArgs e)
         {
             new ListDronesWindow(myBL).ShowDialog();
         }
-
-     
     }
 }
