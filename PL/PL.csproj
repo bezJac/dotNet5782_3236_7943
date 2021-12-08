@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\icons8_drone_60_yNM_icon.ico" />
+    <None Remove="images\Icon_drone.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Icon_drone.ico" />
   </ItemGroup>
 
 </Project>
