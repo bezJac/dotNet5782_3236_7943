@@ -201,7 +201,7 @@ namespace BL
                 Scheduled = prc.Linked,
                 PickedUp = prc.PickedUp,
                 Delivered = DateTime.Now,
-                DroneId = dr.Id,
+                DroneId = (int)dr.Id,
             });
         }
     }

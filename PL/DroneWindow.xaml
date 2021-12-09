@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="Drone" Height="480" Width="800">
+        Title="Drone" Height="480" Width="800" Icon= "\images\Icon_drone.ico">
     <!--Icon="C:\Users\PC\source\repos\bezJac\dotNet5782_3236_7943\PL\icons8_drone_60_yNM_icon.ico"-->
 
     <Grid>
-        <Grid x:Name="actionDrone"  Background="#FFD5DCD0"  Visibility="Visible">
+        <Grid x:Name="actionDrone"  Background="#FFD5DCD0"  Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
                 <RowDefinition Height="140*"/>
@@ -17,16 +17,15 @@
                 <RowDefinition Height="30*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30*"/>
-                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="90*"/>
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Close" Background="#FF669966" BorderThickness="1" BorderBrush="Black"  Grid.Column="1" 
-                    HorizontalAlignment="Center" Margin="5,0,5,0" Grid.Row="3" VerticalAlignment="Center" Width="50"
-                   FontSize="16" FontFamily="Comic Sans MS"  Click="CloseWindowButton_Click"/>
+            <Button Content="Close" Background="#FF669966" BorderThickness="1" BorderBrush="Black"  
+                    HorizontalAlignment="Left" Margin="334,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="50"
+                   FontSize="16" FontFamily="Comic Sans MS"  Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
 
-            <Viewbox Grid.Column="1" Grid.RowSpan="3">
+            <Viewbox Grid.Column="0" Grid.RowSpan="3">
 
 
                 <TextBlock  Background="White"  Padding="20,10,10,10"  x:Name="droneView"  
@@ -43,32 +42,33 @@
             <Label   Content="Enter New Model:" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="12"
                      HorizontalContentAlignment="Center" Grid.Column="2"  Margin="28,10,28,109"  Width="145" Height="25" />
             <TextBox x:Name="newModel"  SpellCheck.IsEnabled="True" Height="20" Width="120" Grid.Column="2" Margin="40,40,40,84"/>
-            <Button Content="Update" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
+            <Button x:Name="UpdateButton" Content="Update" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20" Grid.Column="2"
                    Height="45" Width="120" Click="UpdateButton_Click" ToolTip="update the drone's model"   Margin="35,65,34,25"/>
 
 
-            <Button  Content="Charge" Background="#FF669966" BorderThickness="1" BorderBrush="Black"  Grid.Column="2" Grid.Row="1" 
-                    FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
+            <Button x:Name="ChargeButton"   Content="Charge" Background="#FF669966" BorderThickness="1" BorderBrush="Black"  Grid.Column="1" 
+                   Grid.Row="2" Visibility="Collapsed" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
-                    ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"/>
-            <Button  Content="Discharge" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
-                    Grid.Column="2" Grid.Row="2" Height="50" 
+                    ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click">
+            </Button>
+            <Button x:Name="DischargeButton" Content="Discharge" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
+                    Visibility="Collapsed" Grid.Column="1" Grid.Row="2" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                      Click="DischargeButton_Click" ToolTip="release drone from charge"/>
-            <Button Content="Schedule"  Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
-                    Grid.Column="0" Grid.Row="0" Height="50" 
+            <Button x:Name="ScheduleButton" Content="Schedule"  Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
+                     Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     Click="ScheduleButton_Click" ToolTip="link a drone to a parcel"/>
-            <Button Content="Pick Up"  Background="#FF669966" BorderThickness="1" BorderBrush="Black"
-                    Grid.Column="0" Grid.Row="1" Height="50" 
+            <Button x:Name="PickUpButton" Content="Pick Up"  Background="#FF669966" BorderThickness="1" BorderBrush="Black"
+                     Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>
-            <Button Content="Deliver" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
-                    Grid.Column="0" Grid.Row="2" Height="50" 
+            <Button x:Name="DeliverButton" Content="Deliver" Background="#FF669966" BorderThickness="1" BorderBrush="Black" 
+                     Visibility="Collapsed" Grid.Column="1" Grid.Row="1" Height="50" 
                     FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="20"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" 
                     Click="DeliverButton_Click" />

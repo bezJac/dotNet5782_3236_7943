@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="" Height="400" Width="800" Icon= "\images\Icon_drone.ico">
-    
+    <Window.Resources>
+        <SolidColorBrush x:Key="MyColor"  Color="#FF669966">
+        </SolidColorBrush>
+
+    </Window.Resources>  
+       
     <Grid Background="#FFD5DCD0">
         <Grid.RowDefinitions>
             <RowDefinition Height="150*"/>

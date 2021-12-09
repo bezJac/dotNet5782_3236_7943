@@ -24,7 +24,7 @@ namespace IBL.BO
             result += $"Status: { Status }\n";
             result += $"Battery level: { Battery } %\n";
             if(ParcelId!=0)
-            result += $"Parcel in delivery Id: {ParcelId}\n";
+            result += $"Parcel in delivery ID: {ParcelId}\n";
             result += $"Location:\n{DroneLocation}";
             return result;
         }

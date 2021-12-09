@@ -54,7 +54,7 @@ namespace BL
             {
                 myDal.AddDrone(new IDAL.DO.Drone
                 {
-                    Id = drone.Id,
+                    Id = (int)drone.Id,
                     Model = drone.Model,
                     MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
                 });
@@ -67,7 +67,7 @@ namespace BL
             
             drones.Add(new DroneInList
             {
-                Id = drone.Id,
+                Id = (int)drone.Id,
                 Model = drone.Model,
                 MaxWeight = drone.MaxWeight,
                 Status = DroneStatus.Maintenance,
@@ -76,7 +76,7 @@ namespace BL
             });
             // update base station in dal , add new drone charge entity to list
             st.NumOfSlots--;
-            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
+            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = (int)drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
             myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)

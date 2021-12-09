@@ -35,7 +35,6 @@ namespace PL
             theBL = bL;
             // show add drone grid only
             this.addDrone.Visibility = Visibility.Visible;
-            this.actionDrone.Visibility = Visibility.Collapsed;
             newDrone = new Drone();
             // set data context  for binding
             DataContext = newDrone;
@@ -53,7 +52,6 @@ namespace PL
         {
             InitializeComponent();
             // show action drone grid only
-            this.addDrone.Visibility = Visibility.Collapsed;
             this.actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
@@ -64,40 +62,25 @@ namespace PL
             {
                 case DroneStatus.Available: //charge and schedule buttons enabled
                     {
-                        this.actionDrone.Children[6].IsEnabled = false;
-                        this.actionDrone.Children[5].IsEnabled = true;
-                        this.actionDrone.Children[7].IsEnabled = true;
-                        this.actionDrone.Children[8].IsEnabled = false;
-                        this.actionDrone.Children[9].IsEnabled = false;
+                        this.ChargeButton.Visibility = Visibility.Visible;
+                        this.ScheduleButton.Visibility = Visibility.Visible;
                         break;
                     }
                 case DroneStatus.Maintenance: // dischrge button enabled
                     {
-                        this.actionDrone.Children[5].IsEnabled = false;
-                        this.actionDrone.Children[6].IsEnabled = true;
-                        this.actionDrone.Children[7].IsEnabled = false;
-                        this.actionDrone.Children[8].IsEnabled = false;
-                        this.actionDrone.Children[9].IsEnabled = false;
+                        this.DischargeButton.Visibility = Visibility.Visible;
                         break;
                     }
                 case DroneStatus.Delivery:
                     {
                         if(newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
                         {
-                            this.actionDrone.Children[5].IsEnabled = false;
-                            this.actionDrone.Children[6].IsEnabled = false;
-                            this.actionDrone.Children[7].IsEnabled = false;
-                            this.actionDrone.Children[8].IsEnabled = false;
-                            this.actionDrone.Children[9].IsEnabled = true;
+                            this.DeliverButton.Visibility = Visibility.Visible;                     
                             break;
                         }
                         else   // drone only scheduled , pick up button enabled 
                         {
-                            this.actionDrone.Children[5].IsEnabled = false;
-                            this.actionDrone.Children[6].IsEnabled = false;
-                            this.actionDrone.Children[7].IsEnabled = false;
-                            this.actionDrone.Children[9].IsEnabled = false;
-                            this.actionDrone.Children[8].IsEnabled = true;
+                            this.PickUpButton.Visibility = Visibility.Visible;
                         }
                         break;
                     }
@@ -196,7 +179,7 @@ namespace PL
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             newDrone.Model = newModel.Text.ToString();
-            theBL.UpdateDrone(newDrone.Id, newDrone.Model);
+            theBL.UpdateDrone((int)newDrone.Id, newDrone.Model);
             this.droneView.Text = newDrone.ToString();
         }
 
@@ -208,9 +191,9 @@ namespace PL
             bool flag = true;
             try
             {
-                theBL.ChargeDrone(newDrone.Id);
+                theBL.ChargeDrone((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone(newDrone.Id);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -225,11 +208,10 @@ namespace PL
                 // update drone view details
                 this.droneView.Text = newDrone.ToString();
                 // enable discharge button only
-                this.actionDrone.Children[5].IsEnabled = false;
-                this.actionDrone.Children[6].IsEnabled = true;
-                this.actionDrone.Children[7].IsEnabled = false;
-                this.actionDrone.Children[8].IsEnabled = false;
-                this.actionDrone.Children[9].IsEnabled = false;
+                this.ChargeButton.Visibility = Visibility.Collapsed;
+                
+                this.DischargeButton.Visibility = Visibility.Visible;
+                this.ScheduleButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -241,9 +223,9 @@ namespace PL
             bool flag = true;
             try
             {
-                theBL.DischargeDrone(newDrone.Id);
+                theBL.DischargeDrone((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone(newDrone.Id);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -257,11 +239,9 @@ namespace PL
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = newDrone.ToString();
                 // enable charge and schedule buttons 
-                this.actionDrone.Children[6].IsEnabled = false;
-                this.actionDrone.Children[5].IsEnabled = true;
-                this.actionDrone.Children[7].IsEnabled = true;
-                this.actionDrone.Children[8].IsEnabled = false;
-                this.actionDrone.Children[9].IsEnabled = false;
+                this.DischargeButton.Visibility = Visibility.Collapsed;
+                this.ChargeButton.Visibility = Visibility.Visible;
+                this.ScheduleButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -270,9 +250,9 @@ namespace PL
             bool flag = true;
             try
             {
-                theBL.LinkDroneToParcel(newDrone.Id);
+                theBL.LinkDroneToParcel((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone(newDrone.Id);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -286,11 +266,9 @@ namespace PL
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = newDrone.ToString();
                 // enable pick up button only
-                this.actionDrone.Children[5].IsEnabled = false;
-                this.actionDrone.Children[6].IsEnabled = false;
-                this.actionDrone.Children[7].IsEnabled = false;
-                this.actionDrone.Children[9].IsEnabled = false;
-                this.actionDrone.Children[8].IsEnabled = true;
+                this.ScheduleButton.Visibility = Visibility.Collapsed;
+                this.PickUpButton.Visibility = Visibility.Visible;
+                this.ChargeButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -302,9 +280,9 @@ namespace PL
             bool flag = true;
             try
             {
-                theBL.DroneParcelPickUp(newDrone.Id);
+                theBL.DroneParcelPickUp((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone(newDrone.Id);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -318,12 +296,8 @@ namespace PL
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = newDrone.ToString();
                 // enable deliver button only
-                this.actionDrone.Children[5].IsEnabled = false;
-                this.actionDrone.Children[6].IsEnabled = false;
-                this.actionDrone.Children[7].IsEnabled = false;
-                this.actionDrone.Children[8].IsEnabled = false;
-                this.actionDrone.Children[9].IsEnabled = true;
-
+                this.PickUpButton.Visibility = Visibility.Collapsed;
+                this.DeliverButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -335,9 +309,9 @@ namespace PL
             bool flag = true;
             try
             {
-                theBL.DroneParcelDelivery(newDrone.Id);
+                theBL.DroneParcelDelivery((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone(newDrone.Id);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -350,12 +324,9 @@ namespace PL
             {
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.droneView.Text = newDrone.ToString();
-                this.actionDrone.Children[6].IsEnabled = false;
-                this.actionDrone.Children[5].IsEnabled = true;
-                this.actionDrone.Children[7].IsEnabled = true;
-                this.actionDrone.Children[8].IsEnabled = false;
-                this.actionDrone.Children[9].IsEnabled = false;
-
+                this.DeliverButton.Visibility = Visibility.Collapsed;
+                this.ChargeButton.Visibility = Visibility.Visible;
+                this.ScheduleButton.Visibility = Visibility.Visible;
             }
         }
 
