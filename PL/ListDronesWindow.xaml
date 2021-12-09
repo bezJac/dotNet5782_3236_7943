@@ -33,18 +33,17 @@
                        ToolTip="Filter drones by weight"/>
             <ComboBox Name="StatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
                       Height="22" Width="120" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
-            <Button Content="Add Drone" Grid.Column="3" HorizontalAlignment="Center" 
-                    BorderThickness="1" BorderBrush="Black"  Background="#FF669966" Grid.RowSpan="2" 
-                    VerticalAlignment="Center" Height="40" Width="100" Click="AddDroneButton_Click" 
-                    FontSize="18" FontFamily="Comic Sans MS"/>
-            <Button Content="Clear" Grid.Column="2" HorizontalAlignment="Center" 
-                    BorderThickness="1" BorderBrush="Black"  Background="#FF669966" Grid.RowSpan="2" 
-                    VerticalAlignment="Center" Height="40" Width="100" Click="ClearButton_Click"
-                    FontSize="18" FontFamily="Comic Sans MS"/>
+            <Button x:Name="addButton" Content="Add Drone" Grid.Column="3" 
+                    Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
+                     Height="40" Width="100" Click="AddDroneButton_Click"  FontSize="18" />
+            <Button x:Name="clearButton" Content="Clear" Grid.Column="2" 
+                Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
+                   Height="40" Width="100" Click="ClearButton_Click"
+                    FontSize="18" />
         </Grid>
         <ListView x:Name="DroneListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" />
-        <Button Content="Close" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FF669966"
-              BorderThickness="1" BorderBrush="Black" Width="50"
-                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" FontFamily="Comic Sans MS"/>
+        <Button x:Name="closeButton"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
+               Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
+                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" />
     </Grid>
 </Window>
