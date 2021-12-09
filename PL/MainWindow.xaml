@@ -5,35 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="" Height="480" Width="800" Icon= "\images\Icon_drone.ico">
-    <Window.Resources>
-        <Style x:Key="droneButtonStyle"
-           TargetType="Button">
-            <Setter Property="FontSize"
-              Value="20" />
-            <Setter Property="FontFamily"
-              Value="Comic Sans MS" />
-            <Setter Property="FontWeight"
-              Value="Bold" />
-            <Setter Property="Background"
-                    Value="#FF669966"/>
-            <Setter Property="Height"
-                    Value="50"/>
-            <Setter Property="Width"
-                    Value="120"/>
-            <Setter Property="BorderThickness"
-                    Value="1"/>
-            <Setter Property="BorderBrush"
-                    Value="Black"/>
-            <Setter Property="VerticalAlignment"
-                     Value="Center"/>
-            <Setter Property="HorizontalAlignment"
-                    Value="Center"/>
-            <Setter Property="Visibility"
-                    Value="Collapsed"/>
-        </Style>
-    </Window.Resources>
-    <Grid Background="#FFD5DCD0">
+        Title="" Height="480" Width="800" Icon= "\images\Icon_drone.ico" >
+  
+    <Grid Background="#FFD5DCD0" >
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="150*"/>
             <RowDefinition Height="40*"/>
