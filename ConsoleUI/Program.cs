@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using DalObject;
-using IDAL.DO;
+using DalApi;
+using DO;
 
 namespace ConsoleUI
 {
@@ -11,7 +11,7 @@ namespace ConsoleUI
         static void Main(string[] args)
 
         {
-            DalObject.DalObject data = new DalObject.DalObject();
+            DalApi.IDal data = DalApi.DalFactory.GetDal();
             string str;
             int id1, id2;
             do
@@ -20,7 +20,6 @@ namespace ConsoleUI
                     + "add - add a new object\n"
                     + "update - update an object\n"
                     + "show - show details of object\n" + "list - show details of array\n"
-                    + "distance - get distance from coordinates to base station or customer location\n"
                     + "exit - exit\n");
 
                 str = System.Console.ReadLine();
@@ -261,37 +260,9 @@ namespace ConsoleUI
 
                             break;
                         }
-                    case "distance":
-                        {
+                    
 
-                            double longt, latt;
-                            Console.WriteLine("enter longtitude coordinate:");
-                            double.TryParse(Console.ReadLine(), out longt);
-                            System.Console.WriteLine("enter lattitude coordinate:");
-                            double.TryParse(Console.ReadLine(), out latt);
-                            Console.WriteLine("select your choice:\t" + "station/customer");
-                            str = Console.ReadLine();
-                            switch (str)
-                            {
-                                case "station":
-                                    {
-                                        Console.WriteLine("enter station's id:");
-                                        int.TryParse(Console.ReadLine(), out id1);
-                                        Console.WriteLine($"Distance is: {Math.Round(Distance.GetDistance(longt, latt, data.GetBaseStation(id1)), 3)} KM.\n");
-                                        break;
-                                    }
-                                case "customer":
-                                    {
-                                        Console.WriteLine("enter customer's id:");
-                                        int.TryParse(Console.ReadLine(), out id1);
-                                        Console.WriteLine($"Distance is: {Math.Round(Distance.GetDistance(longt, latt, data.GetCustomer(id1)), 3)} KM\n");
-                                        break;
-                                    }
-
-                            }
-
-                            break;
-                        }
+                        
                     case "exit":
                         {
                             break;
