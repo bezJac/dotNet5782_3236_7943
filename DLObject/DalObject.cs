@@ -3,25 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
-using IDAL;
+using DO;
+using DalApi;
+using DS;
 
-
-namespace DalObject
+namespace Dal
 {
 
     /// <summary>
     /// class manages technical layer functions for DAL
     /// </summary>
-    public partial class DalObject : IDal
+    internal sealed partial class DalObject : IDal
     {
-        /// <summary>
-        /// constructor - calls DataSource.initialize() to initialize lists
-        /// </summary>
-        public DalObject()
+        static readonly DalObject instance = new DalObject();
+
+        static DalObject()
         {
             DataSource.Initialize();
         }
+       
+        /// <summary>
+        /// constructor - calls DataSource.initialize() to initialize lists
+        /// </summary>
+        DalObject()
+        {
+            DataSource.Initialize();
+        }
+
+        public static DalObject Instance { get { return instance; } }
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,

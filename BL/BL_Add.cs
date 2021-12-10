@@ -1,24 +1,23 @@
-﻿
-using IBL.BO;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlApi;
+using BO;
 
 namespace BL
 {
     /// <summary>
     /// partial class manages all add related methods for BL
     /// </summary>
-    public partial class BL:IBL.IBL
+    public partial class BL: BlApi.IBL
     {
         public void AddBaseStation(BaseStation station)
         {
             try 
             {
-                myDal.AddBaseStation(new IDAL.DO.BaseStation
+                myDal.AddBaseStation(new DO.BaseStation
                 {
                     Id = station.Id,
                     Name = station.Name,
@@ -36,7 +35,7 @@ namespace BL
         {
             Random rnd = new();
             // check that base station for charging exsist
-            IDAL.DO.BaseStation st;
+            DO.BaseStation st;
             try
             {
                st = myDal.GetBaseStation(stationId);
@@ -52,11 +51,11 @@ namespace BL
             //// add drone to DAL
             try
             {
-                myDal.AddDrone(new IDAL.DO.Drone
+                myDal.AddDrone(new DO.Drone
                 {
                     Id = (int)drone.Id,
                     Model = drone.Model,
-                    MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight,
+                    MaxWeight = (DO.WeightCategories)drone.MaxWeight,
                 });
             }
             catch (Exception Ex)
@@ -76,7 +75,7 @@ namespace BL
             });
             // update base station in dal , add new drone charge entity to list
             st.NumOfSlots--;
-            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = (int)drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
+            myDal.AddDroneCharge(new DO.DroneCharge { DroneId = (int)drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
             myDal.UpdateBaseStation(st);
         }
         public void AddParcel(Parcel parcel)
@@ -94,12 +93,12 @@ namespace BL
             // add parcel
             try
             {
-                myDal.AddParcel(new IDAL.DO.Parcel
+                myDal.AddParcel(new DO.Parcel
                 {
                     SenderId = parcel.Sender.Id,
                     TargetId = parcel.Target.Id,
-                    Weight = (IDAL.DO.WeightCategories)parcel.Weight,
-                    Priority = (IDAL.DO.Priorities)parcel.Priority,
+                    Weight = (DO.WeightCategories)parcel.Weight,
+                    Priority = (DO.Priorities)parcel.Priority,
                     DroneId = 0,
                     Requested = parcel.Ordered,
                     Scheduled = parcel.Linked,
@@ -116,7 +115,7 @@ namespace BL
         {
             try
             {
-                myDal.AddCustomer(new IDAL.DO.Customer
+                myDal.AddCustomer(new DO.Customer
                 {
                     Id = customer.Id,
                     Name = customer.Name,

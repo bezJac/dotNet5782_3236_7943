@@ -3,38 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
+using DO;
 
 
-namespace DalObject
+namespace DS
 {
     /// <summary>
     /// class contains data lists in DAL
     /// </summary>
-    internal class DataSource
+    public static class DataSource
     {
         
-        internal static List<BaseStation> Stations = new();
-        internal static List<Drone> Drones = new();
-        internal static List<Customer> Customers = new();
-        internal static List<Parcel> Parcels = new();
-        internal static List<DroneCharge> Charges = new();
+        public static List<BaseStation> Stations = new();
+        public static List<Drone> Drones = new();
+        public static List<Customer> Customers = new();
+        public static List<Parcel> Parcels = new();
+        public static List<DroneCharge> Charges = new();
 
         static Random rnd = new();
 
         /// <summary>
         /// class contains  parcel id and configurations dor drone electric use
         /// </summary>
-        internal class Config
+        public class Config
         {
-            internal static int RunIdParcel = 20000;
-            internal static double DroneElecUseEmpty = 2.5;
-            internal static double DroneElecUseLight = 3;
-            internal static double DroneElecUseMedium = 3.5;
-            internal static double DroneElecUseHeavy = 4;
-            internal static double DroneHourlyChargeRate = 67;
-
-
+            public static int RunIdParcel = 20000;
+            public static double DroneElecUseEmpty = 2.5;
+            public static double DroneElecUseLight = 3;
+            public static double DroneElecUseMedium = 3.5;
+            public static double DroneElecUseHeavy = 4;
+            public static double DroneHourlyChargeRate = 67;
         }
 
         /// <summary>

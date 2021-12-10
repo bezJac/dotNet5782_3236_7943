@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace IBL.BO
+namespace BO
 {
     public class Location
     {

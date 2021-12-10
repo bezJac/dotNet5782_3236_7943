@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL.BO;
+using BlApi;
 namespace PL
 {
     /// <summary>
@@ -19,16 +19,16 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IBL.IBL myBL;
+        private readonly BlApi.IBL myBL;
 
         /// <summary>
         /// cunstructor
         /// </summary>
         public MainWindow()
         {
-            myBL = new BL.BL();
+            myBL = BlApi.BlFactory.GetBL();
             InitializeComponent();
-            txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
+            this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
 
         }
 

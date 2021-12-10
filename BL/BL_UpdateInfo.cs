@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BlApi;
+using BO;
 namespace BL
 {
     /// <summary>
     /// partial class manages all details update related methods for BL
     /// </summary>
-    public partial class BL: IBL.IBL
+    public partial class BL: BlApi.IBL
     {
         public void UpdateBaseStation(int id, int count, string name)
         {
@@ -26,7 +27,7 @@ namespace BL
             if (station.DronesCharging.Count() > count)
                 throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
 
-            IDAL.DO.BaseStation st = new() { Id = id, Longitude = station.StationLocation.Longtitude, Lattitude = station.StationLocation.Lattitude };
+            DO.BaseStation st = new() { Id = id, Longitude = station.StationLocation.Longtitude, Lattitude = station.StationLocation.Lattitude };
             if (name != "")
                 st.Name = name;
             else
@@ -40,7 +41,7 @@ namespace BL
         }
         public void UpdateDrone(int id, string model)
         {
-            IDAL.DO.Drone dr;
+            DO.Drone dr;
             try
             {
                 dr = myDal.GetDrone(id);
@@ -56,7 +57,7 @@ namespace BL
         }
         public void UpdateCustomer(int id, string phone, string name)
         {
-            IDAL.DO.Customer cstmr;
+            DO.Customer cstmr;
             try
             {
                 cstmr = myDal.GetCustomer(id);

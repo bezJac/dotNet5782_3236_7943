@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BlApi;
+using BO;
+
 
 namespace BL
 {
     /// <summary>
     /// partial class manages all get single instance related methods for BL
     /// </summary>
-    public partial class BL :IBL.IBL
+    public partial class BL : BlApi.IBL
     {
         public BaseStation GetBaseStation(int id)
         {
-            IDAL.DO.BaseStation st;
+            DO.BaseStation st;
             try
             {
                 st = myDal.GetBaseStation(id);
@@ -27,7 +29,7 @@ namespace BL
         }
         public Drone GetDrone(int id)
         {
-            IDAL.DO.Drone dr;
+            DO.Drone dr;
             try
             {
                 dr = myDal.GetDrone(id);
@@ -50,7 +52,7 @@ namespace BL
         }
         public Customer GetCustomer(int id)
         {
-            IDAL.DO.Customer cstmr;
+            DO.Customer cstmr;
             try
             {
                 cstmr = myDal.GetCustomer(id);
@@ -63,7 +65,7 @@ namespace BL
         }
         public Parcel GetParcel(int id)
         {
-            IDAL.DO.Parcel prc;
+            DO.Parcel prc;
             try
             {
                 prc = myDal.GetParcel(id);
@@ -76,7 +78,7 @@ namespace BL
         }
         public CustomerInParcel GetCustomerInParcel(int id)
         {
-            IDAL.DO.Customer cstmr = myDal.GetCustomer(id);
+            DO.Customer cstmr = myDal.GetCustomer(id);
             return new CustomerInParcel
             {
                 Id = cstmr.Id,
@@ -85,9 +87,9 @@ namespace BL
         }
         public ParcelInDelivery GetParcelInDelivery(int id)
         {
-            IDAL.DO.Parcel parcel;
-            IDAL.DO.Customer sender;
-            IDAL.DO.Customer target;
+            DO.Parcel parcel;
+            DO.Customer sender;
+            DO.Customer target;
             try
             {
                 parcel = myDal.GetParcel(id);

@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL.DO;
-using IDAL;
+using DO;
+using DalApi;
+using DS;
 
-namespace DalObject
+namespace Dal
 {
     /// <summary>
     /// partial DalObject class responsible for CRUD of Drone Charge entities. 
     /// </summary>
-    public partial class DalObject : IDal
+    internal partial class DalObject : IDal
     {
         public void  AddDroneCharge(DroneCharge dc)
         {

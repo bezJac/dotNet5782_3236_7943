@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using DO;
+using DalApi;
+using DS;
 
-namespace IDAL
+namespace Dal
 {
   
     [Serializable]

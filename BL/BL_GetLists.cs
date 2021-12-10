@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BlApi;
+using BO;
+
 
 namespace BL
 {
     /// <summary>
     /// partial class manages all get lists related methods for BL
     /// </summary>
-    public partial class BL : IBL.IBL
+    public partial class BL : BlApi.IBL
     {
         public IEnumerable<BaseStation> GetAllBaseStations()
         {
-            IEnumerable<IDAL.DO.BaseStation> stations;
+            IEnumerable<DO.BaseStation> stations;
             try
             {
                 stations = myDal.GetAllBaseStations();
@@ -42,7 +44,7 @@ namespace BL
         }
         public IEnumerable<BaseStationInList> GetAllAvailablBaseStations()
         {
-            IEnumerable<IDAL.DO.BaseStation> stations;
+            IEnumerable<DO.BaseStation> stations;
             try
             {
                 stations = myDal.GetAllBaseStations(st => st.NumOfSlots > 0);
@@ -93,7 +95,7 @@ namespace BL
         }
         public IEnumerable<Customer> GetAllCustomers()
         {
-            IEnumerable<IDAL.DO.Customer> customers;
+            IEnumerable<DO.Customer> customers;
             try
             {
                 customers = myDal.GetAllCustomers();
@@ -120,7 +122,7 @@ namespace BL
         }
         public IEnumerable<Parcel> GetAllParcels()
         {
-            IEnumerable<IDAL.DO.Parcel> parcels;
+            IEnumerable<DO.Parcel> parcels;
             try
             {
                 parcels = myDal.GetAllParcels();
@@ -133,7 +135,7 @@ namespace BL
         }
         public IEnumerable<ParcelInList> GetAllParcelsInList()
         {
-            IEnumerable<IDAL.DO.Parcel> parcels;
+            IEnumerable<DO.Parcel> parcels;
             try
             {
                 parcels = myDal.GetAllParcels();
@@ -146,7 +148,7 @@ namespace BL
         }
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
-            IEnumerable<IDAL.DO.Parcel> parcels;
+            IEnumerable<DO.Parcel> parcels;
             try
             {
                 parcels = myDal.GetAllParcels(prc => prc.DroneId == 0);

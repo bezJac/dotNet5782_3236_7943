@@ -1,39 +1,38 @@
-﻿using IBL.BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-
+using BlApi;
+using BO;
 
 namespace BL
 {
     /// <summary>
     /// class manages BL logic for DAL.
     /// </summary>
-    public partial class BL : IBL.IBL
+    public partial class BL : BlApi.IBL
     {
-
-        readonly private IDAL.IDal myDal;
-        readonly private List<DroneInList> drones;
+        static readonly BL instance = new BL();
+        private DalApi.IDal myDal;
+        private List<DroneInList> drones;
         private static double droneElecUseEmpty;
         private static double droneElecUseLight;
         private static double droneElecUseMedium;
         private static double droneElecUseHeavy;
         private static double droneHourlyChargeRate;
 
-
-
+        
         /// <summary>
         /// cunstroctor
         /// </summary>
-        public BL()
+        BL()
 
         {
             drones = new List<DroneInList>();
-            myDal = new DalObject.DalObject();
+            myDal = DalApi.DalFactory.GetDal();
             double[] temp = myDal.GetElectricUse().ToArray();
             droneElecUseEmpty = temp[0];
             droneElecUseLight = temp[1];
@@ -41,23 +40,23 @@ namespace BL
             droneElecUseHeavy = temp[3];
             droneHourlyChargeRate = temp[4];
             Random rnd = new();
-            foreach (IDAL.DO.Drone dr in myDal.GetAllDrones())
+            foreach (DO.Drone dr in myDal.GetAllDrones())
             { 
                 // drone is linked to a parcel
                 if (myDal.GetAllParcels(p => p.DroneId != 0).Any(prc => prc.DroneId == dr.Id))
                 {
-                    IDAL.DO.Parcel parcel = myDal.GetAllParcels(p => p.DroneId != 0).FirstOrDefault(prc => prc.DroneId == dr.Id);
-                    IDAL.DO.Customer sender = myDal.GetCustomer(parcel.SenderId);
-                    IDAL.DO.Customer target = myDal.GetCustomer(parcel.TargetId);
+                    DO.Parcel parcel = myDal.GetAllParcels(p => p.DroneId != 0).FirstOrDefault(prc => prc.DroneId == dr.Id);
+                    DO.Customer sender = myDal.GetCustomer(parcel.SenderId);
+                    DO.Customer target = myDal.GetCustomer(parcel.TargetId);
                     Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
                     Location targetLocation = createLocation(target.Longitude, target.Lattitude);
-                    IDAL.DO.BaseStation charge = getNearestAvailableBasestation(targetLocation);
+                    DO.BaseStation charge = getNearestAvailableBasestation(targetLocation);
                     Location chargingStation = createLocation(charge.Longitude, charge.Lattitude);
 
                     // drone did not pick up parcel yet - set location to nearest base station to sender
                     if (parcel.PickedUp == null)
                     {
-                        IDAL.DO.BaseStation st = getNearestAvailableBasestation(senderLocation);
+                        DO.BaseStation st = getNearestAvailableBasestation(senderLocation);
                         Location current = createLocation(st.Longitude, st.Lattitude);
                         drones.Add(new DroneInList
                         {
@@ -95,9 +94,9 @@ namespace BL
                     // if status is avilable set location to one of customers with delivered parcel
                     if (tmpStatus == DroneStatus.Available)
                     {
-                        List<IDAL.DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
+                        List<DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
                         Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count)).TargetId).CustomerLocation;
-                        IDAL.DO.BaseStation st = getNearestAvailableBasestation(current);
+                        DO.BaseStation st = getNearestAvailableBasestation(current);
                         int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
                         drones.Add(new DroneInList
                         {
@@ -114,7 +113,7 @@ namespace BL
                     // status is maintanence - set drone location to randomly selected station
                     else
                     {
-                        IEnumerable<IDAL.DO.BaseStation> tempSt = myDal.GetAllBaseStations();
+                        IEnumerable<DO.BaseStation> tempSt = myDal.GetAllBaseStations();
                         int index = (int)rnd.Next(0, tempSt.Count());
                         drones.Add(new DroneInList
                         {
@@ -127,9 +126,9 @@ namespace BL
                             DroneLocation = createLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
                         });
                         // drone was set as charging - update DAL with chrge details
-                        IDAL.DO.BaseStation st = tempSt.ElementAt(index);
+                        DO.BaseStation st = tempSt.ElementAt(index);
                         st.NumOfSlots--;
-                        myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = dr.Id, StationId = st.Id ,EntranceTime = DateTime.Now.Subtract(new TimeSpan(rnd.Next(2),rnd.Next(30),0))});
+                        myDal.AddDroneCharge(new DO.DroneCharge { DroneId = dr.Id, StationId = st.Id ,EntranceTime = DateTime.Now.Subtract(new TimeSpan(rnd.Next(2),rnd.Next(30),0))});
                         myDal.UpdateBaseStation(st);
 
                     }
@@ -137,18 +136,19 @@ namespace BL
             }
         }
 
+        public BL Instance { get { return instance; } }
         #region private methods for local  calculations
         /// <summary>
         /// calculate nearest base station to specific location 
         /// </summary>
         /// <param name="l"> location to calculate distance from </param>
         /// <returns> IDAL.DO.BaseStation instance of nearest station </returns>
-        private IDAL.DO.BaseStation getNearestAvailableBasestation(Location l)
+        private DO.BaseStation getNearestAvailableBasestation(Location l)
         {
             double min = double.PositiveInfinity;
             double distance;
-            IDAL.DO.BaseStation tmpStation = new();
-            foreach (IDAL.DO.BaseStation st in myDal.GetAllBaseStations(s => s.NumOfSlots > 0))
+            DO.BaseStation tmpStation = new();
+            foreach (DO.BaseStation st in myDal.GetAllBaseStations(s => s.NumOfSlots > 0))
             {
                 distance = Distance.GetDistance(createLocation(st.Longitude, st.Lattitude), l);
                 if (distance < min)
@@ -165,7 +165,7 @@ namespace BL
         /// </summary>
         /// <param name="pr"> parcel to calculate status of </param>
         /// <returns> ParcelStatus enum value </returns>
-        private  ParcelStatus getParcelStatus(IDAL.DO.Parcel pr)
+        private  ParcelStatus getParcelStatus(DO.Parcel pr)
         {
             if(pr.Scheduled == null)
                 return ParcelStatus.Orderd;
@@ -187,7 +187,7 @@ namespace BL
         private  bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
             // get nearest station to target with availability to charge 
-            IDAL.DO.BaseStation tmp = getNearestAvailableBasestation(target);
+            DO.BaseStation tmp = getNearestAvailableBasestation(target);
             // claculate distance from drone current location to sender
             double DroneToSender = Distance.GetDistance(dr.DroneLocation, sender);
             // calculate distance from sender to target
@@ -298,7 +298,7 @@ namespace BL
         /// </summary>
         /// <param name="st"> DAL BaseStation </param>
         /// <returns> BL BaseStation</returns>
-        private BaseStation convertToBaseStation(IDAL.DO.BaseStation st)
+        private BaseStation convertToBaseStation(DO.BaseStation st)
         {
             return new BaseStation
             {
@@ -366,7 +366,7 @@ namespace BL
         /// </summary>
         /// <param name="cstmr"> DAL Customer </param>
         /// <returns> BL Customer </returns>
-        private Customer convertToCustomer(IDAL.DO.Customer cstmr)
+        private Customer convertToCustomer(DO.Customer cstmr)
         {
             return new Customer
             {
@@ -408,7 +408,7 @@ namespace BL
         /// </summary>
         /// <param name="prc"> DAL Parcel </param>
         /// <returns> BL Parcel </returns>
-        private Parcel convertToParcel(IDAL.DO.Parcel prc)
+        private Parcel convertToParcel(DO.Parcel prc)
         {
             if (prc.DroneId != 0)
             {
@@ -449,7 +449,7 @@ namespace BL
         /// </summary>
         /// <param name="prc"> DAL Parcel </param>
         /// <returns> BL ParcelInList </returns>
-        private ParcelInList convertToParcelInList(IDAL.DO.Parcel prc )
+        private ParcelInList convertToParcelInList(DO.Parcel prc )
         {
             return new ParcelInList
             {

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
 namespace BL
 {
     /// <summary>
     /// partial class manages all action related methods for BL
     /// </summary>
-    public partial class BL: IBL.IBL
+    public partial class BL: BlApi.IBL
     {
         public void ChargeDrone(int id)
         {
@@ -27,7 +27,7 @@ namespace BL
                 throw new ActionException($"drone - {id} is en route , cannot be charged right now");
 
             // find nearest base station
-            IDAL.DO.BaseStation st = getNearestAvailableBasestation(drones[index].DroneLocation);
+            DO.BaseStation st = getNearestAvailableBasestation(drones[index].DroneLocation);
             Location stLocation = createLocation(st.Longitude, st.Lattitude);
             double distance = Distance.GetDistance(stLocation, drones[index].DroneLocation);
 
@@ -41,7 +41,7 @@ namespace BL
             drones[index].Status = DroneStatus.Maintenance;
 
             // update base station in DAL , add a new drone charge entity to list
-            myDal.AddDroneCharge(new IDAL.DO.DroneCharge { DroneId = id, StationId = st.Id,EntranceTime=DateTime.Now });
+            myDal.AddDroneCharge(new DO.DroneCharge { DroneId = id, StationId = st.Id,EntranceTime=DateTime.Now });
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
@@ -59,7 +59,7 @@ namespace BL
             if (drones[index].Status == DroneStatus.Delivery)
                 throw new ActionException($"drone - {id} is en route , currently  not at  charging dock");
 
-            IDAL.DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
+            DO.DroneCharge tempCharge = myDal.GetDroneCharge(id);
             TimeSpan duration = DateTime.Now.Subtract((DateTime)tempCharge.EntranceTime);
             double time = duration.Hours + (double)duration.Minutes / 60 + (double)duration.Seconds / 3600;
             // update drone 
@@ -68,7 +68,7 @@ namespace BL
 
             // update base station available charging slots in DAL , remove drone charge entity from list
             
-            IDAL.DO.BaseStation tempSt = myDal.GetBaseStation(tempCharge.StationId);
+            DO.BaseStation tempSt = myDal.GetBaseStation(tempCharge.StationId);
             myDal.RemoveDroneCharge(tempCharge);
             tempSt.NumOfSlots++;
             myDal.UpdateBaseStation(tempSt);
@@ -85,7 +85,7 @@ namespace BL
                 throw new ActionException($"Drone - {id} is charging, unavailable");
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
             // get all parcels that sre both , unlinked to a drone yet, parcel wight is <= to drone's max weight capability
-            IEnumerable<IDAL.DO.Parcel> unlinked;
+            IEnumerable<DO.Parcel> unlinked;
             try
             {
                 unlinked = myDal.GetAllParcels(pr => pr.DroneId == 0 && (WeightCategories)pr.Weight <= dr.MaxWeight);
@@ -98,13 +98,13 @@ namespace BL
             // by shortest distance from drone to parcel's sender location in ascending order 
             unlinked = unlinked.OrderByDescending(prc => prc.Priority).ThenByDescending(prc => prc.Weight).ThenBy
                 (prc => Distance.GetDistance(createLocation(myDal.GetCustomer(prc.SenderId).Longitude, myDal.GetCustomer(prc.SenderId).Lattitude), dr.DroneLocation));
-            foreach (IDAL.DO.Parcel prc in unlinked)
+            foreach (DO.Parcel prc in unlinked)
             {
                 // create copy of prc for update purposes
-                IDAL.DO.Parcel tmp = prc;
+                DO.Parcel tmp = prc;
                 // get parcel's sender and target customers
-                IDAL.DO.Customer sender = myDal.GetCustomer(prc.SenderId);
-                IDAL.DO.Customer target = myDal.GetCustomer(prc.TargetId);
+                DO.Customer sender = myDal.GetCustomer(prc.SenderId);
+                DO.Customer target = myDal.GetCustomer(prc.TargetId);
                 // if drone can execute delivery for current parcel - link parcel to drone - return 
                 if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Lattitude), dr.MaxWeight))
                 {
@@ -147,7 +147,7 @@ namespace BL
             drones[index].DroneLocation = dr.Parcel.SenderLocation;
 
             // update parcel in DAL 
-            IDAL.DO.Parcel p = myDal.GetParcel(dr.Parcel.Id);
+            DO.Parcel p = myDal.GetParcel(dr.Parcel.Id);
             p.PickedUp = DateTime.Now;
             myDal.UpdateParcel(p);
         }
@@ -190,13 +190,13 @@ namespace BL
             drones[index].ParcelId = 0;
 
             // update parcel in  DAL
-            myDal.UpdateParcel(new IDAL.DO.Parcel
+            myDal.UpdateParcel(new DO.Parcel
             {
                 Id = prc.Id,
                 SenderId = prc.Sender.Id,
                 TargetId = prc.Target.Id,
-                Weight = (IDAL.DO.WeightCategories)prc.Weight,
-                Priority = (IDAL.DO.Priorities)prc.Priority,
+                Weight = (DO.WeightCategories)prc.Weight,
+                Priority = (DO.Priorities)prc.Priority,
                 Requested = prc.Ordered,
                 Scheduled = prc.Linked,
                 PickedUp = prc.PickedUp,
