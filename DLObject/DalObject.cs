@@ -15,22 +15,34 @@ namespace Dal
     /// </summary>
     internal sealed partial class DalObject : IDal
     {
-        static readonly DalObject instance = new DalObject();
+        private static DalObject instance;
+        private static object locker = new object();
 
-        static DalObject()
-        {
-            DataSource.Initialize();
-        }
-       
+
         /// <summary>
         /// constructor - calls DataSource.initialize() to initialize lists
         /// </summary>
-        DalObject()
+        private DalObject()
         {
             DataSource.Initialize();
         }
 
-        public static DalObject Instance { get { return instance; } }
+        public static DalObject Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (locker)
+                    {
+                        if (instance == null)
+                            instance = new DalObject();
+                    }
+                }
+                return instance;
+            }
+        }
+
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
@@ -40,5 +52,5 @@ namespace Dal
         }
     }
 }
-       
+
 

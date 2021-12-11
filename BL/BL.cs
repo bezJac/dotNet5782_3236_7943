@@ -13,9 +13,23 @@ namespace BL
     /// <summary>
     /// class manages BL logic for DAL.
     /// </summary>
-    public partial class BL : BlApi.IBL
+    public partial class BL : IBL
     {
-        static readonly BL instance = new BL();
+        private static  BL instance;
+        private static object locker = new object();
+
+        public static BL Instance()
+        {
+            if (instance == null)
+            {
+                lock (locker)
+                {
+                    if (instance == null)
+                        instance = new BL();
+                }
+            }
+            return instance;
+        }
         private DalApi.IDal myDal;
         private List<DroneInList> drones;
         private static double droneElecUseEmpty;
@@ -136,7 +150,6 @@ namespace BL
             }
         }
 
-        public BL Instance { get { return instance; } }
         #region private methods for local  calculations
         /// <summary>
         /// calculate nearest base station to specific location 

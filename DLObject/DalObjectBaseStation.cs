@@ -55,7 +55,7 @@ namespace Dal
         {
             if (predicate == null)
             {
-                if (DataSource.Stations.Any())
+                if (!DataSource.Stations.Any())
                     throw new EmptyListException("No stations in list");
                 return DataSource.Stations;
             }    
