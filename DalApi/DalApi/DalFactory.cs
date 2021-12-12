@@ -13,13 +13,13 @@ namespace DalApi
         {
             string dalType =DalConfig.DalName;
             DalConfig.DalPackage dalPackage;
+            
             try
             {
                 dalPackage = DalConfig.DalPackages[dalType];
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new DalConfigException($"Wrong Dal type: {dalType}",ex);
             }
             string dalPackageName = dalPackage.Name;

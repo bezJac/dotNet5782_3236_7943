@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using IBL;
-using IBL.BO;
+using BL;
+using BO;
 
 
 namespace ConsoleUI_BL
@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
     {
         static void Main(string[] args)
         {
-            IBL.IBL data = new BL.BL();
+            BlApi.IBL data = BlApi.BlFactory.GetBL();
             string str = "";
             do
             {
@@ -78,7 +78,7 @@ namespace ConsoleUI_BL
             } while (str != "exit");
         }
 
-        private static void addNewEntityMenu(IBL.IBL data)
+        private static void addNewEntityMenu(BlApi.IBL data)
         {
             int num1;
             string str;
@@ -124,7 +124,7 @@ namespace ConsoleUI_BL
                     }
             }
         }
-        private static void updateEntityDetailsMenu(IBL.IBL data)
+        private static void updateEntityDetailsMenu(BlApi.IBL data)
         {
             int input1, input2;
             string choice, str1, str2;
@@ -175,7 +175,7 @@ namespace ConsoleUI_BL
 
             }
         }
-        private static void printSingleEntityMenu(IBL.IBL data)
+        private static void printSingleEntityMenu(BlApi.IBL data)
         {
             int input;
             string choice;
@@ -227,7 +227,7 @@ namespace ConsoleUI_BL
                     }
             }
         }
-        private static void printEntityListsMenu(IBL.IBL data)
+        private static void printEntityListsMenu(BlApi.IBL data)
         {
             string str;
             System.Console.WriteLine("select your choice:\n" +
@@ -281,10 +281,10 @@ namespace ConsoleUI_BL
 
 
         }
-        private static void actionsWithEntitiesMenu(IBL.IBL data)
+        private static void actionsWithEntitiesMenu(BlApi.IBL data)
         {
             string choice;
-            int input1, input2;
+            int input1;
             Console.WriteLine("Select your choice:\n" +
             "charge -send drone to charge\n" +
             "discharge - release a drone from charge\n" +

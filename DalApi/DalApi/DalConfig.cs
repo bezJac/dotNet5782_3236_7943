@@ -39,5 +39,20 @@ namespace DalApi
                 .ToDictionary(p => "" + p.Name, p => p);
         }
     }
- 
+
+    [Serializable]
+    internal class DalConfigException : Exception
+    {
+        public DalConfigException()
+        {
+        }
+
+        public DalConfigException(string message) : base(message)
+        {
+        }
+
+        public DalConfigException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
 }
