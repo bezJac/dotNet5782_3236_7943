@@ -18,17 +18,20 @@ namespace BL
         private static  BL instance;
         private static object locker = new object();
 
-        public static BL Instance()
+        public static BL Instance
         {
-            if (instance == null)
+            get
             {
-                lock (locker)
+                if (instance == null)
                 {
-                    if (instance == null)
-                        instance = new BL();
+                    lock (locker)
+                    {
+                        if (instance == null)
+                            instance = new BL();
+                    }
                 }
+                return instance;
             }
-            return instance;
         }
         private DalApi.IDal myDal;
         private List<DroneInList> drones;

@@ -35,13 +35,13 @@ namespace PL
             InitializeComponent();
             theBL = bL;
             // show add drone grid only
-            this.addDrone.Visibility = Visibility.Visible;
+            addDrone.Visibility = Visibility.Visible;
             newDrone = new Drone();
             // set data context  for binding
             DataContext = newDrone;
             // set values of comboBoxes
-            this.maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
-            this.stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
+            maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
         }
 
         /// <summary>
@@ -53,35 +53,35 @@ namespace PL
         {
             InitializeComponent();
             // show action drone grid only
-            this.actionDrone.Visibility = Visibility.Visible;
+            actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
-            this.droneView.Text = newDrone.ToString();
+            droneView.Text = newDrone.ToString();
             // enable buttons in window according to drone's state (status)
             // 5 - charge, 6 - discharge, 7 - scheduale, 8 - pick up, 9 - deliver
             switch (newDrone.Status)
             {
                 case DroneStatus.Available: //charge and schedule buttons enabled
                     {
-                        this.ChargeButton.Visibility = Visibility.Visible;
-                        this.ScheduleButton.Visibility = Visibility.Visible;
+                        ChargeButton.Visibility = Visibility.Visible;
+                        ScheduleButton.Visibility = Visibility.Visible;
                         break;
                     }
                 case DroneStatus.Maintenance: // dischrge button enabled
                     {
-                        this.DischargeButton.Visibility = Visibility.Visible;
+                        DischargeButton.Visibility = Visibility.Visible;
                         break;
                     }
                 case DroneStatus.Delivery:
                     {
                         if(newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
                         {
-                            this.DeliverButton.Visibility = Visibility.Visible;                     
+                           DeliverButton.Visibility = Visibility.Visible;                     
                             break;
                         }
                         else   // drone only scheduled , pick up button enabled 
                         {
-                            this.PickUpButton.Visibility = Visibility.Visible;
+                            PickUpButton.Visibility = Visibility.Visible;
                         }
                         break;
                     }
@@ -95,7 +95,7 @@ namespace PL
         /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -109,40 +109,27 @@ namespace PL
             try
             {
                 // check that input was made to all fields
-                if(this.idTextBox.Text==string.Empty)
+                if(idTextBox.Text==string.Empty)
                 {
-                    this.idTextBox.BorderThickness = new Thickness(2);
-                    this.idTextBox.BorderBrush = Brushes.Red;
+                    idTextBox.BorderThickness = new Thickness(2);
+                    idTextBox.BorderBrush = Brushes.Red;
                     throw new Exception("Drone's details missing");
                 }
-                if(this.modelTextBox.Text==string.Empty)
+                if(modelTextBox.Text==string.Empty)
                 {
-                    this.modelTextBox.BorderThickness = new Thickness(2);
-                    this.modelTextBox.BorderBrush = Brushes.Red;
+                    modelTextBox.BorderThickness = new Thickness(2);
+                    modelTextBox.BorderBrush = Brushes.Red;
                     throw new Exception("Drone's details missing");
                 }
-                if(this.maxWeightComboBox.SelectedItem==null)
-                {
-                    throw new Exception("Drone's details missing");
-                }
-                if(this.stationsList.SelectedItem==null)
+                if(maxWeightComboBox.SelectedItem==null|| stationsList.SelectedItem == null)
                 {
                     throw new Exception("Drone's details missing");
                 }
-
-                // check that user input was valid
-                if(newDrone.Id <= 0)
-                {
-                    this.idTextBox.BorderThickness = new Thickness(2);
-                    this.idTextBox.BorderBrush = Brushes.Red;
-                    this.idTextBox.Text = string.Empty;
-                    throw new Exception("ID must be positive");
-                }
+                
                 if (newDrone.Id < 1000)
                 {
-                    this.idTextBox.BorderThickness = new Thickness(2);
-                    this.idTextBox.BorderBrush = Brushes.Red;
-                    this.idTextBox.Text = string.Empty;
+                    idTextBox.BorderThickness = new Thickness(2);
+                    idTextBox.BorderBrush = Brushes.Red;                   
                     throw new Exception("ID must be four digits");
                 }
 
@@ -160,9 +147,9 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
-                this.idTextBox.BorderThickness = new Thickness(0);
+                idTextBox.BorderThickness = new Thickness();
                 MessageBox.Show("Drone was added successfully to list" ,"SUCCESS",MessageBoxButton.OK,MessageBoxImage.Information);
-                this.Close();
+                Close();
             }
         }
 
@@ -171,7 +158,7 @@ namespace PL
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -180,8 +167,9 @@ namespace PL
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             newDrone.Model = newModel.Text.ToString();
+            if(newModel.Text==string.Empty)
             theBL.UpdateDrone((int)newDrone.Id, newDrone.Model);
-            this.droneView.Text = newDrone.ToString();
+            droneView.Text = newDrone.ToString();
         }
 
         /// <summary>
@@ -207,12 +195,12 @@ namespace PL
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 // update drone view details
-                this.droneView.Text = newDrone.ToString();
+                droneView.Text = newDrone.ToString();
                 // enable discharge button only
-                this.ChargeButton.Visibility = Visibility.Collapsed;
+                ChargeButton.Visibility = Visibility.Collapsed;
                 
-                this.DischargeButton.Visibility = Visibility.Visible;
-                this.ScheduleButton.Visibility = Visibility.Collapsed;
+                DischargeButton.Visibility = Visibility.Visible;
+                ScheduleButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -238,11 +226,11 @@ namespace PL
             if(flag)  // drone was releases from charge successfully 
             {
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = newDrone.ToString();
+                droneView.Text = newDrone.ToString();
                 // enable charge and schedule buttons 
-                this.DischargeButton.Visibility = Visibility.Collapsed;
-                this.ChargeButton.Visibility = Visibility.Visible;
-                this.ScheduleButton.Visibility = Visibility.Visible;
+                DischargeButton.Visibility = Visibility.Collapsed;
+                ChargeButton.Visibility = Visibility.Visible;
+                ScheduleButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -265,11 +253,11 @@ namespace PL
             if(flag) // drone was linked successfully
             {
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = newDrone.ToString();
+                droneView.Text = newDrone.ToString();
                 // enable pick up button only
-                this.ScheduleButton.Visibility = Visibility.Collapsed;
-                this.PickUpButton.Visibility = Visibility.Visible;
-                this.ChargeButton.Visibility = Visibility.Collapsed;
+                ScheduleButton.Visibility = Visibility.Collapsed;
+                PickUpButton.Visibility = Visibility.Visible;
+                ChargeButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -295,10 +283,10 @@ namespace PL
             if (flag) // drone picked up parcel successfully
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = newDrone.ToString();
+                droneView.Text = newDrone.ToString();
                 // enable deliver button only
-                this.PickUpButton.Visibility = Visibility.Collapsed;
-                this.DeliverButton.Visibility = Visibility.Visible;
+                PickUpButton.Visibility = Visibility.Collapsed;
+                DeliverButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -324,30 +312,56 @@ namespace PL
             if (flag) // drone delivered parcel successfully
             {
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.droneView.Text = newDrone.ToString();
-                this.DeliverButton.Visibility = Visibility.Collapsed;
-                this.ChargeButton.Visibility = Visibility.Visible;
-                this.ScheduleButton.Visibility = Visibility.Visible;
+                droneView.Text = newDrone.ToString();
+                DeliverButton.Visibility = Visibility.Collapsed;
+                ChargeButton.Visibility = Visibility.Visible;
+                ScheduleButton.Visibility = Visibility.Visible;
             }
+        }
+
+        private void IdTextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox text = sender as TextBox;
+            if (text == null) return;
+            if (e == null) return;
+
+            //allow get out of the text box
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                return;
+
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                return;
+
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+            //allow control system keys
+            if (Char.IsControl(c)) return;
+
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
+
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+            return;
         }
 
         private void idTextValidation(object sender, RoutedEventArgs e)
         {
-            if (newDrone.Id <= 0)
-            {
-                this.idTextBox.BorderThickness = new Thickness(2);
-                this.idTextBox.BorderBrush = Brushes.Red;
-                
-            }
+            
             if (idTextBox.Text.Length < 4)
             {
-                this.idTextBox.BorderThickness = new Thickness(2);
-                this.idTextBox.BorderBrush = Brushes.Red;
+                idTextBox.BorderThickness = new Thickness(2);
+                idTextBox.BorderBrush = Brushes.Red;
                 
             }
             if(idTextBox.Text.Length == 4 &&  newDrone.Id>0)
             {
-                this.idTextBox.BorderThickness = new Thickness(0);
+                idTextBox.BorderThickness = new Thickness(0);
             }
         }
 
@@ -355,13 +369,15 @@ namespace PL
         {
             if(modelTextBox.Text==string.Empty)
             {
-                this.modelTextBox.BorderThickness = new Thickness(2);
-                this.modelTextBox.BorderBrush = Brushes.Red;
+                modelTextBox.BorderThickness = new Thickness(2);
+                modelTextBox.BorderBrush = Brushes.Red;
             }
             else
             {
-                this.modelTextBox.BorderThickness = new Thickness(0);
+                modelTextBox.BorderThickness = new Thickness(0);
             }
         }
+
+        
     }
 }
