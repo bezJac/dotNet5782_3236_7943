@@ -220,7 +220,7 @@
             </Grid.ColumnDefinitions>
             <Label  Content="Enter a 4 digit ID number:" VerticalAlignment="Center" Grid.Row="1"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
-            <TextBox x:Name="idPTextBox" Width="140" VerticalAlignment="Center" 
+            <TextBox x:Name="idAddTextBox" Width="140" VerticalAlignment="Center" 
                         Text= "{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=True }"
                         PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown"
                         Grid.Row="1" Height="23" HorizontalAlignment="Center"  Grid.Column="1" MaxLength="4"  LostFocus="idTextValidation"/>

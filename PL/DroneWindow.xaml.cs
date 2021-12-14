@@ -109,7 +109,7 @@ namespace PL
             try
             {
                 // check that input was made to all fields
-                if(idTextBox.Text==string.Empty)
+                if(idAddTextBox.Text==string.Empty)
                 {
                     idTextBox.BorderThickness = new Thickness(2);
                     idTextBox.BorderBrush = Brushes.Red;
@@ -168,12 +168,13 @@ namespace PL
         {
             if (newModel.Text != string.Empty)
             {
-                
-                theBL.UpdateDrone((int)newDrone.Id, newDrone.Model);
+                theBL.UpdateDrone((int)newDrone.Id, newModel.Text);
                 newDrone = theBL.GetDrone((int)newDrone.Id);
                 DroneShow.DataContext = newDrone;
+                MessageBox.Show("Model was updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newModel.Text = null;
             }
+            
             //droneView.Text = newDrone.ToString();
         }
 
@@ -201,7 +202,6 @@ namespace PL
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 ChargeButton.Visibility = Visibility.Collapsed;
-
                 DischargeButton.Visibility = Visibility.Visible;
                 ScheduleButton.Visibility = Visibility.Collapsed;
             }
@@ -354,15 +354,15 @@ namespace PL
         private void idTextValidation(object sender, RoutedEventArgs e)
         {
             
-            if (idTextBox.Text.Length < 4)
+            if (idAddTextBox.Text.Length < 4)
             {
-                idTextBox.BorderThickness = new Thickness(2);
-                idTextBox.BorderBrush = Brushes.Red;
+                idAddTextBox.BorderThickness = new Thickness(2);
+                idAddTextBox.BorderBrush = Brushes.Red;
                 
             }
-            if(idTextBox.Text.Length == 4 &&  newDrone.Id>0)
+            if(idAddTextBox.Text.Length == 4 )
             {
-                idTextBox.BorderThickness = new Thickness(0);
+                idAddTextBox.BorderThickness = new Thickness(0);
             }
         }
 
