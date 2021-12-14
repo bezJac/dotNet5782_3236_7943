@@ -9,6 +9,14 @@
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"></local:LattitudeToDmsConverter>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"></local:LongtitudeToDmsConverter>
+        <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Background" Value="#FF779761"/>
+            <Setter Property="FontSize" Value="14"/>
+            
+
+        </Style>
     </Window.Resources>
     <Grid x:Name="MainGrid" Background="#FFD5DCD0">
         <Grid.RowDefinitions>
@@ -47,14 +55,14 @@
         <ListView x:Name="DroneListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID:" Width="60" DisplayMemberBinding="{Binding Id}"/>
-                    <GridViewColumn Header="Model:" Width="110" DisplayMemberBinding="{Binding Model}"/>
-                    <GridViewColumn Header="Max Weight:" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
-                    <GridViewColumn Header="Status:" Width="80" DisplayMemberBinding="{Binding Status}"/>
-                    <GridViewColumn Header="Battery:" Width="60" DisplayMemberBinding="{Binding Battery}"/>
-                    <GridViewColumn Header="Parcel ID:" Width="80" DisplayMemberBinding="{Binding ParcelId}"/>
-                    <GridViewColumn Header="Lattitude:" Width="140" DisplayMemberBinding="{Binding DroneLocation.Lattitude, Converter={StaticResource LattitudeToDmsConverter }}"/>
-                    <GridViewColumn Header="Longtitude:" Width="140" DisplayMemberBinding="{Binding DroneLocation.Longtitude, Converter={StaticResource LongtitudeToDmsConverter}}"/>
+                    <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="60" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Model" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="110" DisplayMemberBinding="{Binding Model}"/>
+                    <GridViewColumn Header="Max Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="100" DisplayMemberBinding="{Binding MaxWeight}"/>
+                    <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="80" DisplayMemberBinding="{Binding Status}"/>
+                    <GridViewColumn Header="Battery" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="60" DisplayMemberBinding="{Binding Battery}"/>
+                    <GridViewColumn Header="Parcel ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="80" DisplayMemberBinding="{Binding ParcelId}"/>
+                    <GridViewColumn Header="Lattitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="140" DisplayMemberBinding="{Binding DroneLocation.Lattitude, Converter={StaticResource LattitudeToDmsConverter }}"/>
+                    <GridViewColumn Header="Longtitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="140" DisplayMemberBinding="{Binding DroneLocation.Longtitude, Converter={StaticResource LongtitudeToDmsConverter}}"/>
                 </GridView>
             </ListView.View>
         </ListView>
