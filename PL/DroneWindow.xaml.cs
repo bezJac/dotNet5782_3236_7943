@@ -42,6 +42,7 @@ namespace PL
             // set values of comboBoxes
             maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
+            
         }
 
         /// <summary>
@@ -56,9 +57,8 @@ namespace PL
             actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
-            droneView.Text = newDrone.ToString();
-            // enable buttons in window according to drone's state (status)
-            // 5 - charge, 6 - discharge, 7 - scheduale, 8 - pick up, 9 - deliver
+            actionDrone.DataContext = newDrone;
+            DroneShow.DataContext = newDrone;
             switch (newDrone.Status)
             {
                 case DroneStatus.Available: //charge and schedule buttons enabled
@@ -74,9 +74,9 @@ namespace PL
                     }
                 case DroneStatus.Delivery:
                     {
-                        if(newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
+                        if (newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
                         {
-                           DeliverButton.Visibility = Visibility.Visible;                     
+                            DeliverButton.Visibility = Visibility.Visible;
                             break;
                         }
                         else   // drone only scheduled , pick up button enabled 
@@ -166,10 +166,15 @@ namespace PL
         /// </summary>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            newDrone.Model = newModel.Text.ToString();
-            if(newModel.Text==string.Empty)
-            theBL.UpdateDrone((int)newDrone.Id, newDrone.Model);
-            droneView.Text = newDrone.ToString();
+            if (newModel.Text != string.Empty)
+            {
+                
+                theBL.UpdateDrone((int)newDrone.Id, newDrone.Model);
+                newDrone = theBL.GetDrone((int)newDrone.Id);
+                DroneShow.DataContext = newDrone;
+                newModel.Text = null;
+            }
+            //droneView.Text = newDrone.ToString();
         }
 
         /// <summary>
@@ -194,11 +199,9 @@ namespace PL
             if(flag) // drone was sent to charge successfully 
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                // update drone view details
-                droneView.Text = newDrone.ToString();
-                // enable discharge button only
+                DroneShow.DataContext = newDrone;
                 ChargeButton.Visibility = Visibility.Collapsed;
-                
+
                 DischargeButton.Visibility = Visibility.Visible;
                 ScheduleButton.Visibility = Visibility.Collapsed;
             }
@@ -226,10 +229,9 @@ namespace PL
             if(flag)  // drone was releases from charge successfully 
             {
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                droneView.Text = newDrone.ToString();
-                // enable charge and schedule buttons 
-                DischargeButton.Visibility = Visibility.Collapsed;
+                DroneShow.DataContext = newDrone;
                 ChargeButton.Visibility = Visibility.Visible;
+                DischargeButton.Visibility = Visibility.Collapsed;
                 ScheduleButton.Visibility = Visibility.Visible;
             }
         }
@@ -253,8 +255,7 @@ namespace PL
             if(flag) // drone was linked successfully
             {
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                droneView.Text = newDrone.ToString();
-                // enable pick up button only
+                DroneShow.DataContext = newDrone;
                 ScheduleButton.Visibility = Visibility.Collapsed;
                 PickUpButton.Visibility = Visibility.Visible;
                 ChargeButton.Visibility = Visibility.Collapsed;
@@ -283,8 +284,7 @@ namespace PL
             if (flag) // drone picked up parcel successfully
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                droneView.Text = newDrone.ToString();
-                // enable deliver button only
+                DroneShow.DataContext = newDrone;
                 PickUpButton.Visibility = Visibility.Collapsed;
                 DeliverButton.Visibility = Visibility.Visible;
             }
@@ -311,8 +311,9 @@ namespace PL
             }
             if (flag) // drone delivered parcel successfully
             {
+                
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                droneView.Text = newDrone.ToString();
+                DroneShow.DataContext = newDrone;
                 DeliverButton.Visibility = Visibility.Collapsed;
                 ChargeButton.Visibility = Visibility.Visible;
                 ScheduleButton.Visibility = Visibility.Visible;
@@ -378,6 +379,15 @@ namespace PL
             }
         }
 
-        
+        private void newModel_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateButton.IsEnabled = true;
+        }
+
+        private void newModel_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty((string)newModel.Text))
+                UpdateButton.IsEnabled = false;
+        }
     }
 }
