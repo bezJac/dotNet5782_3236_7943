@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace PL
     public partial class ListDronesWindow : Window
     {
         readonly private BlApi.IBL theBL;
+    
 
         /// <summary>
         /// cunstructor

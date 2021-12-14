@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="Drones List" Height="480" Width="800" Icon= "\images\Icon_drone.ico">
-   
+    <Window.Resources>
+        <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"></local:LattitudeToDmsConverter>
+        <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"></local:LongtitudeToDmsConverter>
+    </Window.Resources>
     <Grid x:Name="MainGrid" Background="#FFD5DCD0">
         <Grid.RowDefinitions>
             <RowDefinition Height="70*"/>
@@ -23,7 +26,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
-            </Grid.RowDefinitions>   
+            </Grid.RowDefinitions>
             <Label Content="Choose a Weight:" VerticalAlignment="Center" HorizontalAlignment="Center" 
                    FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="18"/>
             <Label Content="Choose a Status:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -41,9 +44,24 @@
                    Height="40" Width="100" Click="ClearButton_Click"
                     FontSize="18" />
         </Grid>
-        <ListView x:Name="DroneListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" />
+        <ListView x:Name="DroneListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID:" Width="60" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="Model:" Width="110" DisplayMemberBinding="{Binding Model}"/>
+                    <GridViewColumn Header="Max Weight:" Width="80" DisplayMemberBinding="{Binding MaxWeight}"/>
+                    <GridViewColumn Header="Status:" Width="80" DisplayMemberBinding="{Binding Status}"/>
+                    <GridViewColumn Header="Battery:" Width="60" DisplayMemberBinding="{Binding Battery}"/>
+                    <GridViewColumn Header="Parcel ID:" Width="80" DisplayMemberBinding="{Binding ParcelId}"/>
+                    <GridViewColumn Header="Lattitude:" Width="140" DisplayMemberBinding="{Binding DroneLocation.Lattitude, Converter={StaticResource LattitudeToDmsConverter }}"/>
+                    <GridViewColumn Header="Longtitude:" Width="140" DisplayMemberBinding="{Binding DroneLocation.Longtitude, Converter={StaticResource LongtitudeToDmsConverter}}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
         <Button x:Name="closeButton"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
                 Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" />
     </Grid>
+    
 </Window>

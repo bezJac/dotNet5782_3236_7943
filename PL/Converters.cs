@@ -14,7 +14,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty((string)value) ? false : true;
+            return !string.IsNullOrEmpty((string)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -30,7 +30,7 @@ namespace PL
             int tmp = ((int)val);
             int tmp2 = (int)((val % (int)val) * 60);
             double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
-            string result = $"{ tmp}{((char)176).ToString()} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
+            string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
             if (tmp > 0)
                 return result + "E";
             else
@@ -50,7 +50,7 @@ namespace PL
             int tmp = ((int)val);
             int tmp2 = (int)((val % (int)val) * 60);
             double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
-            string result = $"{ tmp}{((char)176).ToString()} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
+            string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
             if (tmp > 0)
                 return result + "N";
             else
