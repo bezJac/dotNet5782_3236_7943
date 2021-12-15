@@ -24,7 +24,7 @@ namespace PL
     public partial class ListDronesWindow : Window
     {
         readonly private BlApi.IBL theBL;
-    
+        ObservableCollection<DroneInList> drones = new ObservableCollection<DroneInList>();
 
         /// <summary>
         /// cunstructor
@@ -35,7 +35,8 @@ namespace PL
             InitializeComponent();
             theBL = bL;
             // show all drones in drone list
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList();
+            DroneListView.ItemsSource = drones;
             // set values to comboBoxes
             this.StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             this.WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -55,9 +56,9 @@ namespace PL
                 try
                 {
                     if(WeightSelector.SelectedItem != null) 
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
+                        drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
                     else
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(status);
+                        drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList(status);
                 }
                 catch (Exception Ex)
                 {
@@ -83,9 +84,9 @@ namespace PL
                 try
                 {
                     if (StatusSelector.SelectedItem != null)
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
+                        drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
                     else
-                        this.DroneListView.ItemsSource = theBL.GetAllDronesInList(null, weight);
+                        drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList(null, weight);
                 }
                 catch (Exception Ex)
                 {
@@ -120,21 +121,24 @@ namespace PL
         /// </summary>
         private void DroneList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            DroneInList dr = DroneListView.SelectedItem as DroneInList;
-            Drone drone = theBL.GetDrone(dr.Id);
-            new DroneWindow(theBL, drone).ShowDialog();
-            //after drone window close , refresh list content,
-            // exception accures if list is empty after refresh
-            try
+            if (DroneListView.SelectedItem!=null)
             {
-                refreshListContent();
-            }
-            catch (Exception Ex)
-            {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-                this.ClearButton_Click(sender, e);
+                DroneInList dr = DroneListView.SelectedItem as DroneInList;
+                Drone drone = theBL.GetDrone(dr.Id);
+                new DroneWindow(theBL, drone).ShowDialog();
+                //after drone window close , refresh list content,
+                // exception accures if list is empty after refresh
+                try
+                {
+                    refreshListContent();
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.ClearButton_Click(sender, e);
+                }
             }
 
         }
@@ -146,7 +150,7 @@ namespace PL
         {
             this.StatusSelector.SelectedItem = null;
             this.WeightSelector.SelectedItem = null;
-            this.DroneListView.ItemsSource = theBL.GetAllDronesInList();
+           drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList();
         }
 
         /// <summary>
@@ -157,24 +161,24 @@ namespace PL
             // nither comboBox has a selected choice - show all drones
             if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) 
             {
-                this.DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
+                drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList(null, null);
                 return;
             }
             // both comboBoxes have selected choice - filter by both parameters
             if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null) 
             {
-                this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
                 return;
             }
             // only status comboBox has choice - filter by status
             if (StatusSelector.SelectedItem != null) 
             {
-                this.DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
                 return;
                 
             }
             // only weight comboBox has choice - filter by weight
-            this.DroneListView.ItemsSource = theBL.GetAllDronesInList( null, (WeightCategories)WeightSelector.SelectedItem);
+            drones = (ObservableCollection<DroneInList>)theBL.GetAllDronesInList( null, (WeightCategories)WeightSelector.SelectedItem);
 
         }
     }
