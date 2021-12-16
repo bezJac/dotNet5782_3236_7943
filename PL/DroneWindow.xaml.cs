@@ -57,7 +57,6 @@ namespace PL
             actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
-            actionDrone.DataContext = newDrone;
             DroneShow.DataContext = newDrone;
             switch (newDrone.Status)
             {
@@ -379,15 +378,6 @@ namespace PL
             }
         }
 
-        private void newModel_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateButton.IsEnabled = true;
-        }
-
-        private void newModel_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty((string)newModel.Text))
-                UpdateButton.IsEnabled = false;
-        }
+      
     }
 }

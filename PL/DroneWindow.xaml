@@ -7,18 +7,16 @@
         mc:Ignorable="d"
         Title="Drone" Height="480" Width="800" Icon= "\images\Icon_drone.ico">
     <Window.Resources>
-        <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"></local:LattitudeToDmsConverter>
-        <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"></local:LongtitudeToDmsConverter>
-        <local:NullToEnableConverter x:Key="NullToEnableConverter"></local:NullToEnableConverter>
-        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"></local:NullToVisibilityConverter>
-        <local:AvailableToVisibilityConverter x:Key="AvailableToVisibilityConverter"></local:AvailableToVisibilityConverter>
-        <local:MaintanenceToVisibilityConverter x:Key="MaintanenceToVisibilityConverter"></local:MaintanenceToVisibilityConverter>
-        <local:DeliveryToVisibilityConverter x:Key="DeliveryToVisibilityConverter"></local:DeliveryToVisibilityConverter>
-        <local:PickUpToVisibilityConverter x:Key="PickUpToVisibilityConverter"></local:PickUpToVisibilityConverter>
+        <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
+        <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
+        <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        <local:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
+        <local:AvailableToVisibilityConverter x:Key="AvailableToVisibilityConverter"/>
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone"  Background="#FFD5DCD0"  Visibility="Collapsed">
+        <Grid x:Name="actionDrone"  Background="#FFD5DCD0"  Visibility="Collapsed" >
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
                 <RowDefinition Height="140*"/>
@@ -35,12 +33,12 @@
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
 
             <Viewbox x:Name="DroneView" Grid.Column="0" Grid.RowSpan="3" HorizontalAlignment="Left"  >
-                <Grid x:Name="DroneShow" Grid.Column="0" Grid.RowSpan="3">
+                <Grid x:Name="DroneShow" Grid.Column="0" Grid.RowSpan="3" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid x:Name="DroneDetails" HorizontalAlignment="Center" Margin="40,0,0,0"   VerticalAlignment="Top" Grid.Column="0">
+                    <Grid x:Name="DroneDetails" HorizontalAlignment="Center" Margin="40,0,0,0"   VerticalAlignment="Top" Grid.Column="0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
@@ -181,9 +179,9 @@
                      HorizontalContentAlignment="Center" Grid.Column="1"  Margin="28,10,27,100"  Width="145" />
             <TextBox x:Name="newModel"  SpellCheck.IsEnabled="True" Height="23" Width="120" Grid.Column="1"
                      VerticalAlignment="Top" Margin="40,49,40,0"  />
-            <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
+            <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" 
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="0,89,0,0"
-                    IsEnabled="{Binding ElementName=newModel, Path=Text, Converter={StaticResource NullToEnableConverter}}"  />
+                    Visibility="{Binding ElementName=newModel, Path=Text, Converter={StaticResource TextToVisibilityConverter}}"  />
 
 
             <Button x:Name="ChargeButton"  Content="Charge" Style="{StaticResource ButtonStyle}"  Grid.Column="1" Grid.Row="2"   
@@ -228,7 +226,7 @@
                     FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold"/>
             <TextBox x:Name="modelTextBox" Width="140" VerticalAlignment="Center"
                         Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                        Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Center" Grid.Column="1" LostFocus="modelTextValidation" />
+                        Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Center" Grid.Column="1" LostFocus="modelTextValidation"/>
             <Label  Content="Select Max Weight:" VerticalAlignment="Center" Grid.Row="3"  HorizontalAlignment="Right"
                     FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Column="0" />
             <ComboBox x:Name="maxWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
