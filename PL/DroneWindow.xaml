@@ -12,6 +12,7 @@
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
         <local:AvailableToVisibilityConverter x:Key="AvailableToVisibilityConverter"/>
+        <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -28,8 +29,8 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25"
-                    HorizontalAlignment="Left" Margin="334,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="50" 
+            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
+                    HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
 
             <Viewbox x:Name="DroneView" Grid.Column="0" Grid.RowSpan="3" HorizontalAlignment="Left"  >
@@ -134,7 +135,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center"/>
                         <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
                         <TextBox x:Name="senderIdTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
                                  Text="{Binding Parcel.Sender.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
@@ -179,9 +180,9 @@
                      HorizontalContentAlignment="Center" Grid.Column="1"  Margin="28,10,27,100"  Width="145" />
             <TextBox x:Name="newModel"  SpellCheck.IsEnabled="True" Height="23" Width="120" Grid.Column="1"
                      VerticalAlignment="Top" Margin="40,49,40,0"  />
-            <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" 
+            <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="0,89,0,0"
-                    Visibility="{Binding ElementName=newModel, Path=Text, Converter={StaticResource TextToVisibilityConverter}}"  />
+                    IsEnabled="{Binding ElementName=newModel, Path=Text, Converter={StaticResource NullToEnableConverter}}"  />
 
 
             <Button x:Name="ChargeButton"  Content="Charge" Style="{StaticResource ButtonStyle}"  Grid.Column="1" Grid.Row="2"   
@@ -245,7 +246,7 @@
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"
                     Click="AddButton_Click"/>
             <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="3" Visibility="Visible"
-                        Grid.RowSpan="2" 
+                        Grid.RowSpan="2" HorizontalAlignment="Right"
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
         </Grid>

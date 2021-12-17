@@ -18,6 +18,8 @@
 
         </Style>
     </Window.Resources>
+    <TabControl x:Name="Lists">
+        <TabItem  x:Name="Drones" Header="Drones" >
     <Grid x:Name="MainGrid" Background="#FFD5DCD0">
         <Grid.RowDefinitions>
             <RowDefinition Height="70*"/>
@@ -69,7 +71,11 @@
         
         <Button x:Name="closeButton"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
-                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" />
+                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
     </Grid>
-    
+        </TabItem>
+        <TabItem x:Name="Parcels" Header="Parcels"></TabItem>
+        <TabItem x:Name="Customers" Header="Customers"></TabItem>
+        <TabItem x:Name="Stations" Header="Stations"></TabItem>
+    </TabControl>
 </Window>
