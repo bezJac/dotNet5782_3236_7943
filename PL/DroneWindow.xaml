@@ -246,7 +246,7 @@
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"
                     Click="AddButton_Click"/>
             <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="3" Visibility="Visible"
-                        Grid.RowSpan="2" HorizontalAlignment="Right"
+                        Grid.RowSpan="2" HorizontalAlignment="Center"
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
         </Grid>
