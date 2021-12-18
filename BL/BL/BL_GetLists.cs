@@ -25,7 +25,9 @@ namespace BL
             {
                 throw new GetListException("", Ex);
             }
-            return stations.Select(st => convertToBaseStation(st));
+            return from station in stations
+                   let st = convertToBaseStation(station)
+                   select st;
         }
         public IEnumerable<BaseStationInList> GetALLBaseStationInList()
         {
@@ -39,8 +41,10 @@ namespace BL
             {
                 throw new GetListException("", Ex);
             }
-            return stations.Select(st => convertToBaseStationInList(st));
-            
+            return from station in stations
+                   let st = convertToBaseStationInList(station)
+                   select st;
+
         }
         public IEnumerable<BaseStationInList> GetAllAvailablBaseStations()
         {
@@ -53,17 +57,22 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return stations.Select(st => convertToBaseStation(st)).Select(st => convertToBaseStationInList(st));
+            return from station in stations
+                   let st = convertToBaseStation(station)
+                   let listSt = convertToBaseStationInList(st)
+                   select listSt;
         }
         public IEnumerable<Drone> GetAllDrones()
         {
             if (drones.Count <= 0)
                 throw new GetListException("no drones in list");
-            return drones.Select(dr => convertToDrone(dr));
+            return from dr in drones
+                   let drone = convertToDrone(dr)
+                   select drone;
         }
-        public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null )
+        public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null)
         {
-            if (status == null && weight ==null)
+            if (status == null && weight == null)
             {
                 if (drones.Count > 0)
                     return drones.ToList();
@@ -72,21 +81,27 @@ namespace BL
             IEnumerable<DroneInList> tmp;
             if (status != null && weight != null)
             {
-                tmp = drones.Where(dr => dr.Status == status && dr.MaxWeight == weight);
+                tmp = from dr in drones
+                      where dr.MaxWeight == weight && dr.Status == status
+                      select dr;
                 if (!tmp.Any())
                     throw new GetListException("No drones in list match filtering choice");
                 return tmp;
             }
-            if(status!=null)
+            if (status != null)
             {
-                tmp = drones.Where(dr => dr.Status == status);
+                tmp = from dr in drones
+                      where dr.Status == status
+                      select dr;
                 if (!tmp.Any())
                     throw new GetListException("No drones in list match filtering choice");
                 return tmp;
             }
             if (weight != null)
             {
-                tmp = drones.Where(dr => dr.MaxWeight == weight);
+                tmp = from dr in drones
+                      where dr.MaxWeight == weight
+                      select dr;
                 if (!tmp.Any())
                     throw new GetListException("No drones in list match filtering choice");
                 return tmp;
@@ -104,7 +119,9 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return customers.Select(cstmr => convertToCustomer(cstmr));
+            return from cstmr in customers
+                   let cs = convertToCustomer(cstmr)
+                   select cs;
         }
         public IEnumerable<CustomerInList> GetAllCustomersInList()
         {
@@ -112,13 +129,15 @@ namespace BL
             IEnumerable<Customer> customers;
             try
             {
-               customers = GetAllCustomers();
+                customers = GetAllCustomers();
             }
             catch (Exception ex)
             {
                 throw new GetListException("", ex);
             }
-            return customers.Select(cs => convertToCustomerInList(cs));
+            return from cstmr in customers
+                   let cs = convertToCustomerInList(cstmr)
+                   select cs;
         }
         public IEnumerable<Parcel> GetAllParcels()
         {
@@ -131,7 +150,9 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return parcels.Select(prc => convertToParcel(prc));
+            return from parcel in parcels
+                   let prc = convertToParcel(parcel)
+                   select prc;
         }
         public IEnumerable<ParcelInList> GetAllParcelsInList()
         {
@@ -144,7 +165,10 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return parcels.Select(prc => convertToParcelInList(prc));
+            return from parcel in parcels
+                   let prc = convertToParcelInList(parcel)
+                   select prc;
+
         }
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
@@ -157,46 +181,48 @@ namespace BL
             {
                 throw new GetListException("", ex);
             }
-            return parcels.Select(prc => convertToParcelInList(prc));
+            return from parcel in parcels
+                   let prc = convertToParcelInList(parcel)
+                   select prc;
         }
         public IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId)
         {
-            var deliveris = myDal.GetAllParcels()
-                .Where(p => p.SenderId == senderId)
-                .Select(parcel =>
-                    new ParcelAtCustomer
-                    {
-                        Id = parcel.Id,
-                        Weight = (WeightCategories)parcel.Weight,
-                        Priority = (Priority)parcel.Priority,
-                        Status = getParcelStatus(parcel),
-                        CounterCustomer = GetCustomerInParcel(parcel.TargetId),
+            return from parcel in myDal.GetAllParcels()
+                   where parcel.SenderId == senderId
+                   select new ParcelAtCustomer
+                   {
+                       Id = parcel.Id,
+                       Weight = (WeightCategories)parcel.Weight,
+                       Priority = (Priority)parcel.Priority,
+                       Status = getParcelStatus(parcel),
+                       CounterCustomer = GetCustomerInParcel(parcel.TargetId),
 
-                    });
-            return deliveris;
+                   };
+
         }
         public IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId)
         {
-            return myDal.GetAllParcels()
-                .Where(p => p.TargetId == targetId)
-                .Select(parcel =>  new ParcelAtCustomer
-                {
-                    Id = parcel.Id,
-                    Weight = (WeightCategories)parcel.Weight,
-                    Priority = (Priority)parcel.Priority,
-                    Status = getParcelStatus(parcel),
-                    CounterCustomer = GetCustomerInParcel(parcel.SenderId),
+            return from parcel in myDal.GetAllParcels()
+                   where parcel.TargetId == targetId
+                   select new ParcelAtCustomer
+                   {
+                       Id = parcel.Id,
+                       Weight = (WeightCategories)parcel.Weight,
+                       Priority = (Priority)parcel.Priority,
+                       Status = getParcelStatus(parcel),
+                       CounterCustomer = GetCustomerInParcel(parcel.SenderId),
 
-                });                    
+                   };
         }
         public IEnumerable<DroneCharge> GetAllDronesCharging(int stationId)
         {
-            return myDal.GetAllDronecharges(st => st.StationId == stationId)
-            .Select(Charge => new DroneCharge
-            {
-                Id = Charge.DroneId,
-                Battery = GetDrone(Charge.DroneId).Battery
-            });
+            return from Charge in myDal.GetAllDronecharges()
+                   where Charge.StationId == stationId
+                   select new DroneCharge
+                   {
+                       Id = Charge.DroneId,
+                       Battery = GetDrone(Charge.DroneId).Battery
+                   };
         }
     }
 }

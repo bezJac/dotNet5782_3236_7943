@@ -14,8 +14,6 @@
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
             <Setter Property="Background" Value="#FF779761"/>
             <Setter Property="FontSize" Value="14"/>
-            
-
         </Style>
     </Window.Resources>
     <TabControl x:Name="Lists">

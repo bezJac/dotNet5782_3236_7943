@@ -5,8 +5,8 @@
     {
         public int? Id { get; set; }
         public string Model { get; set; }
-        public WeightCategories MaxWeight { get; set; }
-        public DroneStatus Status { get; set; }
+        public WeightCategories? MaxWeight { get; set; }
+        public DroneStatus? Status { get; set; }
         public int Battery { get; set; }
         public ParcelInDelivery Parcel { get; set; }
         public Location Location { get; set; }

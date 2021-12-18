@@ -68,7 +68,7 @@ namespace BL
             {
                 Id = (int)drone.Id,
                 Model = drone.Model,
-                MaxWeight = drone.MaxWeight,
+                MaxWeight = (WeightCategories)drone.MaxWeight,
                 Status = DroneStatus.Maintenance,
                 Battery = rnd.Next(20, 41),
                 DroneLocation = createLocation(st.Longitude, st.Lattitude),

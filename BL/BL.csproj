@@ -15,7 +15,6 @@
     <ProjectReference Include="..\DalApi\DalFacade.csproj" />
     <ProjectReference Include="..\DaLObject\DalObject.csproj" />
     <ProjectReference Include="..\DalXml\DalXml.csproj" />
-    <ProjectReference Include="..\DLObject\DalObject.csproj" />
   </ItemGroup>
 
 </Project>

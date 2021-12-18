@@ -35,7 +35,7 @@ namespace PL
             InitializeComponent();
             theBL = bL;
             // show all drones in drone list
-            DroneListView.ItemsSource =  theBL.GetAllDronesInList();
+            DroneListView.ItemsSource = theBL.GetAllDronesInList();
             // set values to comboBoxes
             this.StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             this.WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
