@@ -9,7 +9,7 @@ namespace BO
     
     public class ParcelInDelivery
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public bool InTransit { get; set; }
         public Priority Priority { get; set; }
         public WeightCategories Weight { get; set; }

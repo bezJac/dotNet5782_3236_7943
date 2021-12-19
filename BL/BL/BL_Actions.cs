@@ -106,7 +106,7 @@ namespace BL
                 DO.Customer sender = myDal.GetCustomer(prc.SenderId);
                 DO.Customer target = myDal.GetCustomer(prc.TargetId);
                 // if drone can execute delivery for current parcel - link parcel to drone - return 
-                if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Lattitude), dr.MaxWeight))
+                if (checkDroneDistanceCoverage(dr, createLocation(sender.Longitude, sender.Lattitude), createLocation(target.Longitude, target.Lattitude), (WeightCategories)dr.MaxWeight))
                 {
                     tmp.DroneId = id;
                     tmp.Scheduled = DateTime.Now;
@@ -147,7 +147,7 @@ namespace BL
             drones[index].DroneLocation = dr.Parcel.SenderLocation;
 
             // update parcel in DAL 
-            DO.Parcel p = myDal.GetParcel(dr.Parcel.Id);
+            DO.Parcel p = myDal.GetParcel((int)dr.Parcel.Id);
             p.PickedUp = DateTime.Now;
             myDal.UpdateParcel(p);
         }
@@ -170,7 +170,7 @@ namespace BL
             Parcel prc;
             try
             {
-                prc = GetParcel(dr.Parcel.Id);
+                prc = GetParcel((int)dr.Parcel.Id);
             }
             catch (Exception ex)
             {

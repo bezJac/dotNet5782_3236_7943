@@ -36,9 +36,11 @@ namespace PL
             theBL = bL;
             // show all drones in drone list
             DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
             // set values to comboBoxes
             this.StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             this.WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+            ParcelStatusSelector.ItemsSource = Enum.GetValues(typeof(ParcelStatus));
         }
 
         /// <summary>
@@ -58,6 +60,29 @@ namespace PL
                         DroneListView.ItemsSource = theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
                     else
                         DroneListView.ItemsSource = theBL.GetAllDronesInList(status);
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    StatusSelector.SelectedItem = null;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+        private void ParcelStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ParcelStatusSelector.SelectedItem != null)
+            {
+                ParcelStatus status = (ParcelStatus)ParcelStatusSelector.SelectedItem;
+                this.ParcelStatusSelector.Text = ParcelStatusSelector.SelectedItem.ToString();
+                // filter list by new choice, and choice in weight comboBox if selected previously
+                // exception accures when list returns empty
+                try
+                {
+                    
+                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(status);
+                    
                 }
                 catch (Exception Ex)
                 {
@@ -150,6 +175,7 @@ namespace PL
             this.StatusSelector.SelectedItem = null;
             this.WeightSelector.SelectedItem = null;
             DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            
         }
 
         /// <summary>
@@ -178,6 +204,16 @@ namespace PL
             }
             // only weight comboBox has choice - filter by weight
             DroneListView.ItemsSource = theBL.GetAllDronesInList( null, (WeightCategories)WeightSelector.SelectedItem);
+
+        }
+
+        private void ParcelPrioritySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ParcelWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

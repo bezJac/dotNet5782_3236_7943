@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Drones List" Height="480" Width="800" Icon= "\images\Icon_drone.ico">
     <Window.Resources>
-        <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"></local:LattitudeToDmsConverter>
-        <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"></local:LongtitudeToDmsConverter>
+        <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
+        <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -72,7 +72,65 @@
                 Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
     </Grid>
         </TabItem>
-        <TabItem x:Name="Parcels" Header="Parcels"></TabItem>
+        <TabItem x:Name="Parcels" Header="Parcels" >
+            <Grid x:Name="ParcelMainGrid" Background="#FFD5DCD0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70*"/>
+                    <RowDefinition Height="300*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <Grid Name="ParcelUpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                   
+                    <Label Content="Choose a Weight:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                    <ComboBox Name="ParcelWeightSelector"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      Height="22" Width="120" SelectionChanged="ParcelWeightSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                    <Label Content="Choose a Status:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                    <ComboBox Name="ParcelStatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      Height="22" Width="120" SelectionChanged="ParcelStatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                    <Label Content="Choose a Priority:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                   FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                    <ComboBox Name="ParcelPrioritySelector" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      Height="22" Width="120" SelectionChanged="ParcelPrioritySelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                    <Button x:Name="addParcelButton" Content="Add Parcel" Grid.Column="5" 
+                    Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
+                     Height="40" Width="100" Click="AddDroneButton_Click"  FontSize="18" />
+                    <Button x:Name="clearButtonParcel" Content="Clear" Grid.Column="4" 
+                Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
+                   Height="40" Width="100" Click="ClearButton_Click"
+                    FontSize="18" />
+                </Grid>
+                <ListView x:Name="ParcelListView" Grid.Row="1" MouseDoubleClick="DroneList_MouseDoubleClick" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="Sender's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding SenderName}"/>
+                            <GridViewColumn Header="Target's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding TargetName}"/>
+                            <GridViewColumn Header="Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Weight}"/>
+                            <GridViewColumn Header="Priority" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Priority}"/>
+                            <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="140" DisplayMemberBinding="{Binding Status}"/>
+                           </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <Button x:Name="closeButton1"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
+               Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
+                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
+            </Grid>
+        </TabItem>
         <TabItem x:Name="Customers" Header="Customers"></TabItem>
         <TabItem x:Name="Stations" Header="Stations"></TabItem>
     </TabControl>
