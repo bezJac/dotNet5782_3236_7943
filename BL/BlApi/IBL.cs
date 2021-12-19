@@ -150,7 +150,7 @@ namespace BlApi
         /// get copy list of all parcels in a BL ParcelInList representation
         /// </summary>
         /// <returns> IEnumerable<ParcelInList> type </returns>
-        IEnumerable<ParcelInList> GetAllParcelsInList();
+        IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null);
 
         /// <summary>
         /// get copy list of all unlinked to drone parcels, in  BL ParcelInList entities representation

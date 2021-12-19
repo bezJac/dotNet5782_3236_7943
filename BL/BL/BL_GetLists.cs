@@ -154,12 +154,19 @@ namespace BL
                    let prc = convertToParcel(parcel)
                    select prc;
         }
-        public IEnumerable<ParcelInList> GetAllParcelsInList()
+        public IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null)
         {
-            IEnumerable<DO.Parcel> parcels;
+            IEnumerable<DO.Parcel> parcels = null;
             try
             {
-                parcels = myDal.GetAllParcels();
+                if (status == null)
+                    parcels = myDal.GetAllParcels();
+                else
+                {
+                    parcels = from parcel in myDal.GetAllParcels()
+                              where status == getParcelStatus(parcel)
+                              select parcel;
+                }
             }
             catch (Exception ex)
             {
