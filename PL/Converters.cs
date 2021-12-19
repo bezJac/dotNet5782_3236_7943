@@ -91,7 +91,6 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
             return (DroneStatus)value == DroneStatus.Available ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -104,8 +103,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            return (DroneStatus)value == DroneStatus.Maintenance ? Visibility.Visible : Visibility.Collapsed;
+          return (DroneStatus)value == DroneStatus.Maintenance ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -115,10 +113,14 @@ namespace PL
     }
     public sealed class PickUpToVisibilityConverter : IValueConverter
     {
+       
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
+            Drone temp = value as Drone;
+            if (temp.Status == DroneStatus.Delivery && !temp.Parcel.InTransit)
+                return Visibility.Visible;
+            return Visibility.Collapsed;
+            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -130,8 +132,11 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-            return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
+            Drone temp = value as Drone;
+            if (temp.Status == DroneStatus.Delivery && temp.Parcel.InTransit)
+                return Visibility.Visible;
+            return Visibility.Collapsed;
+            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -139,5 +144,6 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+ 
 }
 

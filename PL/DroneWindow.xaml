@@ -13,6 +13,9 @@
         <local:TextToVisibilityConverter x:Key="TextToVisibilityConverter"/>
         <local:AvailableToVisibilityConverter x:Key="AvailableToVisibilityConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
+        <local:MaintanenceToVisibilityConverter x:Key="MaintanenceToVisibilityConverter"/>
+
+
     </Window.Resources>
 
     <Grid>
@@ -79,7 +82,7 @@
                         <TextBox x:Name="maxWeightTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left"
                                          Height="23" Margin="3" Grid.Row="4" VerticalAlignment="Center" Width="120"
                                  Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                        <Label Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+                        <Label  Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
                         <TextBox x:Name="statusTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" 
                                  Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         <Label Content="Latitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
@@ -187,14 +190,15 @@
 
             <Button x:Name="ChargeButton"  Content="Charge" Style="{StaticResource ButtonStyle}"  Grid.Column="1" Grid.Row="2"   
                     ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"
-                    Visibility="Collapsed"/>
+                    Visibility="{Binding  Status,   Converter={StaticResource AvailableToVisibilityConverter}}"/>
             <Button x:Name="DischargeButton" Content="Discharge" Style="{StaticResource ButtonStyle}" 
-                    Visibility="Collapsed" Grid.Column="1" Grid.Row="2"  
-                     Click="DischargeButton_Click" ToolTip="release drone from charge"/>
+                   Grid.Column="1" Grid.Row="2"  
+                     Click="DischargeButton_Click" ToolTip="release drone from charge"
+                    Visibility="{Binding  Status, Converter={StaticResource MaintanenceToVisibilityConverter}}"/>
             <Button x:Name="ScheduleButton" Content="Schedule" Style="{StaticResource ButtonStyle}"
                       Grid.Column="1" Grid.Row="1"                 
                     Click="ScheduleButton_Click" ToolTip="link a drone to a parcel"
-                    Visibility="Collapsed"/>
+                    Visibility="{Binding Status, Converter={StaticResource AvailableToVisibilityConverter }}"/>
             <Button x:Name="PickUpButton" Content="Pick Up"  Style="{StaticResource ButtonStyle}"
                      Visibility="Collapsed" Grid.Column="1" Grid.Row="1"    
                     Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>

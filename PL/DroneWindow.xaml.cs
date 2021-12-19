@@ -57,20 +57,17 @@ namespace PL
             actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
+            actionDrone.DataContext = newDrone;
             DroneShow.DataContext = newDrone;
             switch (newDrone.Status)
             {
                 case DroneStatus.Available: //charge and schedule buttons enabled
                     {
-                        ChargeButton.Visibility = Visibility.Visible;
+                        
                         ScheduleButton.Visibility = Visibility.Visible;
                         break;
                     }
-                case DroneStatus.Maintenance: // dischrge button enabled
-                    {
-                        DischargeButton.Visibility = Visibility.Visible;
-                        break;
-                    }
+               
                 case DroneStatus.Delivery:
                     {
                         if (newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
@@ -174,7 +171,7 @@ namespace PL
                 newModel.Text = null;
             }
             
-            //droneView.Text = newDrone.ToString();
+          
         }
 
         /// <summary>
@@ -182,6 +179,7 @@ namespace PL
         /// </summary>
         private void ChargeButton_Click(object sender, RoutedEventArgs e)
         {
+            actionDrone.DataContext = newDrone;
             bool flag = true;
             try
             {
@@ -200,8 +198,6 @@ namespace PL
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                ChargeButton.Visibility = Visibility.Collapsed;
-                DischargeButton.Visibility = Visibility.Visible;
                 ScheduleButton.Visibility = Visibility.Collapsed;
             }
         }
@@ -211,6 +207,7 @@ namespace PL
         /// </summary>
         private void DischargeButton_Click(object sender, RoutedEventArgs e)
         {
+            actionDrone.DataContext = newDrone;
             bool flag = true;
             try
             {
@@ -229,14 +226,13 @@ namespace PL
             {
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                ChargeButton.Visibility = Visibility.Visible;
-                DischargeButton.Visibility = Visibility.Collapsed;
                 ScheduleButton.Visibility = Visibility.Visible;
             }
         }
 
         private void ScheduleButton_Click(object sender, RoutedEventArgs e)
         {
+            actionDrone.DataContext = newDrone;
             bool flag = true;
             try
             {
@@ -257,7 +253,6 @@ namespace PL
                 DroneShow.DataContext = newDrone;
                 ScheduleButton.Visibility = Visibility.Collapsed;
                 PickUpButton.Visibility = Visibility.Visible;
-                ChargeButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -266,6 +261,8 @@ namespace PL
         /// </summary>
         private void PickUpButton_Click(object sender, RoutedEventArgs e)
         {
+            actionDrone.DataContext = newDrone;
+
             bool flag = true;
             try
             {
@@ -294,6 +291,8 @@ namespace PL
         /// </summary>
         private void DeliverButton_Click(object sender, RoutedEventArgs e)
         {
+            actionDrone.DataContext = newDrone;
+
             bool flag = true;
             try
             {
@@ -314,7 +313,7 @@ namespace PL
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 DeliverButton.Visibility = Visibility.Collapsed;
-                ChargeButton.Visibility = Visibility.Visible;
+               
                 ScheduleButton.Visibility = Visibility.Visible;
             }
         }
