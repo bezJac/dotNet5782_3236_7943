@@ -62,6 +62,7 @@ namespace BL
                    let listSt = convertToBaseStationInList(st)
                    select listSt;
         }
+      
         public IEnumerable<Drone> GetAllDrones()
         {
             if (drones.Count <= 0)
@@ -154,29 +155,40 @@ namespace BL
                    let prc = convertToParcel(parcel)
                    select prc;
         }
-        public IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null)
+        public IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null)
         {
-            IEnumerable<DO.Parcel> parcels = null;
-            try
-            {
-                if (status == null)
-                    parcels = myDal.GetAllParcels();
-                else
-                {
-                    parcels = from parcel in myDal.GetAllParcels()
-                              where status == getParcelStatus(parcel)
-                              select parcel;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from parcel in parcels
-                   let prc = convertToParcelInList(parcel)
-                   select prc;
-
+            IEnumerable<ParcelInList> tmp;
+            if (status == null && priority == null && weight == null)
+                tmp = from parcel in myDal.GetAllParcels()
+                      let prc = convertToParcelInList(parcel)
+                      select prc;
+            else
+                tmp = from parcel in myDal.GetAllParcels()
+                      where status == getParcelStatus(parcel)
+                      || priority == (BO.Priority)parcel.Priority
+                      || weight == (BO.WeightCategories)parcel.Weight
+                      let prc = convertToParcelInList(parcel)
+                      select prc;
+            if (!tmp.Any())
+                throw new GetListException("no parcels in list match filter");
+            return tmp;
         }
+
+
+
+        public IEnumerable<ParcelInList> GetAllParcelsInList(DateTime? from, DateTime? to)
+        {
+
+            IEnumerable<ParcelInList> tmp = from parcel in myDal.GetAllParcels()
+                                            where parcel.Requested >= @from
+                                            && parcel.Requested < to
+                                            let prc = convertToParcelInList(parcel)
+                                            select prc;
+            if (!tmp.Any())
+                throw new GetListException("no parcels in list match time span");
+            return tmp;
+        }
+        
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
             IEnumerable<DO.Parcel> parcels;

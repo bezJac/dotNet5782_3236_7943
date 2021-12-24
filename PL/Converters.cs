@@ -12,15 +12,15 @@ namespace PL
 {
     public sealed class NullToEnableConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return !string.IsNullOrEmpty((string)value);
-        }
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value != null;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    }
+    public sealed class TextToEnableConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !string.IsNullOrEmpty((string)value);
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
     public sealed class TextToVisibilityConverter : IValueConverter
     {
@@ -38,15 +38,19 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Double val = (Double)value;
-            int tmp = ((int)val);
-            int tmp2 = (int)((val % (int)val) * 60);
-            double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
-            string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
-            if (tmp > 0)
-                return result + "E";
-            else
-                return result + "W";
+            if (value != null)
+            {
+                Double val = (Double)value;
+                int tmp = ((int)val);
+                int tmp2 = (int)((val % (int)val) * 60);
+                double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
+                string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
+                if (tmp > 0)
+                    return result + "E";
+                else
+                    return result + "W";
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -58,15 +62,19 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Double val = (Double)value;
-            int tmp = ((int)val);
-            int tmp2 = (int)((val % (int)val) * 60);
-            double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
-            string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
-            if (tmp > 0)
-                return result + "N";
-            else
-                return result + "S";
+            if (value != null)
+            {
+                Double val = (Double)value;
+                int tmp = ((int)val);
+                int tmp2 = (int)((val % (int)val) * 60);
+                double tmp3 = (((val % (int)val) * 60) % tmp2) * 60;
+                string result = $"{ tmp}{(char)176} {tmp2}\" " + String.Format("{0:0.000}", tmp3) + "' ";
+                if (tmp > 0)
+                    return result + "N";
+                else
+                    return result + "S";
+            }
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -87,11 +95,26 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+    public sealed class NullToVisibilitiyReveresedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            return value == null ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     public sealed class AvailableToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (DroneStatus)value == DroneStatus.Available ? Visibility.Visible : Visibility.Collapsed;
+            if(value!=null)
+                return (DroneStatus)value == DroneStatus.Available ? Visibility.Visible : Visibility.Collapsed;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -103,7 +126,9 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-          return (DroneStatus)value == DroneStatus.Maintenance ? Visibility.Visible : Visibility.Collapsed;
+            if (value != null)
+                return (DroneStatus)value == DroneStatus.Maintenance ? Visibility.Visible : Visibility.Collapsed;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -132,7 +157,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Drone temp = value as Drone;
+            Drone temp = (Drone)value;
             if (temp.Status == DroneStatus.Delivery && temp.Parcel.InTransit)
                 return Visibility.Visible;
             return Visibility.Collapsed;
@@ -144,6 +169,42 @@ namespace PL
             throw new NotImplementedException();
         }
     }
- 
+     public sealed class StationEmptyListToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((value as BaseStation).DronesCharging.Any())
+                return Visibility.Collapsed;
+            return Visibility.Visible;
+            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public sealed class CustomerNoDeliveriesToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Customer cs = value as Customer;
+            if (cs.Id != 0)
+            {
+                if (cs.To.Any() || cs.From.Any())
+                    return Visibility.Collapsed;
+                return Visibility.Visible;
+            }
+            return null;
+            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
 }
 

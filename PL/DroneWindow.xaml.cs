@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace PL
         private readonly BlApi.IBL theBL;
         private Drone newDrone;
         private BaseStationInList station;
+        
 
         /// <summary>
         /// cunstructor for Add Drone view of window 
@@ -53,37 +55,12 @@ namespace PL
         public DroneWindow(BlApi.IBL bL, Drone exsistingDrone)
         {
             InitializeComponent();
-            // show action drone grid only
             actionDrone.Visibility = Visibility.Visible;
             theBL = bL;
             newDrone = exsistingDrone;
             actionDrone.DataContext = newDrone;
             DroneShow.DataContext = newDrone;
-            switch (newDrone.Status)
-            {
-                case DroneStatus.Available: //charge and schedule buttons enabled
-                    {
-                        
-                        ScheduleButton.Visibility = Visibility.Visible;
-                        break;
-                    }
-               
-                case DroneStatus.Delivery:
-                    {
-                        if (newDrone.Parcel.InTransit) // drone already picked up parcel, deliver button enabled
-                        {
-                            DeliverButton.Visibility = Visibility.Visible;
-                            break;
-                        }
-                        else   // drone only scheduled , pick up button enabled 
-                        {
-                            PickUpButton.Visibility = Visibility.Visible;
-                        }
-                        break;
-                    }
-                default:
-                    break;
-            }
+            Buttons.DataContext = newDrone;
         }
 
         /// <summary>
@@ -198,7 +175,8 @@ namespace PL
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                ScheduleButton.Visibility = Visibility.Collapsed;
+                Buttons.DataContext = newDrone;
+                // ScheduleButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -226,7 +204,8 @@ namespace PL
             {
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                ScheduleButton.Visibility = Visibility.Visible;
+                Buttons.DataContext = newDrone;
+                // ScheduleButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -251,8 +230,9 @@ namespace PL
             {
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                ScheduleButton.Visibility = Visibility.Collapsed;
-                PickUpButton.Visibility = Visibility.Visible;
+                Buttons.DataContext = newDrone;
+                //ScheduleButton.Visibility = Visibility.Collapsed;
+                //PickUpButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -281,8 +261,8 @@ namespace PL
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                PickUpButton.Visibility = Visibility.Collapsed;
-                DeliverButton.Visibility = Visibility.Visible;
+                Buttons.DataContext = newDrone;
+                
             }
         }
 
@@ -312,9 +292,7 @@ namespace PL
                 
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
-                DeliverButton.Visibility = Visibility.Collapsed;
-               
-                ScheduleButton.Visibility = Visibility.Visible;
+                Buttons.DataContext = newDrone;
             }
         }
 

@@ -12,10 +12,10 @@ namespace BO
         {
 
             var R = 6371;                    // Radius of the earth in km
-            var dLat = DegToRad(location2.Lattitude - location1.Lattitude);
-            var dLon = DegToRad(location2.Longtitude - location1.Longtitude);
+            var dLat = DegToRad((double)location2.Lattitude - (double)location1.Lattitude);
+            var dLon = DegToRad((double)location2.Longtitude - (double)location1.Longtitude);
             var a = (Math.Sin(dLat / 2) * Math.Sin(dLat / 2)) +
-             (Math.Cos(DegToRad(location1.Lattitude)) * Math.Cos(DegToRad(location2.Lattitude)) *
+             (Math.Cos(DegToRad((double)location1.Lattitude)) * Math.Cos(DegToRad((double)location2.Lattitude)) *
               Math.Sin(dLon / 2) * Math.Sin(dLon / 2))
               ;
             //double b = a / (1 - a);

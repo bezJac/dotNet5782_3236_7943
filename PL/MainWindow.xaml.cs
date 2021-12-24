@@ -37,7 +37,7 @@ namespace PL
         /// </summary>
         private void ShowDronesButton_Click(object sender, RoutedEventArgs e)
         {
-            new ListDronesWindow(myBL).ShowDialog();
+            new ManagerWindow(myBL).ShowDialog();
         }
     }
 }

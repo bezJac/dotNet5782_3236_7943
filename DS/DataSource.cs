@@ -99,7 +99,7 @@ namespace DS
             Stations.Add(new BaseStation
             {
                 Id = rnd.Next(1000, 10000),
-                Name = "Hebrew University - Giv'at Ram",
+                Name = "Hebrew University",
                 Lattitude = 31.777450996979468,
                 Longitude = 35.19706750232356,
                 NumOfSlots = 20,
@@ -166,7 +166,7 @@ namespace DS
             /// <summary>
             ///  initialize and adds to list 20 drones
             /// </summary>
-            int j = 20;
+            int j = 35;
             for (int i = 0; i < j; i++)
             {
                 Drones.Add(new Drone

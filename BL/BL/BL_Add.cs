@@ -19,11 +19,11 @@ namespace BL
             {
                 myDal.AddBaseStation(new DO.BaseStation
                 {
-                    Id = station.Id,
+                    Id = (int)station.Id,
                     Name = station.Name,
-                    Longitude = station.StationLocation.Longtitude,
-                    Lattitude = station.StationLocation.Lattitude,
-                    NumOfSlots = station.NumOfSlots,
+                    Longitude = (double)station.StationLocation.Longtitude,
+                    Lattitude = (double)station.StationLocation.Lattitude,
+                    NumOfSlots = (int)station.NumOfSlots,
                 });
             }
             catch (Exception ex)
@@ -81,6 +81,8 @@ namespace BL
         public void AddParcel(Parcel parcel)
         {
             // check that customer id's from user are valid customers
+            if (parcel.Sender.Id == parcel.Target.Id)
+                throw new AddException("sending customer and target customer cannot be same person");
             try
             {
                 myDal.GetCustomer(parcel.Sender.Id);
@@ -100,7 +102,7 @@ namespace BL
                     Weight = (DO.WeightCategories)parcel.Weight,
                     Priority = (DO.Priorities)parcel.Priority,
                     DroneId = 0,
-                    Requested = parcel.Ordered,
+                    Requested = DateTime.Now,
                     Scheduled = parcel.Linked,
                     PickedUp = parcel.PickedUp,
                     Delivered = parcel.Delivered,
@@ -120,8 +122,8 @@ namespace BL
                     Id = customer.Id,
                     Name = customer.Name,
                     Phone = customer.Phone,
-                    Longitude = customer.CustomerLocation.Longtitude,
-                    Lattitude = customer.CustomerLocation.Lattitude,
+                    Longitude = (double)customer.CustomerLocation.Longtitude,
+                    Lattitude = (double)customer.CustomerLocation.Lattitude,
 
                 });
             }

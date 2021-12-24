@@ -122,7 +122,7 @@ namespace BL
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Available,
                             Battery = rnd.Next(tempBattery, 101),
-                            ParcelId = 0,
+                            ParcelId = null,
                             DroneLocation = current,
                         });
                     }
@@ -139,7 +139,7 @@ namespace BL
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Maintenance,
                             Battery = rnd.Next(21),
-                            ParcelId = 0,
+                            ParcelId = null,
                             DroneLocation = createLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
                         });
                         // drone was set as charging - update DAL with chrge details
@@ -335,9 +335,9 @@ namespace BL
         {
             return new BaseStationInList
             {
-                Id = st.Id,
+                Id = (int)st.Id,
                 Name = st.Name,
-                AvailableSlots = st.NumOfSlots,
+                AvailableSlots = (int)st.NumOfSlots,
                 OccupiedSlots = st.DronesCharging.Count(),
             };
         }
@@ -349,7 +349,7 @@ namespace BL
         /// <returns> BL Drone </returns>
         private Drone convertToDrone(DroneInList drone)
         {
-            if (drone.ParcelId != 0)
+            if (drone.ParcelId != null)
             {
                 return new Drone
                 {
@@ -358,7 +358,7 @@ namespace BL
                     MaxWeight = drone.MaxWeight,
                     Status = drone.Status,
                     Battery = drone.Battery,
-                    Parcel = GetParcelInDelivery(drone.ParcelId),
+                    Parcel = GetParcelInDelivery((int)drone.ParcelId),
                     Location = drone.DroneLocation,
                 };
             }

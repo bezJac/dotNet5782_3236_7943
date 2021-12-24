@@ -6,6 +6,8 @@
     
     <Application.Resources>
       
+
+        <ResourceDictionary>
             <Style x:Key="ButtonStyle"
            TargetType="Button">
                 <Setter Property="FontSize"
@@ -31,6 +33,8 @@
                 <Setter Property="Visibility"
                     Value="Collapsed"/>
             </Style>
-       
+            
+                
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

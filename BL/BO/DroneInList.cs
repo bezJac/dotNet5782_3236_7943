@@ -13,7 +13,7 @@ namespace BO
         public WeightCategories? MaxWeight { get; set; }
         public DroneStatus? Status { get; set; }
         public int Battery { get; set; }
-        public int ParcelId { get; set; }
+        public int? ParcelId { get; set; }
         public Location DroneLocation { get; set; }
         public override string ToString()
         {

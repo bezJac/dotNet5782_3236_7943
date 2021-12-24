@@ -77,4 +77,18 @@ namespace BO
           StreamingContext context) : base(info, context) { }
     }
 
+    /// <summary>
+    /// Exception for invalid attempt to remove an entity from list
+    /// </summary>
+    [Serializable]
+    internal class RemoveException : Exception
+    {
+        public RemoveException() { }
+        public RemoveException(string message) : base(message) { }
+        public RemoveException(string message, Exception inner) : base(message, inner) { }
+        protected RemoveException(
+          SerializationInfo info,
+          StreamingContext context) : base(info, context) { }
+    }
+
 }

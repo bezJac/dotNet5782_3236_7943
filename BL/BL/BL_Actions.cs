@@ -145,6 +145,7 @@ namespace BL
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
             drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.SenderLocation) * droneElecUseEmpty);
             drones[index].DroneLocation = dr.Parcel.SenderLocation;
+            drones[index].ParcelId = dr.Parcel.Id;
 
             // update parcel in DAL 
             DO.Parcel p = myDal.GetParcel((int)dr.Parcel.Id);
@@ -187,7 +188,7 @@ namespace BL
             drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
             drones[index].DroneLocation = dr.Parcel.TargetLocation;
             drones[index].Status = DroneStatus.Available;
-            drones[index].ParcelId = 0;
+            drones[index].ParcelId = null;
 
             // update parcel in  DAL
             myDal.UpdateParcel(new DO.Parcel

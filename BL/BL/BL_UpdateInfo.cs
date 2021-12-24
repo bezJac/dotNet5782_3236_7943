@@ -27,14 +27,14 @@ namespace BL
             if (station.DronesCharging.Count() > count)
                 throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
 
-            DO.BaseStation st = new() { Id = id, Longitude = station.StationLocation.Longtitude, Lattitude = station.StationLocation.Lattitude };
+            DO.BaseStation st = new() { Id = id, Longitude = (double)station.StationLocation.Longtitude, Lattitude = (double)station.StationLocation.Lattitude };
             if (name != "")
                 st.Name = name;
             else
                 st.Name = station.Name;
            
             if (count == 0)
-                st.NumOfSlots = station.NumOfSlots;
+                st.NumOfSlots = (int)station.NumOfSlots;
             else
                 st.NumOfSlots = count - station.DronesCharging.Count();
             myDal.UpdateBaseStation(st);

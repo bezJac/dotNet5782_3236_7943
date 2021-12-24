@@ -5,10 +5,10 @@ namespace BO
 {
     public class BaseStation
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public Location StationLocation { get; set; }
-        public int NumOfSlots { get; set; }
+        public int? NumOfSlots { get; set; }
         public IEnumerable<DroneCharge> DronesCharging { get; set; }
         public override string ToString()
         {

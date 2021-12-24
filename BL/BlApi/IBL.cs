@@ -36,66 +36,6 @@ namespace BlApi
         void AddCustomer(Customer customer);
         #endregion
 
-        #region Update part of C.R.U.D
-        #region Update details of an entity
-        /// <summary>
-        /// Update an exsisting Base Station's name and/or total number of charging slots
-        /// </summary>
-        /// <param name="id"> ID of Base Station to update </param>
-        /// <param name="count"> new count of  total charging slots </param>
-        /// <param name="name"> new  name </param>
-        void UpdateBaseStation(int id, int count, string name);
-
-        /// <summary>
-        /// Update an exsisting drone's model name 
-        /// </summary>
-        /// <param name="id"> ID of drone to update </param>
-        /// <param name="model"> new model name </param>
-        void UpdateDrone(int id, string model);
-
-        /// <summary>
-        /// update an exsisting customer's name or phone number
-        /// </summary>
-        /// <param name="id"> customer's ID</param>
-        /// <param name="phone"> new phone number</param>
-        /// <param name="name"> new name </param>
-        void UpdateCustomer(int id, string phone, string name);
-        #endregion
-        #region Actions resulting in  updates to entities
-        /// <summary>
-        /// send a drone to a Base Station for charging
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
-        void ChargeDrone(int id);
-
-        /// <summary>
-        /// discharge a drone from current charging slot
-        /// </summary>
-        /// <param name="id"> drone's ID</param>
-        /// <param name="time"> duration of charge in hours </param>
-        void DischargeDrone(int id);
-
-        /// <summary>
-        /// Start delivery process by linking a drone to a compatible
-        /// parcel to deliver
-        /// </summary>
-        /// <param name="id"> drone's ID</param>
-        void LinkDroneToParcel(int id);
-
-        /// <summary>
-        ///  Pick up a parcel by its current linked drone
-        /// </summary>
-        /// <param name="id"> drone's ID </param>
-        void DroneParcelPickUp(int id);
-
-        /// <summary>
-        /// deliver a parcel by its current linked drone
-        /// </summary>
-        /// <param name="id"> drone ID </param>
-        void DroneParcelDelivery(int id);
-        #endregion
-        #endregion
-
         #region Read part of C.R.U.D
         #region Read list of elements
         /// <summary>
@@ -116,6 +56,9 @@ namespace BlApi
         /// <returns> IEnumerable<BaseStationInList>  </returns>
         IEnumerable<BaseStationInList> GetAllAvailablBaseStations();
 
+        
+       
+
         /// <summary>
         /// Get copy list of all drones in  BL Drone entities representation
         /// </summary>
@@ -128,6 +71,7 @@ namespace BlApi
         /// <returns> IEnumerable<DroneInList>  </returns>
         IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null);
 
+       
         /// <summary>
         ///  get copy list of all customers in  BL Customer entities representation
         /// </summary>
@@ -150,7 +94,16 @@ namespace BlApi
         /// get copy list of all parcels in a BL ParcelInList representation
         /// </summary>
         /// <returns> IEnumerable<ParcelInList> type </returns>
-        IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null);
+        IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null);
+
+        /// <summary>
+        /// get copy list of all parcels with order date in given date span
+        /// </summary>
+        /// <param name="from"> begin date</param>
+        /// <param name="to"> end date </param>
+        /// <returns> IEnumerable<ParcelInList> type </returns>
+        IEnumerable<ParcelInList> GetAllParcelsInList(DateTime? from, DateTime? to);
+
 
         /// <summary>
         /// get copy list of all unlinked to drone parcels, in  BL ParcelInList entities representation
@@ -230,6 +183,89 @@ namespace BlApi
         /// <returns> copy of parcel matching the ID in ParcelInDelivery representation </returns>
         ParcelInDelivery GetParcelInDelivery(int id);
         #endregion
+        #endregion
+
+        #region Update part of C.R.U.D
+        #region Update details of an entity
+        /// <summary>
+        /// Update an exsisting Base Station's name and/or total number of charging slots
+        /// </summary>
+        /// <param name="id"> ID of Base Station to update </param>
+        /// <param name="count"> new count of  total charging slots </param>
+        /// <param name="name"> new  name </param>
+        void UpdateBaseStation(int id, int count, string name);
+
+        /// <summary>
+        /// Update an exsisting drone's model name 
+        /// </summary>
+        /// <param name="id"> ID of drone to update </param>
+        /// <param name="model"> new model name </param>
+        void UpdateDrone(int id, string model);
+
+        /// <summary>
+        /// update an exsisting customer's name or phone number
+        /// </summary>
+        /// <param name="id"> customer's ID</param>
+        /// <param name="phone"> new phone number</param>
+        /// <param name="name"> new name </param>
+        void UpdateCustomer(int id, string phone, string name);
+        #endregion
+        #region Actions resulting in  updates to entities
+        /// <summary>
+        /// send a drone to a Base Station for charging
+        /// </summary>
+        /// <param name="id"> drone's ID </param>
+        void ChargeDrone(int id);
+
+        /// <summary>
+        /// discharge a drone from current charging slot
+        /// </summary>
+        /// <param name="id"> drone's ID</param>
+        /// <param name="time"> duration of charge in hours </param>
+        void DischargeDrone(int id);
+
+        /// <summary>
+        /// Start delivery process by linking a drone to a compatible
+        /// parcel to deliver
+        /// </summary>
+        /// <param name="id"> drone's ID</param>
+        void LinkDroneToParcel(int id);
+
+        /// <summary>
+        ///  Pick up a parcel by its current linked drone
+        /// </summary>
+        /// <param name="id"> drone's ID </param>
+        void DroneParcelPickUp(int id);
+
+        /// <summary>
+        /// deliver a parcel by its current linked drone
+        /// </summary>
+        /// <param name="id"> drone ID </param>
+        void DroneParcelDelivery(int id);
+        #endregion
+        #endregion
+
+        #region Delete part of C.R.U.D
+        /// <summary>
+        /// remove a parcel from the database by id
+        /// </summary>
+        /// <param name="id"> parcel's id</param>
+        void RemoveParcel(int id);
+        /// <summary>
+        /// remove a drone from database by id
+        /// </summary>
+        /// <param name="id"> drone's id</param>
+        void removeDrone(int id);
+        /// <summary>
+        /// remove a baseStation from dataBase by id
+        /// </summary>
+        /// <param name="id"> base station's id</param>
+        void RemoveBaseStation(int id);
+        /// <summary>
+        /// remove a customer from dataBase by id
+        /// </summary>
+        /// <param name="id"> customer's id</param>
+        void removeCustomer(int id);
         #endregion
 
     }
