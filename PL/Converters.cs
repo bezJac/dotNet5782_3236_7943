@@ -169,41 +169,8 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-     public sealed class StationEmptyListToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((value as BaseStation).DronesCharging.Any())
-                return Visibility.Collapsed;
-            return Visibility.Visible;
-            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public sealed class CustomerNoDeliveriesToVisibilityConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            Customer cs = value as Customer;
-            if (cs.Id != 0)
-            {
-                if (cs.To.Any() || cs.From.Any())
-                    return Visibility.Collapsed;
-                return Visibility.Visible;
-            }
-            return null;
-            //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+   
+    
 
 
 }

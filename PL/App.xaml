@@ -9,7 +9,7 @@
 
         <ResourceDictionary>
             <Style x:Key="ButtonStyle"
-           TargetType="Button">
+           TargetType="Control">
                 <Setter Property="FontSize"
               Value="20" />
                 <Setter Property="FontFamily"
@@ -32,9 +32,13 @@
                     Value="Center"/>
                 <Setter Property="Visibility"
                     Value="Collapsed"/>
+                          </Style>
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+            <Style TargetType="Expander" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="Visibility" Value="Visible"/>
             </Style>
-            
-                
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

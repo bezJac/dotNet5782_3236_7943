@@ -119,7 +119,7 @@ namespace BL
             {
                 myDal.AddCustomer(new DO.Customer
                 {
-                    Id = customer.Id,
+                    Id = (int)customer.Id,
                     Name = customer.Name,
                     Phone = customer.Phone,
                     Longitude = (double)customer.CustomerLocation.Longtitude,

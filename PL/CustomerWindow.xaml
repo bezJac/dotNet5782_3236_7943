@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="CustomerWindow" Height="450" Width="800">
+        Title="Customer" Height="450" Width="800" Icon="\images\Icon_drone.ico">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-        <local:CustomerNoDeliveriesToVisibilityConverter x:Key="CustomerNoDeliveriesToVisibilityConverter"/>
+       
         <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -113,17 +113,14 @@
                 <Label Content="Rename Customer:" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"/>
                 <TextBox x:Name="newNameTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="3"/>
                 <Button x:Name="RenameButton" Content="Rename" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
-                   Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="3"
+                   Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" Margin="3"
                     IsEnabled="{Binding ElementName=newNameTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
                 <Label Content="Update Phone Number:"   HorizontalAlignment="Center" Margin="3"/>
                 <TextBox x:Name="newPhoneTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120" Margin="3"
                          PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
                 <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="7"  Visibility="Visible"
-                   Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
+                   Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newPhoneTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-                <Button x:Name="RemoveStButton" Content="Remove" Style="{StaticResource ButtonStyle}" Margin="25"  
-                   Click="RemoveCustomerButton_Click"  ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
-                    Visibility="{Binding Converter={StaticResource CustomerNoDeliveriesToVisibilityConverter}}"  />
             </StackPanel>
 
         </Grid>

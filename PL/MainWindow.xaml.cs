@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BlApi;
+using BO;
 namespace PL
 {
     /// <summary>
@@ -20,24 +21,52 @@ namespace PL
     public partial class MainWindow : Window
     {
         private readonly BlApi.IBL myBL;
-
+        private Customer newCustomer;
         /// <summary>
         /// cunstructor
         /// </summary>
         public MainWindow()
         {
             myBL = BlApi.BlFactory.GetBL();
+            newCustomer = new();
             InitializeComponent();
-            this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
+            IdCustomerTxt.DataContext = newCustomer;
+            //this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
 
         }
 
         /// <summary>
         /// Show Drones click - opens drone list window
         /// </summary>
-        private void ShowDronesButton_Click(object sender, RoutedEventArgs e)
+        private void ManagerWindowButton_Click(object sender, RoutedEventArgs e)
         {
             new ManagerWindow(myBL).ShowDialog();
+        }
+
+        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool flag = true;
+            try
+            {
+                newCustomer = myBL.GetCustomer((int)newCustomer.Id);
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                flag = false;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            if (flag)
+            {
+                IdCustomerTxt.Text = null;
+                new UserWindow(myBL, newCustomer).Show();
+            }
+        }
+
+        private void registerButton_Click(object sender, RoutedEventArgs e)
+        {
+             new LoginWindow(myBL).Show();
         }
     }
 }

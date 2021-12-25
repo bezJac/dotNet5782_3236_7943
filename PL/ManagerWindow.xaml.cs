@@ -312,6 +312,7 @@ namespace PL
                 ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
                 parcelWindow.Show();
                 parcelWindow.DummyButton.Click += DroneWindowSonButton_Click;
+                parcelWindow.removeParcelButton.Click += DroneWindowSonButton_Click;
                 ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
 
             }

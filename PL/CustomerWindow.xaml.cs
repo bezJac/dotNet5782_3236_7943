@@ -41,26 +41,7 @@ namespace PL
             ParcelsToListView.ItemsSource = newCustomer.To;
         }
 
-        private void RemoveCustomerButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool flag = true;
-            try
-            {
-                theBL.removeCustomer(newCustomer.Id);
-            }
-            catch (Exception ex)
-            {
-                while (ex.InnerException != null)
-                    ex = ex.InnerException;
-                flag = false;
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            if (flag)
-            {
-                MessageBox.Show("Customer was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
-            }
-        }
+        
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -69,13 +50,13 @@ namespace PL
             {
                 case "RenameButton":
                     {
-                        theBL.UpdateCustomer(newCustomer.Id, newCustomer.Phone, newNameTxtBox.Text);
+                        theBL.UpdateCustomer((int)newCustomer.Id, newCustomer.Phone, newNameTxtBox.Text);
                         newNameTxtBox.Text = null;
                         break;
                     }
                 case "UpdateButton":
                     {
-                        theBL.UpdateCustomer(newCustomer.Id, newPhoneTxtBox.Text, newCustomer.Name);
+                        theBL.UpdateCustomer((int)newCustomer.Id, newPhoneTxtBox.Text, newCustomer.Name);
                         newPhoneTxtBox.Text = null;
                         break;
                     }
@@ -128,7 +109,7 @@ namespace PL
         }
         private void refreshSingleCustomerWindow()
         {
-            newCustomer = theBL.GetCustomer(newCustomer.Id);
+            newCustomer = theBL.GetCustomer((int)newCustomer.Id);
             DataContext = newCustomer;
             ParcelsFromListView.ItemsSource = newCustomer.From;
             ParcelsToListView.ItemsSource = newCustomer.To;

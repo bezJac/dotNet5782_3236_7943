@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationWindow" Height="450" Width="800">
+        Title="StationWindow" Height="450" Width="800" Icon="\images\Icon_drone.ico">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-        <local:StationEmptyListToVisibilityConverter x:Key="StationEmptyListToVisibilityConverter"/>
+       
         <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
@@ -91,10 +91,7 @@
                 <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="3"  Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newChargeCount, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-                <Button x:Name="RemoveStButton" Content="Remove" Style="{StaticResource ButtonStyle}" Margin="3"  
-                   Click="RemoveStButton_Click"  ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
-                        Visibility="{Binding Converter={StaticResource StationEmptyListToVisibilityConverter }}"
-                      />
+              
             </StackPanel>
 
         </Grid>

@@ -39,7 +39,7 @@ namespace PL
             DataContext = newStation;
             actionStationGrid.Visibility = Visibility.Visible;
             DroneChargeListView.ItemsSource = newStation.DronesCharging;
-            RemoveStButton.DataContext = newStation;
+            
         }
 
         private void DroneChargeList_MouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -408,7 +408,7 @@ namespace BL
             int toCount = cstmr.To.Count(prc => prc.Status == ParcelStatus.Delivered);
             return new CustomerInList
             {
-                Id = cstmr.Id,
+                Id = (int)cstmr.Id,
                 Name = cstmr.Name,
                 Phone = cstmr.Phone,
                 SentCount = fromCount,
