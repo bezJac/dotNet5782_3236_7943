@@ -75,11 +75,11 @@
             <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3"  >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="160" DisplayMemberBinding="{Binding CounterCustomer}"/>
-                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="75" DisplayMemberBinding="{Binding Priority}"/>
-                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="70" DisplayMemberBinding="{Binding Status}"/>
-                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="75" DisplayMemberBinding="{Binding Weight}"/>
+                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
+                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
+                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -87,11 +87,11 @@
             <ListView x:Name="ParcelsToListView"  Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3"   >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Sending Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="160" DisplayMemberBinding="{Binding CounterCustomer}"/>
-                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="75" DisplayMemberBinding="{Binding Priority}"/>
-                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="70" DisplayMemberBinding="{Binding Status}"/>
-                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="75" DisplayMemberBinding="{Binding Weight}"/>
+                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Sending Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
+                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
+                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

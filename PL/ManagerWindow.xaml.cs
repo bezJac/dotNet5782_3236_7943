@@ -230,27 +230,30 @@ namespace PL
             {
                 case "addDroneButton":
                     {
-                        new DroneWindow(theBL).ShowDialog();
-                        // refresh list view content in current window 
-                        refreshListContent();
+                        DroneWindow win = new DroneWindow(theBL);
+                        win.addButton.Click += WindowSonButton_Click;
+                        win.Show();
                         break;
+                        // refresh list view content in current window 
                     }
                 case "addParcelButton":
                     {
-                        new ParcelWindow(theBL).ShowDialog();
-                        ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
-                        break;
+                        ParcelWindow win = new ParcelWindow(theBL);
+                        win.addButton.Click += WindowSonButton_Click;
+                        win.Show();
+                         break;
                     }
                 case "addStationButton":
                     {
-                        new StationWindow(theBL).ShowDialog();
-                        StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+                        StationWindow win = new StationWindow(theBL);
+                        win.addButton.Click += WindowSonButton_Click;
+                        win.Show();
                         break;
                     }
                 case "addCustomerButton":
                     {
                         CustomerWindow customerWindow = new CustomerWindow(theBL);
-                        customerWindow.addButton.Click += AddButton_Click1;
+                        customerWindow.addButton.Click += WindowSonButton_Click;
                         customerWindow.Show();
                        
                         break;
@@ -260,11 +263,7 @@ namespace PL
 
         }
 
-        private void AddButton_Click1(object sender, RoutedEventArgs e)
-        {
-            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-            
-        }
+       
 
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
@@ -283,19 +282,19 @@ namespace PL
                 Drone drone = theBL.GetDrone(dr.Id);
                 DroneWindow droneWindow = new DroneWindow(theBL, drone);
                 droneWindow.Show();
-                droneWindow.ChargeButton.Click += DroneWindowSonButton_Click;
-                droneWindow.DischargeButton.Click += DroneWindowSonButton_Click;
-                droneWindow.DeliverButton.Click += DroneWindowSonButton_Click;
-                droneWindow.PickUpButton.Click += DroneWindowSonButton_Click;
-                droneWindow.ScheduleButton.Click += DroneWindowSonButton_Click;
-                droneWindow.UpdateButton.Click += DroneWindowSonButton_Click;
+                droneWindow.ChargeButton.Click += WindowSonButton_Click;
+                droneWindow.DischargeButton.Click += WindowSonButton_Click;
+                droneWindow.DeliverButton.Click +=WindowSonButton_Click;
+                droneWindow.PickUpButton.Click += WindowSonButton_Click;
+                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
+                droneWindow.UpdateButton.Click += WindowSonButton_Click;
                 
                
             }
 
         }
 
-        private void DroneWindowSonButton_Click(object sender, RoutedEventArgs e)
+        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
         {
             refreshListContent();
             ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
@@ -311,8 +310,8 @@ namespace PL
                 Parcel parcel = theBL.GetParcel(prc.Id);
                 ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
                 parcelWindow.Show();
-                parcelWindow.DummyButton.Click += DroneWindowSonButton_Click;
-                parcelWindow.removeParcelButton.Click += DroneWindowSonButton_Click;
+                parcelWindow.DummyButton.Click += WindowSonButton_Click;
+                parcelWindow.removeParcelButton.Click += WindowSonButton_Click;
                 ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
 
             }
@@ -490,28 +489,40 @@ namespace PL
         private void ParcelGroupCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             RibbonCheckBox cb = sender as RibbonCheckBox;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
-            PropertyGroupDescription groupDescription = null;
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
+            //PropertyGroupDescription groupDescription = null;
+            List<ParcelInList> temp = new();
             switch (cb.Name)
             {
                 case "SenderChbox":
                     {
 
-                        groupDescription = new PropertyGroupDescription("Sender.Name");
-
-
+                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                                             group prc by prc.SenderName into groups
+                                             select groups;
+                        foreach (var group in senderGrouping)
+                            foreach (var item in group)
+                                temp.Add(item);
+                        ParcelListView.ItemsSource = temp;
                         break;
                     }
                     case "TargetChbox":
                     {
 
-                        groupDescription = new PropertyGroupDescription("Target.Name");
-                        
-
+                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                                             group prc by prc.TargetName into groups
+                                             select groups;
+                        foreach (var group in senderGrouping)
+                            foreach (var item in group)
+                                temp.Add(item);
+                        ParcelListView.ItemsSource = temp;
                         break;
+
+
+                        
                     }
             }
-            view.GroupDescriptions.Add(groupDescription);
+            
         }
 
         private void ParcelGroupCheckBoxCheckBox_Unchecked(object sender, RoutedEventArgs e)

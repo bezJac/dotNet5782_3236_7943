@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ParcelWindow" Height="450" Width="800" Icon="\images\Icon_drone.ico">
+        Title="Parcel" Height="450" Width="800" Icon="\images\Icon_drone.ico">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
