@@ -33,6 +33,7 @@ namespace PL
         public ManagerWindow(IBL bL)
         {
             InitializeComponent();
+            
             theBL = bL;
             // show all drones in drone list
             DroneListView.ItemsSource = theBL.GetAllDronesInList();
@@ -45,6 +46,10 @@ namespace PL
             ParcelStatusSelector.ItemsSource = Enum.GetValues(typeof(ParcelStatus));
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(Priority));
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
+        }
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
 
         #region drones tab
@@ -562,9 +567,10 @@ namespace PL
         /// <summary>
         /// exit window
         /// </summary>
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        private void CloseWindowButton_Click(object sender,System.ComponentModel.CancelEventArgs e)
         {
-            this.Close();
+            e.Cancel = false;
+            
         }
         /// <summary>
         /// current window reaction method (updates list views) to updates in son windows affecting lists
@@ -609,6 +615,13 @@ namespace PL
             }
 
         }
-        #endregion  
+
+        #endregion
+
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
     }
 }

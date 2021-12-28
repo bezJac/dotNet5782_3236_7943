@@ -64,13 +64,25 @@ namespace PL
             details.DataContext = newParcel;
             Detailsstk.DataContext = newParcel;
         }
+
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = false;
+
+        }
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
         /// <summary>
         /// exit window
         /// </summary>
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+       
         /// <summary>
         /// add parcel with details from user input to the database
         /// </summary>
@@ -104,6 +116,7 @@ namespace PL
         /// </summary>
         private void CancelParcelButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing += CloseWindowButton_Click;
             this.Close();
         }
         /// <summary>

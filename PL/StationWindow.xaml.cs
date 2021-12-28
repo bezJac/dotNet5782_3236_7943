@@ -64,7 +64,17 @@ namespace PL
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing += CloseWindowButton_Click;
             Close();
+        }
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = false;
+
+        }
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
         /// <summary>
         /// add base station with details from user input to the database
@@ -95,7 +105,8 @@ namespace PL
         /// </summary>
         private void CancelStationButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Closing += CloseWindowButton_Click;
+            Close();
         }
         /// <summary>
         /// open details of drone from drone charging list in drone window

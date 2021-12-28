@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-       WindowStyle="SingleBorderWindow"
+       WindowStyle="SingleBorderWindow" 
+        Closing="MyWindow_Closing"
         Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>

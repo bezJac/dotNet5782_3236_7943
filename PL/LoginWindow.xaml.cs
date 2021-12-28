@@ -67,6 +67,7 @@ namespace PL
         /// </summary>
         private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
         {
+
             Close();
         }
         /// <summary>
