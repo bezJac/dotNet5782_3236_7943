@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public class Distance
+    /// <summary>
+    /// class manages distance calculations for BL
+    /// </summary>
+    internal class Distance
     {
+        /// <summary>
+        /// get the distance between two DMS coordinated locations in KM
+        /// </summary>
+        /// <param name="location1"> first location</param>
+        /// <param name="location2"> second location</param>
+        /// <returns> double type containing distance in KM </returns>
         public static double GetDistance(Location location1, Location location2)
         {
 

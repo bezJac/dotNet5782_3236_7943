@@ -218,7 +218,7 @@
             <Label  Content="Select Sending customer:" VerticalAlignment="Center" Grid.Row="1"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
             <ComboBox x:Name="senderComboBox" Width="140" VerticalAlignment="Center" Grid.Row="1"  Height="Auto" HorizontalAlignment="Center"
-                         Grid.Column="1">
+                         Grid.Column="1"  SelectedItem="{Binding Sender}">
                 <ComboBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel/>
@@ -228,7 +228,7 @@
             <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
             <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
-                         Grid.Column="1">
+                         Grid.Column="1" SelectedItem="{Binding Target}">
                 <ComboBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel/>

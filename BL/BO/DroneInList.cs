@@ -6,11 +6,26 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// drone details for list view
+    /// </summary>
     public class DroneInList
     {
+        /// <summary>
+        /// drone identification number
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// drone model name
+        /// </summary>
         public string Model { get; set; }
+        /// <summary>
+        ///  maximum weight category the drone can carry
+        /// </summary>
         public WeightCategories? MaxWeight { get; set; }
+        /// <summary>
+        /// current status of drone
+        /// </summary>
         public DroneStatus? Status { get; set; }
         public int Battery { get; set; }
         public int? ParcelId { get; set; }

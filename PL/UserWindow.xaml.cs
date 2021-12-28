@@ -20,9 +20,23 @@ namespace PL
     /// </summary>
     public partial class UserWindow : Window
     {
-        BlApi.IBL theBL;
-        Customer user;
-        Parcel prc;
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
+        private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// Customer object for window data context
+        /// </summary>
+        private Customer user;
+        /// <summary>
+        /// Parcel object for window data context
+        /// </summary>
+        private Parcel prc;
+        /// <summary>
+        /// cunstructor
+        /// </summary>
+        /// <param name="bl"> BL layer instance sent from previous window </param>
+        /// <param name="cstmr"> Customer object containing data of customer sent from previous window</param>
         public UserWindow(BlApi.IBL bl,Customer cstmr)
         {
             InitializeComponent();
@@ -41,7 +55,9 @@ namespace PL
             ParcelsFromListView.ItemsSource = cstmr.From;
             ParcelsToListView.ItemsSource = cstmr.To;
         }
-
+        /// <summary>
+        /// add a new parcel delivery order for customer
+        /// </summary>
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
             theBL.AddParcel(prc);
@@ -54,14 +70,20 @@ namespace PL
             ParcelsFromListView.ItemsSource = user.From;
             ParcelsToListView.ItemsSource = user.To;
         }
-
+        /// <summary>
+        /// cancel new parcel delivery order
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelParcelButton_Click(object sender, RoutedEventArgs e)
         {
             TargetComboBox.SelectedItem = null;
             parcelWeightComboBox.SelectedItem = null;
             priorityComboBox.SelectedItem = null;
         }
-
+        /// <summary>
+        /// exit window
+        /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             Close();

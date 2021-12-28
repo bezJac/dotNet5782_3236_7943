@@ -22,9 +22,14 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : Window
     {
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
         private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// drone instance for data context of window
+        /// </summary>
         private Drone newDrone;
-        private BaseStationInList station;
         
 
         /// <summary>
@@ -74,8 +79,6 @@ namespace PL
         /// <summary>
         /// Add button click in add drone grid view - add drone with details from user in window to the list
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -107,7 +110,7 @@ namespace PL
                 }
 
                 // add drone to list
-                station = stationsList.SelectedItem as BaseStationInList;
+                BaseStationInList station = stationsList.SelectedItem as BaseStationInList;
                 theBL.AddDrone(newDrone,station.Id);
             }
             catch (Exception ex) // add drone faild allow user to fix input
@@ -296,6 +299,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// allows user to input numbers only to applied TextBox
+        /// </summary>
         private void IdTextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;
@@ -327,6 +333,9 @@ namespace PL
             return;
         }
 
+        /// <summary>
+        /// check that input user for update for id is valid, notify with red border if not
+        /// </summary>
         private void idTextValidation(object sender, RoutedEventArgs e)
         {
             
@@ -342,6 +351,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// check that input user for update for model is valid, notify with red border if not
+        /// </summary>
         private void modelTextValidation(object sender, RoutedEventArgs e)
         {
             if(modelTextBox.Text==string.Empty)

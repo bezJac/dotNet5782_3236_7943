@@ -38,12 +38,15 @@ namespace PL
         /// <summary>
         /// Show Drones click - opens drone list window
         /// </summary>
-        private void ManagerWindowButton_Click(object sender, RoutedEventArgs e)
+        private void managerWindowButton_Click(object sender, RoutedEventArgs e)
         {
             new ManagerWindow(myBL).ShowDialog();
         }
 
-        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// sign in for exsisting customer
+        /// </summary>
+        private void signInButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
             try
@@ -64,6 +67,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// register as new customer
+        /// </summary>
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
              new LoginWindow(myBL).Show();

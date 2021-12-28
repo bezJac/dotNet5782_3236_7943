@@ -122,7 +122,9 @@
                    Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newPhoneTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
             </StackPanel>
-
+            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
+                    HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
+                   FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
         </Grid>
         <Grid x:Name="addCustomerGrid" Visibility="Collapsed" Background="#FFD5DCD0" >
             <Grid.RowDefinitions>

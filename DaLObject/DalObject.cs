@@ -15,6 +15,7 @@ namespace Dal
     /// </summary>
     internal sealed partial class DalObject : IDal
     {
+        #region Singleton design 
         private static DalObject instance;
         private static object locker = new object();
 
@@ -27,6 +28,9 @@ namespace Dal
             DataSource.Initialize();
         }
 
+        /// <summary>
+        /// instance of DalObject class - same object is always returned
+        /// </summary>
         public static DalObject Instance
         {
             get
@@ -42,6 +46,7 @@ namespace Dal
                 return instance;
             }
         }
+        #endregion
 
         public IEnumerable<double> GetElectricUse()
         {

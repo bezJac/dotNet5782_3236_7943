@@ -15,9 +15,13 @@ namespace BL
     /// </summary>
     public partial class BL : IBL
     {
+        #region Singleton Design for BL
         private static  BL instance;
         private static object locker = new object();
 
+        /// <summary>
+        /// insatnce of BL class object - same object is  always returned
+        /// </summary>
         public static BL Instance
         {
             get
@@ -33,6 +37,8 @@ namespace BL
                 return instance;
             }
         }
+        #endregion
+
         private DalApi.IDal myDal;
         private List<DroneInList> drones;
         private static double droneElecUseEmpty;
@@ -153,7 +159,7 @@ namespace BL
             }
         }
 
-        #region private methods for local  calculations
+        #region private methods for internal calculations of BL class
         /// <summary>
         /// calculate nearest base station to specific location 
         /// </summary>
@@ -184,7 +190,7 @@ namespace BL
         private  ParcelStatus getParcelStatus(DO.Parcel pr)
         {
             if(pr.Scheduled == null)
-                return ParcelStatus.Orderd;
+                return ParcelStatus.Ordered;
             if (pr.PickedUp == null)
                 return ParcelStatus.Linked;
             if (pr.Delivered == null)

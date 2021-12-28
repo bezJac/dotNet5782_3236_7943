@@ -8,9 +8,6 @@ using BO;
 
 namespace BL
 {
-    /// <summary>
-    /// partial class manages all add related methods for BL
-    /// </summary>
     public partial class BL: BlApi.IBL
     {
         public void AddBaseStation(BaseStation station)

@@ -7,8 +7,14 @@ using System.Xml.Linq;
 
 namespace DalApi
 {
-    static class DalConfig
+    /// <summary>
+    /// class manages reading configuration metadata from specified xml file
+    /// </summary>
+    public static class DalConfig
     {
+        /// <summary>
+        /// metadata about content of dll file 
+        /// </summary>
         public class DalPackage
         {
             public string Name;
@@ -16,10 +22,18 @@ namespace DalApi
             public string NameSpace;
             public string ClassName;
         }
-
+        /// <summary>
+        /// name of class being used for current cunfiguration
+        /// </summary>
         internal static string DalName;
+        /// <summary>
+        /// dictionery containing metadata for all possible classes that can be used
+        /// </summary>
         internal static Dictionary<string, DalPackage> DalPackages;
 
+        /// <summary>
+        /// cunstroctor
+        /// </summary>
         static DalConfig()
         {
             XElement dalConfig = XElement.Load(@"..\xml\config.xml");

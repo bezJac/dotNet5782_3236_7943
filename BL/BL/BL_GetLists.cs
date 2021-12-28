@@ -9,9 +9,6 @@ using BO;
 
 namespace BL
 {
-    /// <summary>
-    /// partial class manages all get lists related methods for BL
-    /// </summary>
     public partial class BL : BlApi.IBL
     {
         public IEnumerable<BaseStation> GetAllBaseStations()
@@ -62,7 +59,6 @@ namespace BL
                    let listSt = convertToBaseStationInList(st)
                    select listSt;
         }
-      
         public IEnumerable<Drone> GetAllDrones()
         {
             if (drones.Count <= 0)
@@ -173,9 +169,6 @@ namespace BL
                 throw new GetListException("no parcels in list match filter");
             return tmp;
         }
-
-
-
         public IEnumerable<ParcelInList> GetAllParcelsInList(DateTime? from, DateTime? to)
         {
 
@@ -188,7 +181,6 @@ namespace BL
                 throw new GetListException("no parcels in list match time span");
             return tmp;
         }
-        
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
             IEnumerable<DO.Parcel> parcels;

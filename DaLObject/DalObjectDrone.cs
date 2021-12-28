@@ -9,10 +9,7 @@ using DS;
 
 namespace Dal
 {
-    /// <summary>
-    /// partial DalObject class responsible for CRUD of Drone entities. 
-    /// </summary>
-    internal partial class DalObject :IDal
+     internal partial class DalObject :IDal
     {
         public void AddDrone(Drone dr)
         {

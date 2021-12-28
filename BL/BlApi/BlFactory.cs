@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BlApi
 {
+    /// <summary>
+    /// Factory Design for BL
+    /// </summary>
     public static class BlFactory
     {
         public static IBL GetBL()

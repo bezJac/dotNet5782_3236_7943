@@ -20,8 +20,18 @@ namespace PL
     /// </summary>
     public partial class CustomerWindow : Window
     {
-        BlApi.IBL theBL;
-        Customer newCustomer;
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
+        private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// Customer instance for data context of window
+        /// </summary>
+        private Customer newCustomer;
+        /// <summary>
+        /// cunstructor for Add customer view of window 
+        /// </summary>
+        /// <param name="bL"> BL layer instance sent from previous window </param>
         public CustomerWindow(BlApi.IBL bl)
         {
             InitializeComponent();
@@ -30,6 +40,11 @@ namespace PL
             newCustomer = new() { CustomerLocation = new(), To=null,From=null };
             DataContext = newCustomer;
         }
+        /// <summary>
+        /// cunstructor for action customer view of window 
+        /// </summary>
+        /// <param name="bL"> BL layer instance sent from previous window </param>
+        /// <param name="cstmr"> customer object containing details of customer sent from previos window </param>
         public CustomerWindow(BlApi.IBL bl, Customer cstmr)
         {
             InitializeComponent();
@@ -41,8 +56,9 @@ namespace PL
             ParcelsToListView.ItemsSource = newCustomer.To;
         }
 
-        
-
+        /// <summary>
+        /// update either name and/or phone number of customer
+        /// </summary>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -64,6 +80,9 @@ namespace PL
             refreshSingleCustomerWindow();
         }
 
+        /// <summary>
+        /// show details of parcel clicked on in list in Parcel Window
+        /// </summary>
         private void ParcelsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ParcelAtCustomer prc;
@@ -77,6 +96,10 @@ namespace PL
                 refreshSingleCustomerWindow();
             }
         }
+
+        /// <summary>
+        /// allows user to input numbers only to TextBox
+        /// </summary>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;
@@ -107,6 +130,10 @@ namespace PL
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
         }
+
+        /// <summary>
+        /// refresh content of window
+        /// </summary>
         private void refreshSingleCustomerWindow()
         {
             newCustomer = theBL.GetCustomer((int)newCustomer.Id);
@@ -115,6 +142,9 @@ namespace PL
             ParcelsToListView.ItemsSource = newCustomer.To;
         }
 
+        /// <summary>
+        /// add customer inputed by user  to list 
+        /// </summary>
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -137,7 +167,18 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// cancel customer adding proccess
+        /// </summary>
         private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        /// <summary>
+        /// exit window
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

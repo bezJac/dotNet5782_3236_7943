@@ -7,9 +7,6 @@ using BlApi;
 using BO;
 namespace BL
 {
-    /// <summary>
-    /// partial class manages all details update related methods for BL
-    /// </summary>
     public partial class BL: BlApi.IBL
     {
         public void UpdateBaseStation(int id, int count, string name)
@@ -24,9 +21,10 @@ namespace BL
 
                 throw new UpdateException("",ex);
             }
+
+            ///check that update details from user are valid
             if (station.DronesCharging.Count() > count)
                 throw new UpdateException($"base station: {id} Occupied slots exceed requested update");
-
             DO.BaseStation st = new() { Id = id, Longitude = (double)station.StationLocation.Longtitude, Lattitude = (double)station.StationLocation.Lattitude };
             if (name != "")
                 st.Name = name;
@@ -37,6 +35,7 @@ namespace BL
                 st.NumOfSlots = (int)station.NumOfSlots;
             else
                 st.NumOfSlots = count - station.DronesCharging.Count();
+           
             myDal.UpdateBaseStation(st);
         }
         public void UpdateDrone(int id, string model)
@@ -51,6 +50,7 @@ namespace BL
                 throw new UpdateException("", Ex);
             }
             dr.Model = model;
+
             myDal.UpdateDrone(dr);
             int index = drones.FindIndex(dr => dr.Id == id);
             drones[index].Model = model;
@@ -70,6 +70,7 @@ namespace BL
                 cstmr.Name = name;
             if (phone != "")
                 cstmr.Phone = phone;
+
             myDal.UpdateCustomer(cstmr);
         }
     }

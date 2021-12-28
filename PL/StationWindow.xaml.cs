@@ -19,8 +19,21 @@ namespace PL
     /// </summary>
     public partial class StationWindow : Window
     {
-        BlApi.IBL theBL;
-        BaseStation newStation; 
+
+
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
+       private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// BaseStation instance for data context of window
+        /// </summary>
+        private BaseStation newStation;
+
+        /// <summary>
+        /// cunstructor for Add Base Station view of window 
+        /// </summary>
+        /// <param name="bL"> BL layer instance sent from previous window </param>
         public StationWindow(BlApi.IBL bl)
         {
             InitializeComponent();
@@ -31,6 +44,11 @@ namespace PL
             LocationMessage.Text = "Important!!\nLattitude coordinae must be in 31.733 - 31.818 range!\nlongtitude coordinate must be in 35.167 - 35.243 range! ";
 
         }
+        /// <summary>
+        /// cunstructor for action base station view of window
+        /// </summary>
+        /// <param name="bl"> BL layer instance sent from previous window </param>
+        /// <param name="station"> BaseStation object containing data of station sent from previous window</param>
         public StationWindow(BlApi.IBL bL, BaseStation station)
         {
             InitializeComponent();
@@ -39,9 +57,49 @@ namespace PL
             DataContext = newStation;
             actionStationGrid.Visibility = Visibility.Visible;
             DroneChargeListView.ItemsSource = newStation.DronesCharging;
-            
-        }
 
+        }
+        /// <summary>
+        /// exit window
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        /// <summary>
+        /// add base station with details from user input to the database
+        /// </summary>
+        private void AddStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool flag = true;
+            try
+            {
+                theBL.AddBaseStation(newStation);
+            }
+            catch (Exception ex) // add drone faild allow user to fix input
+            {
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+                flag = false;
+                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            if (flag)   // drone was added successfully - close window 
+            {
+                MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+        }
+        /// <summary>
+        /// cancel station add, and exit window
+        /// </summary>
+        private void CancelStationButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        /// <summary>
+        /// open details of drone from drone charging list in drone window
+        /// </summary>
         private void DroneChargeList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if(DroneChargeListView.SelectedItem!=null)
@@ -54,7 +112,9 @@ namespace PL
                 
             }
         }
-
+        /// <summary>
+        /// update either name and/or number of charging slots of base station
+        /// </summary>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -79,27 +139,9 @@ namespace PL
                 
             
         }
-
-        private void RemoveStButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool flag = true;
-            try
-            {
-                theBL.RemoveBaseStation((int)newStation.Id);
-            }
-            catch (Exception ex)
-            {
-                while (ex.InnerException != null)
-                    ex = ex.InnerException;
-                flag = false;
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-            if (flag)
-            {
-                MessageBox.Show("Base Station was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
-            }
-        }
+        /// <summary>
+        /// prevent user from typing non digit charachters to applied textBox
+        /// </summary>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;
@@ -129,33 +171,6 @@ namespace PL
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
-        }
-
-        private void AddStationButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool flag = true;
-            try
-            {
-                theBL.AddBaseStation(newStation);
-            }
-            catch (Exception ex) // add drone faild allow user to fix input
-            {
-                while (ex.InnerException != null)
-                    ex = ex.InnerException;
-                flag = false;
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            }
-            if (flag)   // drone was added successfully - close window 
-            {
-                MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                Close();
-            }
-        }
-
-        private void CancelStationButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        }   
     }
 }

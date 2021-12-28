@@ -116,13 +116,11 @@ namespace DalApi
 
         #region Read part of C.R.U.D
         #region Read list of elements
-        ///  <returns> IEnumerable<BaseStation> type </returns>
-        /// <summary>
-        /// get a copy list of all base stations matching a predicate 
+        ///<summary>
+        /// get a copy list  of base stations
         /// </summary>
         /// <param name="predicate"> condition to filter list by </param>
         /// <returns> by default an IEnumerable<BaseStation> copy of full list , if predicate was sent as argument
-        /// an IEnumerable<BaseStation> copy of list  of entities matching predicate </returns>
         /// <exception cref = "EmptyListException"> thrown if list is empty </exception>
         /// <exception cref = "FilteredListException"> thrown if filtered list is empty </exception>
         IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation,bool> predicate = null);
@@ -211,9 +209,9 @@ namespace DalApi
         #region Read specific details
 
         /// <summary>
-        /// get array containing with DataSource.Config fields
+        /// get array of battery use per hour for each parcel weight category
         /// </summary>
-        /// <returns> IEnumerable<double> </returns>
+        /// <returns></returns>
         IEnumerable<double> GetElectricUse();
         #endregion
         #endregion

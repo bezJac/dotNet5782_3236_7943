@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace DO
 {
+    /// <summary>
+    /// weight carriyng abillities by a drone
+    /// </summary>
     public enum WeightCategories
     {
         LIGHT = 1, MEDIUM, HEAVY
     }
+    /// <summary>
+    /// priority levels for a delivery 
+    /// </summary>
     public enum Priorities
     {
         REGULAR = 1, EXPRESS, EMERGENCY

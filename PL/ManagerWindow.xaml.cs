@@ -24,13 +24,13 @@ namespace PL
     /// </summary>
     public partial class ManagerWindow : Window
     {
-        readonly private BlApi.IBL theBL;
+        private readonly IBL theBL;
 
         /// <summary>
         /// cunstructor
         /// </summary>
         /// <param name="bL"> BL layer instance sent from main window </param>
-        public ManagerWindow(BlApi.IBL bL)
+        public ManagerWindow(IBL bL)
         {
             InitializeComponent();
             theBL = bL;
@@ -47,8 +47,9 @@ namespace PL
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
 
+        #region drones tab
         /// <summary>
-        /// change in selected value of status comboBox
+        /// change in selected value of status comboBox of drones tab
         /// </summary>
         private void StatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -74,6 +75,156 @@ namespace PL
                 }
             }
         }
+        /// <summary>
+        /// change in selected value of weight comboBox
+        /// </summary>
+        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (WeightSelector.SelectedItem != null)
+            {
+                WeightCategories weight = (WeightCategories)WeightSelector.SelectedItem;
+                this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
+                // filter list by new choice, and choice in status comboBox if selected previously
+                // exception accures when list returns empty
+                try
+                {
+                    if (StatusSelector.SelectedItem != null)
+                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
+                    else
+                        DroneListView.ItemsSource = theBL.GetAllDronesInList(null, weight);
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    WeightSelector.SelectedItem = null;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+            }
+        }
+        /// <summary>
+        /// double click on a drone details in the list - 
+        /// opens drone window with ActionDrone grid showing
+        /// </summary>
+        private void DroneList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (DroneListView.SelectedItem != null)
+            {
+                DroneInList dr = DroneListView.SelectedItem as DroneInList;
+                Drone drone = theBL.GetDrone(dr.Id);
+                DroneWindow droneWindow = new DroneWindow(theBL, drone);
+                droneWindow.Show();
+                droneWindow.ChargeButton.Click += WindowSonButton_Click;
+                droneWindow.DischargeButton.Click += WindowSonButton_Click;
+                droneWindow.DeliverButton.Click += WindowSonButton_Click;
+                droneWindow.PickUpButton.Click += WindowSonButton_Click;
+                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
+                droneWindow.UpdateButton.Click += WindowSonButton_Click;
+
+
+            }
+
+        }
+        /// <summary>
+        /// clear selection in both comboBoxes in drones tab, list view shows all drones
+        /// </summary>
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.StatusSelector.SelectedItem = null;
+            this.WeightSelector.SelectedItem = null;
+            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+
+        }
+        /// <summary>
+        /// refresh content of drone list view by current selections in ComboBoxes
+        /// </summary>
+        private void refreshListContent()
+        {
+            try
+            {
+
+                // nither comboBox has a selected choice - show all drones
+                if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
+                {
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
+                    return;
+                }
+                // both comboBoxes have selected choice - filter by both parameters
+                if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
+                {
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                    return;
+                }
+                // only status comboBox has choice - filter by status
+                if (StatusSelector.SelectedItem != null)
+                {
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                    return;
+
+                }
+                // only weight comboBox has choice - filter by weight
+                DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
+
+            }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+        }
+        /// <summary>
+        /// group list view by selected checkBox parameter in drones tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GroupingCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            RibbonCheckBox cb = sender as RibbonCheckBox;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DroneListView.ItemsSource);
+            PropertyGroupDescription groupDescription = null;
+
+            switch (cb.Name)
+            {
+
+                case "StatusGroupChBox":
+                    {
+                        groupDescription = new PropertyGroupDescription("Status");
+
+
+                        break;
+                    }
+                case "WeightGroupChBox":
+                    {
+
+                        groupDescription = new PropertyGroupDescription("MaxWeight");
+                        break;
+                    }
+                case "ModelGroupChBox":
+                    {
+
+                        groupDescription = new PropertyGroupDescription("Model");
+
+                        break;
+                    }
+
+            }
+            view.GroupDescriptions.Add(groupDescription);
+        }
+        /// <summary>
+        /// cancel grouping view in drones tab
+        /// </summary>
+        private void DroneGroupChBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+        }
+        #endregion
+        #region parcels tab
+        /// <summary>
+        /// change in selected value of status comboBox of parcels tab
+        /// </summary>
         private void ParcelStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ParcelStatusSelector.SelectedItem != null)
@@ -102,6 +253,9 @@ namespace PL
                 }
             }
         }
+        /// <summary>
+        /// change in selected value of weight comboBox of parcels tab
+        /// </summary>
         private void ParcelWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ParcelWeightSelector.SelectedItem != null)
@@ -130,6 +284,9 @@ namespace PL
                 }
             }
         }
+        /// <summary>
+        /// change in selected value of priority comboBox of parcels tab
+        /// </summary>
         private void ParcelPrioritySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ParcelPrioritySelector.SelectedItem != null)
@@ -158,41 +315,13 @@ namespace PL
                 }
             }
         }
-        
-
         /// <summary>
-        /// change in selected value of weight comboBox
+        /// clear selection of comboBox's in parcels tab
         /// </summary>
-        private void WeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (WeightSelector.SelectedItem != null)
-            {
-                WeightCategories weight = (WeightCategories)WeightSelector.SelectedItem;
-                this.WeightSelector.Text = WeightSelector.SelectedItem.ToString();
-                // filter list by new choice, and choice in status comboBox if selected previously
-                // exception accures when list returns empty
-                try
-                {
-                    if (StatusSelector.SelectedItem != null)
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
-                    else
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList(null, weight);
-                }
-                catch (Exception Ex)
-                {
-                    while (Ex.InnerException != null)
-                        Ex = Ex.InnerException;
-                    WeightSelector.SelectedItem = null;
-                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-                   
-                }
-            }
-        }
-
         private void ParcelClearButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            switch(b.Name)
+            switch (b.Name)
             {
                 case "clearWeightButtonParcel":
                     {
@@ -211,7 +340,7 @@ namespace PL
                     }
                 case "clearDatesButtonParcel":
                     {
-                        
+
                         toDate.SelectedDate = null;
                         fromDate.SelectedDate = null;
                         break;
@@ -221,7 +350,175 @@ namespace PL
 
         }
         /// <summary>
-        /// click on Add button - opens drone window with addDrone grid showing
+        /// double click on a parcel details in the list - 
+        /// opens parcel window with ActionParcel grid showing
+        /// </summary>
+        private void ParcelList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (ParcelListView.SelectedItem != null)
+            {
+                ParcelInList prc = ParcelListView.SelectedItem as ParcelInList;
+                Parcel parcel = theBL.GetParcel(prc.Id);
+                ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
+                parcelWindow.Show();
+                parcelWindow.DummyButton.Click += WindowSonButton_Click;
+                parcelWindow.removeParcelButton.Click += WindowSonButton_Click;
+                ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
+
+            }
+
+        }
+        /// <summary>
+        /// group list view by selected checkBox parameter in parcels tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ParcelGroupCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            RibbonCheckBox cb = sender as RibbonCheckBox;
+             List<ParcelInList> temp = new();
+            switch (cb.Name)
+            {
+                case "SenderChbox":
+                    {
+
+                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                                             group prc by prc.SenderName into groups
+                                             select groups;
+
+                        foreach (var group in senderGrouping)
+                            foreach (var item in group)
+                                temp.Add(item);
+
+                        ParcelListView.ItemsSource = temp;
+                        break;
+                    }
+                case "TargetChbox":
+                    {
+
+                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                                             group prc by prc.TargetName into groups
+                                             select groups;
+
+                        foreach (var group in senderGrouping)
+                            foreach (var item in group)
+                                temp.Add(item);
+
+                        ParcelListView.ItemsSource = temp;
+                        break;
+
+
+
+                    }
+            }
+
+        }
+        /// <summary>
+        /// cancel grouping view in drones tab
+        /// </summary>
+        private void ParcelGroupCheckBoxCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+        }
+        /// <summary>
+        /// show in list parcels that were ordered between selected two dates
+        /// </summary>
+        private void toDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime? from = fromDate.SelectedDate;
+            DateTime? to = toDate.SelectedDate;
+            if (to != null && from != null)
+            {
+                try
+                {
+                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(from, to);
+                }
+                catch (Exception Ex)
+                {
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.ClearButton_Click(sender, e);
+                }
+            }
+        }
+        #endregion
+        #region customers tab
+        /// <summary>
+        /// double click on a customer details in the list - 
+        /// opens customer window with ActionCustomer grid showing
+        /// </summary>
+        private void CustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (CustomerListView.SelectedItem != null)
+            {
+                CustomerInList cs = CustomerListView.SelectedItem as CustomerInList;
+                new CustomerWindow(theBL, theBL.GetCustomer(cs.Id)).ShowDialog();
+                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+            }
+        }
+        #endregion
+        #region stations tab
+        /// <summary>
+        /// double click on a station details in the list - 
+        /// opens station window with ActionStation grid showing
+        /// </summary>
+        private void StationList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (StationListView.SelectedItem != null)
+            {
+                BaseStationInList st = StationListView.SelectedItem as BaseStationInList;
+                new StationWindow(theBL, theBL.GetBaseStation(st.Id)).ShowDialog();
+                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+            }
+        }
+        /// <summary>
+        /// group list view by selected checkBox parameter in stations tab
+        /// </summary>
+        private void StationGroupingCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            RibbonCheckBox cb = sender as RibbonCheckBox;
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationListView.ItemsSource);
+            PropertyGroupDescription groupDescription = null;
+            switch (cb.Name)
+            {
+                case "NumSlotsGroupChBox":
+                    {
+
+
+                        groupDescription = new PropertyGroupDescription("AvailableSlots");
+                        view.GroupDescriptions.Add(groupDescription);
+                        break;
+                    }
+                case "AvailableSlotsGroupChBox":
+                    {
+                        List<BaseStationInList> temp = new();
+                        var senderGrouping = from st in theBL.GetALLBaseStationInList()
+                                             group st by st.AvailableSlots>0 into groups
+                                             select groups;
+
+                        foreach (var group in senderGrouping)
+                            foreach (var item in group)
+                                temp.Add(item);
+
+                        StationListView.ItemsSource = temp;
+                        break;                       
+                    }
+            }
+        }
+        /// <summary>
+        /// cancel grouping view in stations tab
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StationGroupChBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+        }
+        #endregion
+        #region all tabs
+        /// <summary>
+        /// click on Add button - opens add window of object matching current selected tab
         /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -262,38 +559,16 @@ namespace PL
             
 
         }
-
-       
-
+        /// <summary>
+        /// exit window
+        /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
         /// <summary>
-        /// double click on a drone details in the list - 
-        /// opens drone window with ActionDrone grid showing
+        /// current window reaction method (updates list views) to updates in son windows affecting lists
         /// </summary>
-        private void DroneList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (DroneListView.SelectedItem != null)
-            {
-                DroneInList dr = DroneListView.SelectedItem as DroneInList;
-                Drone drone = theBL.GetDrone(dr.Id);
-                DroneWindow droneWindow = new DroneWindow(theBL, drone);
-                droneWindow.Show();
-                droneWindow.ChargeButton.Click += WindowSonButton_Click;
-                droneWindow.DischargeButton.Click += WindowSonButton_Click;
-                droneWindow.DeliverButton.Click +=WindowSonButton_Click;
-                droneWindow.PickUpButton.Click += WindowSonButton_Click;
-                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
-                droneWindow.UpdateButton.Click += WindowSonButton_Click;
-                
-               
-            }
-
-        }
-
         private void WindowSonButton_Click(object sender, RoutedEventArgs e)
         {
             refreshListContent();
@@ -301,96 +576,15 @@ namespace PL
             CustomerListView.ItemsSource = theBL.GetAllParcelsInList();
             StationListView.ItemsSource = theBL.GetALLBaseStationInList();
         }
-
-        private void ParcelList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (ParcelListView.SelectedItem != null)
-            {
-                ParcelInList prc = ParcelListView.SelectedItem as ParcelInList;
-                Parcel parcel = theBL.GetParcel(prc.Id);
-                ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
-                parcelWindow.Show();
-                parcelWindow.DummyButton.Click += WindowSonButton_Click;
-                parcelWindow.removeParcelButton.Click += WindowSonButton_Click;
-                ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
-
-            }
-
-        }
-        private void StationList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (StationListView.SelectedItem != null)
-            {
-                BaseStationInList st = StationListView.SelectedItem as BaseStationInList;
-                new StationWindow(theBL, theBL.GetBaseStation(st.Id)).ShowDialog();
-                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-            }
-        }
-        private void CustomerList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(CustomerListView.SelectedItem!=null)
-            {
-                CustomerInList cs = CustomerListView.SelectedItem as CustomerInList;
-                new CustomerWindow(theBL, theBL.GetCustomer(cs.Id)).ShowDialog();
-                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-            }
-        }
         /// <summary>
-        /// clear selection in both comboBoxes, list view shows all drones
+        /// refresh list view content on tab selection
         /// </summary>
-        private void ClearButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.StatusSelector.SelectedItem = null;
-            this.WeightSelector.SelectedItem = null;
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
-            
-        }
-
-        /// <summary>
-        /// refresh content of drone list view by current selections in ComboBoxes
-        /// </summary>
-        private void refreshListContent()
-        {
-            try
-            {
-                
-                // nither comboBox has a selected choice - show all drones
-                if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null) 
-            {
-                DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
-                return;
-            }
-            // both comboBoxes have selected choice - filter by both parameters
-            if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null) 
-            {
-                DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
-                return;
-            }
-            // only status comboBox has choice - filter by status
-            if (StatusSelector.SelectedItem != null) 
-            {
-                DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
-                return;
-                
-            }
-            // only weight comboBox has choice - filter by weight
-            DroneListView.ItemsSource = theBL.GetAllDronesInList( null, (WeightCategories)WeightSelector.SelectedItem);
-            
-            }
-            catch (Exception Ex)
-            {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-                
-            }
-        }
-       
-
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Tab_Selected(object sender, RoutedEventArgs e)
         {
             TabItem tab = sender as TabItem;
-            switch(tab.Header)
+            switch (tab.Header)
             {
                 case "Drones":
                     {
@@ -404,7 +598,7 @@ namespace PL
                     }
                 case "Parcels":
                     {
-                        ParcelListView.ItemsSource= theBL.GetAllParcelsInList();
+                        ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
                         break;
                     }
                 case "Stations":
@@ -413,154 +607,8 @@ namespace PL
                         break;
                     }
             }
-            
-        }
-
-        private void toDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DateTime? from = fromDate.SelectedDate;
-            DateTime? to = toDate.SelectedDate;
-            if (to != null && from!=null)
-            {
-                try
-                {
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(from, to);
-                }
-                catch (Exception Ex)
-                {
-                    while (Ex.InnerException != null)
-                        Ex = Ex.InnerException;
-                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-                    this.ClearButton_Click(sender, e);
-                }
-            }
-        }
-
-        private void ClearOutlinedComboBox_Click(object sender, RoutedEventArgs e)
-        {
-            Button b = sender as Button;
-            WeightSelector.SelectedItem = null;
-            refreshListContent();
-        }
-
-        private void RibbonCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
 
         }
-
-        private void GroupingCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            RibbonCheckBox cb = sender as RibbonCheckBox;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(DroneListView.ItemsSource);
-            PropertyGroupDescription groupDescription =null;
-           
-            switch (cb.Name)
-            {
-                
-                case "StatusGroupChBox":
-                    {
-                        groupDescription = new PropertyGroupDescription("Status");
-
-
-                        break;
-                    }
-                case "WeightGroupChBox":
-                    {
-                       
-                        groupDescription = new PropertyGroupDescription("MaxWeight");
-                        break;
-                    }
-                case "ModelGroupChBox":
-                    {
-                        
-                        groupDescription = new PropertyGroupDescription("Model");
-                        
-                        break;
-                    }
-                    
-            }
-            view.GroupDescriptions.Add(groupDescription);
-        }
-
-        private void DroneGroupChBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
-        }
-        private void ParcelGroupCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            RibbonCheckBox cb = sender as RibbonCheckBox;
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelListView.ItemsSource);
-            //PropertyGroupDescription groupDescription = null;
-            List<ParcelInList> temp = new();
-            switch (cb.Name)
-            {
-                case "SenderChbox":
-                    {
-
-                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
-                                             group prc by prc.SenderName into groups
-                                             select groups;
-                        foreach (var group in senderGrouping)
-                            foreach (var item in group)
-                                temp.Add(item);
-                        ParcelListView.ItemsSource = temp;
-                        break;
-                    }
-                    case "TargetChbox":
-                    {
-
-                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
-                                             group prc by prc.TargetName into groups
-                                             select groups;
-                        foreach (var group in senderGrouping)
-                            foreach (var item in group)
-                                temp.Add(item);
-                        ParcelListView.ItemsSource = temp;
-                        break;
-
-
-                        
-                    }
-            }
-            
-        }
-
-        private void ParcelGroupCheckBoxCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-        }
-
-        private void StationGroupChBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-        }
-
-        private void StationGroupingCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            RibbonCheckBox cb = sender as RibbonCheckBox;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(StationListView.ItemsSource);
-            PropertyGroupDescription groupDescription = null;
-            switch (cb.Name)
-            {
-                case "NumSlotsGroupChBox":
-                    {
-
-
-                        groupDescription = new PropertyGroupDescription("AvailableSlots");
-
-                        break;
-                    }
-                case "AvailableSlotsGroupChBox":
-                    {
-
-                        
-
-                        break;
-                    }
-                   
-            }
-            view.GroupDescriptions.Add(groupDescription);
-
-        }
+        #endregion  
     }
 }

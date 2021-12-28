@@ -6,9 +6,18 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// drone charge details for BaseStation object interaction
+    /// </summary>
     public class DroneCharge
     {
+        /// <summary>
+        /// identification number  of drone
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// battery level of drone 
+        /// </summary>
         public int Battery { get; set; }
         public override string ToString()
         {

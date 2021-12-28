@@ -13,11 +13,27 @@ namespace DO
     /// </summary>
     public struct BaseStation
     {
+        /// <summary>
+        /// identification number of base station
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// base station name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// longtitude coordinate of base station current location
+        /// </summary>
         public double Longitude { get; set; }
+        /// <summary>
+        /// lattitude coordinate of base station current location
+        /// </summary>
         public double Lattitude { get; set; }
+        /// <summary>
+        /// number of current available charging slots at base station
+        /// </summary>
         public int NumOfSlots { get; set; }
+
         public override string ToString()
         {
             string result = "";

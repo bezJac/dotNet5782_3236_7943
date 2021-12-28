@@ -21,8 +21,18 @@ namespace PL
     /// </summary>
     public partial class LoginWindow : Window
     {
-        BlApi.IBL theBL;
-        Customer newUser;
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
+        private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// Customer object for window data context
+        /// </summary>
+        private Customer newUser;
+        /// <summary>
+        /// cunstructor
+        /// </summary>
+        /// <param name="bL"></param>
         public LoginWindow(BlApi.IBL bL)
         {
             theBL = bL;
@@ -30,7 +40,9 @@ namespace PL
             InitializeComponent();
             DataContext = newUser;
         }
-
+        /// <summary>
+        /// register new customer to data base
+        /// </summary>
         private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -50,10 +62,16 @@ namespace PL
                 Close();
             }
         }
+        /// <summary>
+        /// cancel new customer registration
+        /// </summary>
         private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+        /// <summary>
+        /// prevent user from typing non digit charachters to applied textBox
+        /// </summary>
         private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;

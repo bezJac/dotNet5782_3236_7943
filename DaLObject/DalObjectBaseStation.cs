@@ -9,9 +9,6 @@ using DS;
 
 namespace Dal
 {
-    /// <summary>
-    /// partial DalObject class responsible for CRUD of BaseStation entities. 
-    /// </summary>
     internal partial class DalObject : IDal
     {
         public void AddBaseStation(BaseStation st)

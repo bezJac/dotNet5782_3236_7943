@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 using BO;
 namespace BL
 {
-    /// <summary>
-    /// partial class, manages all remove related methods for BL
-    /// </summary>
     public partial class BL : BlApi.IBL
     {
         public   void removeDrone(int id)

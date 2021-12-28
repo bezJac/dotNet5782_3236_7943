@@ -9,10 +9,7 @@ using BO;
 
 namespace BL
 {
-    /// <summary>
-    /// partial class manages all get single instance related methods for BL
-    /// </summary>
-    public partial class BL : BlApi.IBL
+      public partial class BL : BlApi.IBL
     {
         public BaseStation GetBaseStation(int id)
         {

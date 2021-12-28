@@ -7,9 +7,7 @@ using BO;
 
 namespace BL
 {
-    /// <summary>
-    /// partial class manages all action related methods for BL
-    /// </summary>
+    
     public partial class BL: BlApi.IBL
     {
         public void ChargeDrone(int id)

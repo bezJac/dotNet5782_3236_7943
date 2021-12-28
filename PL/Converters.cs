@@ -12,18 +12,39 @@ namespace PL
 {
     public sealed class NullToEnableConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value != null;
+        /// <summary>
+        /// checks if sender is null 
+        /// </summary>
+        /// <returns> bool </returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value != null;
+        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
     public sealed class TextToEnableConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !string.IsNullOrEmpty((string)value);
+        /// <summary>
+        /// checks if text in textBox is empty
+        /// </summary>
+        /// <returns> bool </returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !string.IsNullOrEmpty((string)value);
+        }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
     public sealed class TextToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if text in textBox is empty
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return string.IsNullOrEmpty((string)value)? Visibility.Collapsed:Visibility.Visible;
@@ -36,6 +57,10 @@ namespace PL
     }
     public sealed class LattitudeToDmsConverter : IValueConverter
     {
+        /// <summary>
+        /// converts lattitude coordinate from double type to string of DMS form of the coordinate 
+        /// </summary>
+        /// <returns> string </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
@@ -60,6 +85,10 @@ namespace PL
     }
     public sealed class LongtitudeToDmsConverter : IValueConverter
     {
+        /// <summary>
+        /// converts longtitude coordinate from double type to string of DMS form of the coordinate 
+        /// </summary>
+        /// <returns> string </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
@@ -84,6 +113,10 @@ namespace PL
     }
     public sealed class NullToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if sender is null 
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
@@ -97,6 +130,10 @@ namespace PL
     }
     public sealed class NullToVisibilitiyReveresedConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if sender is null, visibility value returned in reverse , visible if null  
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
@@ -110,6 +147,10 @@ namespace PL
     }
     public sealed class AvailableToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if drone status is Available
+        /// </summary>
+       /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if(value!=null)
@@ -124,6 +165,10 @@ namespace PL
     }
     public sealed class MaintanenceToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if drone status is Maintenance
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
@@ -138,7 +183,10 @@ namespace PL
     }
     public sealed class PickUpToVisibilityConverter : IValueConverter
     {
-       
+        /// <summary>
+        /// checks if drone status is Delivery and parcel wasn't picked up yet
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Drone temp = value as Drone;
@@ -155,6 +203,10 @@ namespace PL
     }
     public sealed class DeliveryToVisibilityConverter : IValueConverter
     {
+        /// <summary>
+        /// checks if drone status is Delivery and parcel has been  picked up already
+        /// </summary>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Drone temp = (Drone)value;
@@ -169,9 +221,6 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-   
-    
-
 
 }
 

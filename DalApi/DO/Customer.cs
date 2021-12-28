@@ -12,10 +12,25 @@ namespace DO
     /// </summary>
     public struct Customer
     {
+        /// <summary>
+        /// customer identification number
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        /// customer full name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// customer phone number
+        /// </summary>
         public string Phone { get; set; }
+        /// <summary>
+        /// lattitude coordinate of current customer location
+        /// </summary>
         public double Longitude { get; set; }
+        /// <summary>
+        /// longtitude coordinate of current customer location
+        /// </summary>
         public double Lattitude { get; set; }
 
         public override string ToString()
