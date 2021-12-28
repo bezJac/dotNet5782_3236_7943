@@ -458,8 +458,9 @@ namespace PL
             if (CustomerListView.SelectedItem != null)
             {
                 CustomerInList cs = CustomerListView.SelectedItem as CustomerInList;
-                new CustomerWindow(theBL, theBL.GetCustomer(cs.Id)).ShowDialog();
-                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+                CustomerWindow win= new CustomerWindow(theBL, theBL.GetCustomer(cs.Id));
+                win.UpdateButton.Click += WindowSonButton_Click;
+                win.Show();           
             }
         }
         #endregion
@@ -473,8 +474,9 @@ namespace PL
             if (StationListView.SelectedItem != null)
             {
                 BaseStationInList st = StationListView.SelectedItem as BaseStationInList;
-                new StationWindow(theBL, theBL.GetBaseStation(st.Id)).ShowDialog();
-                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+                StationWindow win= new StationWindow(theBL, theBL.GetBaseStation(st.Id));
+                win.UpdateButton.Click += WindowSonButton_Click;
+                win.Show();
             }
         }
         /// <summary>

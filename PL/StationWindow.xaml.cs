@@ -116,13 +116,23 @@ namespace PL
             if(DroneChargeListView.SelectedItem!=null)
             {
                 DroneCharge dc = DroneChargeListView.SelectedItem as DroneCharge;
-            
-                new DroneWindow(theBL, theBL.GetDrone(dc.Id)).ShowDialog();
-                newStation = theBL.GetBaseStation((int)newStation.Id);
-                DroneChargeListView.ItemsSource = newStation.DronesCharging;
-                
+                DroneWindow droneWindow= new DroneWindow(theBL, theBL.GetDrone(dc.Id));
+                droneWindow.Show();
+                droneWindow.ChargeButton.Click += WindowSonButton_Click;
+                droneWindow.DischargeButton.Click += WindowSonButton_Click;
+                droneWindow.DeliverButton.Click += WindowSonButton_Click;
+                droneWindow.PickUpButton.Click += WindowSonButton_Click;
+                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
+                droneWindow.UpdateButton.Click += WindowSonButton_Click;                 
             }
         }
+
+        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
+        {
+            newStation = theBL.GetBaseStation((int)newStation.Id);
+            DroneChargeListView.ItemsSource = newStation.DronesCharging;
+        }
+
         /// <summary>
         /// update either name and/or number of charging slots of base station
         /// </summary>

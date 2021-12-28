@@ -151,16 +151,14 @@ namespace PL
             if (fullDroneButton.Name == b.Name)
             {
                 DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(newParcel.Drone.Id));
-                droneWindow.Show();
-                droneWindow.ChargeButton.Click += DummyButton_Click;
-                droneWindow.DischargeButton.Click += DummyButton_Click;
-                droneWindow.DeliverButton.Click += DummyButton_Click;
-                droneWindow.PickUpButton.Click += DummyButton_Click;
-                droneWindow.ScheduleButton.Click += DummyButton_Click;
-                droneWindow.UpdateButton.Click += DummyButton_Click;
-                newParcel = theBL.GetParcel(newParcel.Id);
-                actionParcel.DataContext = newParcel;
-                details.DataContext = newParcel;
+                droneWindow.Show();               
+                droneWindow.ChargeButton.Click += WindowSonButton_Click;
+                droneWindow.DischargeButton.Click += WindowSonButton_Click;
+                droneWindow.DeliverButton.Click += WindowSonButton_Click;
+                droneWindow.PickUpButton.Click += WindowSonButton_Click;
+                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
+                droneWindow.UpdateButton.Click += WindowSonButton_Click;
+                
                 //return;
             }
             if (fullSenderButton.Name == b.Name)
@@ -173,6 +171,13 @@ namespace PL
                 new CustomerWindow(theBL, theBL.GetCustomer(newParcel.Sender.Id)).Show();
                 // return;
             }
+        }
+
+        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
+        {
+            newParcel = theBL.GetParcel(newParcel.Id);
+            actionParcel.DataContext = newParcel;
+            details.DataContext = newParcel;
         }
 
         private void DroneWindowSonButton_Click(object sender, RoutedEventArgs e)

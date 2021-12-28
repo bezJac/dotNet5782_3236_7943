@@ -38,7 +38,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel x:Name="parcelDetails" HorizontalAlignment="Center" Grid.Column="0" >
-                    <Label Content="Drone Details:"   FontSize="16" FontWeight="Medium" 
+                    <Label Content="Parcel Details:"   FontSize="16" FontWeight="Medium" 
                                Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" >
                         <Label Content="ID:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -60,7 +60,7 @@
                                  Text="{Binding Ordered.Date, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
                                  VerticalAlignment="Center" IsReadOnly="True"/>
                             <TextBox x:Name="orderedTime"  HorizontalAlignment="Left" Margin="3"  
-                                 Text="{Binding Ordered.TimeOfDay, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
+                                 Text="{Binding Ordered, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,StringFormat=t}" 
                                  VerticalAlignment="Center" IsReadOnly="True" />
 
                         </StackPanel>
@@ -72,10 +72,10 @@
                         <Label Content="Linked:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
                         <StackPanel>
                             <TextBox x:Name="linkedDate"  HorizontalAlignment="Left" Margin="3"  
-                                 Text="{Binding Linked.Date, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
+                                 Text="{Binding Linked, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
                                  VerticalAlignment="Center" IsReadOnly="True"/>
                             <TextBox x:Name="LinkedTime"  HorizontalAlignment="Left" Margin="3"  
-                                 Text="{Binding Linked.TimeOfDay, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
+                                 Text="{Binding Linked, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=t}" 
                                  VerticalAlignment="Center" IsReadOnly="True"/>
                         </StackPanel>
                     </StackPanel>
@@ -85,11 +85,11 @@
                         <Label Content="Picked Up:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
                         <StackPanel>
                             <TextBox x:Name="pickedUpDate"  HorizontalAlignment="Left" Margin="3"  
-                                 Text="{Binding PickedUp.Date, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
+                                 Text="{Binding PickedUp, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
                                  VerticalAlignment="Center" IsReadOnly="True"/>
 
                             <TextBox x:Name="pickedUpTime"  HorizontalAlignment="Left" Margin="3"  
-                                 Text="{Binding PickedUp.TimeOfDay, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
+                                 Text="{Binding PickedUp, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=t}" 
                                  VerticalAlignment="Center" IsReadOnly="True" />
                         </StackPanel>
                     </StackPanel>
@@ -97,10 +97,10 @@
                         <Label Content="Delivery:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
                         <StackPanel>
                             <TextBox x:Name="deliveredDate"  HorizontalAlignment="Left" Margin="3"
-                                 Text="{Binding Delivered.Date, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
+                                 Text="{Binding Delivered, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
                                  VerticalAlignment="Center" IsReadOnly="True"/>
                             <TextBox x:Name="deliveredTime"  HorizontalAlignment="Left" Margin="3" 
-                                 Text="{Binding Delivered.TimeOfDay, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
+                                 Text="{Binding Delivered, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=t}" 
                                  VerticalAlignment="Center" IsReadOnly="True" />
                         </StackPanel>
                     </StackPanel>
