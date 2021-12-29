@@ -86,7 +86,7 @@ namespace Dal
         {
         }
 
-        public NonExistsException(string message) : base(info + message)
+        public NonExistsException(string message) : base(message)
         {
         }
 

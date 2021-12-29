@@ -607,7 +607,7 @@ namespace PL
         {
             refreshDroneListViewContent();
             ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-            CustomerListView.ItemsSource = theBL.GetAllParcelsInList();
+            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
             StationListView.ItemsSource = theBL.GetALLBaseStationInList();
         }
 
