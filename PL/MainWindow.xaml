@@ -19,7 +19,7 @@
     
            
                 <Label Content="Enter ID: " HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,60,0,0" />
-                <TextBox x:Name="IdCustomerTxt" Height="20" Width="120" Text="{Binding Id, Mode=TwoWay}" MaxLength="8"/>
+                <TextBox x:Name="IdCustomerTxt" Height="20" Width="120" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=False}"  MaxLength="8"/>
            
             <Button x:Name="SignIn" Content="Sign in" Click="signInButton_Click" Visibility="Visible" Margin="15"/>
             <Label Content="New customer?" HorizontalAlignment="Center" Margin="0,45,0,0" FontWeight="Bold" FontSize="20"/>
@@ -33,6 +33,8 @@
 
         <StackPanel Grid.Column="1">
             <Label Content="Manager Access" HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,120,0,0" />
+            <TextBox x:Name="userName"  Width="140" Cursor="AppStarting" materialDesign:HintAssist.Hint="UserName"   />
+            <PasswordBox x:Name="adminPassword" Width="140" Margin="0,15,0,0" materialDesign:HintAssist.Hint="Password" />
             <Button Content="Enter"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Grid.Column="1" Background="#FF669966" 
                 MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="200" Click="managerWindowButton_Click" 
                 FontFamily="Comic Sans MS" HorizontalContentAlignment="center" Margin="0,20,0,0"

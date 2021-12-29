@@ -40,7 +40,12 @@ namespace PL
         /// </summary>
         private void managerWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            new ManagerWindow(myBL).ShowDialog();
+            if (userName.Text == "admin" && adminPassword.Password == "admin123")
+                new ManagerWindow(myBL).ShowDialog();
+            else
+                MessageBox.Show("username or password are incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            userName.Text = null;
+            adminPassword.Password = null;
         }
 
         /// <summary>
@@ -74,5 +79,7 @@ namespace PL
         {
              new LoginWindow(myBL).Show();
         }
+
+      
     }
 }

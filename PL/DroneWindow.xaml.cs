@@ -113,6 +113,8 @@ namespace PL
                 // add drone to list
                 BaseStationInList station = stationsList.SelectedItem as BaseStationInList;
                 theBL.AddDrone(newDrone,station.Id);
+                Closing += CloseWindowButton_Click;
+                Close();
             }
             catch (Exception ex) // add drone faild allow user to fix input
             {

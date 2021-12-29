@@ -107,6 +107,7 @@ namespace PL
             {
                 TargetComboBox.BorderThickness = new Thickness();
                 MessageBox.Show("Parcel was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                Closing += CloseWindowButton_Click;
                 Close();
             }
 
