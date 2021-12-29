@@ -28,9 +28,10 @@ namespace PL
         public MainWindow()
         {
             myBL = BlApi.BlFactory.GetBL();
-            newCustomer = new();
+            newCustomer = new Customer() { Id = null };
             InitializeComponent();
             IdCustomerTxt.DataContext = newCustomer;
+            
             //this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
 
         }
@@ -40,8 +41,8 @@ namespace PL
         /// </summary>
         private void managerWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            if (userName.Text == "admin" && adminPassword.Password == "admin123")
-                new ManagerWindow(myBL).ShowDialog();
+            if (userName.Text == "admin" && adminPassword.Password == "123")
+                new ManagerWindow(myBL).Show();
             else
                 MessageBox.Show("username or password are incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             userName.Text = null;
@@ -80,6 +81,11 @@ namespace PL
              new LoginWindow(myBL).Show();
         }
 
-      
+        private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            App.Current.Shutdown();
+        }
+
+       
     }
 }

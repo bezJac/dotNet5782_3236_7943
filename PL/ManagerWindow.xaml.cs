@@ -120,14 +120,6 @@ namespace PL
                 Drone drone = theBL.GetDrone(dr.Id);
                 DroneWindow droneWindow = new DroneWindow(theBL, drone);
                 droneWindow.Show();
-                droneWindow.ChargeButton.Click += WindowSonButton_Click;
-                droneWindow.DischargeButton.Click += WindowSonButton_Click;
-                droneWindow.DeliverButton.Click += WindowSonButton_Click;
-                droneWindow.PickUpButton.Click += WindowSonButton_Click;
-                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
-                droneWindow.UpdateButton.Click += WindowSonButton_Click;
-
-
             }
 
         }
@@ -144,7 +136,7 @@ namespace PL
         /// <summary>
         /// refresh content of drone list view by current selections in ComboBoxes
         /// </summary>
-        private void refreshListContent()
+        private void refreshDroneListViewContent()
         {
             try
             {
@@ -366,9 +358,6 @@ namespace PL
                 Parcel parcel = theBL.GetParcel(prc.Id);
                 ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
                 parcelWindow.Show();
-                parcelWindow.DummyButton.Click += WindowSonButton_Click;
-                parcelWindow.removeParcelButton.Click += WindowSonButton_Click;
-                ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
 
             }
 
@@ -459,7 +448,6 @@ namespace PL
             {
                 CustomerInList cs = CustomerListView.SelectedItem as CustomerInList;
                 CustomerWindow win= new CustomerWindow(theBL, theBL.GetCustomer(cs.Id));
-                win.UpdateButton.Click += WindowSonButton_Click;
                 win.Show();           
             }
         }
@@ -475,7 +463,6 @@ namespace PL
             {
                 BaseStationInList st = StationListView.SelectedItem as BaseStationInList;
                 StationWindow win= new StationWindow(theBL, theBL.GetBaseStation(st.Id));
-                win.UpdateButton.Click += WindowSonButton_Click;
                 win.Show();
             }
         }
@@ -535,7 +522,6 @@ namespace PL
                 case "addDroneButton":
                     {
                         DroneWindow win = new DroneWindow(theBL);
-                        win.addButton.Click += WindowSonButton_Click;
                         win.Show();
                         break;
                         // refresh list view content in current window 
@@ -543,21 +529,18 @@ namespace PL
                 case "addParcelButton":
                     {
                         ParcelWindow win = new ParcelWindow(theBL);
-                        win.addButton.Click += WindowSonButton_Click;
                         win.Show();
                          break;
                     }
                 case "addStationButton":
                     {
                         StationWindow win = new StationWindow(theBL);
-                        win.addButton.Click += WindowSonButton_Click;
                         win.Show();
                         break;
                     }
                 case "addCustomerButton":
                     {
                         CustomerWindow customerWindow = new CustomerWindow(theBL);
-                        customerWindow.addButton.Click += WindowSonButton_Click;
                         customerWindow.Show();
                        
                         break;
@@ -577,46 +560,40 @@ namespace PL
         /// <summary>
         /// current window reaction method (updates list views) to updates in son windows affecting lists
         /// </summary>
-        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
-        {
-            refreshListContent();
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-            CustomerListView.ItemsSource = theBL.GetAllParcelsInList();
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-        }
+        
         /// <summary>
         /// refresh list view content on tab selection
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Tab_Selected(object sender, RoutedEventArgs e)
-        {
-            TabItem tab = sender as TabItem;
-            switch (tab.Header)
-            {
-                case "Drones":
-                    {
-                        refreshListContent();
-                        break;
-                    }
-                case "Customers":
-                    {
-                        CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-                        break;
-                    }
-                case "Parcels":
-                    {
-                        ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-                        break;
-                    }
-                case "Stations":
-                    {
-                        StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-                        break;
-                    }
-            }
+        //private void Tab_Selected(object sender, RoutedEventArgs e)
+        //{
+        //    TabItem tab = sender as TabItem;
+        //    switch (tab.Header)
+        //    {
+        //        case "Drones":
+        //            {
+        //                refreshDroneListViewContent();
+        //                break;
+        //            }
+        //        case "Customers":
+        //            {
+        //                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+        //                break;
+        //            }
+        //        case "Parcels":
+        //            {
+        //                ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+        //                break;
+        //            }
+        //        case "Stations":
+        //            {
+        //                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+        //                break;
+        //            }
+        //    }
 
-        }
+        //}
 
         #endregion
 
@@ -625,5 +602,15 @@ namespace PL
             Closing += CloseWindowButton_Click;
             Close();
         }
+
+        private void refreshWindow(object sender, EventArgs e)
+        {
+            refreshDroneListViewContent();
+            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+            CustomerListView.ItemsSource = theBL.GetAllParcelsInList();
+            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+        }
+
+        
     }
 }

@@ -119,12 +119,6 @@ namespace PL
                 DroneCharge dc = DroneChargeListView.SelectedItem as DroneCharge;
                 DroneWindow droneWindow= new DroneWindow(theBL, theBL.GetDrone(dc.Id));
                 droneWindow.Show();
-                droneWindow.ChargeButton.Click += WindowSonButton_Click;
-                droneWindow.DischargeButton.Click += WindowSonButton_Click;
-                droneWindow.DeliverButton.Click += WindowSonButton_Click;
-                droneWindow.PickUpButton.Click += WindowSonButton_Click;
-                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
-                droneWindow.UpdateButton.Click += WindowSonButton_Click;                 
             }
         }
 
@@ -193,6 +187,15 @@ namespace PL
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
-        }   
+        }
+
+        private void refresh(object sender, EventArgs e)
+        {
+            if(actionStationGrid.Visibility==Visibility.Visible)
+            {
+                newStation = theBL.GetBaseStation((int)newStation.Id);
+                DroneChargeListView.ItemsSource = newStation.DronesCharging;
+            }
+        }
     }
 }

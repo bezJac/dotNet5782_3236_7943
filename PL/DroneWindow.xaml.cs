@@ -31,7 +31,6 @@ namespace PL
         /// </summary>
         private Drone newDrone;
         
-
         /// <summary>
         /// cunstructor for Add Drone view of window 
         /// </summary>
@@ -380,6 +379,15 @@ namespace PL
             }
         }
 
-      
+        private void refreshWindow(object sender, EventArgs e)
+        {
+            if (actionDrone.Visibility == Visibility.Visible)
+            {
+                newDrone = theBL.GetDrone((int)newDrone.Id);
+                actionDrone.DataContext = newDrone;
+                DroneShow.DataContext = newDrone;
+                Buttons.DataContext = newDrone;
+            }
+        }
     }
 }

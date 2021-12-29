@@ -77,7 +77,7 @@ namespace PL
                         break;
                     }
             }
-            refreshSingleCustomerWindow();
+           
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace PL
                 prc = ParcelsToListView.SelectedItem as ParcelAtCustomer;
             if (prc != null)
             {
-                new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).ShowDialog();
-                refreshSingleCustomerWindow();
+                new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
+                
             }
         }
 
@@ -131,16 +131,7 @@ namespace PL
             return;
         }
 
-        /// <summary>
-        /// refresh content of window
-        /// </summary>
-        private void refreshSingleCustomerWindow()
-        {
-            newCustomer = theBL.GetCustomer((int)newCustomer.Id);
-            DataContext = newCustomer;
-            ParcelsFromListView.ItemsSource = newCustomer.From;
-            ParcelsToListView.ItemsSource = newCustomer.To;
-        }
+       
 
         /// <summary>
         /// add customer inputed by user  to list 
@@ -193,6 +184,17 @@ namespace PL
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
+        }
+
+        private void refreshWindow(object sender, EventArgs e)
+        {
+            if (actionCustomerGrid.Visibility == Visibility.Visible)
+            {
+                newCustomer = theBL.GetCustomer((int)newCustomer.Id);
+                DataContext = newCustomer;
+                ParcelsFromListView.ItemsSource = newCustomer.From;
+                ParcelsToListView.ItemsSource = newCustomer.To;
+            }
         }
     }
 }

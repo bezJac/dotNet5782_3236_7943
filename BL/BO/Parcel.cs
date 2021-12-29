@@ -22,11 +22,11 @@ namespace BO
         /// <summary>
         /// weight category of parcel
         /// </summary>
-        public WeightCategories Weight { get; set; }
+        public WeightCategories? Weight { get; set; }
         /// <summary>
         /// priority of delivery
         /// </summary>
-        public Priority Priority { get; set; }
+        public Priority? Priority { get; set; }
         /// <summary>
         /// details of drone executing the delivery
         /// </summary>

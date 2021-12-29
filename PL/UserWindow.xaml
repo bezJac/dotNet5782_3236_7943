@@ -16,7 +16,7 @@
         <Setter Property="IsHitTestVisible" Value="False"/>
     </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Background="#FFD5DCD0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition  Width="2*"/>
             <ColumnDefinition  Width="1*"/>

@@ -8,7 +8,7 @@
         mc:Ignorable="d"
        WindowStyle="SingleBorderWindow" 
         Closing="MyWindow_Closing"
-        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico">
+        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico" Activated="refreshWindow">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -23,7 +23,7 @@
     </Window.Resources>
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
-        <TabItem  x:Name="Drones" Header="Drones" Width="75" Selector.Selected="Tab_Selected" >
+        <TabItem  x:Name="Drones" Header="Drones" Width="75"  >
             <Grid x:Name="MainGrid"  Background="#FFD5DCD0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100*"/>
@@ -77,12 +77,12 @@
                 </Grid>
 
 
-                <ListView x:Name="DroneListView" Grid.Row="1"   MouseDoubleClick="DroneList_MouseDoubleClick" >
+                <ListView x:Name="DroneListView" Grid.Row="1"   MouseDoubleClick="DroneList_MouseDoubleClick"  >
 
-                    <ListView.View>
+                    <ListView.View >
 
                         <GridView>
-                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Id}"/>
+                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Id}" />
                             <GridViewColumn Header="Model" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Model}"/>
                             <GridViewColumn Header="Max Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding MaxWeight}"/>
                             <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Status}"/>
@@ -106,7 +106,7 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Parcels tab-->
-        <TabItem x:Name="Parcels" Header="Parcels" Selector.Selected="Tab_Selected"  Width="75">
+        <TabItem x:Name="Parcels" Header="Parcels"   Width="75">
             <Grid x:Name="ParcelMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
@@ -214,7 +214,7 @@
         </TabItem>
         <!--#endregion-->
         <!--#region  Customers Tab-->
-        <TabItem x:Name="Customers" Header="Customers" Selector.Selected="Tab_Selected" Width="75">
+        <TabItem x:Name="Customers" Header="Customers"  Width="75">
             <Grid x:Name="CustomerMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
@@ -265,7 +265,7 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Stations Tab-->
-        <TabItem x:Name="Stations" Header="Stations" Selector.Selected="Tab_Selected" Width="75">
+        <TabItem x:Name="Stations" Header="Stations"  Width="75">
             <Grid x:Name="stationsMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>

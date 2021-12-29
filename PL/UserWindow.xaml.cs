@@ -63,7 +63,7 @@ namespace PL
             theBL.AddParcel(prc);
             TargetComboBox.SelectedItem = null;
             parcelWeightComboBox.SelectedItem = null;
-            priorityComboBox.SelectedItem=null;
+            priorityComboBox.SelectedItem= null;
             MessageBox.Show("Your order was placed successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
             user = theBL.GetCustomer((int)user.Id);
             DataContext = user;

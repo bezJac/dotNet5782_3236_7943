@@ -7,57 +7,57 @@
         mc:Ignorable="d"
         Title="Login" Height="450" Width="800" Icon="\images\Icon_drone.ico">
     <Grid>
-      
-            <Grid x:Name="addCustomerGrid" Visibility="Visible" Background="#FFD5DCD0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
 
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="Enter a 8 digit ID number:"  FontSize="15" FontFamily="Comic Sans MS"
+        <Grid x:Name="addCustomerGrid" Visibility="Visible" Background="#FFD5DCD0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Enter a 8 digit ID number:"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
-                <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
-                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
+            <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="3" Grid.Row="1"
+                     Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=False, ValidatesOnExceptions=False}"
                     MaxLength="8" VerticalAlignment="Center" Width="120" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
-                <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Right"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Right"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"   Grid.Row="4" VerticalAlignment="Center" />
-                <TextBox x:Name="lattitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" 
+            <TextBox x:Name="lattitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" 
                      Text="{Binding CustomerLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120"  />
-                <Label Content="Longtitude:"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Longtitude:"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right"  Grid.Row="5" VerticalAlignment="Center"/>
-                <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="5"
+            <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="5"
                      Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120"  />
-                <Label Content=" Enter a Name:" Grid.Column="0"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content=" Enter a Name:" Grid.Column="0"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  HorizontalAlignment="Right"  Grid.Row="2" VerticalAlignment="Center"/>
-                <TextBox x:Name="nameAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Enter a phone number"  FontSize="15" FontFamily="Comic Sans MS"
+            <TextBox x:Name="nameAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Enter a phone number"  FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center"/>
-                <TextBox x:Name="PhoneAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" 
+            <TextBox x:Name="PhoneAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" 
                      Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120" Margin="3" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
 
             <Button x:Name="addButton"  Content="Create&#x0a;Account" Grid.Column="2" Grid.Row="2" Visibility="Visible"
                      Style="{StaticResource ButtonStyle}" Height="45" FontSize="14"
-                    Click="AddCustomerButton_Click"/>
-                <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="4" Visibility="Visible"
+                    Click="AddCustomerButton_Click" Margin="0,1,0,0" VerticalAlignment="Top"/>
+            <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="4" Visibility="Visible"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
                     Click="CancelCustomerButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
-                <TextBlock x:Name="LocationMessage" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"   FontSize="15" FontFamily="Comic Sans MS"
+            <TextBlock x:Name="LocationMessage" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"   FontSize="15" FontFamily="Comic Sans MS"
                     FontWeight="Bold" />
-            </Grid>
         </Grid>
- 
+    </Grid>
+
 </Window>

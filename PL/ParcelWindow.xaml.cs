@@ -64,7 +64,10 @@ namespace PL
             details.DataContext = newParcel;
             Detailsstk.DataContext = newParcel;
         }
-
+       
+        /// <summary>
+        /// exit window
+        /// </summary>
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
@@ -79,9 +82,7 @@ namespace PL
             Closing += CloseWindowButton_Click;
             Close();
         }
-        /// <summary>
-        /// exit window
-        /// </summary>
+        
        
         /// <summary>
         /// add parcel with details from user input to the database
@@ -153,12 +154,7 @@ namespace PL
             {
                 DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(newParcel.Drone.Id));
                 droneWindow.Show();               
-                droneWindow.ChargeButton.Click += WindowSonButton_Click;
-                droneWindow.DischargeButton.Click += WindowSonButton_Click;
-                droneWindow.DeliverButton.Click += WindowSonButton_Click;
-                droneWindow.PickUpButton.Click += WindowSonButton_Click;
-                droneWindow.ScheduleButton.Click += WindowSonButton_Click;
-                droneWindow.UpdateButton.Click += WindowSonButton_Click;
+               
                 
                 //return;
             }
@@ -173,22 +169,19 @@ namespace PL
                 // return;
             }
         }
-
-        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
+        private void refresh(object sender, EventArgs e)
         {
-            newParcel = theBL.GetParcel(newParcel.Id);
-            actionParcel.DataContext = newParcel;
-            details.DataContext = newParcel;
+            if (actionParcel.Visibility == Visibility.Visible)
+            {
+                newParcel = theBL.GetParcel(newParcel.Id);
+                details.DataContext = newParcel;
+                Detailsstk.DataContext = newParcel;
+            }
         }
 
-        private void DroneWindowSonButton_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
 
-        private void DummyButton_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+
     }
 }

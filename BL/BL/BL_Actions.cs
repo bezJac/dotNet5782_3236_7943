@@ -183,7 +183,7 @@ namespace BL
             // deduct battery use of  flight from current drone location to target location  from drone's battery
             // set location to target's location , and mark drone  as available
             int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
-            drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone(prc.Weight));
+            drones[index].Battery = drones[index].Battery-(int)(Distance.GetDistance(dr.Location, dr.Parcel.TargetLocation) * getElectricUseForDrone((WeightCategories)(prc.Weight)));
             drones[index].DroneLocation = dr.Parcel.TargetLocation;
             drones[index].Status = DroneStatus.Available;
             drones[index].ParcelId = null;
