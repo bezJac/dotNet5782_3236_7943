@@ -40,10 +40,13 @@ namespace Dal
         {
             IEnumerable<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);
             BaseStation? temp = null;
-            temp = (from st in stations
-                    where st.Id == id
-                    select st).FirstOrDefault();
-            if (temp == null)
+            try
+            {
+                temp = (from st in stations
+                        where st.Id == id
+                        select st).First();
+            }
+            catch (Exception)
             {
                 throw new NonExistsException($"id number {id} not found");
             }

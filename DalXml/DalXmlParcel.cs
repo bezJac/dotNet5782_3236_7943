@@ -40,13 +40,17 @@ namespace Dal
         {
             IEnumerable<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
             Parcel? temp = null;
-            temp = (from prc in parcels
-                    where prc.Id == id
-                    select prc).FirstOrDefault();
-            if (temp == null)
+            try
             {
-                throw new NonExistsException($"id number {id} not found");
+                temp = (from prc in parcels
+                        where prc.Id == id
+                        select prc).First();
             }
+            catch 
+            {
+                throw new NonExistsException($"ID number {id} not found");
+            }
+          
             return (Parcel)temp;
         }
         public IEnumerable<Parcel> GetAllParcels(Func<Parcel, bool> predicate = null)

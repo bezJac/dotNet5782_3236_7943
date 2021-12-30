@@ -36,14 +36,17 @@ namespace Dal
         }
         public Customer GetCustomer(int id)
         {
-            IEnumerable<Customer> parcels = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            IEnumerable<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             Customer? temp = null;
-            temp = (from cs in parcels
-                    where cs.Id == id
-                    select cs).FirstOrDefault();
-            if (temp == null)
+            try
             {
-                throw new NonExistsException($"id number {id} not found");
+                temp = (from cs in customers
+                        where cs.Id == id
+                        select cs).First();
+            }
+            catch 
+            {
+                throw new NonExistsException($"ID number {id} not found");
             }
             return (Customer)temp;
         }
