@@ -40,17 +40,14 @@ namespace Dal
         {
             IEnumerable<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
             Parcel? temp = null;
-            try
-            {
-                temp = (from prc in parcels
-                        where prc.Id == id
-                        select prc).First();
-            }
-            catch 
-            {
+
+            temp = (from prc in parcels
+                    where prc.Id == id
+                    select prc).FirstOrDefault();
+
+            if (temp.Value.Id == 0)
                 throw new NonExistsException($"ID number {id} not found");
-            }
-          
+
             return (Parcel)temp;
         }
         public IEnumerable<Parcel> GetAllParcels(Func<Parcel, bool> predicate = null)
@@ -73,11 +70,11 @@ namespace Dal
             XElement config = XElement.Load(@"..\xml\config.xml");
             int runId = Convert.ToInt32(config.Element("runId").Value);
             XElement configElement = (from dr in config.Elements()
-                                     where dr.Name== "runId"
+                                      where dr.Name == "runId"
                                       select dr).FirstOrDefault();
             configElement.Value = (runId + 1).ToString();
             config.Save(@"..\xml\config.xml");
-            return runId+1;
+            return runId + 1;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Dal
             if (customers.Any(customer => (customer.Id == person.Id)))
                 throw new ExsistException($"id number {person.Id} already exists");
             customers.Add(person);
-            XMLTools.SaveListToXMLSerializer<Customer>(customers,customerPath);
+            XMLTools.SaveListToXMLSerializer<Customer>(customers, customerPath);
         }
         public void UpdateCustomer(Customer person)
         {
@@ -38,16 +38,14 @@ namespace Dal
         {
             IEnumerable<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             Customer? temp = null;
-            try
-            {
-                temp = (from cs in customers
-                        where cs.Id == id
-                        select cs).First();
-            }
-            catch 
-            {
+
+            temp = (from cs in customers
+                    where cs.Id == id
+                    select cs).FirstOrDefault();
+
+            if (temp.Value.Id == 0)
                 throw new NonExistsException($"ID number {id} not found");
-            }
+
             return (Customer)temp;
         }
         public IEnumerable<Customer> GetAllCustomers(Func<Customer, bool> predicate = null)

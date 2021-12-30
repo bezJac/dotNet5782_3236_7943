@@ -47,22 +47,19 @@ namespace Dal
         {
             LoadData();
 
-            Drone? temp = null;       
-            try
-            {
-                temp = (from dr in dronesRoot.Elements()
-                         where Convert.ToInt32(dr.Element("ID").Value) == id
-                         select new Drone()
-                         {
-                             Id = Convert.ToInt32(dr.Element("id").Value),
-                             Model = dr.Element("Model").Value,
-                             MaxWeight = (WeightCategories)(GetWeightCategories(dr.Element("MaxWeight").Value))
-                         }).First();
-            }
-            catch
-            {
+            Drone? temp = new Drone();
+
+            temp = (from dr in dronesRoot.Elements()
+                    where Convert.ToInt32(dr.Element("ID").Value) == id
+                    select new Drone()
+                    {
+                        Id = Convert.ToInt32(dr.Element("ID").Value),
+                        Model = dr.Element("Model").Value,
+                        MaxWeight = (WeightCategories)(GetWeightCategories(dr.Element("MaxWeight").Value))
+                    }).FirstOrDefault();
+            if (temp.Value.Id == 0)
                 throw new NonExistsException($"ID number {id} not found");
-            }
+
             return (Drone)temp;
         }
 
@@ -104,12 +101,12 @@ namespace Dal
             LoadData();
             IEnumerable<Drone> drones;
             drones = from dr in dronesRoot.Elements()
-                      select new Drone()
-                      {
-                          Id = Convert.ToInt32(dr.Element("ID").Value),
-                          Model = dr.Element("Model").Value,
-                          MaxWeight =(WeightCategories)GetWeightCategories((dr.Element("MaxWeight").Value).ToString())
-                      };
+                     select new Drone()
+                     {
+                         Id = Convert.ToInt32(dr.Element("ID").Value),
+                         Model = dr.Element("Model").Value,
+                         MaxWeight = (WeightCategories)GetWeightCategories((dr.Element("MaxWeight").Value).ToString())
+                     };
             if (predicate == null)
             {
                 if (!drones.Any())
@@ -124,7 +121,7 @@ namespace Dal
         }
         private WeightCategories? GetWeightCategories(string val)
         {
-            switch(val)
+            switch (val)
             {
                 case "LIGHT":
                     return WeightCategories.LIGHT;
