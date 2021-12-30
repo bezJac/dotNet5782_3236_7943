@@ -26,6 +26,7 @@ namespace Dal
         private DalObject()
         {
             DataSource.Initialize();
+         
         }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace Dal
             DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneHourlyChargeRate };
             return electric;
         }
+        
     }
 }
 
