@@ -39,7 +39,7 @@ namespace BL
             drones[index].Status = DroneStatus.Maintenance;
 
             // update base station in DAL , add a new drone charge entity to list
-            myDal.AddDroneCharge(new DO.DroneCharge { DroneId = id, StationId = st.Id,EntranceTime=DateTime.Now });
+            myDal.AddDroneCharge(new DO.DroneCharge { DroneId = id, StationId = st.Id,EntranceTime=DateTime.Now,BatteryAtEntrance= drones[index].Battery });
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
@@ -61,7 +61,7 @@ namespace BL
             TimeSpan duration = DateTime.Now.Subtract((DateTime)tempCharge.EntranceTime);
             double time = duration.Hours + (double)duration.Minutes / 60 + (double)duration.Seconds / 3600;
             // update drone 
-            drones[index].Battery = Math.Min(drones[index].Battery + (int)(droneHourlyChargeRate * time), 100);
+            drones[index].Battery = Math.Min(tempCharge.BatteryAtEntrance + (int)(droneHourlyChargeRate * time), 100);
             drones[index].Status = DroneStatus.Available;
 
             // update base station available charging slots in DAL , remove drone charge entity from list
@@ -200,7 +200,7 @@ namespace BL
                 Scheduled = prc.Linked,
                 PickedUp = prc.PickedUp,
                 Delivered = DateTime.Now,
-                DroneId = (int)dr.Id,
+                DroneId = 0,
             });
         }
     }

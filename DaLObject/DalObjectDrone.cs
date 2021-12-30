@@ -55,7 +55,7 @@ namespace Dal
             {
                 if (DataSource.Drones.Count <= 0)
                     throw new EmptyListException("no drones in list");
-                return DataSource.Drones.ToList();
+                return DataSource.Drones;
             }
             IEnumerable<Drone> tmp = DataSource.Drones.Where(predicate);
             if (tmp.Any())

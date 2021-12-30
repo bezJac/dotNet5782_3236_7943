@@ -262,10 +262,15 @@ namespace BlApi
         /// <param name="id"> base station's id</param>
         void RemoveBaseStation(int id);
         /// <summary>
-        /// remove a customer from dataBase by id
+        /// remove a customer from database by id
         /// </summary>
         /// <param name="id"> customer's id</param>
         void removeCustomer(int id);
+        /// <summary>
+        /// remove a drone charge from database by id
+        /// </summary>
+        /// <param name="id"> charging drone's id </param>
+        void RemoveDroneCharge(int id);
         #endregion
 
     }

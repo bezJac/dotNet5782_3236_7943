@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>82281814</Id>
+    <Name>Sadiyah Frazier</Name>
+    <Phone>0548980162</Phone>
+    <Longitude>35.17183547118651</Longitude>
+    <Lattitude>31.76010458735114</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>33630677</Id>
+    <Name>Kathryn Joseph</Name>
+    <Phone>0548120607</Phone>
+    <Longitude>35.23009927060373</Longitude>
+    <Lattitude>31.81262202251814</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>14740249</Id>
+    <Name>Ieuan Patterson</Name>
+    <Phone>0509243891</Phone>
+    <Longitude>35.2171112986503</Longitude>
+    <Lattitude>31.80828968961037</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>44213326</Id>
+    <Name>Julia Savage</Name>
+    <Phone>0546012387</Phone>
+    <Longitude>35.21346981118673</Longitude>
+    <Lattitude>31.764645582668795</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>60536167</Id>
+    <Name>Deon Houst</Name>
+    <Phone>0562221387</Phone>
+    <Longitude>35.18810078185715</Longitude>
+    <Lattitude>31.763200744691808</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>61597030</Id>
+    <Name>Vicky Haney</Name>
+    <Phone>0549615155</Phone>
+    <Longitude>35.190407057250745</Longitude>
+    <Lattitude>31.774655626139023</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>42816708</Id>
+    <Name>Jia Parrish</Name>
+    <Phone>0527656471</Phone>
+    <Longitude>35.21346981118673</Longitude>
+    <Lattitude>31.779092721598428</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>25939412</Id>
+    <Name>Aleeza Savage</Name>
+    <Phone>0503669815</Phone>
+    <Longitude>35.19259194972889</Longitude>
+    <Lattitude>31.784870945390598</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>95213632</Id>
+    <Name>Sadiyah Harris</Name>
+    <Phone>0551065371</Phone>
+    <Longitude>35.242480327979884</Longitude>
+    <Lattitude>31.812003130257516</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>36161412</Id>
+    <Name>Anwen Melton</Name>
+    <Phone>0526925930</Phone>
+    <Longitude>35.20363779503508</Longitude>
+    <Lattitude>31.812415725558708</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>67228108</Id>
+    <Name>Maria Kelly</Name>
+    <Phone>0525811633</Phone>
+    <Longitude>35.225729484788474</Longitude>
+    <Lattitude>31.80096552144744</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>76270368</Id>
+    <Name>Cavan Hubbard</Name>
+    <Phone>0533820459</Phone>
+    <Longitude>35.19162088554631</Longitude>
+    <Lattitude>31.792093216890663</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>25473770</Id>
+    <Name>Stanley Preston</Name>
+    <Phone>0554838937</Phone>
+    <Longitude>35.2246370385494</Longitude>
+    <Lattitude>31.790132941712947</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>52456568</Id>
+    <Name>Aleeza Gibson</Name>
+    <Phone>0527649950</Phone>
+    <Longitude>35.18045365666398</Longitude>
+    <Lattitude>31.782497789074736</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>18976567</Id>
+    <Name>Gavin Farrell</Name>
+    <Phone>0526491024</Phone>
+    <Longitude>35.22403012331144</Longitude>
+    <Lattitude>31.782910516122005</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>32840796</Id>
+    <Name>Jia Carpent</Name>
+    <Phone>0568605245</Phone>
+    <Longitude>35.18761524867568</Longitude>
+    <Lattitude>31.767741587132058</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>26438592</Id>
+    <Name>Ieuan Underwood</Name>
+    <Phone>0573892345</Phone>
+    <Longitude>35.21431949007523</Longitude>
+    <Lattitude>31.765161589813747</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>60372251</Id>
+    <Name>Louise Frye</Name>
+    <Phone>0551029435</Phone>
+    <Longitude>35.18312408080393</Longitude>
+    <Lattitude>31.755253731649855</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>24117464</Id>
+    <Name>Vicky Farley</Name>
+    <Phone>0552122438</Phone>
+    <Longitude>35.21711129713064</Longitude>
+    <Lattitude>31.752673386189688</Lattitude>
+  </Customer>
+  <Customer>
+    <Id>47373757</Id>
+    <Name>Michelle Watkins</Name>
+    <Phone>0515819714</Phone>
+    <Longitude>35.19744726482733</Longitude>
+    <Lattitude>31.737293035664848</Lattitude>
+  </Customer>
+</ArrayOfCustomer>

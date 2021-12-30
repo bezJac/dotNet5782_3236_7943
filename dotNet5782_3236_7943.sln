@@ -27,6 +27,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{DB08CFB9-E453-4036-B1B3-CE2C829D829F}"
 	ProjectSection(SolutionItems) = preProject
 		xml\config.xml = xml\config.xml
+		xml\CustomersXml.xml = xml\CustomersXml.xml
+		xml\DroneChargesXml.xml = xml\DroneChargesXml.xml
+		xml\DronesXml.xml = xml\DronesXml.xml
+		xml\ParcelsXml.xml = xml\ParcelsXml.xml
+		xml\StationsXml.xml = xml\StationsXml.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DaLObject\DalObject.csproj", "{E8DFA489-B9AC-4CE2-B55B-4584A62AF7C3}"

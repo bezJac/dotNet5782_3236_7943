@@ -80,5 +80,19 @@ namespace BL
                 throw new RemoveException("delivery proccess started, cannot remove parcel");
             myDal.RemoveParcel(prc);
         }
+        public void RemoveDroneCharge(int id)
+        {
+            DO.DroneCharge dc;
+            try
+            {
+                dc = myDal.GetDroneCharge(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw new RemoveException("", ex);
+            }
+            myDal.RemoveDroneCharge(dc);
+        }
     }
 }

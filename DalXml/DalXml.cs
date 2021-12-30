@@ -8,24 +8,25 @@ namespace Dal
 {
     internal sealed partial class DalXml : DalApi.IDal
     {
-        #region Singleton design 
-        private static DalXml instance;
-        private static object locker = new object();
-
         XElement dronesRoot;
-
+        XMLTools xmlTool;
         string dronePath = @"DronesXml.xml";
         string stationPath = @"StationsXml.xml";
         string parcelPath = @"ParcelsXml.xml";
         string customerPath = @"CustomersXml.xml";
         string droneChargePath = @"DroneChargesXml.xml";
-
+        
+        #region Singleton design 
+        private static DalXml instance;
+        private static object locker = new object();
         /// <summary>
         /// constructor - calls DataSource.initialize() to initialize lists
         /// </summary>
         private DalXml()
         {
-            if (!File.Exists(dronePath))
+            string dir = @"..\xml\";
+            xmlTool = new XMLTools();
+            if (!File.Exists(dir+ dronePath))
                 CreateFiles();
             else
                 LoadData();
@@ -50,118 +51,19 @@ namespace Dal
             }
         }
 
-       
-
-
-
-
-        public void AddBaseStation(BaseStation st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddCustomer(Customer person)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        public void AddDroneCharge(DroneCharge dc)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddParcel(Parcel pack)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation, bool> predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Customer> GetAllCustomers(Func<Customer, bool> predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DroneCharge> GetAllDronecharges(Func<DroneCharge, bool> predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-       
-
-        public IEnumerable<Parcel> GetAllParcels(Func<Parcel, bool> predicate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public BaseStation GetBaseStation(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Customer GetCustomer(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-        public DroneCharge GetDroneCharge(int droneId)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
         public IEnumerable<double> GetElectricUse()
         {
-            throw new NotImplementedException();
-        }
-
-        public Parcel GetParcel(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveBaseStation(BaseStation bst)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveCustomer(Customer person)
-        {
-            throw new NotImplementedException();
-        }
-
-      
-
-        public void RemoveDroneCharge(DroneCharge dc)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveParcel(Parcel pack)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateBaseStation(BaseStation bst)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCustomer(Customer person)
-        {
-            throw new NotImplementedException();
-        }
-
-       
-
-        public void UpdateParcel(Parcel pack)
-        {
-            throw new NotImplementedException();
+            XElement dalConfig = XElement.Load(@"..\xml\config.xml");
+            double[] electric = new double[5]{
+             double.Parse(dalConfig.Element("DroneElecUseEmpty").Value),
+             double.Parse(dalConfig.Element("DroneElecUseLight").Value),
+             double.Parse(dalConfig.Element("DroneElecUseMedium").Value),
+             double.Parse(dalConfig.Element("DroneElecUseHeavy").Value),
+             double.Parse(dalConfig.Element("DroneHourlyChargeRate").Value),
+            };
+            return electric;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace DO
         /// date and time that drone began charging proccess
         /// </summary>
         public DateTime? EntranceTime { get; set; }
+        public int BatteryAtEntrance { get; set; }
 
         public override string ToString()
         {

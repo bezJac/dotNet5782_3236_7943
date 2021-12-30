@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-	<dl>DalObject</dl>
-	<dl-packages>
-		<DalObject namespace="Dal" class="DalObject">DalObject</DalObject>
-		<xml namespace="Dal" class="DalXml">DalXml</xml>
-		<oracle namespace="Dal_O" class="DalDbOracle">DalOracle</oracle>
-	</dl-packages>
+  <dl>DalXml</dl>
+  <dl-packages>
+    <DalObject namespace="Dal" class="DalObject">DalObject</DalObject>
+    <DalXml namespace="Dal" class="DalXml">DalXml</DalXml>
+    <oracle namespace="Dal_O" class="DalDbOracle">DalOracle</oracle>
+  </dl-packages>
+  <runId>20027</runId>
+  <DroneElecUseEmpty>2.5</DroneElecUseEmpty>
+  <DroneElecUseLight>3</DroneElecUseLight>
+  <DroneElecUseMedium>3.5</DroneElecUseMedium>
+  <DroneElecUseHeavy>4</DroneElecUseHeavy>
+  <DroneHourlyChargeRate>67</DroneHourlyChargeRate>
 </config>

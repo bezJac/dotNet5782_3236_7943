@@ -263,7 +263,7 @@ namespace PL
             {
                 theBL.DroneParcelPickUp((int)newDrone.Id);
                 // get updated details of drone
-                newDrone = theBL.GetDrone((int)newDrone.Id);
+                //newDrone = theBL.GetDrone((int)newDrone.Id);
             }
             catch (Exception Ex)
             {
@@ -275,8 +275,7 @@ namespace PL
             if (flag) // drone picked up parcel successfully
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                DroneShow.DataContext = newDrone;
-                Buttons.DataContext = newDrone;
+                refreshWindow(sender,e);
                 
             }
         }

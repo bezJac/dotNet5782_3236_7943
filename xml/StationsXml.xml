@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ArrayOfBaseStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BaseStation>
+    <Id>1228</Id>
+    <Name>Pisgat Ze'ev East</Name>
+    <Longitude>35.24313869573931</Longitude>
+    <Lattitude>31.818565506554837</Lattitude>
+    <NumOfSlots>20</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>5547</Id>
+    <Name>City Center</Name>
+    <Longitude>35.21990315275638</Longitude>
+    <Lattitude>31.782102992801367</Lattitude>
+    <NumOfSlots>19</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>7179</Id>
+    <Name>Hebrew University</Name>
+    <Longitude>35.19706750232356</Longitude>
+    <Lattitude>31.777450996979468</Lattitude>
+    <NumOfSlots>20</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>5944</Id>
+    <Name>Ramat Eshkol</Name>
+    <Longitude>35.22328877726481</Longitude>
+    <Lattitude>31.802109766530826</Lattitude>
+    <NumOfSlots>20</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>3167</Id>
+    <Name>Gilo</Name>
+    <Longitude>35.1878493660773</Longitude>
+    <Lattitude>31.73367746434541</Lattitude>
+    <NumOfSlots>20</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>1458</Id>
+    <Name>Talpiot</Name>
+    <Longitude>35.22585387261875</Longitude>
+    <Lattitude>31.75207025547218</Lattitude>
+    <NumOfSlots>18</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>7264</Id>
+    <Name>Giv'at Masu'a</Name>
+    <Longitude>35.16746927212728</Longitude>
+    <Lattitude>31.750816286403072</Lattitude>
+    <NumOfSlots>14</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>8047</Id>
+    <Name>Ramot</Name>
+    <Longitude>35.20022983512685</Longitude>
+    <Lattitude>31.81691522418518</Lattitude>
+    <NumOfSlots>19</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>1705</Id>
+    <Name>Bayit Vagan</Name>
+    <Longitude>35.16746927212728</Longitude>
+    <Lattitude>31.750816286403072</Lattitude>
+    <NumOfSlots>19</NumOfSlots>
+  </BaseStation>
+  <BaseStation>
+    <Id>7349</Id>
+    <Name>Har Nof</Name>
+    <Longitude>35.174775551705864</Longitude>
+    <Lattitude>31.783813337113397</Lattitude>
+    <NumOfSlots>20</NumOfSlots>
+  </BaseStation>
+</ArrayOfBaseStation>

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using DO;
 using DalApi;
 using DS;
+using System.IO;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Dal
 {
@@ -26,6 +30,7 @@ namespace Dal
         private DalObject()
         {
             DataSource.Initialize();
+         
         }
 
         /// <summary>
@@ -48,6 +53,8 @@ namespace Dal
         }
         #endregion
 
+        
+
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
@@ -55,6 +62,7 @@ namespace Dal
             DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneHourlyChargeRate };
             return electric;
         }
+        
     }
 }
 

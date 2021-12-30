@@ -83,6 +83,17 @@ namespace PL
 
         private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            //foreach(var st in myBL.GetALLBaseStationInList())
+            //{
+            //    if(st.OccupiedSlots>0)
+            //    {
+                    
+            //        foreach (DroneCharge dc in myBL.GetAllDronesCharging(st.Id) )
+            //        {
+            //            myBL.RemoveDroneCharge(dc.Id);
+            //        }
+            //    }
+            //}
             App.Current.Shutdown();
         }
 

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Drones>
+  <Drone>
+    <ID>3065</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2369</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>6501</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>9642</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>8111</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>3263</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>9709</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>8041</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>3694</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7521</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>6375</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>4605</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>3370</ID>
+    <Model>Flyability Elios</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2981</ID>
+    <Model>Flyability Elios</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7118</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>9951</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>9738</ID>
+    <Model>Flyability Elios</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2435</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>5082</ID>
+    <Model>Flyability Elios</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7968</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2502</ID>
+    <Model>Flyability Elios</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>6921</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7866</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2889</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7911</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>5988</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>7028</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2081</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>6341</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2870</ID>
+    <Model>DJI Phantom 4</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>6433</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>5550</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>9402</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>2308</ID>
+    <Model>DJI Mavic 2 Pro</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>5433</ID>
+    <Model>Yuneec H520</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+  </Drone>
+</Drones>
