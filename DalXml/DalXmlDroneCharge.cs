@@ -30,10 +30,13 @@ namespace Dal
         {
             IEnumerable<DroneCharge> charges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
             DroneCharge? temp;
-            temp = (from dc in charges
-                    where dc.DroneId == droneId
-                    select dc).FirstOrDefault();
-            if (temp == null)
+            try
+            {
+                temp = (from dc in charges
+                        where dc.DroneId == droneId
+                        select dc).First();
+            }
+            catch (Exception)
             {
                 throw new NonExistsException("id not found");
             }

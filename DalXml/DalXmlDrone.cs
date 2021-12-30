@@ -46,38 +46,24 @@ namespace Dal
         public Drone GetDrone(int id)
         {
             LoadData();
-            
-            Drone? temp = null;
-            foreach (Drone dr in GetAllDrones())
-            {
-                if (dr.Id == id)
-                {
-                    temp = dr;
-                    break;
-                }
 
-            }
-            if (temp == null)
+            Drone? temp = null;       
+            try
             {
-                throw new NonExistsException($"id number {id} not found");
+                temp = (from dr in dronesRoot.Elements()
+                         where Convert.ToInt32(dr.Element("ID").Value) == id
+                         select new Drone()
+                         {
+                             Id = Convert.ToInt32(dr.Element("id").Value),
+                             Model = dr.Element("Model").Value,
+                             MaxWeight = (WeightCategories)(GetWeightCategories(dr.Element("MaxWeight").Value))
+                         }).First();
+            }
+            catch
+            {
+                throw new NonExistsException($"ID number {id} not found");
             }
             return (Drone)temp;
-            //try
-            //{
-            //    drone = (from dr in dronesRoot.Elements()
-            //             where Convert.ToInt32(dr.Element("ID").Value) == id
-            //             select new Drone()
-            //             {
-            //                 Id = Convert.ToInt32(dr.Element("id").Value),
-            //                 Model = dr.Element("Model").Value,
-            //                 MaxWeight = (WeightCategories)(GetWeightCategories(dr.Element("MaxWeight").Value))
-            //             }).FirstOrDefault();
-            //}
-            //catch
-            //{
-            //    throw new NonExistsException($"id number {id} not found");
-            //}
-            //return (Drone)drone;
         }
 
         public void RemoveDrone(Drone drone)

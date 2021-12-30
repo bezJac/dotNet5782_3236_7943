@@ -7,23 +7,28 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
 
-    Title="" Height="480" Width="800" Icon= "\images\Icon_drone.ico" Closing="exitProgram"  >
+    Title="" Height="480" Width="800" Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}">
     <Window.Resources>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-    </Window.Resources>
-    <Grid Background="#FFD5DCD0"  >
 
-        
+
+    </Window.Resources>
+
+    <Grid Background="#FFD5DCD0" >
+
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="396*"/>
+            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="83*"/>
+            <ColumnDefinition Width="54*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel x:Name="customer">
-    
-           
-                <Label Content="Enter ID: " HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,60,0,0" />
+        <StackPanel x:Name="customer"  >
+
+
+            <Label Content="Enter ID: " HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,60,0,0" />
             <TextBox x:Name="IdCustomerTxt" Height="30" Width="120" VerticalContentAlignment="Bottom" materialDesign:TextFieldAssist.HasClearButton="True"
-                         Text="{Binding Id }"  PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown" MaxLength="8"/>
+                        Text="{Binding Id }"  PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown" MaxLength="8"/>
 
 
             <Button x:Name="SignIn" Content="Sign in" Click="signInButton_Click" Visibility="Visible" Margin="15"
@@ -37,14 +42,14 @@
 
 
 
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="3">
             <Label Content="Manager Access" HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,120,0,0" />
             <TextBox x:Name="userName"  Width="140" Cursor="AppStarting" materialDesign:HintAssist.Hint="UserName"   />
             <PasswordBox x:Name="adminPassword"
   
              materialDesign:HintAssist.Hint="Password"
                  materialDesign:TextFieldAssist.HasClearButton="True"
-                Width="140"/> 
+                Width="140"/>
             <Button Content="Enter"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Grid.Column="1" Background="#FF669966" 
                 MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="200" Click="managerWindowButton_Click" 
                 FontFamily="Comic Sans MS" HorizontalContentAlignment="center" Margin="0,20,0,0"

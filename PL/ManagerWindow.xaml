@@ -23,8 +23,13 @@
     </Window.Resources>
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
-        <TabItem  x:Name="Drones" Header="Drones" Width="75"  >
-            <Grid x:Name="MainGrid"  Background="#FFD5DCD0" >
+        <TabItem  x:Name="Drones"  Width="75"   >
+            <TabItem.Header>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="ArrowAll"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Drones"          HorizontalAlignment="Center" />                </StackPanel>
+
+            </TabItem.Header>
+
+        <Grid x:Name="MainGrid"  Background="#FFD5DCD0" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100*"/>
                     <RowDefinition Height="270*"/>
@@ -106,7 +111,11 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Parcels tab-->
-        <TabItem x:Name="Parcels" Header="Parcels"   Width="75">
+        <TabItem x:Name="Parcels"   Width="75">
+            <TabItem.Header>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"          HorizontalAlignment="Center" />                </StackPanel>
+
+            </TabItem.Header>
             <Grid x:Name="ParcelMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
@@ -214,7 +223,11 @@
         </TabItem>
         <!--#endregion-->
         <!--#region  Customers Tab-->
-        <TabItem x:Name="Customers" Header="Customers"  Width="75">
+        <TabItem x:Name="Customers"   Width="75">
+            <TabItem.Header>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Customer"          HorizontalAlignment="Center" />                </StackPanel>
+
+            </TabItem.Header>
             <Grid x:Name="CustomerMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
@@ -265,7 +278,11 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Stations Tab-->
-        <TabItem x:Name="Stations" Header="Stations"  Width="75">
+        <TabItem x:Name="Stations"   Width="75">
+               <TabItem.Header>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="EvStation"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Stations"          HorizontalAlignment="Center" />                </StackPanel>
+
+            </TabItem.Header>
             <Grid x:Name="stationsMainGrid" Background="#FFD5DCD0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>

@@ -36,7 +36,7 @@ namespace PL
         public LoginWindow(BlApi.IBL bL)
         {
             theBL = bL;
-            newUser = new() { Id=null,CustomerLocation = new() };
+            newUser = new() { Id=null,CustomerLocation = new() };       
             InitializeComponent();
             DataContext = newUser;
         }
