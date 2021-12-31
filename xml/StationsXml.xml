@@ -12,7 +12,7 @@
     <Name>City Center</Name>
     <Longitude>35.21990315275638</Longitude>
     <Lattitude>31.782102992801367</Lattitude>
-    <NumOfSlots>19</NumOfSlots>
+    <NumOfSlots>20</NumOfSlots>
   </BaseStation>
   <BaseStation>
     <Id>7179</Id>

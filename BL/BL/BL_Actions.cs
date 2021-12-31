@@ -86,7 +86,9 @@ namespace BL
             IEnumerable<DO.Parcel> unlinked;
             try
             {
-                unlinked = myDal.GetAllParcels(pr => pr.DroneId == 0 && (WeightCategories)pr.Weight <= dr.MaxWeight);
+                unlinked = from prc in  myDal.GetAllParcels()
+                           where getParcelStatus(prc)== ParcelStatus.Ordered && (WeightCategories)prc.Weight <= dr.MaxWeight
+                           select prc;
             }
             catch (Exception ex)
             {

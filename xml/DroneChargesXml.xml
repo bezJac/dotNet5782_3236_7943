@@ -37,12 +37,6 @@
     <BatteryAtEntrance>10</BatteryAtEntrance>
   </DroneCharge>
   <DroneCharge>
-    <DroneId>2870</DroneId>
-    <StationId>5547</StationId>
-    <EntranceTime>2021-12-30T04:59:48.4915526+02:00</EntranceTime>
-    <BatteryAtEntrance>16</BatteryAtEntrance>
-  </DroneCharge>
-  <DroneCharge>
     <DroneId>6433</DroneId>
     <StationId>7264</StationId>
     <EntranceTime>2021-12-30T05:07:48.4915585+02:00</EntranceTime>

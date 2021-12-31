@@ -23,7 +23,8 @@
                 <Setter Property="FontWeight"
               Value="Bold" />
                 <Setter Property="Background"
-                    Value="#FF669966"/>
+                    Value= "#FF669966"/>
+                <!--"#FF8EBFB8"-->
                 <Setter Property="Height"
                     Value="50"/>
                 <Setter Property="Width"

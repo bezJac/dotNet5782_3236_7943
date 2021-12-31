@@ -50,8 +50,8 @@
              materialDesign:HintAssist.Hint="Password"
                  materialDesign:TextFieldAssist.HasClearButton="True"
                 Width="140"/>
-            <Button Content="Enter"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Grid.Column="1" Background="#FF669966" 
-                MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="200" Click="managerWindowButton_Click" 
+            <Button Content="Enter"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Grid.Column="1"  
+                MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="260" Click="managerWindowButton_Click" 
                 FontFamily="Comic Sans MS" HorizontalContentAlignment="center" Margin="0,20,0,0"
                  FontSize="30" FontWeight="Bold" FontStretch="Normal" BorderBrush="Black" Width="226"/>
         </StackPanel>
