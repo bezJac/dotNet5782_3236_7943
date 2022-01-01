@@ -128,7 +128,7 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-    public sealed class NullToVisibilitiyReveresedConverter : IValueConverter
+    public sealed class OrderedToVisibilitiyReveresedConverter : IValueConverter
     {
         /// <summary>
         /// checks if sender is null, visibility value returned in reverse , visible if null  
@@ -137,7 +137,7 @@ namespace PL
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            return value == null ? Visibility.Visible : Visibility.Collapsed;
+            return ((Parcel)value).Linked == null ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

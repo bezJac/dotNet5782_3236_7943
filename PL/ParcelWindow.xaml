@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+        x:Name="win"
         Closing="MyWindow_Closing"
         Title="Parcel" Height="450" Width="800" Icon="\images\Icon_drone.ico" Activated="refresh">
     <Window.Resources>
@@ -13,7 +14,7 @@
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-        <local:NullToVisibilitiyReveresedConverter x:Key="NullToVisibilitiyReveresedConverter"/>
+        <local:OrderedToVisibilitiyReveresedConverter x:Key="OrderedToVisibilitiyReveresedConverter"/>
 
     </Window.Resources>
 
@@ -187,7 +188,7 @@
                 <Button x:Name="fulltargetButton"  Content="Target" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"        
                 HorizontalAlignment="Center" Margin="0,7,0,0" VerticalAlignment="Top" Click="fullDroneButton_Click"/>
                 <Button x:Name="removeParcelButton" Content="Remove" Style="{StaticResource ButtonStyle}" Grid.Column="2" Grid.Row="2" Click="RemoveParcelButton_Click"
-                     Visibility="{Binding Drone , Converter={StaticResource NullToVisibilitiyReveresedConverter }}" ToolTip="Remove parcel from list" Margin="0,45,0,0"></Button>
+                     Visibility="{Binding  Converter={StaticResource OrderedToVisibilitiyReveresedConverter }}" ToolTip="Remove parcel from list" Margin="0,45,0,0"></Button>
             </StackPanel>
             
 

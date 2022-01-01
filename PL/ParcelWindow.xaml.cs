@@ -140,7 +140,9 @@ namespace PL
             }
             if (flag)
             {
+                win.Activated -= refresh;
                 MessageBox.Show("Parcel was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                Closing += CloseWindowButton_Click;
                 Close();
             }
         }

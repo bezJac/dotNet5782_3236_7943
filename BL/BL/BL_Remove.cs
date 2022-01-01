@@ -76,8 +76,8 @@ namespace BL
                 throw new RemoveException("", ex);
             }
             ParcelStatus status = getParcelStatus(prc);
-            if (status==ParcelStatus.Linked || status == ParcelStatus.PickedUp)
-                throw new RemoveException("delivery proccess started, cannot remove parcel");
+            if (status!= ParcelStatus.Ordered)
+                throw new RemoveException("delivery was proccessed, cannot remove parcel");
             myDal.RemoveParcel(prc);
         }
         public void RemoveDroneCharge(int id)
