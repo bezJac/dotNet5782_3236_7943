@@ -6,17 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
-        Title="User" Height="450" Width="800" Icon="\images\Icon_drone.ico">
-    <Window.Resources>
-    <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontFamily" Value="Comic Sans MS"/>
-        <Setter Property="Background" Value="#FF779761"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="IsHitTestVisible" Value="False"/>
-    </Style>
-    </Window.Resources>
-    <Grid Background="#FFD5DCD0">
+        Title="User" Height="450" Width="800" Style="{StaticResource WindowStyle}">
+  
+    <Grid Style="{StaticResource GridStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition  Width="2*"/>
             <ColumnDefinition  Width="1*"/>
@@ -26,8 +18,8 @@
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="addParcel" Grid.Column="1">
-            <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center"/>
-            <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+            <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  HorizontalAlignment="Center" Grid.Column="0" Visibility="Visible"/>
             <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
                       SelectedItem="{Binding Target, NotifyOnValidationError=False}" Grid.Column="1">
@@ -38,7 +30,7 @@
                 </ComboBox.ItemsPanel>
             </ComboBox>
             <Label  Content="Select Parcel's Weight:"
-                    FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" HorizontalAlignment="Center" />
+                    FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
             <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
                         SelectedItem="{Binding Weight, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}" Grid.Column="1">
                 <ComboBox.ItemsPanel>
@@ -47,7 +39,7 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-            <Label Content="Select Parcel's priority:" FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4"
+            <Label Content="Select Parcel's priority:" FontSize="15" Style="{StaticResource LabelStyle}" Grid.Row="4"
                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
                       SelectedItem="{Binding Priority, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}">
@@ -72,7 +64,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
-            <Label Content="Parcels sent by customer:" FontWeight="Bold" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3"  >
                 <ListView.View>
                     <GridView>
@@ -84,7 +76,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label Content="Parcels sent to customer:" FontWeight="Bold" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
+            <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
             <ListView x:Name="ParcelsToListView"  Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3"   >
                 <ListView.View>
                     <GridView>

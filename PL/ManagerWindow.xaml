@@ -16,8 +16,9 @@
         <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Background" Value="#FF779761"/>
+            <Setter Property="Background" Value="#FF3A3A57"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
     </Window.Resources>
@@ -29,13 +30,15 @@
 
             </TabItem.Header>
 
-        <Grid x:Name="MainGrid"  Background="#FFD5DCD0" >
+            <Grid x:Name="MainGrid"  Style="{StaticResource GridStyle}" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100*"/>
                     <RowDefinition Height="270*"/>
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
-                <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                <Grid Name="UpGrid" HorizontalAlignment="Stretch"  Style="{StaticResource GridStyle}"
+                      Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                   
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="83*"/>
                         <ColumnDefinition Width="6*"/>
@@ -82,7 +85,7 @@
                 </Grid>
 
 
-                <ListView x:Name="DroneListView" Grid.Row="1"   MouseDoubleClick="DroneList_MouseDoubleClick"  >
+                <ListView x:Name="DroneListView" Grid.Row="1"   MouseDoubleClick="DroneList_MouseDoubleClick"  Background="White" >
 
                     <ListView.View >
 
@@ -116,7 +119,7 @@
                 <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"          HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
-            <Grid x:Name="ParcelMainGrid" Background="#FFD5DCD0">
+            <Grid x:Name="ParcelMainGrid" Style="{StaticResource GridStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
                     <RowDefinition Height="300*"/>
@@ -201,7 +204,7 @@
 
                 </Grid>
 
-                <ListView x:Name="ParcelListView" Grid.Row="1"   MouseDoubleClick="ParcelList_MouseDoubleClick" >
+                <ListView x:Name="ParcelListView" Grid.Row="1" Background="White"  MouseDoubleClick="ParcelList_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Id}"/>
@@ -228,7 +231,7 @@
                 <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Customer"          HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
-            <Grid x:Name="CustomerMainGrid" Background="#FFD5DCD0">
+            <Grid x:Name="CustomerMainGrid" Style="{StaticResource GridStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
                     <RowDefinition Height="300*"/>
@@ -255,7 +258,7 @@
                      Height="40" Width="150" Click="AddButton_Click"  FontSize="18" VerticalAlignment="Center" />
 
                 </Grid>
-                <ListView x:Name="CustomerListView" Grid.Row="1"   MouseDoubleClick="CustomerList_MouseDoubleClick" >
+                <ListView x:Name="CustomerListView" Grid.Row="1" Background="White"  MouseDoubleClick="CustomerList_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding Id}"/>
@@ -283,7 +286,7 @@
                 <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="EvStation"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Stations"          HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
-            <Grid x:Name="stationsMainGrid" Background="#FFD5DCD0">
+            <Grid x:Name="stationsMainGrid"  Style="{StaticResource GridStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="70*"/>
                     <RowDefinition Height="300*"/>
@@ -314,7 +317,7 @@
                              </StackPanel>
 
                 </Grid>
-                <ListView x:Name="StationListView" Grid.Row="1"   MouseDoubleClick="StationList_MouseDoubleClick" >
+                <ListView x:Name="StationListView" Grid.Row="1"  Background="White" MouseDoubleClick="StationList_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="210" DisplayMemberBinding="{Binding Id}"/>

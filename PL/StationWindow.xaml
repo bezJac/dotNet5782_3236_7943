@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
-        Title="Station" Height="450" Width="800" Icon="\images\Icon_drone.ico" Activated="refresh">
+        Title="Station" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refresh">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -14,13 +14,7 @@
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
        
-        <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Background" Value="#FF779761"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
-        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid x:Name="actionStationGrid"  Background="#FFD5DCD0"  Visibility="Collapsed" >

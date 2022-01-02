@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         x:Name="win"
         Closing="MyWindow_Closing"
-        Title="Parcel" Height="450" Width="800" Icon="\images\Icon_drone.ico" Activated="refresh">
+        Title="Parcel" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refresh">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -19,7 +19,7 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionParcel"  Background="#FFD5DCD0"  Visibility="Collapsed" >
+        <Grid x:Name="actionParcel"   Style="{StaticResource GridStyle}"  Visibility="Collapsed" >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>

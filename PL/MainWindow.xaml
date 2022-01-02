@@ -7,54 +7,34 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
 
-    Title="" Height="480" Width="800" Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}">
+    Title="" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}"  >
     <Window.Resources>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-
-
     </Window.Resources>
 
-    <Grid Background="#FFD5DCD0" >
+    <Grid>
+        <Border  >
+            <Border.Background>
+                <ImageBrush Stretch="Fill" ImageSource="\images\startUpPic1.jpg"   />
+            </Border.Background>
 
+        </Border>
+        <Grid x:Name="MainGrid" Background="Transparent" >
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="396*"/>
-            <ColumnDefinition Width="259*"/>
-            <ColumnDefinition Width="83*"/>
-            <ColumnDefinition Width="54*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel x:Name="customer"  >
+            <Button x:Name="Customer" Content="Customer" Style="{StaticResource ButtonStyle}" Visibility="Visible"  
+                MouseEnter="Button_MouseEnter"     Margin="652,289,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-
-            <Label Content="Enter ID: " HorizontalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,60,0,0" />
-            <TextBox x:Name="IdCustomerTxt" Height="30" Width="120" VerticalContentAlignment="Bottom" materialDesign:TextFieldAssist.HasClearButton="True"
-                        Text="{Binding Id }"  PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown" MaxLength="8"/>
-
-
-            <Button x:Name="SignIn" Content="Sign in" Click="signInButton_Click" Visibility="Visible" Margin="15" Style="{StaticResource ButtonStyle}"
-                    IsEnabled="{Binding ElementName=IdCustomerTxt, Path=Text, Converter={StaticResource TextToEnableConverter}}" />
-            <Label Content="New customer?" HorizontalAlignment="Center" Margin="0,45,0,0" FontWeight="Bold" FontSize="20"/>
             <Button x:Name="Register" Content="Register" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                    Margin="0,10,0,0" Click="registerButton_Click"/>
-        </StackPanel>
+                    Margin="652,365,0,0" Click="registerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    FontSize="20" Width="124" Height="45"/>
 
 
+            <Button x:Name="Manager" Content="Manager"  Style="{StaticResource ButtonStyle}" Visibility="Visible"  
+                
+                 Margin="651,0,0,0" MouseEnter="Button_MouseEnter"
+                 FontSize="20"  FontStretch="Normal"  Width="125" HorizontalAlignment="Left" Height="45" />
 
 
-
-        <StackPanel Grid.Column="1" Grid.ColumnSpan="3">
-            <Label Content="Manager Access" HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Margin="0,120,0,0" />
-            <TextBox x:Name="userName"  Width="140" Cursor="AppStarting" materialDesign:HintAssist.Hint="UserName"   />
-            <PasswordBox x:Name="adminPassword"
-  
-             materialDesign:HintAssist.Hint="Password"
-                 materialDesign:TextFieldAssist.HasClearButton="True"
-                Width="140"/>
-            <Button Content="Enter"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Grid.Column="1"  
-                MinHeight="50" MaxHeight="100" MinWidth="150" MaxWidth="260" Click="managerWindowButton_Click" 
-                FontFamily="Comic Sans MS" HorizontalContentAlignment="center" Margin="0,20,0,0"
-                 FontSize="30" FontWeight="Bold" FontStretch="Normal" BorderBrush="Black" Width="226"/>
-        </StackPanel>
-
+        </Grid>
     </Grid>
 </Window>

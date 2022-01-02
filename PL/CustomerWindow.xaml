@@ -17,7 +17,7 @@
         <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Background" Value="#FF779761"/>
+            <Setter Property="Background" Value="#FF3A3A57"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
@@ -25,7 +25,7 @@
     
     <Grid>
         
-        <Grid x:Name="actionCustomerGrid"  Background="#FFD5DCD0"  Visibility="Collapsed" >
+        <Grid x:Name="actionCustomerGrid"  Style="{StaticResource GridStyle}" Visibility="Collapsed" >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>

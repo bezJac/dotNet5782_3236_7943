@@ -1,5 +1,4 @@
-﻿using BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,63 +11,69 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BlApi;
+using BO;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for EnterManager.xaml
+    /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class LoginWindow : Window
+    public partial class RegisterWindow : Window
     {
-        private readonly BlApi.IBL myBL;
-        private Customer newCustomer;
-        public LoginWindow(BlApi.IBL bL)
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
+        private readonly BlApi.IBL theBL;
+        /// <summary>
+        /// Customer object for window data context
+        /// </summary>
+        private Customer newUser;
+        /// <summary>
+        /// cunstructor
+        /// </summary>
+        /// <param name="bL"></param>
+        public RegisterWindow(BlApi.IBL bL)
         {
+            theBL = bL;
+            newUser = new() { Id=null,CustomerLocation = new() };       
             InitializeComponent();
-            myBL = bL;
-            manager.Visibility = Visibility.Visible;
+            DataContext = newUser;
         }
-        public LoginWindow(BlApi.IBL bL, int dummy)
-        {
-            InitializeComponent();
-            newCustomer = new Customer() { Id = null };
-            IdCustomerTxt.DataContext = newCustomer;
-            myBL = bL;
-            customer.Visibility = Visibility.Visible;
-            
-        }
-
-        private void signInButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// register new customer to data base
+        /// </summary>
+        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
             try
             {
-                newCustomer = myBL.GetCustomer((int)newCustomer.Id);
+                theBL.AddCustomer(newUser);
             }
-            catch (Exception Ex)
+            catch (Exception ex) // add drone faild allow user to fix input
             {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
                 flag = false;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Account already exists, please login with your ID", "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Close();
             }
-            if (flag)
+            if (flag)   // drone was added successfully - close window 
             {
-                IdCustomerTxt.Text = null;
-                new UserWindow(myBL, newCustomer).Show();
+                MessageBox.Show("Your account was created successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
             }
         }
-        private void enterManager_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// cancel new customer registration
+        /// </summary>
+        private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
         {
-            if (userName.Text == "admin" && adminPassword.Password == "123")
-                new ManagerWindow(myBL).Show();
-            else
-                MessageBox.Show("username or password are incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            userName.Text = null;
-            adminPassword.Password = null;
-        }
 
-        private void IdTextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+            Close();
+        }
+        /// <summary>
+        /// prevent user from typing non digit charachters to applied textBox
+        /// </summary>
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;
             if (text == null) return;
@@ -97,11 +102,6 @@ namespace PL
             //forbid letters and signs (#,$, %, ...)
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Close();
         }
     }
 }

@@ -17,6 +17,7 @@
   <ItemGroup>
     <None Remove="images\icons8_drone_60_yNM_icon.ico" />
     <None Remove="images\Icon_drone.ico" />
+    <None Remove="images\startUpPic1.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +30,7 @@
 
   <ItemGroup>
     <Resource Include="images\Icon_drone.ico" />
+    <Resource Include="images\startUpPic1.jpg" />
   </ItemGroup>
 
 </Project>
