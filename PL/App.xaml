@@ -14,16 +14,11 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="ButtonStyle"
-           TargetType="Control">
-                <Setter Property="FontSize"
-              Value="20" />
-                <Setter Property="FontFamily"
-              Value="Comic Sans MS" />
-                <Setter Property="FontWeight"
-              Value="Bold" />
-                <Setter Property="Background"
-                    Value= "#FF669966"/>
+            <Style x:Key="MyStyle" TargetType="Control">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontFamily" Value="Comic Sans MS" />
+                <Setter Property="FontWeight"   Value="Bold" />
+                <Setter Property="Background"  Value= "#FF669966"/>
                 <!--"#FF8EBFB8"-->
                 <Setter Property="Height"
                     Value="50"/>
@@ -39,9 +34,18 @@
                     Value="Center"/>
                 <Setter Property="Visibility"
                     Value="Collapsed"/>
+               
                           </Style>
-            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
-            <Style TargetType="Expander" BasedOn="{StaticResource ButtonStyle}">
+            <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource MyStyle}" >
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="Expander" BasedOn="{StaticResource MyStyle}">
                 <Setter Property="Visibility" Value="Visible"/>
             </Style>
 
