@@ -25,12 +25,14 @@ namespace PL
         public LoginWindow(BlApi.IBL bL)
         {
             InitializeComponent();
+            this.Top = 280;
             myBL = bL;
             manager.Visibility = Visibility.Visible;
         }
         public LoginWindow(BlApi.IBL bL, int dummy)
         {
             InitializeComponent();
+            this.Top = 375;
             newCustomer = new Customer() { Id = null };
             IdCustomerTxt.DataContext = newCustomer;
             myBL = bL;

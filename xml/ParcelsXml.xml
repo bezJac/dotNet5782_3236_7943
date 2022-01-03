@@ -81,8 +81,8 @@
     <Requested>2021-12-30T06:19:48.4450333+02:00</Requested>
     <Scheduled>2021-12-30T06:54:30.4569435+02:00</Scheduled>
     <PickedUp>2021-12-30T06:55:08.8388971+02:00</PickedUp>
-    <Delivered xsi:nil="true" />
-    <DroneId>9642</DroneId>
+    <Delivered>2022-01-03T21:37:43.948871+02:00</Delivered>
+    <DroneId>0</DroneId>
   </Parcel>
   <Parcel>
     <Id>20008</Id>
@@ -259,10 +259,10 @@
     <Weight>HEAVY</Weight>
     <Priority>REGULAR</Priority>
     <Requested>2021-12-30T06:19:48.4368623+02:00</Requested>
-    <Scheduled xsi:nil="true" />
+    <Scheduled>2022-01-03T21:38:39.8128781+02:00</Scheduled>
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
-    <DroneId>0</DroneId>
+    <DroneId>9642</DroneId>
   </Parcel>
   <Parcel>
     <Id>20023</Id>

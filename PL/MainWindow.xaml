@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
 
-    Title="Start" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}"  >
+    Title="Start" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}" Top="150" Left="300"  >
     <Window.Resources>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
     </Window.Resources>
@@ -20,12 +20,13 @@
 
         </Border>
         <Grid x:Name="MainGrid" Background="Transparent" >
+            <Label Content="Sign in:" FontSize="20" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" Margin="670,163,0,0" VerticalAlignment="Top" />
+            <Button x:Name="Customer" Content="Customer" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="45"
+                MouseEnter="Button_MouseEnter"   Width="124"  Margin="651,269,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-            <Button x:Name="Customer" Content="Customer" Style="{StaticResource ButtonStyle}" Visibility="Visible"  
-                MouseEnter="Button_MouseEnter"     Margin="652,289,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-
+            <Label Content="New Customer?" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" Margin="657,335,0,0" VerticalAlignment="Top"  FontSize="14"/>
             <Button x:Name="Register" Content="Register" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                    Margin="652,365,0,0" Click="registerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Margin="651,365,0,0" Click="registerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"
                     FontSize="20" Width="124" Height="45"  MouseEnter="Button_MouseEnter"/>
 
 
