@@ -76,8 +76,10 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                
                 <Label Content="Parcels sent by customer:" FontWeight="Bold" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ListView x:Name="ParcelsFromListView"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick" Grid.Row="1" Margin="3"  Background="White">
+                    <Grid Style="{StaticResource listViewGrid}" Grid.RowSpan="3" Margin="3">
+                    <ListView x:Name="ParcelsFromListView"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick" Grid.Row="1"   Background="White">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
@@ -88,8 +90,10 @@
                             </GridView>
                     </ListView.View>
                 </ListView>
-                <Label Content="Parcels sent to customer:" FontWeight="Bold" Grid.Row="4"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
-                <ListView x:Name="ParcelsToListView" Grid.Row="5"   Grid.Column="2"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick"  Background="White" >
+                    </Grid>
+                   <Label Content="Parcels sent to customer:" FontWeight="Bold" Grid.Row="4"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
+                    <Grid Style="{StaticResource listViewGrid}" Grid.Row="5" Grid.RowSpan="3">
+                    <ListView x:Name="ParcelsToListView"  MouseDoubleClick="ParcelsList_MouseDoubleClick"  Background="White" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
@@ -100,6 +104,7 @@
                            </GridView>
                     </ListView.View>
                 </ListView>
+                    </Grid>
                 </Grid>
             </Grid>
             

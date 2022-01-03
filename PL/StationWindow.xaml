@@ -65,8 +65,9 @@
                 <TextBox x:Name="longtitudeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
                          Text="{Binding StationLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Drones Charging at Station" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                <ListView x:Name="DroneChargeListView" Grid.Row="1"   Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
+               <Label Content="Drones Charging at Station" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <Grid Style="{StaticResource listViewGrid}" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6">
+                <ListView x:Name="DroneChargeListView" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Id}" />
@@ -74,6 +75,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+                </Grid>
             </Grid>
             <StackPanel x:Name ="updateStStk" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
                 <Label Content="Rename Station:" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"/>

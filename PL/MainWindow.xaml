@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
 
-    Title="" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}"  >
+    Title="Start" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}"  >
     <Window.Resources>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
     </Window.Resources>
@@ -26,7 +26,7 @@
 
             <Button x:Name="Register" Content="Register" Style="{StaticResource ButtonStyle}" Visibility="Visible"
                     Margin="652,365,0,0" Click="registerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"
-                    FontSize="20" Width="124" Height="45"/>
+                    FontSize="20" Width="124" Height="45"  MouseEnter="Button_MouseEnter"/>
 
 
             <Button x:Name="Manager" Content="Manager"  Style="{StaticResource ButtonStyle}" Visibility="Visible"  

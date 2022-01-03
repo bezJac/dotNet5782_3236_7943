@@ -33,6 +33,7 @@ namespace Dal
         public void AddDrone(Drone dr)
         {
             LoadData();
+            string dir = @"..\xml\";
             if (dronesRoot.Elements().Any(drone => (Convert.ToInt32(drone.Element("ID").Value) == dr.Id)))
                 throw new ExsistException($"id number {dr.Id} already exists");
 
@@ -40,7 +41,7 @@ namespace Dal
                 new XElement("ID", dr.Id),
                 new XElement("Model", dr.Model),
                 new XElement("MaxWeight", dr.MaxWeight)));
-            dronesRoot.Save(dronePath);
+            dronesRoot.Save(dir+dronePath);
         }
 
         public Drone GetDrone(int id)
@@ -67,14 +68,14 @@ namespace Dal
         {
             if (!dronesRoot.Elements().Any(dr => (Convert.ToInt32(dr.Element("ID").Value) == drone.Id)))
                 throw new ExsistException($"id number {drone.Id} not found");
-
+            string dir = @"..\xml\";
             XElement droneElement;
 
             droneElement = (from dr in dronesRoot.Elements()
                             where Convert.ToInt32(dr.Element("ID").Value) == drone.Id
                             select dr).FirstOrDefault();
             droneElement.Remove();
-            droneElement.Save(dronePath);
+            droneElement.Save(dir+dronePath);
 
             throw new NonExistsException($"id number {drone.Id} not found");
 

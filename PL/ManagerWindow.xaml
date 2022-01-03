@@ -13,14 +13,15 @@
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
-     
+        
     </Window.Resources>
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
-        <TabItem  x:Name="Drones"  Width="75"   >
-            <TabItem.Header>
-                <StackPanel  Background="#FF3A3A57" Width="Auto" >                    <materialDesign:PackIcon Kind="ArrowAll"                        Foreground="White"                        Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Drones" Foreground="White"          HorizontalAlignment="Center" />                </StackPanel>
+        <TabItem  x:Name="Drones"  Width="75"  >
+            <TabItem.Header  >
 
+                <StackPanel   Width="auto">                    <materialDesign:PackIcon Kind="ArrowAll"                                                Width="24" x:Name="icon"                         Height="24"          HorizontalAlignment="Center"  />                                        <TextBlock          Text="Drones"           HorizontalAlignment="Center" x:Name="text" />                </StackPanel>
+                
             </TabItem.Header>
 
             <Grid x:Name="MainGrid"  Style="{StaticResource GridStyle}" >
@@ -77,26 +78,26 @@
 
                 </Grid>
 
+                <Grid Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="DroneListView" Grid.Row="1" Background="White"  MouseDoubleClick="DroneList_MouseDoubleClick"   BorderBrush="#FF3A3A57" BorderThickness="1">
 
-                <ListView x:Name="DroneListView" Grid.Row="1" Background="White"  MouseDoubleClick="DroneList_MouseDoubleClick"   BorderBrush="#FF3A3A57" BorderThickness="1">
+                        <ListView.View >
 
-                    <ListView.View >
+                            <GridView>
+                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Model" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Model}"/>
+                                <GridViewColumn Header="Max Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding MaxWeight}"/>
+                                <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Status}"/>
+                                <GridViewColumn Header="Battery" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="60" DisplayMemberBinding="{Binding Battery}"/>
+                                <GridViewColumn Header="Parcel ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding ParcelId}"/>
+                                <GridViewColumn Header="Lattitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="170" DisplayMemberBinding="{Binding DroneLocation.Lattitude, Converter={StaticResource LattitudeToDmsConverter }}"/>
+                                <GridViewColumn Header="Longtitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="170" DisplayMemberBinding="{Binding DroneLocation.Longtitude, Converter={StaticResource LongtitudeToDmsConverter}}"/>
+                            </GridView>
 
-                        <GridView>
-                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Id}" />
-                            <GridViewColumn Header="Model" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Model}"/>
-                            <GridViewColumn Header="Max Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding MaxWeight}"/>
-                            <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="120" DisplayMemberBinding="{Binding Status}"/>
-                            <GridViewColumn Header="Battery" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="60" DisplayMemberBinding="{Binding Battery}"/>
-                            <GridViewColumn Header="Parcel ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding ParcelId}"/>
-                            <GridViewColumn Header="Lattitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="170" DisplayMemberBinding="{Binding DroneLocation.Lattitude, Converter={StaticResource LattitudeToDmsConverter }}"/>
-                            <GridViewColumn Header="Longtitude" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="170" DisplayMemberBinding="{Binding DroneLocation.Longtitude, Converter={StaticResource LongtitudeToDmsConverter}}"/>
-                        </GridView>
+                        </ListView.View>
 
-                    </ListView.View>
-
-                </ListView >
-
+                    </ListView >
+                </Grid>
 
 
                 <Button x:Name="closeButton"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
@@ -107,10 +108,10 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Parcels tab-->
-        <TabItem x:Name="Parcels"   Width="75">
+        <TabItem x:Name="Parcels"   Width="75" >
             <TabItem.Header >
                
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"          HorizontalAlignment="Center" />                </StackPanel>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"           HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
             <Grid x:Name="ParcelMainGrid" Style="{StaticResource GridStyle}">
@@ -197,21 +198,21 @@
 
 
                 </Grid>
+                <Grid Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="ParcelListView" Grid.Row="1" Background="White"  MouseDoubleClick="ParcelList_MouseDoubleClick" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Sender's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding SenderName}"/>
+                                <GridViewColumn Header="Target's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding TargetName}"/>
+                                <GridViewColumn Header="Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Weight}"/>
+                                <GridViewColumn Header="Priority" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Priority}"/>
+                                <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Status}"/>
+                            </GridView>
+                        </ListView.View>
 
-                <ListView x:Name="ParcelListView" Grid.Row="1" Background="White"  MouseDoubleClick="ParcelList_MouseDoubleClick" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Id}"/>
-                            <GridViewColumn Header="Sender's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding SenderName}"/>
-                            <GridViewColumn Header="Target's name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding TargetName}"/>
-                            <GridViewColumn Header="Weight" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Weight}"/>
-                            <GridViewColumn Header="Priority" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Priority}"/>
-                            <GridViewColumn Header="Status" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="155" DisplayMemberBinding="{Binding Status}"/>
-                        </GridView>
-                    </ListView.View>
-
-                </ListView>
-
+                    </ListView>
+                </Grid>
                 <Button x:Name="closeButton1"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
                 Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
@@ -220,9 +221,9 @@
         </TabItem>
         <!--#endregion-->
         <!--#region  Customers Tab-->
-        <TabItem x:Name="Customers"   Width="75">
+        <TabItem x:Name="Customers"   Width="75" >
             <TabItem.Header>
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Customer"          HorizontalAlignment="Center" />                </StackPanel>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24"                          Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Customer"           HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
             <Grid x:Name="CustomerMainGrid" Style="{StaticResource GridStyle}">
@@ -252,7 +253,8 @@
                      Height="40" Width="150" Click="AddButton_Click"  FontSize="18" VerticalAlignment="Center" />
 
                 </Grid>
-                <ListView x:Name="CustomerListView" Grid.Row="1" Background="White"  MouseDoubleClick="CustomerList_MouseDoubleClick" >
+                <Grid Style="{StaticResource listViewGrid}">
+                <ListView x:Name="CustomerListView"   MouseDoubleClick="CustomerList_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding Id}"/>
@@ -266,6 +268,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+                </Grid>
 
                 <Button x:Name="closeButtonCustomer"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
@@ -275,9 +278,9 @@
         </TabItem>
         <!--#endregion-->
         <!--#region Stations Tab-->
-        <TabItem x:Name="Stations"   Width="75">
+        <TabItem x:Name="Stations"   Width="75" >
                <TabItem.Header>
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="EvStation"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Stations"          HorizontalAlignment="Center" />                </StackPanel>
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="EvStation"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Stations"           HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
             <Grid x:Name="stationsMainGrid"  Style="{StaticResource GridStyle}">
@@ -311,18 +314,21 @@
                              </StackPanel>
 
                 </Grid>
-                <ListView x:Name="StationListView" Grid.Row="1"  Background="White" MouseDoubleClick="StationList_MouseDoubleClick" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="210" DisplayMemberBinding="{Binding Id}"/>
-                            <GridViewColumn Header="Name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="350" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Available Charging Slots" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="215" DisplayMemberBinding="{Binding AvailableSlots}"/>
-                            <GridViewColumn Header="Occupied Charging slots" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="213" DisplayMemberBinding="{Binding OccupiedSlots}"/>
+                <Grid Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="StationListView"  MouseDoubleClick="StationList_MouseDoubleClick" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="210" DisplayMemberBinding="{Binding Id}"/>
+                                <GridViewColumn Header="Name" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="350" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Available Charging Slots" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="215" DisplayMemberBinding="{Binding AvailableSlots}"/>
+                                <GridViewColumn Header="Occupied Charging slots" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="213" DisplayMemberBinding="{Binding OccupiedSlots}"/>
 
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
+                </Grid>
+                
                 <Button x:Name="closeButtonStation"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" 
                 Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />

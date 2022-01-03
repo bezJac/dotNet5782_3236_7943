@@ -112,8 +112,7 @@ namespace PL
                 // add drone to list
                 BaseStationInList station = stationsList.SelectedItem as BaseStationInList;
                 theBL.AddDrone(newDrone,station.Id);
-                Closing += CloseWindowButton_Click;
-                Close();
+                
             }
             catch (Exception ex) // add drone faild allow user to fix input
             {
@@ -126,7 +125,9 @@ namespace PL
             if (flag)   // drone was added successfully - close window 
             {
                 idTextBox.BorderThickness = new Thickness();
+                this.Activated -= refreshWindow;
                 MessageBox.Show("Drone was added successfully to list" ,"SUCCESS",MessageBoxButton.OK,MessageBoxImage.Information);
+                Closing += CloseWindowButton_Click;
                 Close();
             }
         }

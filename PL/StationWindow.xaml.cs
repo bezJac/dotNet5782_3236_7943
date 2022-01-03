@@ -96,6 +96,7 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
+                this.Activated -= refresh;
                 MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 Closing += CloseWindowButton_Click;
                 Close();

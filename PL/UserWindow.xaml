@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
-        Title="User" Height="450" Width="800" Style="{StaticResource WindowStyle}">
+        Title="{Binding Path= Name}" Height="450" Width="800" Style="{StaticResource WindowStyle}">
   
     <Grid Style="{StaticResource GridStyle}">
         <Grid.ColumnDefinitions>
@@ -57,7 +57,7 @@
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelParcelButton_Click"  />
         </StackPanel>
-        <Grid x:Name="ListParcels">
+        <Grid x:Name="ListParcels" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="4*"/>
@@ -65,21 +65,25 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
             <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3"  >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
-                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
-                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
-                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid Grid.Row="1" Background="White"  Margin="15,0,0,0">
+                <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3" Background="White" >
+
+                    <ListView.View >
+                        <GridView>
+                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                            <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
+                            <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
+                            <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
             <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
-            <ListView x:Name="ParcelsToListView"  Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3"   >
-                <ListView.View>
-                    <GridView>
+            <Grid Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3" Background="White" Margin="15,0,0,0" > 
+            <ListView x:Name="ParcelsToListView"   >
+                <ListView.View >
+                    <GridView >
                         <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
                         <GridViewColumn Header="Sending Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
                         <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
@@ -88,6 +92,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            </Grid>
         </Grid>
         <Button x:Name="closeButtonStation"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                Width="50" Visibility="Visible" VerticalContentAlignment="Top" Grid.ColumnSpan="2"

@@ -140,4 +140,11 @@
     <Longitude>35.19744726482733</Longitude>
     <Lattitude>31.737293035664848</Lattitude>
   </Customer>
+  <Customer>
+    <Id>31203323</Id>
+    <Name>Bezalel Jacober</Name>
+    <Phone>0528009235</Phone>
+    <Longitude>35.7955</Longitude>
+    <Lattitude>31.9873</Lattitude>
+  </Customer>
 </ArrayOfCustomer>

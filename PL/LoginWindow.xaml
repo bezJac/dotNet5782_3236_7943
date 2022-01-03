@@ -6,7 +6,7 @@
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="" Height="250" Width="200" Style="{StaticResource WindowStyle}"  MouseLeave="Window_MouseLeave" >
+        Title="" Height="250" Width="200" Style="{StaticResource WindowStyle}"  MouseLeave="Window_MouseLeave" WindowStyle="None" WindowStartupLocation ="CenterOwner" >
     <Grid x:Name="Enter" Style="{StaticResource GridStyle}">
         <StackPanel x:Name="manager" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
             

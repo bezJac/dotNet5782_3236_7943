@@ -106,6 +106,7 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
+                this.Activated -= refresh;
                 TargetComboBox.BorderThickness = new Thickness();
                 MessageBox.Show("Parcel was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 Closing += CloseWindowButton_Click;

@@ -60,4 +60,10 @@
     <EntranceTime>2021-12-30T05:53:48.4916012+02:00</EntranceTime>
     <BatteryAtEntrance>5</BatteryAtEntrance>
   </DroneCharge>
+  <DroneCharge>
+    <DroneId>2296</DroneId>
+    <StationId>7179</StationId>
+    <EntranceTime>2022-01-03T03:58:15.2212933+02:00</EntranceTime>
+    <BatteryAtEntrance>0</BatteryAtEntrance>
+  </DroneCharge>
 </ArrayOfDroneCharge>

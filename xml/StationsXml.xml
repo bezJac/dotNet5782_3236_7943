@@ -19,7 +19,7 @@
     <Name>Hebrew University</Name>
     <Longitude>35.19706750232356</Longitude>
     <Lattitude>31.777450996979468</Lattitude>
-    <NumOfSlots>20</NumOfSlots>
+    <NumOfSlots>19</NumOfSlots>
   </BaseStation>
   <BaseStation>
     <Id>5944</Id>

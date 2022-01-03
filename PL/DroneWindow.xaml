@@ -23,7 +23,7 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone"  Background="#FFD5DCD0"  Visibility="Collapsed" >
+        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
             
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
@@ -210,7 +210,7 @@
                   Grid.Column="1"    Grid.Row="1" Click="DeliverButton_Click"  Visibility="{Binding  Converter={StaticResource DeliveryToVisibilityConverter}}" />
             </StackPanel>
         </Grid>
-        <Grid x:Name="addDrone" Visibility="Collapsed" Background="#FFD5DCD0" Grid.Row="3">
+        <Grid x:Name="addDrone" Visibility="Collapsed" Style="{StaticResource GridStyle}" Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>

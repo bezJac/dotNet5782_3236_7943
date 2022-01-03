@@ -60,15 +60,20 @@ namespace PL
         /// </summary>
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
-            theBL.AddParcel(prc);
-            TargetComboBox.SelectedItem = null;
-            parcelWeightComboBox.SelectedItem = null;
-            priorityComboBox.SelectedItem= null;
-            MessageBox.Show("Your order was placed successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-            user = theBL.GetCustomer((int)user.Id);
-            DataContext = user;
-            ParcelsFromListView.ItemsSource = user.From;
-            ParcelsToListView.ItemsSource = user.To;
+            if (TargetComboBox.SelectedItem != null &&
+                priorityComboBox.SelectedItem != null &&
+                parcelWeightComboBox.SelectedItem != null)
+            {
+                theBL.AddParcel(prc);
+                TargetComboBox.SelectedItem = null;
+                parcelWeightComboBox.SelectedItem = null;
+                priorityComboBox.SelectedItem = null;
+                MessageBox.Show("Your order was placed successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                user = theBL.GetCustomer((int)user.Id);
+                DataContext = user;
+                ParcelsFromListView.ItemsSource = user.From;
+                ParcelsToListView.ItemsSource = user.To;
+            }
         }
         /// <summary>
         /// cancel new parcel delivery order

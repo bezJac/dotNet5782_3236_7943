@@ -56,18 +56,7 @@ namespace PL
 
         private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //foreach(var st in myBL.GetALLBaseStationInList())
-            //{
-            //    if(st.OccupiedSlots>0)
-            //    {
-                    
-            //        foreach (DroneCharge dc in myBL.GetAllDronesCharging(st.Id) )
-            //        {
-            //            myBL.RemoveDroneCharge(dc.Id);
-            //        }
-            //    }
-            //}
-            App.Current.Shutdown();
+            Application.Current.Shutdown();
         }
 
   
@@ -78,8 +67,9 @@ namespace PL
             Button button = sender as Button;
             switch (button.Name)
             {
-                case "Manager": { new LoginWindow(myBL).Show(); break; }
-                case "Customer": { new LoginWindow(myBL,1).Show(); break; }
+                case "Manager": { new LoginWindow(myBL).ShowDialog(); break; }
+                case "Customer": { new LoginWindow(myBL,1).ShowDialog(); break; }
+                case "Register": { new RegisterWindow(myBL).ShowDialog();break; }
                 default:
                     break;
             }
