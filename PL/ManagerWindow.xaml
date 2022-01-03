@@ -13,20 +13,13 @@
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
-        <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Background" Value="#FF3A3A57"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
-        </Style>
+     
     </Window.Resources>
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
         <TabItem  x:Name="Drones"  Width="75"   >
             <TabItem.Header>
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="ArrowAll"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Drones"          HorizontalAlignment="Center" />                </StackPanel>
+                <StackPanel  Background="#FF3A3A57" Width="Auto" >                    <materialDesign:PackIcon Kind="ArrowAll"                        Foreground="White"                        Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Drones" Foreground="White"          HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>
 
@@ -85,7 +78,7 @@
                 </Grid>
 
 
-                <ListView x:Name="DroneListView" Grid.Row="1"   MouseDoubleClick="DroneList_MouseDoubleClick"  Background="White" >
+                <ListView x:Name="DroneListView" Grid.Row="1" Background="White"  MouseDoubleClick="DroneList_MouseDoubleClick"   BorderBrush="#FF3A3A57" BorderThickness="1">
 
                     <ListView.View >
 
@@ -115,7 +108,8 @@
         <!--#endregion-->
         <!--#region Parcels tab-->
         <TabItem x:Name="Parcels"   Width="75">
-            <TabItem.Header>
+            <TabItem.Header >
+               
                 <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"          HorizontalAlignment="Center" />                </StackPanel>
 
             </TabItem.Header>

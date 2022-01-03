@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="details" Grid.Column="0"  Grid.RowSpan="3">
+            <Grid x:Name="details" Grid.Column="0"  Grid.RowSpan="3" Style="{StaticResource GridStyle}"  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -202,7 +202,7 @@
 
 
         </Grid>
-        <Grid x:Name="addParcel" Visibility="Collapsed" Background="#FFD5DCD0" Grid.Row="3">
+        <Grid x:Name="addParcel" Visibility="Collapsed" Style="{StaticResource GridStyle}"  Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>

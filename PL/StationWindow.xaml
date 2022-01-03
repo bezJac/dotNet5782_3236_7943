@@ -17,7 +17,7 @@
         
     </Window.Resources>
     <Grid>
-        <Grid x:Name="actionStationGrid"  Background="#FFD5DCD0"  Visibility="Collapsed" >
+        <Grid x:Name="actionStationGrid"  Style="{StaticResource GridStyle}"  Visibility="Collapsed" >
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="stationDetails" Grid.Column="0"  Grid.RowSpan="3">
+            <Grid x:Name="stationDetails" Grid.Column="0"  Grid.RowSpan="3" Style="{StaticResource GridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -66,7 +66,7 @@
                          Text="{Binding StationLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Drones Charging at Station" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-                <ListView x:Name="DroneChargeListView" Grid.Row="1"   Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6" MouseDoubleClick="DroneChargeList_MouseDoubleClick" >
+                <ListView x:Name="DroneChargeListView" Grid.Row="1"   Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Id}" />
@@ -93,7 +93,7 @@
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
         </Grid>
 
-        <Grid x:Name="addStationGrid" Visibility="Collapsed" Background="#FFD5DCD0" >
+        <Grid x:Name="addStationGrid" Visibility="Collapsed" Style="{StaticResource GridStyle}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>

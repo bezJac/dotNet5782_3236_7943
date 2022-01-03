@@ -14,13 +14,7 @@
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
        
-        <Style x:Key="listHeaderStyle" TargetType="GridViewColumnHeader">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontFamily" Value="Comic Sans MS"/>
-            <Setter Property="Background" Value="#FF3A3A57"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
-        </Style>
+     
     </Window.Resources>
     
     <Grid>
@@ -71,7 +65,7 @@
                 <TextBox x:Name="longtitudeTextBox" Grid.Column="1" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
                          Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                <Grid x:Name="ParcelsCustomerGrid" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7">
+                <Grid x:Name="ParcelsCustomerGrid" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7" Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -83,7 +77,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                 <Label Content="Parcels sent by customer:" FontWeight="Bold" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <ListView x:Name="ParcelsFromListView"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick" Grid.Row="1" Margin="3"  >
+                <ListView x:Name="ParcelsFromListView"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick" Grid.Row="1" Margin="3"  Background="White">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
@@ -95,7 +89,7 @@
                     </ListView.View>
                 </ListView>
                 <Label Content="Parcels sent to customer:" FontWeight="Bold" Grid.Row="4"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
-                <ListView x:Name="ParcelsToListView" Grid.Row="5"   Grid.Column="2"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick"   >
+                <ListView x:Name="ParcelsToListView" Grid.Row="5"   Grid.Column="2"  Grid.RowSpan="3" MouseDoubleClick="ParcelsList_MouseDoubleClick"  Background="White" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="50" DisplayMemberBinding="{Binding Id}" />
@@ -127,7 +121,7 @@
                     HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
         </Grid>
-        <Grid x:Name="addCustomerGrid" Visibility="Collapsed" Background="#FFD5DCD0" >
+        <Grid x:Name="addCustomerGrid" Visibility="Collapsed" Style="{StaticResource GridStyle}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
@@ -143,8 +137,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Enter a 8 digit ID number:"  FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
+            <Label Content="Enter a 8 digit ID number:"  FontSize="15" Style="{StaticResource LabelStyle}"
+                    Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
             <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
                      Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                     MaxLength="8" VerticalAlignment="Center" Width="120" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
