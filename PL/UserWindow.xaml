@@ -29,8 +29,7 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-            <Label  Content="Select Parcel's Weight:"
-                    FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+            <Label  Content="Select Parcel's Weight:" FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
             <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
                         SelectedItem="{Binding Weight, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}" Grid.Column="1">
                 <ComboBox.ItemsPanel>
