@@ -17,25 +17,30 @@
             <Border.Background>
                 <ImageBrush Stretch="Fill" ImageSource="\images\startUpPic1.jpg"   />
             </Border.Background>
-
         </Border>
         <Grid x:Name="MainGrid" Background="Transparent" >
-            <Label Content="Sign in:" FontSize="20" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" Margin="670,163,0,0" VerticalAlignment="Top" />
-            <Button x:Name="Customer" Content="Customer" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="45"
-                MouseEnter="Button_MouseEnter"   Width="124"  Margin="651,269,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-
-            <Label Content="New Customer?" Style="{StaticResource LabelStyle}" HorizontalAlignment="Left" Margin="657,335,0,0" VerticalAlignment="Top"  FontSize="14"/>
-            <Button x:Name="Register" Content="Register" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                    Margin="651,365,0,0" Click="registerButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"
-                    FontSize="20" Width="124" Height="45"  MouseEnter="Button_MouseEnter"/>
-
-
-            <Button x:Name="Manager" Content="Manager"  Style="{StaticResource ButtonStyle}" Visibility="Visible"  
-                
-                 Margin="651,0,0,0" MouseEnter="Button_MouseEnter"
-                 FontSize="20"  FontStretch="Normal"  Width="125" HorizontalAlignment="Left" Height="45" />
-
-
+            <Grid.Resources>
+                <Style x:Key="MainButtonDesign" BasedOn="{StaticResource ButtonStyle }" TargetType="Button">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Height" Value="45"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="Width" Value="124"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <EventSetter Event="MouseEnter" Handler="Button_MouseEnter"/>
+                </Style>
+                <Style x:Key="mainLabelDesign" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                </Style>
+            </Grid.Resources>
+            <Label Content="Sign in:" FontSize="20" Style="{StaticResource mainLabelDesign}"  Margin="670,163,0,0"  />
+            <Button x:Name="Customer" Content="Customer" Style="{StaticResource MainButtonDesign}" Margin="651,269,0,0"  />
+             <Label Content="New Customer?" Style="{StaticResource mainLabelDesign}"  Margin="657,335,0,0" FontSize="14"/>
+            <Button x:Name="Register" Content="Register" Style="{StaticResource MainButtonDesign}"
+                    Margin="651,365,0,0" Click="registerButton_Click" />
+            <Button x:Name="Manager" Content="Manager"  Style="{StaticResource MainButtonDesign}" Visibility="Visible"
+                 Margin="651,210,0,0" />
         </Grid>
     </Grid>
 </Window>
