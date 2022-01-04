@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+       Style="{StaticResource WindowStyle}"
         Closing="MyWindow_Closing"
         Title="Drone" Height="480" Width="800" Icon= "\images\Icon_drone.ico" Activated="refreshWindow">
     <Window.Resources>
