@@ -18,13 +18,24 @@
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:MaintanenceToVisibilityConverter x:Key="MaintanenceToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-
-
     </Window.Resources>
 
     <Grid>
         <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
-            
+            <Grid.Resources>
+                <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+                    <Setter Property="Margin" Value="3"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Style>
+                <Style x:Key="droneActionTxtBox" TargetType="TextBox">
+                    <Setter Property="Margin" Value="3"/>
+                    <Setter Property="Width" Value="120"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="IsReadOnly" Value="True"/>
+                    <Setter Property="Height" Value="23"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
                 <RowDefinition Height="140*"/>
@@ -67,55 +78,50 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Content="Drone Details:" Grid.Column="0" Grid.Row="0" FontSize="16" FontWeight="Medium" 
+                        <Label Content="Drone Details:" Grid.Column="0" Grid.Row="0" FontSize="16" Style="{StaticResource LabelStyle}"
                                Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
-                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox x:Name="idTxtBox" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
-                                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
-                                    VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Model:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2"
-                                    VerticalAlignment="Center"/>
-                        <TextBox x:Name="modelTxtBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" 
-                                        Height="23" Margin="3" Grid.Row="2" 
-                                 Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Battery:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="batteryTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left"
-                                 Height="23" Margin="3" Grid.Row="3" VerticalAlignment="Center" Width="120"
+                        <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="idTxtBox" Grid.Column="1"  Grid.Row="1" Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                        <Label Content="Model:" Grid.Column="0" Style="{StaticResource droneWinLabelStyle}" Grid.Row="2"/>
+                        <TextBox x:Name="modelTxtBox"  Grid.Column="1"  Grid.Row="2"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                        <Label Content="Battery:" Grid.Column="0" Grid.Row="3" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="batteryTextBox" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}" Grid.Row="3" 
                                  Text="{Binding Battery, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                        <Label Content="Max Weight:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-                        <TextBox x:Name="maxWeightTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left"
-                                         Height="23" Margin="3" Grid.Row="4" VerticalAlignment="Center" Width="120"
+                        <Label Content="Max Weight:" Grid.Column="0"  Grid.Row="4" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="maxWeightTextBox" Grid.Row="4"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
-                        <Label  Content="Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
-                        <TextBox x:Name="statusTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" 
-                                 Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Latitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-                        <TextBox x:Name="locationLatTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
+                        <Label  Content="Status:" Grid.Column="0" Grid.Row="5" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="statusTextBox"  Grid.Column="1"  Grid.Row="5"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        <Label Content="Latitude:" Grid.Column="0"  Grid.Row="6" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="locationLatTextBox"  Grid.Column="1" Grid.Row="6"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Location.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
-                                        Converter={StaticResource LattitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Longtitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
-                        <TextBox x:Name="locationLonTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="7" 
+                                        Converter={StaticResource LattitudeToDmsConverter}}"/>
+                        <Label Content="Longtitude:" Grid.Column="0"  Grid.Row="7" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="locationLonTextBox"  Grid.Column="1"  Grid.Row="7"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Location.Longtitude, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
-                                    Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
+                                    Converter={StaticResource LongtitudeToDmsConverter}}" />
                         <Label Grid.Row="8"></Label>
-                        <Label Content="Parcel Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="9" FontWeight="Bold" VerticalAlignment="Center" 
+                        <Label Content="Parcel Details:" Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="9" Style="{StaticResource droneWinLabelStyle}" 
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="10" VerticalAlignment="Center" 
+                        <Label Content="ID:" Grid.Column="0"  Grid.Row="10" Style="{StaticResource droneWinLabelStyle}"
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <TextBox x:Name="idTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="10" 
-                                 Text="{Binding Parcel.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" 
+                        <TextBox x:Name="idTextBox"  Grid.Column="1" Grid.Row="10"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"  
                                  Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <Label Content="Priority:"  Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="11" VerticalAlignment="Center"
+                        <Label Content="Priority:"  Grid.Column="0"  Grid.Row="11" Style="{StaticResource droneWinLabelStyle}"
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <TextBox x:Name="priorityTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="11" 
-                                 Text="{Binding Parcel.Priority, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" 
+                        <TextBox x:Name="priorityTextBox"  Grid.Column="1" Grid.Row="11"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.Priority, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
                                  Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <Label Content="Weight:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="12" VerticalAlignment="Center" 
+                        <Label Content="Weight:" Grid.Column="0"  Grid.Row="12" Style="{StaticResource droneWinLabelStyle}"
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <TextBox x:Name="weightTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="12" 
-                                 Text="{Binding Parcel.Weight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" 
+                        <TextBox x:Name="weightTextBox" Grid.Column="1" Grid.Row="12"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.Weight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
                                  Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
-                        <Label Content="In Transit:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="13" VerticalAlignment="Center" 
+                        <Label Content="In Transit:" Grid.Column="0" Style="{StaticResource droneWinLabelStyle}" Grid.Row="13"  
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
                         <CheckBox x:Name="inTransitCheckBox" IsHitTestVisible="False" Focusable="False" Content="" Grid.Column="1" HorizontalAlignment="Left" 
                                   IsChecked="{Binding Parcel.InTransit, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
@@ -142,40 +148,38 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
-                        <TextBox x:Name="senderIdTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" 
-                                 Text="{Binding Parcel.Sender.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-                        <TextBox x:Name="senderNameTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" 
-                                 Text="{Binding Parcel.Sender.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="senderLatTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" 
+                        <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="senderIdTextBox"  Grid.Column="1"  Grid.Row="1"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.Sender.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                        <Label Content="Name:" Grid.Column="0"  Margin="3" Grid.Row="2" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="senderNameTextBox"  Grid.Column="1"  Grid.Row="2"  Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.Sender.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
+                        <Label Content="Lattitude:" Grid.Column="0"  Grid.Row="3" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="senderLatTextBox" Grid.Column="1"  Grid.Row="3"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.SenderLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
-                                    Converter={StaticResource LattitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Longtitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
-                        <TextBox x:Name="sendertLonTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="4" Grid.Row="4" 
+                                    Converter={StaticResource LattitudeToDmsConverter}}" />
+                        <Label Content="Longtitude:" Grid.Column="0"  Grid.Row="4" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="sendertLonTextBox"  Grid.Column="1" Grid.Row="4"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.SenderLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,
-                                    Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
+                                    Converter={StaticResource LongtitudeToDmsConverter}}" />
                         <Label Grid.Row="6"></Label>
                         <Label Content="Target Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"
-                               FontWeight="Bold" VerticalAlignment="Center"/>
-                        <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="8" VerticalAlignment="Center"/>
-                        <TextBox x:Name="targetIdTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"
-                                    Grid.Row="8" VerticalAlignment="Center" Width="120"
+                               Style="{StaticResource LabelStyle}"/>
+                        <Label Content="ID:" Grid.Column="0"  Grid.Row="8" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="targetIdTextBox"  Grid.Column="1" Grid.Row="8"  Style="{StaticResource droneActionTxtBox}" 
                                  Text="{Binding Parcel.Target.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                        <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="9" VerticalAlignment="Center"/>
-                        <TextBox x:Name="targetNameTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left"
-                                 Height="23" Margin="3" Grid.Row="9" VerticalAlignment="Center" Width="120"
+                        <Label Content="Name:" Grid.Column="0" Grid.Row="9" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="targetNameTextBox"  Grid.Column="1" Grid.Row="9"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.Target.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                        <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="10" VerticalAlignment="Center"/>
-                        <TextBox x:Name="targetLatTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="10" 
+                        <Label Content="Lattitude:" Grid.Column="0" Grid.Row="10" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="targetLatTextBox"  Grid.Column="1"  Grid.Row="10"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.TargetLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
-                                        Converter={StaticResource LattitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Longtitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="11" VerticalAlignment="Center"/>
-                        <TextBox x:Name="targetLonTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="11"
+                                        Converter={StaticResource LattitudeToDmsConverter}}"/>
+                        <Label Content="Longtitude:" Grid.Column="0" Grid.Row="11" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="targetLonTextBox"  Grid.Column="1"  Grid.Row="11"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.TargetLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,
-                                    Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
+                                    Converter={StaticResource LongtitudeToDmsConverter}}" />
                     </Grid>
                 </Grid>
 
@@ -183,7 +187,7 @@
 
             </Viewbox>
 
-            <Label   Content="Enter New Model:" FontFamily="Comic Sans MS" FontWeight="Bold" FontSize="14"
+            <Label   Content="Enter New Model:" Style="{StaticResource LabelStyle}" FontSize="14"
                      HorizontalContentAlignment="Center" Grid.Column="1"  Margin="28,10,27,100"  Width="145" />
             <TextBox x:Name="newModel"  SpellCheck.IsEnabled="True" Height="23" Width="120" Grid.Column="1"
                      VerticalAlignment="Top" Margin="40,49,40,0"  />
@@ -194,7 +198,7 @@
             <StackPanel x:Name="Buttons" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="0,30,0,0">
             <Button x:Name="ChargeButton"  Content="Charge" Style="{StaticResource ButtonStyle}"  Grid.Column="1" Grid.Row="2"   
                     ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"
-                    Visibility="{Binding  Status,   Converter={StaticResource AvailableToVisibilityConverter}}"/>
+                    Visibility="{Binding Status,   Converter={StaticResource AvailableToVisibilityConverter}}"/>
             <Button x:Name="DischargeButton" Content="Discharge" Style="{StaticResource ButtonStyle}" 
                    Grid.Column="1" Grid.Row="2"  
                      Click="DischargeButton_Click" ToolTip="release drone from charge"
@@ -210,7 +214,16 @@
                   Grid.Column="1"    Grid.Row="1" Click="DeliverButton_Click"  Visibility="{Binding  Converter={StaticResource DeliveryToVisibilityConverter}}" />
             </StackPanel>
         </Grid>
+        
+        
+        
         <Grid x:Name="addDrone" Visibility="Collapsed" Style="{StaticResource GridStyle}" Grid.Row="3">
+            <Grid.Resources>
+                <Style x:Key="droneAddLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
@@ -225,19 +238,18 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label  Content="Enter a 4 digit ID number:" VerticalAlignment="Center" Grid.Row="1"  FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
+            <Label Content="Enter New Drone Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" 
+                   VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="180,0,0,55" Grid.RowSpan="2"/>
+            <Label  Content="ID number:"  Grid.Row="1" Style="{StaticResource droneAddLabelStyle}" Grid.Column="0" />
             <TextBox x:Name="idAddTextBox" Width="140" VerticalAlignment="Center" 
                         Text= "{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=True }"
                         PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown"
                         Grid.Row="1" Height="23" HorizontalAlignment="Center"  Grid.Column="1" MaxLength="4"  LostFocus="idTextValidation"/>
-            <Label Content="Enter a Model:" VerticalAlignment="Center" Grid.Row="2"  HorizontalAlignment="Right" Grid.Column="0"
-                    FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold"/>
+            <Label Content="Model:" Grid.Row="2" Grid.Column="0" Style="{StaticResource droneAddLabelStyle}"/>
             <TextBox x:Name="modelTextBox" Width="140" VerticalAlignment="Center"
                         Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                         Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Center" Grid.Column="1" LostFocus="modelTextValidation"/>
-            <Label  Content="Select Max Weight:" VerticalAlignment="Center" Grid.Row="3"  HorizontalAlignment="Right"
-                    FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Column="0" />
+            <Label  Content="Max Weight:"  Grid.Row="3"  Style="{StaticResource droneAddLabelStyle}" Grid.Column="0" />
             <ComboBox x:Name="maxWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
                         SelectedItem="{Binding MaxWeight}" Grid.Column="1">
                 <ComboBox.ItemsPanel>
@@ -247,8 +259,7 @@
                 </ComboBox.ItemsPanel>
             </ComboBox>
 
-            <Label Content="Select charging station:" FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4"
-                    VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Label Content="Charging station:" Style="{StaticResource droneAddLabelStyle}"  Grid.Row="4"/>
             <ComboBox x:Name="stationsList" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"/>
             <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"

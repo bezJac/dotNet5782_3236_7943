@@ -41,7 +41,6 @@ namespace PL
             newStation = new() { StationLocation = new(), };
             DataContext = newStation;
             addStationGrid.Visibility = Visibility.Visible;
-            LocationMessage.Text = "Important!!\nLattitude coordinae must be in 31.733 - 31.818 range!\nlongtitude coordinate must be in 35.167 - 35.243 range! ";
 
         }
         /// <summary>

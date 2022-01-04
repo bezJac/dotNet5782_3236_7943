@@ -15,7 +15,10 @@
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
         <local:OrderedToVisibilitiyReveresedConverter x:Key="OrderedToVisibilitiyReveresedConverter"/>
-
+        <Style x:Key="parcelWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -39,22 +42,22 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel x:Name="parcelDetails" HorizontalAlignment="Center" Grid.Column="0" >
-                    <Label Content="Parcel Details:"   FontSize="16" FontWeight="Medium" 
+                    <Label Content="Parcel Details:"   FontSize="16" Style="{StaticResource parcelWinLabelStyle}" 
                                Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" >
-                        <Label Content="ID:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="ID:"  Style="{StaticResource parcelWinLabelStyle}"/>
                         <TextBox x:Name="idTextBox" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3"  Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Priority:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Priority:"   Style="{StaticResource parcelWinLabelStyle}" />
                         <TextBox x:Name="priorityTextBox" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3"  Text="{Binding Priority, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Weight:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Weight:"   Style="{StaticResource parcelWinLabelStyle}"/>
                         <TextBox x:Name="weightTextBox" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3"  Text="{Binding Weight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" >
-                        <Label Content="Ordered:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Ordered:"  Style="{StaticResource parcelWinLabelStyle}"/>
 
                         <StackPanel>
                             <TextBox x:Name="orderedDate"  HorizontalAlignment="Left" Margin="3"  
@@ -70,7 +73,7 @@
 
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Linked}" Width="190">
 
-                        <Label Content="Linked:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
+                        <Label Content="Linked:"   Style="{StaticResource parcelWinLabelStyle}"/>
                         <StackPanel>
                             <TextBox x:Name="linkedDate"  HorizontalAlignment="Left" Margin="3"  
                                  Text="{Binding Linked, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
@@ -83,7 +86,7 @@
 
 
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=PickedUp}">
-                        <Label Content="Picked Up:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Picked Up:"   Style="{StaticResource parcelWinLabelStyle}"/>
                         <StackPanel>
                             <TextBox x:Name="pickedUpDate"  HorizontalAlignment="Left" Margin="3"  
                                  Text="{Binding PickedUp, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
@@ -95,7 +98,7 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Delivered}">
-                        <Label Content="Delivery:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Delivery:"   Style="{StaticResource parcelWinLabelStyle}"/>
                         <StackPanel>
                             <TextBox x:Name="deliveredDate"  HorizontalAlignment="Left" Margin="3"
                                  Text="{Binding Delivered, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=dd/MM/yyyy}"
@@ -111,30 +114,30 @@
                 </StackPanel>
 
                 <StackPanel x:Name="customerDetails"  HorizontalAlignment="Center"  Grid.Column="1" >
-                    <Label Content="Sending Customer Details: " HorizontalAlignment="Left" Margin="3" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Label Content="Sending Customer Details: "  Style="{StaticResource LabelStyle}" FontSize="13" />
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="ID:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="ID:"    Style="{StaticResource parcelWinLabelStyle}"/>
                         <TextBox x:Name="idTextBoxSender"  HorizontalAlignment="Left" Height="23" Margin="3"  
                                      Text="{Binding Sender.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                      VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Name:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Name:"    Style="{StaticResource parcelWinLabelStyle}"/>
 
                         <TextBox x:Name="nameTextBoxSender"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                      Text="{Binding Sender.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                      VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                     </StackPanel>
                     <Label></Label>
-                    <Label Content="Target Customer Details: " HorizontalAlignment="Left" Margin="3" FontWeight="Bold"  VerticalAlignment="Center"/>
+                    <Label Content="Target Customer Details: " FontSize="13"  Style="{StaticResource LabelStyle}"/>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="ID:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="ID:"   Style="{StaticResource parcelWinLabelStyle}"/>
                         <TextBox x:Name="idTextBoxTarget"  HorizontalAlignment="Left" Height="23" Margin="3"  
                                      Text="{Binding Target.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                      VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Name:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                        <Label Content="Name:"   Style="{StaticResource parcelWinLabelStyle}"/>
 
                         <TextBox x:Name="nameTextBoxTarget"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                      Text="{Binding Target.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
@@ -142,28 +145,28 @@
                     </StackPanel>
                     <Label></Label>
                     <StackPanel  Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Drone}">
-                        <Label Content="Drone Details: " HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" FontWeight="Bold"/>
+                        <Label Content="Drone Details: " FontSize="13"  Style="{StaticResource LabelStyle}"/>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="ID:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                            <Label Content="ID:"    Style="{StaticResource parcelWinLabelStyle}"/>
                             <TextBox x:Name="idTextBox1"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                  Text="{Binding Drone.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" 
                                  VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Battery:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                            <Label Content="Battery:"    Style="{StaticResource parcelWinLabelStyle}"/>
                             <TextBox x:Name="nameTextBox"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                  Text="{Binding Drone.Battery, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                  VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Lattitude:"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                            <Label Content="Lattitude:"   Style="{StaticResource parcelWinLabelStyle}"/>
                             <TextBox x:Name="lattitudeTextBox"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                  Text="{Binding Drone.DroneLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true
                               ,Converter={StaticResource LattitudeToDmsConverter}}"
                                  VerticalAlignment="Center" Width="120" IsReadOnly="True"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Longtitude:"  HorizontalAlignment="Left"   VerticalAlignment="Center"/>
+                            <Label Content="Longtitude:"    Style="{StaticResource parcelWinLabelStyle}"/>
                             <TextBox x:Name="longtitudeTextBox"  HorizontalAlignment="Left" Height="23" Margin="3" 
                                  Text="{Binding Drone.DroneLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
                                 Converter={StaticResource LongtitudeToDmsConverter}}" 
@@ -177,12 +180,12 @@
             </Grid>
 
             <StackPanel x:Name="Detailsstk"  Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
-                <Label Content="Full drone details:" Margin="0,7,0,0" HorizontalAlignment="Center" FontWeight="Bold"
+                <Label Content="Full drone details:" Margin="0,7,0,0" Style="{StaticResource LabelStyle}"
                        Visibility="{Binding Drone , Converter={StaticResource NullToVisibilityConverter }}"/>
                 <Button x:Name="fullDroneButton"  Content="Drone" Style="{StaticResource ButtonStyle}"
                         HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"  Click="fullDroneButton_Click"
                         Visibility="{Binding  Converter={StaticResource NullToVisibilityConverter },Path=Drone}"/>
-                <Label Content="Full Customer details:" Margin="0,25,0,0" HorizontalAlignment="Center" FontWeight="Bold"/>
+                <Label Content="Full Customer details:" Margin="0,25,0,0" Style="{StaticResource LabelStyle}"/>
                 <Button x:Name="fullSenderButton"  Content="Sender" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"
                         HorizontalAlignment="Center" Margin="0,7,0,0" VerticalAlignment="Top" Click="fullDroneButton_Click"/>
                 <Button x:Name="fulltargetButton"  Content="Target" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"        
@@ -217,8 +220,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label  Content="Select Sending customer:" VerticalAlignment="Center" Grid.Row="1"  FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
+            <Label Content="Enter New Parcel Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom"
+                   HorizontalAlignment="Left" Margin="155,0,0,55" Grid.RowSpan="2"/>
+            <Label  Content="Sending customer:" Style="{StaticResource LabelStyle}" Grid.Row="1"  FontSize="15" 
+                      HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
             <ComboBox x:Name="senderComboBox" Width="140" VerticalAlignment="Center" Grid.Row="1"  Height="Auto" HorizontalAlignment="Center"
                          Grid.Column="1"  SelectedItem="{Binding Sender}">
                 <ComboBox.ItemsPanel>
@@ -227,8 +232,8 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-            <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold"  HorizontalAlignment="Right" Grid.Column="0" Visibility="Visible"/>
+            <Label  Content="Target customer:"  Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}" 
+                      HorizontalAlignment="Right" Grid.Column="0" />
             <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
                          Grid.Column="1" SelectedItem="{Binding Target}">
                 <ComboBox.ItemsPanel>
@@ -237,8 +242,8 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-            <Label  Content="Select Parcel's Weight:" VerticalAlignment="Center" Grid.Row="3"  HorizontalAlignment="Right"
-                    FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Column="0" />
+            <Label  Content="Weight:"  Grid.Row="3"  Style="{StaticResource LabelStyle}" HorizontalAlignment="Right"
+                    FontSize="15"  Grid.Column="0" />
             <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
                         SelectedItem="{Binding Weight}" Grid.Column="1">
                 <ComboBox.ItemsPanel>
@@ -250,8 +255,8 @@
 
 
 
-            <Label Content="Select Parcel's priority:" FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4"
-                    VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <Label Content="Priority:" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right" Grid.Row="4"
+                     FontSize="15" />
             <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
                       SelectedItem="{Binding Priority }">
                 <ComboBox.ItemsPanel>

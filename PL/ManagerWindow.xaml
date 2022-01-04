@@ -18,12 +18,9 @@
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
         <TabItem  x:Name="Drones"  Width="75"  >
-            <TabItem.Header  >
-
-                <StackPanel   Width="auto">                    <materialDesign:PackIcon Kind="ArrowAll"                                                Width="24" x:Name="icon"                         Height="24"          HorizontalAlignment="Center"  />                                        <TextBlock          Text="Drones"           HorizontalAlignment="Center" x:Name="text" />                </StackPanel>
-                
+            <TabItem.Header>
+                <StackPanel   Width="auto">                    <materialDesign:PackIcon Kind="ArrowAll" Width="24" x:Name="icon"                         Height="24" HorizontalAlignment="Center"  />                    <TextBlock Text="Drones" HorizontalAlignment="Center" x:Name="text" />                </StackPanel>
             </TabItem.Header>
-
             <Grid x:Name="MainGrid"  Style="{StaticResource GridStyle}" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100*"/>
@@ -44,10 +41,10 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Label Content="Choose a Weight:" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                   FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="18"/>
-                    <Label Content="Choose a Status:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"
-                   FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="18"/>
+                    <Label Content="Choose a Weight:" Style="{StaticResource LabelStyle}"
+                   FontStretch="Expanded"  FontStyle="Normal" FontSize="18"/>
+                    <Label Content="Choose a Status:" Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource LabelStyle}"
+                   FontStretch="Expanded"  FontStyle="Normal" FontSize="18"/>
                     <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Margin="248,0,0,76" Grid.RowSpan="2">
                         <ComboBox  Name="WeightSelector"   VerticalAlignment="Center" HorizontalAlignment="Left" 
                        Height="30" Width="90" SelectionChanged="WeightSelector_SelectionChanged" 
@@ -66,12 +63,12 @@
                                  FontSize="14" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,248,0">
-                        <Label Content="Group by:" Margin="10" FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
-                        <RibbonCheckBox x:Name="StatusGroupChBox" Label="Status" Checked="GroupingCheckBox_Checked" Unchecked="DroneGroupChBox_Unchecked"/>
+                        <Label Content="Group by:" Margin="10" FontStretch="Expanded" Style="{StaticResource LabelStyle}" FontSize="14"/>
+                        <RibbonCheckBox x:Name="StatusGroupChBox" Label="Status"  Checked="GroupingCheckBox_Checked" Unchecked="DroneGroupChBox_Unchecked"/>
                         <RibbonCheckBox x:Name="WeightGroupChBox" Label="Weight" Checked="GroupingCheckBox_Checked" Unchecked="DroneGroupChBox_Unchecked"/>
                         <RibbonCheckBox x:Name="ModelGroupChBox" Label="Model" Checked="GroupingCheckBox_Checked" Unchecked="DroneGroupChBox_Unchecked"/>
                     </StackPanel>
-                    <Button x:Name="addDroneButton" Content="Add New Drone" Grid.Column="4" 
+                    <Button x:Name="addDroneButton" Content="Add Drone" Grid.Column="4" 
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"
                         ToolTip="MaterialDesignFlatSecondaryLightBgButton" Visibility="Visible"
                      Height="40" Click="AddButton_Click" Width="150"  FontSize="18" Margin="0,56,0,0" VerticalAlignment="Top"  />
@@ -109,10 +106,8 @@
         <!--#endregion-->
         <!--#region Parcels tab-->
         <TabItem x:Name="Parcels"   Width="75" >
-            <TabItem.Header >
-               
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant"                                                Width="24"                         Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Parcels"           HorizontalAlignment="Center" />                </StackPanel>
-
+            <TabItem.Header>
+                <StackPanel   Width="auto">                    <materialDesign:PackIcon Kind="PackageVariant" Width="24" x:Name="parcelIcon"                         Height="24" HorizontalAlignment="Center"  />                    <TextBlock Text="Parcels" HorizontalAlignment="Center" x:Name="parcelTabText" />                </StackPanel>
             </TabItem.Header>
             <Grid x:Name="ParcelMainGrid" Style="{StaticResource GridStyle}">
                 <Grid.RowDefinitions>
@@ -133,8 +128,8 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-                        <Label Content="Filter by Weight:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                             FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                        <Label Content="Filter by Weight:" Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelStyle}"
+                             FontStretch="Expanded"  FontStyle="Normal" FontSize="14"/>
                         <ComboBox Name="ParcelWeightSelector"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
                             Height="22" Width="70" SelectionChanged="ParcelWeightSelector_SelectionChanged" ToolTip="Filter drones by status"/>
                         <Button x:Name="clearWeightButtonParcel" Content="Clear" Grid.Column="4" Margin="9"
@@ -143,8 +138,8 @@
                              FontSize="12" />
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
-                        <Label Content="Filter by Status:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                             FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                        <Label Content="Filter by Status:" Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}"
+                             FontStretch="Expanded"  FontStyle="Normal" FontSize="14"/>
                         <ComboBox Name="ParcelStatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
                               Height="22" Width="70" SelectionChanged="ParcelStatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
                         <Button x:Name="clearStatusButtonParcel" Content="Clear" Grid.Column="4" Margin="9"
@@ -153,8 +148,8 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                        <Label Content="Filter by Priority:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                        <Label Content="Filter by Priority:" Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelStyle}"
+                            FontStretch="Expanded"  FontStyle="Normal" FontSize="12"/>
                         <ComboBox Name="ParcelPrioritySelector" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left"
                              Height="22" Width="80" SelectionChanged="ParcelPrioritySelector_SelectionChanged" ToolTip="Filter drones by status"/>
                         <Button x:Name="clearPriorityButtonParcel" Content="Clear" Grid.Column="4" Margin="6"
@@ -164,22 +159,22 @@
                         </Button>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1">
-                        <Label Content="Group by: " FontSize="12" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+                        <Label Content="Group by: " FontSize="12" Style="{StaticResource LabelStyle}" HorizontalContentAlignment="Center"/>
                         <StackPanel Orientation="Horizontal">
                             <RibbonCheckBox x:Name="SenderChbox" Label="Sender" Margin="40,0,0,10"  Checked="ParcelGroupCheckBox_Checked" Unchecked="ParcelGroupCheckBoxCheckBox_Unchecked"/>
                             <RibbonCheckBox  x:Name="TargetChbox" Label="Target" Margin="40,0,0,10" Checked="ParcelGroupCheckBox_Checked" Unchecked="ParcelGroupCheckBoxCheckBox_Unchecked"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" >
-                        <Label Content="Select a time span:" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Margin="9"
-                           Grid.Column="5" Grid.ColumnSpan="2" FontSize="12" FontWeight="Bold"/>
-                        <StackPanel Orientation="Horizontal">
+                        <Label Content="Select a time span:" Style="{StaticResource LabelStyle}" Grid.Row="0" Margin="9"
+                           Grid.Column="5" Grid.ColumnSpan="2" FontSize="12" />
+                        <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <StackPanel Grid.Row="1" Grid.Column="5" VerticalAlignment="Top" >
-                                <Label Content="from:" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                <Label Content="from:" Style="{StaticResource LabelStyle}"/>
                                 <DatePicker x:Name="fromDate" SelectedDateChanged="toDate_SelectedDateChanged"></DatePicker>
                             </StackPanel>
-                            <StackPanel Grid.Row="1" Grid.Column="6" VerticalAlignment="Top" >
-                                <Label Content="To:" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <StackPanel Grid.Row="1" Grid.Column="6" VerticalAlignment="Top" Margin="10,0,0,0" >
+                                <Label Content="To:" Style="{StaticResource LabelStyle}"/>
                                 <DatePicker x:Name="toDate" IsEnabled="{Binding ElementName=fromDate, Path=SelectedDate ,Converter={StaticResource NullToEnableConverter }}"
                                             SelectedDateChanged="toDate_SelectedDateChanged">
                                 </DatePicker>
@@ -187,11 +182,11 @@
                             </StackPanel>
                             <Button x:Name="clearDatesButtonParcel" Content="Clear" Grid.Column="4" 
                              Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                              Height="25" Width="40" HorizontalAlignment="Center" Click="ParcelClearButton_Click" FontSize="12" Margin="0,24,0,0">
+                              Height="25" Width="40" HorizontalAlignment="Center" Click="ParcelClearButton_Click" FontSize="12" Margin="10,24,0,0">
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                    <Button x:Name="addParcelButton" Content="Add New Parcel" Grid.Column="7" 
+                    <Button x:Name="addParcelButton" Content="Add Parcel" Grid.Column="7" 
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
                      Height="40" Width="150" Click="AddButton_Click"  FontSize="18" />
 
@@ -248,7 +243,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="addCustomerButton" Content="New Customer" Grid.Column="6" Grid.RowSpan="2"
+                    <Button x:Name="addCustomerButton" Content="Add Customer" Grid.Column="6" Grid.RowSpan="2"
                     Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible" HorizontalAlignment="Center"
                      Height="40" Width="150" Click="AddButton_Click"  FontSize="18" VerticalAlignment="Center" />
 
@@ -304,11 +299,11 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Button x:Name="addStationButton" Content="Add New Station" Grid.Column="6" Grid.RowSpan="2"
+                    <Button x:Name="addStationButton" Content="Add Station" Grid.Column="6" Grid.RowSpan="2"
                     Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible" HorizontalAlignment="Center"
                      Height="40" Width="160" Click="AddButton_Click"  FontSize="18" VerticalAlignment="Center" />
-                    <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
-                        <Label Content="Group by:" Margin="10" FontStretch="Expanded" FontWeight="Bold" FontStyle="Normal" FontSize="14"/>
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2" >
+                        <Label Content="Group by:" Margin="10" FontStretch="Expanded" Style="{StaticResource LabelStyle}" FontStyle="Normal" FontSize="14"/>
                         <RibbonCheckBox x:Name="AvailableSlotsGroupChBox" Label="Available for charge" Checked="StationGroupingCheckBox_Checked" Unchecked="StationGroupChBox_Unchecked"/>
                         <RibbonCheckBox x:Name="NumSlotsGroupChBox" Label="Total charging slots" Checked="StationGroupingCheckBox_Checked" Unchecked="StationGroupChBox_Unchecked"/>
                              </StackPanel>

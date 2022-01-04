@@ -105,5 +105,10 @@ namespace PL
         {
             Close();
         }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

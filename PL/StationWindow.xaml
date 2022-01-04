@@ -46,26 +46,34 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Content="Base Station Details: " FontWeight="Bold" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Label Content="ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <Label Content="Base Station Details: " FontWeight="Bold" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="ID:" Style="{StaticResource LabelStyle}" Grid.Column="0" HorizontalAlignment="Center" 
+                       Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
                 <TextBox x:Name="stationIdTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
                          Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                <Label Content="Name:" Grid.Column="0"  Margin="3"
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"/>
                 <TextBox x:Name="StationNameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" 
                          Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Available charging &#x0a;          slots:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+                <Label Content="Available charging &#x0a;          slots:" Grid.Column="0" 
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
                 <TextBox x:Name="numOfSlotsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" 
                          Text="{Binding NumOfSlots, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Station Location" HorizontalAlignment="Center" Grid.Row="4" Grid.ColumnSpan="2" FontWeight="Bold" VerticalAlignment="Center"/>
-                <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5"  VerticalAlignment="Center"/>
+                <Label Content="Station Location:" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"
+                       Grid.Row="4" Grid.ColumnSpan="2" FontWeight="Bold" VerticalAlignment="Center"/>
+                <Label Content="Lattitude:" Grid.Column="0" Style="{StaticResource LabelStyle}"
+                       HorizontalAlignment="Center" Margin="3" Grid.Row="5"  VerticalAlignment="Center"/>
                 <TextBox x:Name="lattitudeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5"
                          Text="{Binding StationLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
                               Converter={StaticResource LattitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-                <Label Content="Longtitude:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+                <Label Content="Longtitude:" Grid.Column="0" Style="{StaticResource LabelStyle}"
+                       HorizontalAlignment="Center" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
                 <TextBox x:Name="longtitudeTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
                          Text="{Binding StationLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
-               <Label Content="Drones Charging at Station" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                <Label Content="Drones Charging at Station:" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2"
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 <Grid Style="{StaticResource listViewGrid}" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6">
                 <ListView x:Name="DroneChargeListView" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
                     <ListView.View>
@@ -78,12 +86,12 @@
                 </Grid>
             </Grid>
             <StackPanel x:Name ="updateStStk" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
-                <Label Content="Rename Station:" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"/>
+                <Label Content="Rename Station:" Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
                 <TextBox x:Name="newName"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="3"/>
                 <Button x:Name="RenameButton" Content="Rename" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="3"
                     IsEnabled="{Binding ElementName=newName, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-                <Label Content="update total charging slots count:"   HorizontalAlignment="Center" Margin="3"/>
+                <Label Content="update total charging slots count:"  Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" FontSize="12" Margin="3"/>
                 <TextBox x:Name="newChargeCount"  SpellCheck.IsEnabled="True" Height="23" Width="120" Margin="3" />
                 <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="3"  Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
@@ -111,25 +119,26 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Enter a 5 digit ID number:"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Enter New Base Station Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="103,0,0,47" Grid.RowSpan="2"/>
+            <Label Content="ID number:"  FontSize="15" FontFamily="Comic Sans MS" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
             <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
                      Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                     MaxLength="5" VerticalAlignment="Center" Width="120" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
-            <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Right"  FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold"   Grid.Row="4" VerticalAlignment="Center" />
+            <Label Content="Lattitude:" Grid.Column="0" HorizontalAlignment="Right" Style="{StaticResource LabelStyle}"
+                   FontSize="15" FontFamily="Comic Sans MS" FontWeight="Bold"   Grid.Row="4" VerticalAlignment="Center" />
             <TextBox x:Name="lattitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" 
                      Text="{Binding StationLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120"  />
-            <Label Content="Longtitude:"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Longtitude:"  FontSize="15" FontFamily="Comic Sans MS" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right"  Grid.Row="5" VerticalAlignment="Center"/>
             <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="5"
                      Text="{Binding StationLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120"  />
-            <Label Content="Name:" Grid.Column="0"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Name:" Grid.Column="0"  FontSize="15" FontFamily="Comic Sans MS" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  HorizontalAlignment="Right"  Grid.Row="2" VerticalAlignment="Center"/>
             <TextBox x:Name="nameTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-            <Label Content="Num Of Slots:"  FontSize="15" FontFamily="Comic Sans MS"
+            <Label Content="Num Of Slots:"  FontSize="15" FontFamily="Comic Sans MS" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center"/>
             <TextBox x:Name="numOfSlotsAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" 
                      Text="{Binding NumOfSlots, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
@@ -142,8 +151,7 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
                     Click="CancelStationButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
-            <TextBlock x:Name="LocationMessage" Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center"   FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold" />
+            
         </Grid>
     </Grid>
 </Window>
