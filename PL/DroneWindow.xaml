@@ -21,7 +21,7 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
+        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Visible" >
             <Grid.Resources>
                 <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
                     <Setter Property="Margin" Value="3"/>
@@ -90,7 +90,7 @@
                         <TextBox x:Name="batteryTextBox" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}" Grid.Row="3" 
                                  Text="{Binding Battery, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                         <Label Content="Max Weight:" Grid.Column="0"  Grid.Row="4" Style="{StaticResource droneWinLabelStyle}"/>
-                        <TextBox x:Name="maxWeightTextBox" Grid.Row="4"  Style="{StaticResource droneActionTxtBox}"
+                        <TextBox x:Name="maxWeightTextBox" Grid.Row="4" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                         <Label  Content="Status:" Grid.Column="0" Grid.Row="5" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="statusTextBox"  Grid.Column="1"  Grid.Row="5"  Style="{StaticResource droneActionTxtBox}"
