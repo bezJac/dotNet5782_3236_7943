@@ -13,7 +13,12 @@
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
-        
+        <Style x:Key="droneComboBx" BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Window.Resources>
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
@@ -29,7 +34,6 @@
                 </Grid.RowDefinitions>
                 <Grid Name="UpGrid" HorizontalAlignment="Stretch"  Style="{StaticResource GridStyle}"
                       Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
-                   
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="83*"/>
                         <ColumnDefinition Width="6*"/>
@@ -46,8 +50,8 @@
                     <Label Content="Choose a Status:" Grid.Row="1" VerticalAlignment="Center" Style="{StaticResource LabelStyle}"
                    FontStretch="Expanded"  FontStyle="Normal" FontSize="18"/>
                     <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3" Margin="248,0,0,76" Grid.RowSpan="2">
-                        <ComboBox  Name="WeightSelector"   VerticalAlignment="Center" HorizontalAlignment="Left" 
-                       Height="30" Width="90" SelectionChanged="WeightSelector_SelectionChanged" 
+                        <ComboBox  Name="WeightSelector"  Style="{StaticResource droneComboBx}"
+                       SelectionChanged="WeightSelector_SelectionChanged" 
                        ToolTip="Filter drones by weight"/>
                         <Button x:Name="clearButtonWeight" Content="Clear" Grid.Column="2" Margin="15"
                          Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
@@ -55,8 +59,8 @@
                                  FontSize="14" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" Margin="248,0,0,0">
-                        <ComboBox Name="StatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
-                      Height="30" Width="90" SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                        <ComboBox Name="StatusSelector" Grid.Row="1" Grid.Column="1" Style="{StaticResource droneComboBx}"
+                       SelectionChanged="StatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
                         <Button x:Name="clearButtonStatus" Content="Clear" Grid.Column="2" Margin="15"
                          Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
                              Height="30" Width="50" Click="ClearButton_Click"
@@ -116,6 +120,21 @@
                     <RowDefinition Height="30*"/>
                 </Grid.RowDefinitions>
                 <Grid Name="ParcelUpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+                    <Grid.Resources>
+                    <Style x:Key="parcelComboBx" BasedOn="{StaticResource droneComboBx}" TargetType="ComboBox">
+                        <Setter Property="Height" Value="22"/>
+                            <Setter Property="Width" Value="70"/>
+                     </Style>
+
+                        <Style x:Key="parcelTabButton" BasedOn="{StaticResource ButtonStyle}" TargetType="Button">
+                            <Setter Property="Height" Value="25"/>
+                            <Setter Property="Margin" Value="9"/>
+                            <Setter Property="Width" Value="40"/>
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
+                               
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -130,33 +149,30 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
                         <Label Content="Filter by Weight:" Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelStyle}"
                              FontStretch="Expanded"  FontStyle="Normal" FontSize="14"/>
-                        <ComboBox Name="ParcelWeightSelector"  Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
-                            Height="22" Width="70" SelectionChanged="ParcelWeightSelector_SelectionChanged" ToolTip="Filter drones by status"/>
-                        <Button x:Name="clearWeightButtonParcel" Content="Clear" Grid.Column="4" Margin="9"
-                             Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                              Height="25" Width="40" Click="ParcelClearButton_Click"
-                             FontSize="12" />
+                        <ComboBox Name="ParcelWeightSelector"  Grid.Row="0" Grid.Column="1" Style="{StaticResource parcelComboBx}"
+                             SelectionChanged="ParcelWeightSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                        <Button x:Name="clearWeightButtonParcel" Content="Clear" Grid.Column="4" Margin="4"
+                             Grid.RowSpan="2" Style="{StaticResource parcelTabButton}"  Click="ParcelClearButton_Click"/>
                     </StackPanel>
                     <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
                         <Label Content="Filter by Status:" Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}"
                              FontStretch="Expanded"  FontStyle="Normal" FontSize="14"/>
-                        <ComboBox Name="ParcelStatusSelector" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
-                              Height="22" Width="70" SelectionChanged="ParcelStatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
-                        <Button x:Name="clearStatusButtonParcel" Content="Clear" Grid.Column="4" Margin="9"
-                             Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                              Height="25" Width="40" Click="ParcelClearButton_Click" FontSize="12">
-                        </Button>
+                        <ComboBox Name="ParcelStatusSelector" Grid.Row="1" Grid.Column="1" Style="{StaticResource parcelComboBx}"
+                              SelectionChanged="ParcelStatusSelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                        <Button x:Name="clearStatusButtonParcel" Content="Clear" Grid.Column="4" 
+                             Grid.RowSpan="2" Style="{StaticResource parcelTabButton}"
+                               Click="ParcelClearButton_Click" />
+
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
                         <Label Content="Filter by Priority:" Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelStyle}"
                             FontStretch="Expanded"  FontStyle="Normal" FontSize="12"/>
-                        <ComboBox Name="ParcelPrioritySelector" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left"
-                             Height="22" Width="80" SelectionChanged="ParcelPrioritySelector_SelectionChanged" ToolTip="Filter drones by status"/>
+                        <ComboBox Name="ParcelPrioritySelector" Grid.Row="0" Grid.Column="3" Style="{StaticResource parcelComboBx}"
+                              Width="80" SelectionChanged="ParcelPrioritySelector_SelectionChanged" ToolTip="Filter drones by status"/>
                         <Button x:Name="clearPriorityButtonParcel" Content="Clear" Grid.Column="4" Margin="6"
-                             Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                              Height="25" Width="40" Click="ParcelClearButton_Click"
-                             FontSize="12">
-                        </Button>
+                             Grid.RowSpan="2" Style="{StaticResource parcelTabButton}" 
+                               Click="ParcelClearButton_Click" />
+
                     </StackPanel>
                     <StackPanel Grid.Row="1" Grid.Column="1">
                         <Label Content="Group by: " FontSize="12" Style="{StaticResource LabelStyle}" HorizontalContentAlignment="Center"/>
@@ -181,8 +197,8 @@
 
                             </StackPanel>
                             <Button x:Name="clearDatesButtonParcel" Content="Clear" Grid.Column="4" 
-                             Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Visibility="Visible"
-                              Height="25" Width="40" HorizontalAlignment="Center" Click="ParcelClearButton_Click" FontSize="12" Margin="10,24,0,0">
+                             Grid.RowSpan="2" Style="{StaticResource parcelTabButton}" 
+                               HorizontalAlignment="Center" Click="ParcelClearButton_Click" FontSize="12" Margin="10,24,0,0">
                             </Button>
                         </StackPanel>
                     </StackPanel>

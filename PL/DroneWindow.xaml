@@ -21,13 +21,13 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Visible" >
+        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
             <Grid.Resources>
                 <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
                     <Setter Property="Margin" Value="3"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                 </Style>
-                <Style x:Key="droneActionTxtBox" TargetType="TextBox">
+                <Style x:Key="droneActionTxtBox" BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
                     <Setter Property="Margin" Value="3"/>
                     <Setter Property="Width" Value="120"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
