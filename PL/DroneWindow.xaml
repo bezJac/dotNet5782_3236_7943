@@ -22,7 +22,7 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Visible" >
+        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
             <Grid.Resources>
                 <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
                     <Setter Property="Margin" Value="3"/>
