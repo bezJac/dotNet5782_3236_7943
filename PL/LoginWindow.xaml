@@ -8,29 +8,22 @@
         mc:Ignorable="d"
         Title="" Height="250" Width="200" Style="{StaticResource WindowStyle}" Left="1090" MouseLeave="Window_MouseLeave" WindowStyle="None" WindowStartupLocation ="CenterOwner" >
     <Grid x:Name="Enter" Style="{StaticResource GridStyle}">
-        <StackPanel x:Name="manager" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
-            
         
-        <TextBox x:Name="userName" Cursor="AppStarting" materialDesign:HintAssist.Hint="Admin UserName" Height="30"   Margin="0,25,0,0"/>
-        <PasswordBox x:Name="adminPassword" Height="30" Margin="0,15,0,0"
-  
-             materialDesign:HintAssist.Hint="Password"
-                 materialDesign:TextFieldAssist.HasClearButton="True"
-                Width="140"  />
-        <Button x:Name="enterManager" Content="Enter" Style="{StaticResource ButtonStyle}"
-              Margin="0,15,0,0"  Visibility="Visible"  VerticalAlignment="Top" Click="enterManager_Click"/>
-            <Button x:Name="cancelButtonManager" Content="Cancel"  Visibility="Visible" Margin="0,25,0,0"
-                         HorizontalAlignment="Center" Height="34"
-                    Style="{StaticResource ButtonStyle}"
-                    Click="CancelButton_Click" />
+        <StackPanel x:Name="manager" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
+            <TextBox x:Name="userName" Cursor="AppStarting" materialDesign:HintAssist.Hint="Admin UserName" Height="30"   Margin="0,25,0,0"/>
+            <PasswordBox x:Name="adminPassword" Height="30" Margin="0,15,0,0" materialDesign:HintAssist.Hint="Password"
+                 materialDesign:TextFieldAssist.HasClearButton="True"  Width="140"  />
+            <Button x:Name="enterManager" Content="Enter" Style="{StaticResource ButtonStyle}"
+                  Margin="0,15,0,0"  Visibility="Visible"  VerticalAlignment="Top" Click="enterManager_Click"/>
+            <Button x:Name="cancelButtonManager" Content="Cancel"  Visibility="Visible" Margin="0,25,0,0" HorizontalAlignment="Center"
+                    Height="34" Style="{StaticResource ButtonStyle}" Click="CancelButton_Click" />
         </StackPanel>
+        
+        
         <StackPanel x:Name="customer" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
-
             <TextBox x:Name="IdCustomerTxt" Width="120" VerticalContentAlignment="Bottom" materialDesign:TextFieldAssist.HasClearButton="True"
                      materialDesign:HintAssist.Hint="Customer ID"
                         Text="{Binding Id }"  PreviewKeyDown="IdTextBox_OnlyNumbers_PreviewKeyDown" MaxLength="8" Margin="0,55,0,0"/>
-
-
             <Button x:Name="SignIn" Content="Sign in" Click="signInButton_Click" Visibility="Visible" Style="{StaticResource ButtonStyle}"
                     Width="125" Height="45"  Margin="0,25,0,0"
                      HorizontalAlignment="Left"  VerticalAlignment="Top"/>
@@ -39,5 +32,7 @@
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelButton_Click" />
         </StackPanel>
+        
+        
     </Grid>
 </Window>

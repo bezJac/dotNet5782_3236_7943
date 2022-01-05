@@ -13,8 +13,15 @@
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-     
 
+        <Style x:Key="CustomerActionTxtBox" BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Height" Value="23"/>
+        </Style>
     </Window.Resources>
     
     <Grid>
@@ -25,6 +32,7 @@
                     <Setter Property="Margin" Value="3"/>
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                 </Style>
+               
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="140*"/>
@@ -55,21 +63,23 @@
                 </Grid.RowDefinitions>
                 <Label Content="Customer Details:"  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource LabelStyle}" FontSize="15"/>
                 <Label Content="ID:" Grid.Column="0" Grid.Row="1" Style="{StaticResource customerActionLabel}" />
-                <TextBox x:Name="iDTextBox" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="iDTextBox" Grid.Column="1" Grid.Row="1" Style="{StaticResource CustomerActionTxtBox}"   
+                       Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
                 <Label Content="Name:" Grid.Column="0"  Grid.Row="2" Style="{StaticResource customerActionLabel}" />
-                <TextBox x:Name="nameTextBox" Grid.Column="1" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="2" Style="{StaticResource CustomerActionTxtBox}"
+                       Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                 <Label Content="Phone:" Grid.Column="0"  Grid.Row="3" Style="{StaticResource customerActionLabel}" />
-                <TextBox x:Name="phoneTextBox" Grid.Column="1" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="3" Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-
+                <TextBox x:Name="phoneTextBox" Grid.Column="1"  Grid.Row="3" Style="{StaticResource CustomerActionTxtBox}"
+                         Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                 <Label Content="Customer Location" Style="{StaticResource LabelStyle}" Grid.Row="4" Grid.ColumnSpan="2" />
                 <Label Content="Lattitude:" Grid.Column="0" Grid.Row="5" Style="{StaticResource customerActionLabel}" />
-                <TextBox x:Name="lattitudeTextBox" Grid.Column="1" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5"
+                <TextBox x:Name="lattitudeTextBox" Grid.Column="1"  Grid.Row="5" Style="{StaticResource CustomerActionTxtBox}"
                          Text="{Binding CustomerLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
-                              Converter={StaticResource LattitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
+                              Converter={StaticResource LattitudeToDmsConverter}}" />
                 <Label Content="Longtitude:" Grid.Column="0"  Grid.Row="6" Style="{StaticResource customerActionLabel}" />
-                <TextBox x:Name="longtitudeTextBox" Grid.Column="1" IsReadOnly="True"  HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" 
+                <TextBox x:Name="longtitudeTextBox" Grid.Column="1"  Grid.Row="6" Style="{StaticResource CustomerActionTxtBox}"
                          Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
-                                    Converter={StaticResource LongtitudeToDmsConverter}}" VerticalAlignment="Center" Width="120"/>
+                                    Converter={StaticResource LongtitudeToDmsConverter}}" />
                 <Grid x:Name="ParcelsCustomerGrid" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7" Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -141,6 +151,9 @@
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                     <Setter Property="FontSize" Value="15"/>
                 </Style>
+                <Style x:Key="customerAddTxtbox" BasedOn="{StaticResource CustomerActionTxtBox}" TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="False"/>
+                </Style>
             </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -161,23 +174,23 @@
                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="160,0,0,55" Grid.RowSpan="2"/>
             <Label Content="ID number:"   Style="{StaticResource customerAddLabel}" 
                     Grid.Column="0"  Grid.Row="1"  />
-            <TextBox x:Name="idTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1"
+            <TextBox x:Name="idTextBox" Grid.Column="1"  Grid.Row="1" Style="{StaticResource customerAddTxtbox}"
                      Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                    MaxLength="8" VerticalAlignment="Center" Width="120" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
+                    MaxLength="8"  PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" />
             <Label Content="Lattitude:" Grid.Column="0" Grid.Row="4" Style="{StaticResource customerAddLabel}"  />
-            <TextBox x:Name="lattitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" 
-                     Text="{Binding CustomerLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     VerticalAlignment="Center" Width="120"  />
-            <Label Content="Longtitude:" Style="{StaticResource customerAddLabel}" Grid.Column="0" HorizontalAlignment="Right"  Grid.Row="5" />
-            <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="5"
-                     Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     VerticalAlignment="Center" Width="120"  />
+            <TextBox x:Name="lattitudeAddTextBox" Grid.Column="1" Grid.Row="4" Style="{StaticResource customerAddTxtbox}"
+                     Text="{Binding CustomerLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+
+            <Label Content="Longtitude:" Style="{StaticResource customerAddLabel}" Grid.Column="0"  Grid.Row="5" />
+            <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1"   Grid.Row="5" Style="{StaticResource customerAddTxtbox}"
+                     Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
             <Label Content=" Enter a Name:" Grid.Column="0" Grid.Row="2" Style="{StaticResource customerAddLabel}" />
-            <TextBox x:Name="nameAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="nameAddTextBox" Grid.Column="1"  Grid.Row="2" Style="{StaticResource customerAddTxtbox}"
+                     Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
             <Label Content="Enter a phone number" Grid.Column="0" Grid.Row="3" Style="{StaticResource customerAddLabel}"/>
-            <TextBox x:Name="PhoneAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" 
+            <TextBox x:Name="PhoneAddTextBox" Grid.Column="1"  Grid.Row="3" Style="{StaticResource customerAddTxtbox}"
                      Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
-                     VerticalAlignment="Center" Width="120" Margin="3" PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
+                      PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
 
             <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="2" Visibility="Visible"
                      Style="{StaticResource ButtonStyle}" Height="45"
@@ -186,8 +199,6 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
                     Click="CancelCustomerButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
-            <TextBlock x:Name="LocationMessage" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"   FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold" />
         </Grid>
     </Grid>
     
