@@ -5,10 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 using BO;
+using System.Runtime.CompilerServices;
+
 namespace BL
 {
     public partial class BL: BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStation(int id, int count, string name)
         {
             BaseStation station;
@@ -38,6 +41,7 @@ namespace BL
            
             myDal.UpdateBaseStation(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(int id, string model)
         {
             DO.Drone dr;
@@ -55,6 +59,7 @@ namespace BL
             int index = drones.FindIndex(dr => dr.Id == id);
             drones[index].Model = model;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int id, string phone, string name)
         {
             DO.Customer cstmr;

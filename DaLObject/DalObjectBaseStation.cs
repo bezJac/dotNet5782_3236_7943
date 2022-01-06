@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DO;
 using DalApi;
 using DS;
@@ -11,12 +12,14 @@ namespace Dal
 {
     internal partial class DalObject : IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddBaseStation(BaseStation st)
         {
             if (DataSource.Stations.Any(station => station.Id == st.Id))
                 throw new ExsistException($"id number {st.Id}, already exists");
             DataSource.Stations.Add(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => x.Id == bst.Id);
@@ -24,6 +27,7 @@ namespace Dal
                 throw new NonExistsException($"id number {bst.Id} not found");
             DataSource.Stations[index] = bst;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveBaseStation(BaseStation bst)
         {
             int index = DataSource.Stations.FindIndex(x => x.Id == bst.Id);
@@ -31,6 +35,7 @@ namespace Dal
                 throw new NonExistsException($"id number {bst.Id} not found");
             DataSource.Stations.RemoveAt(index);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BaseStation GetBaseStation(int id)
         {
             BaseStation? temp = null;
@@ -48,6 +53,7 @@ namespace Dal
             }
             return (BaseStation)temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation, bool> predicate = null)
         {
             if (predicate == null)

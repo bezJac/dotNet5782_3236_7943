@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 using BO;
-
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStation> GetAllBaseStations()
         {
             IEnumerable<DO.BaseStation> stations;
@@ -26,6 +27,7 @@ namespace BL
                    let st = convertToBaseStation(station)
                    select st;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStationInList> GetALLBaseStationInList()
         {
             IEnumerable<BaseStation> stations;
@@ -43,6 +45,7 @@ namespace BL
                    select st;
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStationInList> GetAllAvailablBaseStations()
         {
             IEnumerable<DO.BaseStation> stations;
@@ -59,6 +62,7 @@ namespace BL
                    let listSt = convertToBaseStationInList(st)
                    select listSt;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetAllDrones()
         {
             if (drones.Count <= 0)
@@ -67,6 +71,7 @@ namespace BL
                    let drone = convertToDrone(dr)
                    select drone;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null)
         {
             if (status == null && weight == null)
@@ -105,6 +110,7 @@ namespace BL
             }
             throw new GetListException("No drones in list");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetAllCustomers()
         {
             IEnumerable<DO.Customer> customers;
@@ -120,6 +126,7 @@ namespace BL
                    let cs = convertToCustomer(cstmr)
                    select cs;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerInList> GetAllCustomersInList()
         {
 
@@ -136,6 +143,7 @@ namespace BL
                    let cs = convertToCustomerInList(cstmr)
                    select cs;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetAllParcels()
         {
             IEnumerable<DO.Parcel> parcels;
@@ -151,6 +159,7 @@ namespace BL
                    let prc = convertToParcel(parcel)
                    select prc;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null)
         {
             IEnumerable<ParcelInList> tmp;
@@ -169,6 +178,7 @@ namespace BL
                 throw new GetListException("no parcels in list match filter");
             return tmp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllParcelsInList(DateTime? from, DateTime? to)
         {
 
@@ -181,6 +191,7 @@ namespace BL
                 throw new GetListException("no parcels in list match time span");
             return tmp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
             IEnumerable<DO.Parcel> parcels;
@@ -196,6 +207,7 @@ namespace BL
                    let prc = convertToParcelInList(parcel)
                    select prc;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId)
         {
             return from parcel in myDal.GetAllParcels()
@@ -211,6 +223,7 @@ namespace BL
                    };
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId)
         {
             return from parcel in myDal.GetAllParcels()
@@ -225,6 +238,7 @@ namespace BL
 
                    };
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetAllDronesCharging(int stationId)
         {
             return from Charge in myDal.GetAllDronecharges()

@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BL: BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddBaseStation(BaseStation station)
         {
             try 
@@ -28,6 +30,7 @@ namespace BL
                 throw new AddException("", ex);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone ,int stationId)
         {
             Random rnd = new();
@@ -75,6 +78,7 @@ namespace BL
             myDal.AddDroneCharge(new DO.DroneCharge { DroneId = (int)drone.Id, StationId = st.Id,EntranceTime= DateTime.Now, });
             myDal.UpdateBaseStation(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcel)
         {
             // check that customer id's from user are valid customers
@@ -110,6 +114,7 @@ namespace BL
                 throw new AddException("", Ex);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             try
