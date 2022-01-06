@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     internal sealed partial class DalXml : DalApi.IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge dc)
         {
             List<DroneCharge> charges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -17,6 +19,7 @@ namespace Dal
             charges.Add(dc);
             XMLTools.SaveListToXMLSerializer<DroneCharge>(charges, droneChargePath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(DroneCharge dc)
         {
             List<DroneCharge> charges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -26,6 +29,7 @@ namespace Dal
             charges.RemoveAt(index);
             XMLTools.SaveListToXMLSerializer<DroneCharge>(charges, droneChargePath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int droneId)
         {
             IEnumerable<DroneCharge> charges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -42,6 +46,7 @@ namespace Dal
             }
             return (DroneCharge)temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetAllDronecharges(Func<DroneCharge, bool> predicate = null)
         {
             IEnumerable<DroneCharge> charges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);

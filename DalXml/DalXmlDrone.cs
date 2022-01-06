@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -29,7 +30,7 @@ namespace Dal
                 Console.WriteLine("File upload problem");
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone dr)
         {
             LoadData();
@@ -43,7 +44,7 @@ namespace Dal
                 new XElement("MaxWeight", dr.MaxWeight)));
             dronesRoot.Save(dir+dronePath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             LoadData();
@@ -63,7 +64,7 @@ namespace Dal
 
             return (Drone)temp;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
             if (!dronesRoot.Elements().Any(dr => (Convert.ToInt32(dr.Element("ID").Value) == drone.Id)))
@@ -81,7 +82,7 @@ namespace Dal
 
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             LoadData();
@@ -96,7 +97,7 @@ namespace Dal
             dronesRoot.Save(dronePath);
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetAllDrones(Func<Drone, bool> predicate = null)
         {
             LoadData();

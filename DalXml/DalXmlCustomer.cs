@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     internal sealed partial class DalXml : DalApi.IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer person)
         {
             List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -17,6 +19,7 @@ namespace Dal
             customers.Add(person);
             XMLTools.SaveListToXMLSerializer<Customer>(customers, customerPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer person)
         {
             List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -26,6 +29,7 @@ namespace Dal
             customers[index] = person;
             XMLTools.SaveListToXMLSerializer<Customer>(customers, customerPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(Customer person)
         {
             List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -34,6 +38,7 @@ namespace Dal
                 throw new NonExistsException($"id number {person.Id} not found");
             XMLTools.SaveListToXMLSerializer<Customer>(customers, customerPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             IEnumerable<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -48,6 +53,7 @@ namespace Dal
 
             return (Customer)temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetAllCustomers(Func<Customer, bool> predicate = null)
         {
             IEnumerable<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);

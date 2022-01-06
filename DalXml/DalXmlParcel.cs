@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     internal sealed partial class DalXml : DalApi.IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel prc)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -17,6 +19,7 @@ namespace Dal
             parcels.Add(prc);
             XMLTools.SaveListToXMLSerializer<Parcel>(parcels, parcelPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel prc)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -27,6 +30,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Parcel>(parcels, parcelPath);
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(Parcel prc)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -36,6 +40,7 @@ namespace Dal
             parcels.RemoveAt(index);
             XMLTools.SaveListToXMLSerializer<Parcel>(parcels, parcelPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             IEnumerable<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -50,6 +55,7 @@ namespace Dal
 
             return (Parcel)temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetAllParcels(Func<Parcel, bool> predicate = null)
         {
             IEnumerable<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);

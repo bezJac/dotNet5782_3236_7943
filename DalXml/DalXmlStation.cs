@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     internal sealed partial class DalXml : DalApi.IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddBaseStation(BaseStation st)
         {
             List<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);
@@ -17,6 +19,7 @@ namespace Dal
             stations.Add(st);
             XMLTools.SaveListToXMLSerializer<BaseStation>(stations, stationPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStation(BaseStation bst)
         {
             List<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);
@@ -27,6 +30,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<BaseStation>(stations, stationPath);
             
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveBaseStation(BaseStation bst)
         {
             List<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);
@@ -36,6 +40,7 @@ namespace Dal
             stations.RemoveAt(index);
             XMLTools.SaveListToXMLSerializer<BaseStation>(stations, stationPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BaseStation GetBaseStation(int id)
         {
             IEnumerable<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);
@@ -50,6 +55,7 @@ namespace Dal
            
             return (BaseStation)temp;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation, bool> predicate = null)
         {
             IEnumerable<BaseStation> stations = XMLTools.LoadListFromXMLSerializer<BaseStation>(stationPath);

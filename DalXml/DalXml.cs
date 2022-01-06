@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -52,7 +53,7 @@ namespace Dal
         }
 
         #endregion
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<double> GetElectricUse()
         {
             XElement dalConfig = XElement.Load(@"..\xml\config.xml");
