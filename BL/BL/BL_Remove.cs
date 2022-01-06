@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using System.Runtime.CompilerServices;
+
 namespace BL
 {
     public partial class BL : BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public   void removeDrone(int id)
         {
             DO.Drone dr;
@@ -25,7 +28,7 @@ namespace BL
                 throw new RemoveException("drone is currently busy with delivery and cannot be removed at the momment");
             myDal.RemoveDrone(dr);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void removeCustomer(int id)
         {
             DO.Customer cstmr;
@@ -45,7 +48,7 @@ namespace BL
                 throw new RemoveException("customer details appear in other entities,\ncannot be removed at the momment");
             myDal.RemoveCustomer(cstmr);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveBaseStation(int id)
         {
             DO.BaseStation st;
@@ -63,6 +66,7 @@ namespace BL
                 throw new RemoveException("drones currently charging at station, station cannot be removed");
             myDal.RemoveBaseStation(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(int id)
         {
             DO.Parcel prc;
@@ -80,6 +84,7 @@ namespace BL
                 throw new RemoveException("delivery was proccessed, cannot remove parcel");
             myDal.RemoveParcel(prc);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int id)
         {
             DO.DroneCharge dc;

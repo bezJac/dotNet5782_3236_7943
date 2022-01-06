@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.Runtime.CompilerServices;
 using DO;
 using DalApi;
 using DS;

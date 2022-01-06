@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     
     public partial class BL: BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ChargeDrone(int id)
         {
             // check if drone exists
@@ -43,6 +45,7 @@ namespace BL
             st.NumOfSlots--;
             myDal.UpdateBaseStation(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DischargeDrone(int id)
         {
             // check if drone exists
@@ -71,6 +74,7 @@ namespace BL
             tempSt.NumOfSlots++;
             myDal.UpdateBaseStation(tempSt);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void LinkDroneToParcel(int id)
         {
             // check if drones exists
@@ -121,6 +125,7 @@ namespace BL
         
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneParcelPickUp(int id)
         {
             // check if drones exsists
@@ -152,6 +157,7 @@ namespace BL
             p.PickedUp = DateTime.Now;
             myDal.UpdateParcel(p);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DroneParcelDelivery(int id)
         {
             // check if drones exsists

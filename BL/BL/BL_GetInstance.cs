@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 using BO;
-
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
-      public partial class BL : BlApi.IBL
+    public partial class BL : BlApi.IBL
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public BaseStation GetBaseStation(int id)
         {
             DO.BaseStation st;
@@ -24,6 +25,7 @@ namespace BL
             }
             return convertToBaseStation(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             DO.Drone dr;
@@ -37,6 +39,7 @@ namespace BL
             }
             return convertToDrone(drones.Find(drone => drone.Id == dr.Id));
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneInParcel GetDroneInParcel(int id)
         {
             DroneInList dr = drones.Find(dr => dr.Id == id);
@@ -47,6 +50,7 @@ namespace BL
                 DroneLocation = dr.DroneLocation,
             };
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             DO.Customer cstmr;
@@ -60,6 +64,7 @@ namespace BL
             }
             return convertToCustomer(cstmr);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             DO.Parcel prc;
@@ -73,6 +78,7 @@ namespace BL
             }
             return convertToParcel(prc);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public CustomerInParcel GetCustomerInParcel(int id)
         {
             DO.Customer cstmr = myDal.GetCustomer(id);
@@ -82,6 +88,7 @@ namespace BL
                 Name = cstmr.Name,
             };
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelInDelivery GetParcelInDelivery(int id)
         {
             DO.Parcel parcel;
@@ -110,7 +117,7 @@ namespace BL
             // if parcel was already picked up set flag  to true 
             if (getParcelStatus(parcel) == ParcelStatus.PickedUp)
                 flag = true;
-            
+
             Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
             Location targetLocation = createLocation(target.Longitude, target.Lattitude);
             return new ParcelInDelivery

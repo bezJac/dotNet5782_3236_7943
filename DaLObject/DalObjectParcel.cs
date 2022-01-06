@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DO;
 using DalApi;
 using DS;
 
 namespace Dal
 {
-      internal partial class DalObject:IDal
+    internal partial class DalObject : IDal
     {
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel pack)
         {
             if (DataSource.Parcels.Any(parcel => (parcel.Id == pack.Id)))
@@ -18,6 +20,7 @@ namespace Dal
             pack.Id = ++DataSource.Config.RunIdParcel;
             DataSource.Parcels.Add(pack);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
@@ -25,6 +28,7 @@ namespace Dal
                 throw new NonExistsException($"id number {pack.Id} not found");
             DataSource.Parcels[index] = pack;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(Parcel pack)
         {
             int index = DataSource.Parcels.FindIndex(x => (x.Id == pack.Id));
@@ -32,6 +36,7 @@ namespace Dal
                 throw new NonExistsException($"id number {pack.Id} not found");
             DataSource.Parcels.RemoveAt(index);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
 
@@ -51,7 +56,8 @@ namespace Dal
             }
             return (Parcel)temp;
         }
-        public IEnumerable<Parcel> GetAllParcels(Func<Parcel,bool> predicate = null)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Parcel> GetAllParcels(Func<Parcel, bool> predicate = null)
         {
             if (predicate == null)
             {

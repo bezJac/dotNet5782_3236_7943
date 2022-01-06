@@ -10,6 +10,8 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Linq;
+using System.Runtime.CompilerServices;
+
 
 namespace Dal
 {
@@ -53,8 +55,8 @@ namespace Dal
         }
         #endregion
 
-        
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<double> GetElectricUse()
         {
             double[] electric = new double[5] { DataSource.Config.DroneElecUseEmpty,
