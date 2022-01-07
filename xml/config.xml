@@ -11,5 +11,5 @@
   <DroneElecUseLight>3</DroneElecUseLight>
   <DroneElecUseMedium>3.5</DroneElecUseMedium>
   <DroneElecUseHeavy>4</DroneElecUseHeavy>
-  <DroneHourlyChargeRate>67</DroneHourlyChargeRate>
+	<DroneChargeRatePerSecond>4</DroneChargeRatePerSecond>
 </config>

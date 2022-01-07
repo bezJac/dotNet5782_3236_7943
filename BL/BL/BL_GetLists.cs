@@ -15,61 +15,73 @@ namespace BL
         public IEnumerable<BaseStation> GetAllBaseStations()
         {
             IEnumerable<DO.BaseStation> stations;
-            try
+            lock (myDal)
             {
-                stations = myDal.GetAllBaseStations();
+                try
+                {
+                    stations = myDal.GetAllBaseStations();
+                }
+                catch (Exception Ex)
+                {
+                    throw new GetListException("", Ex);
+                }
+                return from station in stations
+                       let st = convertToBaseStation(station)
+                       select st;
             }
-            catch (Exception Ex)
-            {
-                throw new GetListException("", Ex);
-            }
-            return from station in stations
-                   let st = convertToBaseStation(station)
-                   select st;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStationInList> GetALLBaseStationInList()
         {
             IEnumerable<BaseStation> stations;
-            try
+            lock (myDal)
             {
-                ///
-                stations = GetAllBaseStations();
+                try
+                {
+                    ///
+                    stations = GetAllBaseStations();
+                }
+                catch (Exception Ex)
+                {
+                    throw new GetListException("", Ex);
+                }
+                return from station in stations
+                       let st = convertToBaseStationInList(station)
+                       select st;
             }
-            catch (Exception Ex)
-            {
-                throw new GetListException("", Ex);
-            }
-            return from station in stations
-                   let st = convertToBaseStationInList(station)
-                   select st;
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStationInList> GetAllAvailablBaseStations()
         {
             IEnumerable<DO.BaseStation> stations;
-            try
+            lock (myDal)
             {
-                stations = myDal.GetAllBaseStations(st => st.NumOfSlots > 0);
+                try
+                {
+                    stations = myDal.GetAllBaseStations(st => st.NumOfSlots > 0);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetListException("", ex);
+                }
+                return from station in stations
+                       let st = convertToBaseStation(station)
+                       let listSt = convertToBaseStationInList(st)
+                       select listSt;
             }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from station in stations
-                   let st = convertToBaseStation(station)
-                   let listSt = convertToBaseStationInList(st)
-                   select listSt;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetAllDrones()
         {
             if (drones.Count <= 0)
                 throw new GetListException("no drones in list");
-            return from dr in drones
-                   let drone = convertToDrone(dr)
-                   select drone;
+            lock (myDal)
+            {
+                return from dr in drones
+                       let drone = convertToDrone(dr)
+                       select drone;
+            }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null)
@@ -77,7 +89,7 @@ namespace BL
             if (status == null && weight == null)
             {
                 if (drones.Count > 0)
-                    return drones.ToList();
+                    return drones;
                 throw new GetListException("No drones in list");
             }
             IEnumerable<DroneInList> tmp;
@@ -114,140 +126,162 @@ namespace BL
         public IEnumerable<Customer> GetAllCustomers()
         {
             IEnumerable<DO.Customer> customers;
-            try
+            lock (myDal)
             {
-                customers = myDal.GetAllCustomers();
+                try
+                {
+                    customers = myDal.GetAllCustomers();
+                }
+                catch (Exception ex)
+                {
+                    throw new GetListException("", ex);
+                }
+                return from cstmr in customers
+                       let cs = convertToCustomer(cstmr)
+                       select cs;
             }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from cstmr in customers
-                   let cs = convertToCustomer(cstmr)
-                   select cs;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerInList> GetAllCustomersInList()
         {
 
             IEnumerable<Customer> customers;
-            try
+            lock (myDal)
             {
-                customers = GetAllCustomers();
+                try
+                {
+                    customers = GetAllCustomers();
+                }
+                catch (Exception ex)
+                {
+                    throw new GetListException("", ex);
+                }
+                return from cstmr in customers
+                       let cs = convertToCustomerInList(cstmr)
+                       select cs;
             }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from cstmr in customers
-                   let cs = convertToCustomerInList(cstmr)
-                   select cs;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetAllParcels()
         {
             IEnumerable<DO.Parcel> parcels;
-            try
+            lock (myDal)
             {
-                parcels = myDal.GetAllParcels();
+                try
+                {
+                    parcels = myDal.GetAllParcels();
+                }
+                catch (Exception ex)
+                {
+                    throw new GetListException("", ex);
+                }
+                return from parcel in parcels
+                       let prc = convertToParcel(parcel)
+                       select prc;
             }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from parcel in parcels
-                   let prc = convertToParcel(parcel)
-                   select prc;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllParcelsInList(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null)
         {
             IEnumerable<ParcelInList> tmp;
-            if (status == null && priority == null && weight == null)
-                tmp = from parcel in myDal.GetAllParcels()
-                      let prc = convertToParcelInList(parcel)
-                      select prc;
-            else
-                tmp = from parcel in myDal.GetAllParcels()
-                      where status == getParcelStatus(parcel)
-                      || priority == (BO.Priority)parcel.Priority
-                      || weight == (BO.WeightCategories)parcel.Weight
-                      let prc = convertToParcelInList(parcel)
-                      select prc;
-            if (!tmp.Any())
-                throw new GetListException("no parcels in list match filter");
-            return tmp;
+            lock (myDal)
+            {
+                if (status == null && priority == null && weight == null)
+                    tmp = from parcel in myDal.GetAllParcels()
+                          let prc = convertToParcelInList(parcel)
+                          select prc;
+                else
+                    tmp = from parcel in myDal.GetAllParcels()
+                          where status == getParcelStatus(parcel)
+                          || priority == (BO.Priority)parcel.Priority
+                          || weight == (BO.WeightCategories)parcel.Weight
+                          let prc = convertToParcelInList(parcel)
+                          select prc;
+                return !tmp.Any() ? throw new GetListException("no parcels in list match filter") : tmp;
+            }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllParcelsInList(DateTime? from, DateTime? to)
         {
-
-            IEnumerable<ParcelInList> tmp = from parcel in myDal.GetAllParcels()
-                                            where parcel.Requested >= @from
-                                            && parcel.Requested < to
-                                            let prc = convertToParcelInList(parcel)
-                                            select prc;
-            if (!tmp.Any())
-                throw new GetListException("no parcels in list match time span");
-            return tmp;
+            lock (myDal)
+            {
+                IEnumerable<ParcelInList> tmp = from parcel in myDal.GetAllParcels()
+                                                where parcel.Requested >= @from
+                                                && parcel.Requested < to
+                                                let prc = convertToParcelInList(parcel)
+                                                select prc;
+                return !tmp.Any() ? throw new GetListException("no parcels in list match time span") : tmp;
+            }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelInList> GetAllUnlinkedParcels()
         {
             IEnumerable<DO.Parcel> parcels;
-            try
+            lock (myDal)
             {
-                parcels = myDal.GetAllParcels(prc => prc.DroneId == 0);
+                try
+                {
+                    parcels = myDal.GetAllParcels(prc => prc.DroneId == 0);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetListException("", ex);
+                }
+                return from parcel in parcels
+                       let prc = convertToParcelInList(parcel)
+                       select prc;
             }
-            catch (Exception ex)
-            {
-                throw new GetListException("", ex);
-            }
-            return from parcel in parcels
-                   let prc = convertToParcelInList(parcel)
-                   select prc;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelAtCustomer> GetAllOutGoingDeliveries(int senderId)
         {
-            return from parcel in myDal.GetAllParcels()
-                   where parcel.SenderId == senderId
-                   select new ParcelAtCustomer
-                   {
-                       Id = parcel.Id,
-                       Weight = (WeightCategories)parcel.Weight,
-                       Priority = (Priority)parcel.Priority,
-                       Status = getParcelStatus(parcel),
-                       CounterCustomer = GetCustomerInParcel(parcel.TargetId),
+            lock (myDal)
+            {
+                return from parcel in myDal.GetAllParcels()
+                       where parcel.SenderId == senderId
+                       select new ParcelAtCustomer
+                       {
+                           Id = parcel.Id,
+                           Weight = (WeightCategories)parcel.Weight,
+                           Priority = (Priority)parcel.Priority,
+                           Status = getParcelStatus(parcel),
+                           CounterCustomer = GetCustomerInParcel(parcel.TargetId),
 
-                   };
+                       };
+            }
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelAtCustomer> GetAllIncomingDeliveries(int targetId)
         {
-            return from parcel in myDal.GetAllParcels()
-                   where parcel.TargetId == targetId
-                   select new ParcelAtCustomer
-                   {
-                       Id = parcel.Id,
-                       Weight = (WeightCategories)parcel.Weight,
-                       Priority = (Priority)parcel.Priority,
-                       Status = getParcelStatus(parcel),
-                       CounterCustomer = GetCustomerInParcel(parcel.SenderId),
+            lock (myDal)
+            {
+                return from parcel in myDal.GetAllParcels()
+                       where parcel.TargetId == targetId
+                       select new ParcelAtCustomer
+                       {
+                           Id = parcel.Id,
+                           Weight = (WeightCategories)parcel.Weight,
+                           Priority = (Priority)parcel.Priority,
+                           Status = getParcelStatus(parcel),
+                           CounterCustomer = GetCustomerInParcel(parcel.SenderId),
 
-                   };
+                       };
+            }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetAllDronesCharging(int stationId)
         {
-            return from Charge in myDal.GetAllDronecharges()
-                   where Charge.StationId == stationId
-                   select new DroneCharge
-                   {
-                       Id = Charge.DroneId,
-                       Battery = GetDrone(Charge.DroneId).Battery
-                   };
+            lock (myDal)
+            {
+                return from Charge in myDal.GetAllDronecharges()
+                       where Charge.StationId == stationId
+                       select new DroneCharge
+                       {
+                           Id = Charge.DroneId,
+                           Battery = GetDrone(Charge.DroneId).Battery
+                       };
+            }
         }
     }
 }

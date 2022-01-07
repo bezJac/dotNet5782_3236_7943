@@ -19,6 +19,7 @@
         <local:NullToEnableConverter x:Key="NullToEnableConverter"/>
         <local:MaintanenceToVisibilityConverter x:Key="MaintanenceToVisibilityConverter"/>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
+        <local:StatefDeliveryToStringx x:Key="StatefDeliveryToString"/>
     </Window.Resources>
 
     <Grid>
@@ -148,6 +149,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Style="{StaticResource LabelStyle}"/>
                         <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
@@ -181,6 +183,9 @@
                         <TextBox x:Name="targetLonTextBox"  Grid.Column="1"  Grid.Row="11"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.TargetLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,
                                     Converter={StaticResource LongtitudeToDmsConverter}}" />
+                        <Label Content="{Binding Parcel, Converter={StaticResource StatefDeliveryToString}}" Grid.Column="0" Grid.Row="12" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="distanceTxtBox" Grid.Row="12" Grid.Column="1" Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.DeliveryDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
                     </Grid>
                 </Grid>
 

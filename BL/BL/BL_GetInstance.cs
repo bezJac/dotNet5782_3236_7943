@@ -15,29 +15,35 @@ namespace BL
         public BaseStation GetBaseStation(int id)
         {
             DO.BaseStation st;
-            try
+            lock (myDal)
             {
-                st = myDal.GetBaseStation(id);
+                try
+                {
+                    st = myDal.GetBaseStation(id);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetInstanceException("", ex);
+                }
+                return convertToBaseStation(st);
             }
-            catch (Exception ex)
-            {
-                throw new GetInstanceException("", ex);
-            }
-            return convertToBaseStation(st);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             DO.Drone dr;
-            try
+            lock (myDal)
             {
-                dr = myDal.GetDrone(id);
+                try
+                {
+                    dr = myDal.GetDrone(id);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetInstanceException("", ex);
+                }
+                return convertToDrone(drones.Find(drone => drone.Id == dr.Id));
             }
-            catch (Exception ex)
-            {
-                throw new GetInstanceException("", ex);
-            }
-            return convertToDrone(drones.Find(drone => drone.Id == dr.Id));
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneInParcel GetDroneInParcel(int id)
@@ -54,39 +60,48 @@ namespace BL
         public Customer GetCustomer(int id)
         {
             DO.Customer cstmr;
-            try
+            lock (myDal)
             {
-                cstmr = myDal.GetCustomer(id);
+                try
+                {
+                    cstmr = myDal.GetCustomer(id);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetInstanceException("", ex);
+                }
+                return convertToCustomer(cstmr);
             }
-            catch (Exception ex)
-            {
-                throw new GetInstanceException("", ex);
-            }
-            return convertToCustomer(cstmr);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             DO.Parcel prc;
-            try
+            lock (myDal)
             {
-                prc = myDal.GetParcel(id);
+                try
+                {
+                    prc = myDal.GetParcel(id);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetInstanceException("", ex);
+                }
+                return convertToParcel(prc);
             }
-            catch (Exception ex)
-            {
-                throw new GetInstanceException("", ex);
-            }
-            return convertToParcel(prc);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public CustomerInParcel GetCustomerInParcel(int id)
         {
-            DO.Customer cstmr = myDal.GetCustomer(id);
-            return new CustomerInParcel
+            lock (myDal)
             {
-                Id = cstmr.Id,
-                Name = cstmr.Name,
-            };
+                DO.Customer cstmr = myDal.GetCustomer(id);
+                return new CustomerInParcel
+                {
+                    Id = cstmr.Id,
+                    Name = cstmr.Name,
+                };
+            }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelInDelivery GetParcelInDelivery(int id)
@@ -94,44 +109,75 @@ namespace BL
             DO.Parcel parcel;
             DO.Customer sender;
             DO.Customer target;
-            try
+            Drone drone;
+            lock (myDal)
             {
-                parcel = myDal.GetParcel(id);
-            }
-            catch (Exception ex)
-            {
-                throw new GetInstanceException("", ex);
-            }
-            try
-            {
-                sender = myDal.GetCustomer(parcel.SenderId);
-                target = myDal.GetCustomer(parcel.TargetId);
-            }
-            catch (Exception ex)
-            {
+                try
+                {
+                    parcel = myDal.GetParcel(id);
+                }
+                catch (Exception ex)
+                {
+                    throw new GetInstanceException("", ex);
+                }
+                try
+                {
+                    sender = myDal.GetCustomer(parcel.SenderId);
+                    target = myDal.GetCustomer(parcel.TargetId);
+                }
+                catch (Exception ex)
+                {
 
-                throw new GetInstanceException("", ex);
-            }
-            // parcel's in transit status initialized by flag 
-            bool flag = false;
-            // if parcel was already picked up set flag  to true 
-            if (getParcelStatus(parcel) == ParcelStatus.PickedUp)
-                flag = true;
+                    throw new GetInstanceException("", ex);
+                }
+                try
+                {
+                    drone = GetDrone(parcel.DroneId);
+                }
+                catch (Exception ex)
+                {
 
-            Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
-            Location targetLocation = createLocation(target.Longitude, target.Lattitude);
-            return new ParcelInDelivery
-            {
-                Id = parcel.Id,
-                InTransit = flag,
-                Priority = (Priority)parcel.Priority,
-                Weight = (WeightCategories)parcel.Weight,
-                Sender = GetCustomerInParcel(parcel.SenderId),
-                Target = GetCustomerInParcel(parcel.TargetId),
-                SenderLocation = senderLocation,
-                TargetLocation = targetLocation,
-                DeliveryDistance = Distance.GetDistance(senderLocation, targetLocation),
-            };
+                    throw new GetInstanceException("", ex);
+                }
+                // parcel's in transit status initialized by flag 
+                bool flag = false;
+                // if parcel was already picked up set flag  to true 
+                if (getParcelStatus(parcel) == ParcelStatus.PickedUp)
+                    flag = true;
+
+                Location senderLocation = createLocation(sender.Longitude, sender.Lattitude);
+                Location targetLocation = createLocation(target.Longitude, target.Lattitude);
+                return flag switch
+                {
+                    true => new ParcelInDelivery
+                    {
+                        Id = parcel.Id,
+                        InTransit = flag,
+                        Priority = (Priority)parcel.Priority,
+                        Weight = (WeightCategories)parcel.Weight,
+                        Sender = GetCustomerInParcel(parcel.SenderId),
+                        Target = GetCustomerInParcel(parcel.TargetId),
+                        SenderLocation = senderLocation,
+                        TargetLocation = targetLocation,
+                        DeliveryDistance = Distance.GetDistance(senderLocation, targetLocation),
+                    },
+
+                    false => new ParcelInDelivery
+                    {
+                        Id = parcel.Id,
+                        InTransit = flag,
+                        Priority = (Priority)parcel.Priority,
+                        Weight = (WeightCategories)parcel.Weight,
+                        Sender = GetCustomerInParcel(parcel.SenderId),
+                        Target = GetCustomerInParcel(parcel.TargetId),
+                        SenderLocation = senderLocation,
+                        TargetLocation = targetLocation,
+                        DeliveryDistance = Distance.GetDistance(drone.Location, senderLocation),
+                    }
+
+                };
+            }
+
 
         }
     }

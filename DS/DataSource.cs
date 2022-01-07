@@ -32,7 +32,7 @@ namespace DS
             public static double DroneElecUseLight = 3;
             public static double DroneElecUseMedium = 3.5;
             public static double DroneElecUseHeavy = 4;
-            public static double DroneHourlyChargeRate = 67;
+            public static double DroneChargeRatePerSecond = 4;
         }
 
         /// <summary>

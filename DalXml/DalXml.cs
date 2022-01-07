@@ -62,7 +62,7 @@ namespace Dal
              double.Parse(dalConfig.Element("DroneElecUseLight").Value),
              double.Parse(dalConfig.Element("DroneElecUseMedium").Value),
              double.Parse(dalConfig.Element("DroneElecUseHeavy").Value),
-             double.Parse(dalConfig.Element("DroneHourlyChargeRate").Value),
+             double.Parse(dalConfig.Element("DroneChargeRatePerSecond").Value),
             };
             return electric;
         }

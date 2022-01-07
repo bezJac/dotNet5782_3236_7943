@@ -50,7 +50,7 @@ namespace BL
         private static double droneElecUseLight;
         private static double droneElecUseMedium;
         private static double droneElecUseHeavy;
-        private static double droneHourlyChargeRate;
+        private static double DroneChargeRatePerSecond;
 
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace BL
             droneElecUseLight = temp[1];
             droneElecUseMedium = temp[2];
             droneElecUseHeavy = temp[3];
-            droneHourlyChargeRate = temp[4];
+            DroneChargeRatePerSecond = temp[4];
             Random rnd = new();
             foreach (DO.Drone dr in myDal.GetAllDrones())
             {
@@ -141,14 +141,14 @@ namespace BL
                         DO.DroneCharge dc = myDal.GetDroneCharge(dr.Id);
                         DO.BaseStation tempSt = myDal.GetBaseStation(dc.StationId);
                         TimeSpan duration = DateTime.Now.Subtract((DateTime)dc.EntranceTime);
-                        double time = duration.Hours + (double)duration.Minutes / 60 + (double)duration.Seconds / 3600;
+                        double time = (duration.Hours*3600) + (double)duration.Minutes* 60 + (double)duration.Seconds;
                         drones.Add(new DroneInList
                         {
                             Id = dr.Id,
                             Model = dr.Model,
                             MaxWeight = (WeightCategories)dr.MaxWeight,
                             Status = DroneStatus.Maintenance,
-                            Battery = Math.Min(dc.BatteryAtEntrance + (int)(droneHourlyChargeRate * time), 100),
+                            Battery = Math.Min(dc.BatteryAtEntrance + (int)(DroneChargeRatePerSecond * time), 100),
                             ParcelId = null,
                             DroneLocation = createLocation(tempSt.Longitude, tempSt.Lattitude),
                         });
@@ -243,7 +243,7 @@ namespace BL
         /// </summary>
         /// <param name="pr"> parcel to calculate status of </param>
         /// <returns> ParcelStatus enum value </returns>
-        private  ParcelStatus getParcelStatus(DO.Parcel pr)
+        private ParcelStatus getParcelStatus(DO.Parcel pr)
         {
             if(pr.Scheduled == null)
                 return ParcelStatus.Ordered;
@@ -262,7 +262,7 @@ namespace BL
         /// <param name="target"> location of parcel's target customer </param>
         /// <param name="w"> weight category of parcel </param>
         /// <returns> bool </returns>
-        private  bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
+        private bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
             // get nearest station to target with availability to charge 
             DO.BaseStation tmp = getNearestAvailableBasestation(target);
@@ -309,7 +309,7 @@ namespace BL
         /// </summary>
         /// <param name="w"> dron max weight category</param>
         /// <returns> double </returns>
-        private  double getElectricUseForDrone(WeightCategories w)
+        private double getElectricUseForDrone(WeightCategories w)
         {
             return w switch
             {

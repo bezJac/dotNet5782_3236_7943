@@ -47,7 +47,7 @@ namespace PL
         /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.IsNullOrEmpty((string)value)? Visibility.Collapsed:Visibility.Visible;
+            return string.IsNullOrEmpty((string)value) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -150,10 +150,10 @@ namespace PL
         /// <summary>
         /// checks if drone status is Available
         /// </summary>
-       /// <returns> Visibility </returns>
+        /// <returns> Visibility </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value!=null)
+            if (value != null)
                 return (DroneStatus)value == DroneStatus.Available ? Visibility.Visible : Visibility.Collapsed;
             return null;
         }
@@ -221,6 +221,34 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+    public sealed class StatefDeliveryToStringx : IValueConverter
+    {
+        /// <summary>
+        /// checks if drone status is Delivery and parcel has been  picked up already
+        /// </summary>
+        /// <returns> Visibility </returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ParcelInDelivery temp = value as ParcelInDelivery;
+            if (temp != null)
+            {
+                switch (temp.InTransit)
+                {
+                    case false:
+                        { return "Distance To Sender:"; }
+                    case true:
+                        { return "Distance To Target:"; }
+                }
+                //return (DroneStatus)value == DroneStatus.Delivery ? Visibility.Visible : Visibility.Collapsed;
+            }
+            return null;
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
 }
 
