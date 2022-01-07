@@ -19,6 +19,7 @@ namespace Dal
                 throw new ExsistException($"id number {st.Id}, already exists");
             DataSource.Stations.Add(st);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStation(BaseStation bst)
         {
@@ -27,6 +28,7 @@ namespace Dal
                 throw new NonExistsException($"id number {bst.Id} not found");
             DataSource.Stations[index] = bst;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveBaseStation(BaseStation bst)
         {
@@ -35,38 +37,25 @@ namespace Dal
                 throw new NonExistsException($"id number {bst.Id} not found");
             DataSource.Stations.RemoveAt(index);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public BaseStation GetBaseStation(int id)
         {
-            BaseStation? temp = null;
-            foreach (BaseStation stn in DataSource.Stations)
-            {
-                if (stn.Id == id)
-                {
-                    temp = stn;
-                    break;
-                }
-            }
-            if (temp == null)
-            {
-                throw new NonExistsException($"id number {id} not found");
-            }
-            return (BaseStation)temp;
+            BaseStation? temp = (from st in DataSource.Stations
+                                 where st.Id == id
+                                 select st).FirstOrDefault();
+
+            return temp.Value.Id == 0 ? throw new NonExistsException($"id number {id} not found") : (BaseStation)temp;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<BaseStation> GetAllBaseStations(Func<BaseStation, bool> predicate = null)
         {
             if (predicate == null)
-            {
-                if (!DataSource.Stations.Any())
-                    throw new EmptyListException("No stations in list");
-                return DataSource.Stations;
-            }    
+                return !DataSource.Stations.Any() ? throw new EmptyListException("No stations in list") : DataSource.Stations;
+
             IEnumerable<BaseStation> tmp = DataSource.Stations.Where(predicate);
-            if (tmp.Any())
-                return tmp;
-            else
-                throw new FilteredListException("No Base Stations in list match predicate");
+            return !tmp.Any() ? throw new FilteredListException("No Base Stations in list match predicate") : tmp;
         }
     }
 }

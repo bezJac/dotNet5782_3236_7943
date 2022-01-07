@@ -23,7 +23,7 @@ namespace Dal
     {
         #region Singleton design 
         private static DalObject instance;
-        private static object locker = new object();
+        private static object locker = new();
 
 
         /// <summary>

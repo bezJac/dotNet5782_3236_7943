@@ -10,7 +10,7 @@ using DS;
 
 namespace Dal
 {
-     internal partial class DalObject :IDal
+    internal partial class DalObject : IDal
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone dr)
@@ -19,6 +19,7 @@ namespace Dal
                 throw new ExsistException($"id number {dr.Id} already exists");
             DataSource.Drones.Add(dr);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone dr)
         {
@@ -27,6 +28,7 @@ namespace Dal
                 throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones[index] = dr;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone dr)
         {
@@ -35,39 +37,25 @@ namespace Dal
                 throw new NonExistsException($"id number {dr.Id} not found");
             DataSource.Drones.RemoveAt(index);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
-            Drone? temp = null;
-            foreach (Drone dr in DataSource.Drones)
-            {
-                if (dr.Id == id)
-                {
-                    temp = dr;
-                    break;
-                }
+            Drone? temp = (from dr in DataSource.Drones
+                           where dr.Id == id
+                           select dr).FirstOrDefault();
 
-            }
-            if (temp == null)
-            {
-                throw new NonExistsException($"id number {id} not found");
-            }
-            return (Drone)temp;
+            return temp.Value.Id == 0 ? throw new NonExistsException($"id number {id} not found") : (Drone)temp;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Drone> GetAllDrones(Func<Drone,bool> predicate = null)
+        public IEnumerable<Drone> GetAllDrones(Func<Drone, bool> predicate = null)
         {
             if (predicate == null)
-            {
-                if (DataSource.Drones.Count <= 0)
-                    throw new EmptyListException("no drones in list");
-                return DataSource.Drones;
-            }
+                return !DataSource.Drones.Any() ? throw new EmptyListException("no drones in list") : DataSource.Drones;
+
             IEnumerable<Drone> tmp = DataSource.Drones.Where(predicate);
-            if (tmp.Any())
-                return tmp;
-            else
-                throw new FilteredListException("No Drones in list match predicate");
+            return !tmp.Any() ? throw new FilteredListException("No Drones in list match predicate") : tmp;
         }
     }
 }

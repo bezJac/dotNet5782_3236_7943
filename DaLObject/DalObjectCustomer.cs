@@ -19,6 +19,7 @@ namespace Dal
                 throw new ExsistException($"id number {person.Id} already exists");
             DataSource.Customers.Add(person);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer person)
         {
@@ -27,6 +28,7 @@ namespace Dal
                 throw new NonExistsException($"id number {person.Id} not found");
             DataSource.Customers[index] = person;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(Customer person)
         {
@@ -35,39 +37,25 @@ namespace Dal
                 throw new NonExistsException($"id number {person.Id} not found");
             DataSource.Customers.RemoveAt(index);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
-            Customer? temp = null;
-            foreach (Customer cstmr in DataSource.Customers)
-            {
-                if (cstmr.Id == id)
-                {
-                    temp = cstmr;
-                    break;
-                }
+            Customer? temp = (from cs in DataSource.Customers
+                              where cs.Id == id
+                              select cs).FirstOrDefault();
 
-            }
-            if (temp == null)
-            {
-                throw new NonExistsException($"id number {id} not found");
-            }
-            return (Customer)temp;
+            return temp.Value.Id == 0 ? throw new NonExistsException($"id number {id} not found") : (Customer)temp;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Customer> GetAllCustomers(Func<Customer,bool> predicate = null)
+        public IEnumerable<Customer> GetAllCustomers(Func<Customer, bool> predicate = null)
         {
             if (predicate == null)
-            {
-                if (DataSource.Customers.Count <= 0)
-                    throw new NonExistsException("no customers in list");
-                return DataSource.Customers.ToList();
-            }
+                return !DataSource.Customers.Any() ? throw new NonExistsException("no customers in list") : DataSource.Customers;
+
             IEnumerable<Customer> tmp = DataSource.Customers.Where(predicate);
-            if (tmp.Any())
-                return tmp;
-            else
-                throw new NonExistsException("No Customers in list match predicate");
+            return !tmp.Any() ? throw new NonExistsException("No Customers in list match predicate") : tmp;
         }
     }
 }
