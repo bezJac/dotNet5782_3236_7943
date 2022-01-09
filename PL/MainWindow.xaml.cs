@@ -62,7 +62,7 @@ namespace PL
   
  
 
-        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             switch (button.Name)

@@ -58,16 +58,21 @@ namespace PL
             {
                 IdCustomerTxt.Text = null;
                 new UserWindow(myBL, newCustomer).Show();
+                this.Close();
             }
         }
         private void enterManager_Click(object sender, RoutedEventArgs e)
         {
             if (userName.Text == "admin" && adminPassword.Password == "123")
+            {
                 new ManagerWindow(myBL).Show();
+                this.Close();
+            }
             else
                 MessageBox.Show("username or password are incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             userName.Text = null;
             adminPassword.Password = null;
+            
         }
 
         private void IdTextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)

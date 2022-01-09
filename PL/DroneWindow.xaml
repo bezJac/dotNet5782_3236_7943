@@ -89,8 +89,15 @@
                         <TextBox x:Name="modelTxtBox"  Grid.Column="1"  Grid.Row="2"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Model, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
                         <Label Content="Battery:" Grid.Column="0" Grid.Row="3" Style="{StaticResource droneWinLabelStyle}"/>
-                        <TextBox x:Name="batteryTextBox" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}" Grid.Row="3" 
-                                 Text="{Binding Battery, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        <Grid x:Name="batteryGrid" Grid.Row="3" Grid.Column="1" >
+                            <Grid.Resources>
+                                <local:batteryToBackroundConverter x:Key="batteryToBackroundConverter"/>
+                            </Grid.Resources>
+                            <ProgressBar Name="BatteryProgressBar" Value="{Binding Battery}" Width="Auto" Foreground="{Binding Battery, Converter={StaticResource batteryToBackroundConverter}}"/>
+                            <TextBlock Text="{Binding Battery, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <!--<TextBox x:Name="batteryTextBox" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}" Grid.Row="3" 
+                                 Text="{Binding Battery, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>-->
                         <Label Content="Max Weight:" Grid.Column="0"  Grid.Row="4" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="maxWeightTextBox" Grid.Row="4" Grid.Column="1"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding MaxWeight, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
