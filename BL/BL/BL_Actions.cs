@@ -92,7 +92,7 @@ namespace BL
                     throw new ActionException($"Drone - {id} is alredy in delivery");
                 if (dr.Status == DroneStatus.Maintenance)
                     throw new ActionException($"Drone - {id} is charging, unavailable");
-                int index = GetAllDronesInList().ToList().FindIndex(dr => dr.Id == id);
+                int index = drones.FindIndex(dr => dr.Id == id);
                 // get all parcels that sre both , unlinked to a drone yet, parcel wight is <= to drone's max weight capability
                 IEnumerable<DO.Parcel> unlinked;
                 try
@@ -103,7 +103,7 @@ namespace BL
                 }
                 catch (Exception ex)
                 {
-                    throw new ActionException("", ex);
+                    throw new ActionException("empty", ex);
                 }
                 // sort list by priority in descending order, then perform subsequent ordering by weight in descending order , the perform another subsequent ordering
                 // by shortest distance from drone to parcel's sender location in ascending order 

@@ -273,5 +273,6 @@ namespace BlApi
         void RemoveDroneCharge(int id);
         #endregion
 
+        void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
     }
 }

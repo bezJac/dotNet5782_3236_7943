@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,6 +143,7 @@ namespace PL
         }
         private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if(worker!=null)
             e.Cancel = false;
 
         }
@@ -389,5 +391,33 @@ namespace PL
                 Buttons.DataContext = newDrone;
             }
         }
+
+        #region Background Worker
+        BackgroundWorker worker;
+        private void updateData() => worker.ReportProgress(0);
+        private bool checkStop() => worker.CancellationPending;
+        public bool Auto;
+        private void Auto_Click(object sender, RoutedEventArgs e)
+        {
+            Auto = true;
+            worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+            worker.DoWork += (sender, args) => theBL.StartDroneSimulator((int)args.Argument, updateData, checkStop);
+            worker.RunWorkerCompleted += (sender, args) =>
+            {
+                Auto = false;
+                worker = null;
+                //if (closing) Close();
+            };
+            worker.ProgressChanged += (sender, args) => updateGlobalView();
+            worker.RunWorkerAsync(newDrone.Id);
+        }
+
+        private void updateGlobalView()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
+        #endregion
     }
 }

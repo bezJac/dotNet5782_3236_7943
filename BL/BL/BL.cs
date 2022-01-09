@@ -44,13 +44,13 @@ namespace BL
         }
         #endregion
 
-        private DalApi.IDal myDal;
-        private List<DroneInList> drones;
-        private static double droneElecUseEmpty;
-        private static double droneElecUseLight;
-        private static double droneElecUseMedium;
-        private static double droneElecUseHeavy;
-        private static double DroneChargeRatePerSecond;
+        internal readonly DalApi.IDal myDal;
+        internal List<DroneInList> drones;
+        internal static double droneElecUseEmpty;
+        internal static double droneElecUseLight;
+        internal static double droneElecUseMedium;
+        internal static double droneElecUseHeavy;
+        internal static double DroneChargeRatePerSecond;
 
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace BL
         /// </summary>
         /// <param name="l"> location to calculate distance from </param>
         /// <returns> IDAL.DO.BaseStation instance of nearest station </returns>
-        private DO.BaseStation getNearestAvailableBasestation(Location l)
+        internal DO.BaseStation getNearestAvailableBasestation(Location l)
         {
             double min = double.PositiveInfinity;
             double distance;
@@ -366,7 +366,7 @@ namespace BL
         /// <param name="lon"> longtitiude coordinate </param>
         /// <param name="lat"> lattitude coordinate </param>
         /// <returns> location class containing both coordinates</returns>
-        private Location createLocation(double lon, double lat)
+        internal Location createLocation(double lon, double lat)
         {
             return new Location { Longtitude = lon, Lattitude = lat };
         }
@@ -376,7 +376,7 @@ namespace BL
         /// </summary>
         /// <param name="st"> DAL BaseStation </param>
         /// <returns> BL BaseStation</returns>
-        private BaseStation convertToBaseStation(DO.BaseStation st)
+        internal BaseStation convertToBaseStation(DO.BaseStation st)
         {
             return new BaseStation
             {
@@ -540,6 +540,7 @@ namespace BL
             };
         }
         #endregion
+        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new DroneSimulator(this, id, update, checkStop);
     }
 }
 
