@@ -31,7 +31,7 @@ namespace PL
         /// drone instance for data context of window
         /// </summary>
         private Drone newDrone;
-        
+
         /// <summary>
         /// cunstructor for Add Drone view of window 
         /// </summary>
@@ -49,7 +49,7 @@ namespace PL
             // set values of comboBoxes
             maxWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             stationsList.ItemsSource = theBL.GetAllAvailablBaseStations();
-            
+
         }
 
         /// <summary>
@@ -86,48 +86,48 @@ namespace PL
             try
             {
                 // check that input was made to all fields
-                if(idAddTextBox.Text==string.Empty)
+                if (idAddTextBox.Text == string.Empty)
                 {
                     idTextBox.BorderThickness = new Thickness(2);
                     idTextBox.BorderBrush = Brushes.Red;
                     throw new Exception("Drone's details missing");
                 }
-                if(modelTextBox.Text==string.Empty)
+                if (modelTextBox.Text == string.Empty)
                 {
                     modelTextBox.BorderThickness = new Thickness(2);
                     modelTextBox.BorderBrush = Brushes.Red;
                     throw new Exception("Drone's details missing");
                 }
-                if(maxWeightComboBox.SelectedItem==null|| stationsList.SelectedItem == null)
+                if (maxWeightComboBox.SelectedItem == null || stationsList.SelectedItem == null)
                 {
                     throw new Exception("Drone's details missing");
                 }
-                
+
                 if (newDrone.Id < 1000)
                 {
                     idTextBox.BorderThickness = new Thickness(2);
-                    idTextBox.BorderBrush = Brushes.Red;                   
+                    idTextBox.BorderBrush = Brushes.Red;
                     throw new Exception("ID must be four digits");
                 }
 
                 // add drone to list
                 BaseStationInList station = stationsList.SelectedItem as BaseStationInList;
-                theBL.AddDrone(newDrone,station.Id);
-                
+                theBL.AddDrone(newDrone, station.Id);
+
             }
             catch (Exception ex) // add drone faild allow user to fix input
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
                 flag = false;
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK , MessageBoxImage.Warning);
-                
+                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
+
             }
             if (flag)   // drone was added successfully - close window 
             {
                 idTextBox.BorderThickness = new Thickness();
                 this.Activated -= refreshWindow;
-                MessageBox.Show("Drone was added successfully to list" ,"SUCCESS",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show("Drone was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -143,7 +143,7 @@ namespace PL
         }
         private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(worker==null)
+            if (worker == null)
                 e.Cancel = false;
 
         }
@@ -165,8 +165,8 @@ namespace PL
                 MessageBox.Show("Model was updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newModel.Text = null;
             }
-            
-          
+
+
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace PL
                 flag = false;
                 MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            if(flag) // drone was sent to charge successfully 
+            if (flag) // drone was sent to charge successfully 
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
@@ -218,7 +218,7 @@ namespace PL
                 flag = false;
                 MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            if(flag)  // drone was releases from charge successfully 
+            if (flag)  // drone was releases from charge successfully 
             {
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
@@ -244,7 +244,7 @@ namespace PL
                 flag = false;
                 MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            if(flag) // drone was linked successfully
+            if (flag) // drone was linked successfully
             {
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
@@ -278,8 +278,8 @@ namespace PL
             if (flag) // drone picked up parcel successfully
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                refreshWindow(sender,e);
-                
+                refreshWindow(sender, e);
+
             }
         }
 
@@ -306,7 +306,7 @@ namespace PL
             }
             if (flag) // drone delivered parcel successfully
             {
-                
+
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
@@ -352,14 +352,14 @@ namespace PL
         /// </summary>
         private void idTextValidation(object sender, RoutedEventArgs e)
         {
-            
+
             if (idAddTextBox.Text.Length < 4)
             {
                 idAddTextBox.BorderThickness = new Thickness(2);
                 idAddTextBox.BorderBrush = Brushes.Red;
-                
+
             }
-            if(idAddTextBox.Text.Length == 4 )
+            if (idAddTextBox.Text.Length == 4)
             {
                 idAddTextBox.BorderThickness = new Thickness(0);
             }
@@ -370,7 +370,7 @@ namespace PL
         /// </summary>
         private void modelTextValidation(object sender, RoutedEventArgs e)
         {
-            if(modelTextBox.Text==string.Empty)
+            if (modelTextBox.Text == string.Empty)
             {
                 modelTextBox.BorderThickness = new Thickness(2);
                 modelTextBox.BorderBrush = Brushes.Red;
@@ -399,15 +399,15 @@ namespace PL
         BackgroundWorker worker;
         private void updateData() => worker.ReportProgress(0);
         private bool checkStop() => worker.CancellationPending;
-        public bool Auto;
+
         private void Auto_Click(object sender, RoutedEventArgs e)
         {
-            Auto = true;
+            Automatic.Visibility = Visibility.Collapsed;
+            manual.Visibility = Visibility.Visible;
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             worker.DoWork += (sender, args) => theBL.StartDroneSimulator((int)args.Argument, updateData, checkStop);
             worker.RunWorkerCompleted += (sender, args) =>
             {
-                Auto = false;
                 worker = null;
                 //if (closing) Close();
             };
@@ -426,7 +426,12 @@ namespace PL
             }
         }
 
-        private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
+        private void Manual_Click(object sender, RoutedEventArgs e)
+        {
+            worker?.CancelAsync();
+            manual.Visibility = Visibility.Collapsed;
+            Automatic.Visibility = Visibility.Visible;
+        }
         #endregion
     }
 }
