@@ -55,6 +55,7 @@ namespace BL
                                     {
                                         theBl.LinkDroneToParcel((int)drone.Id);
                                         drone.Status = DroneStatus.Delivery;
+                                        parcelId = theBl.drones[index].ParcelId;
                                     }
                                     catch (Exception ex)
                                     {
