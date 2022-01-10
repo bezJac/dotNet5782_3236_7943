@@ -143,8 +143,8 @@ namespace PL
         }
         private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(worker!=null)
-            e.Cancel = false;
+            if(worker==null)
+                e.Cancel = false;
 
         }
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -383,12 +383,15 @@ namespace PL
 
         private void refreshWindow(object sender, EventArgs e)
         {
-            if (actionDrone.Visibility == Visibility.Visible)
+            lock (theBL)
             {
-                newDrone = theBL.GetDrone((int)newDrone.Id);
-                actionDrone.DataContext = newDrone;
-                DroneShow.DataContext = newDrone;
-                Buttons.DataContext = newDrone;
+                if (actionDrone.Visibility == Visibility.Visible && worker == null)
+                {
+                    newDrone = theBL.GetDrone((int)newDrone.Id);
+                    actionDrone.DataContext = newDrone;
+                    DroneShow.DataContext = newDrone;
+                    Buttons.DataContext = newDrone;
+                }
             }
         }
 
@@ -414,7 +417,13 @@ namespace PL
 
         private void updateGlobalView()
         {
-            throw new NotImplementedException();
+            lock (theBL)
+            {
+                newDrone = theBL.GetDrone((int)newDrone.Id);
+                actionDrone.DataContext = newDrone;
+                DroneShow.DataContext = newDrone;
+                Buttons.DataContext = newDrone;
+            }
         }
 
         private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();

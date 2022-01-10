@@ -109,7 +109,7 @@ namespace BL
             DO.Parcel parcel;
             DO.Customer sender;
             DO.Customer target;
-            Drone drone;
+            DroneInList drone;
             lock (myDal)
             {
                 try
@@ -132,7 +132,7 @@ namespace BL
                 }
                 try
                 {
-                    drone = GetDrone(parcel.DroneId);
+                    drone  = drones.Find(dr=> dr.ParcelId== parcel.Id);
                 }
                 catch (Exception ex)
                 {
@@ -172,7 +172,7 @@ namespace BL
                         Target = GetCustomerInParcel(parcel.TargetId),
                         SenderLocation = senderLocation,
                         TargetLocation = targetLocation,
-                        DeliveryDistance = Distance.GetDistance(drone.Location, senderLocation),
+                        DeliveryDistance = Distance.GetDistance(drone.DroneLocation, senderLocation),
                     }
 
                 };

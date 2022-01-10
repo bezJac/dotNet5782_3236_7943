@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -12,13 +13,18 @@ namespace Dal
     internal class XMLTools
     {
         static string dir = @"..\xml\";
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         static XMLTools()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
-       
 
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         #region SaveLoadWithXMLSerializer
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
         {
@@ -34,6 +40,9 @@ namespace Dal
                 //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
+
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try

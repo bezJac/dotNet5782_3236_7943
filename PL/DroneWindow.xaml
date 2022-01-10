@@ -225,6 +225,9 @@
                     Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>
             <Button x:Name="DeliverButton" Content="Deliver" Style="{StaticResource ButtonStyle}"
                   Grid.Column="1"    Grid.Row="1" Click="DeliverButton_Click"  Visibility="{Binding  Converter={StaticResource DeliveryToVisibilityConverter}}" />
+                <Button x:Name="Automatic" Content="Auto" Style="{StaticResource ButtonStyle}" Visibility="Visible" Margin="10" Click="Auto_Click"/>
+                <Button x:Name="manual" Content="Manual" Style="{StaticResource ButtonStyle}" Visibility="Visible" Margin="10" Click="Manual_Click"/>
+                
             </StackPanel>
         </Grid>
         

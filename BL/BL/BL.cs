@@ -141,7 +141,7 @@ namespace BL
                         DO.DroneCharge dc = myDal.GetDroneCharge(dr.Id);
                         DO.BaseStation tempSt = myDal.GetBaseStation(dc.StationId);
                         TimeSpan duration = DateTime.Now.Subtract((DateTime)dc.EntranceTime);
-                        double time = (duration.Hours*3600) + (double)duration.Minutes* 60 + (double)duration.Seconds;
+                        double time = (duration.Hours * 3600) + (double)duration.Minutes * 60 + (double)duration.Seconds;
                         drones.Add(new DroneInList
                         {
                             Id = dr.Id,
@@ -204,11 +204,11 @@ namespace BL
                     }
                 }
             }
-            
+
 
         }
 
-      
+
 
 
 
@@ -225,17 +225,20 @@ namespace BL
         {
             double min = double.PositiveInfinity;
             double distance;
-            DO.BaseStation tmpStation = new();
-            foreach (DO.BaseStation st in myDal.GetAllBaseStations(s => s.NumOfSlots > 0))
+            lock (myDal)
             {
-                distance = Distance.GetDistance(createLocation(st.Longitude, st.Lattitude), l);
-                if (distance < min)
+                DO.BaseStation tmpStation = new();
+                foreach (DO.BaseStation st in myDal.GetAllBaseStations(s => s.NumOfSlots > 0))
                 {
-                    tmpStation = st;
-                    min = distance;
+                    distance = Distance.GetDistance(createLocation(st.Longitude, st.Lattitude), l);
+                    if (distance < min)
+                    {
+                        tmpStation = st;
+                        min = distance;
+                    }
                 }
+                return tmpStation;
             }
-            return tmpStation;
         }
 
         /// <summary>
@@ -243,9 +246,9 @@ namespace BL
         /// </summary>
         /// <param name="pr"> parcel to calculate status of </param>
         /// <returns> ParcelStatus enum value </returns>
-        private ParcelStatus getParcelStatus(DO.Parcel pr)
+        internal ParcelStatus getParcelStatus(DO.Parcel pr)
         {
-            if(pr.Scheduled == null)
+            if (pr.Scheduled == null)
                 return ParcelStatus.Ordered;
             if (pr.PickedUp == null)
                 return ParcelStatus.Linked;
@@ -264,42 +267,44 @@ namespace BL
         /// <returns> bool </returns>
         private bool checkDroneDistanceCoverage(DroneInList dr, Location sender, Location target, WeightCategories w)
         {
-            // get nearest station to target with availability to charge 
-            DO.BaseStation tmp = getNearestAvailableBasestation(target);
-            // claculate distance from drone current location to sender
-            double DroneToSender = Distance.GetDistance(dr.DroneLocation, sender);
-            // calculate distance from sender to target
-            double SenderToTarget = Distance.GetDistance(sender, target);
-            // calculate distance from target to base station for charge
-            double TargetToBaseStation = Distance.GetDistance(target, createLocation(tmp.Longitude, tmp.Lattitude));
-            Console.WriteLine(DroneToSender + SenderToTarget + TargetToBaseStation);
-            switch (w)
+            lock (myDal)
             {
-                case WeightCategories.Light:
-                    {
-                        if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseLight * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
-                            return true;
-                        else
-                            return false;
-                    }
-                case WeightCategories.Medium:
-                    {
-                        if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseMedium * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
-                            return true;
-                        else
-                            return false;
-                    }
+                // get nearest station to target with availability to charge 
+                DO.BaseStation tmp = getNearestAvailableBasestation(target);
+                // claculate distance from drone current location to sender
+                double DroneToSender = Distance.GetDistance(dr.DroneLocation, sender);
+                // calculate distance from sender to target
+                double SenderToTarget = Distance.GetDistance(sender, target);
+                // calculate distance from target to base station for charge
+                double TargetToBaseStation = Distance.GetDistance(target, createLocation(tmp.Longitude, tmp.Lattitude));
+                Console.WriteLine(DroneToSender + SenderToTarget + TargetToBaseStation);
+                switch (w)
+                {
+                    case WeightCategories.Light:
+                        {
+                            if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseLight * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
+                                return true;
+                            else
+                                return false;
+                        }
+                    case WeightCategories.Medium:
+                        {
+                            if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseMedium * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
+                                return true;
+                            else
+                                return false;
+                        }
 
-                case WeightCategories.Heavy:
-                    {
-                        if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseHeavy * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
-                            return true;
-                        else
-                            return false;
-                    }
-                default:
-                    return false;
-
+                    case WeightCategories.Heavy:
+                        {
+                            if (dr.Battery - (DroneToSender * droneElecUseEmpty) - (droneElecUseHeavy * SenderToTarget) - (TargetToBaseStation * droneElecUseEmpty) > 0)
+                                return true;
+                            else
+                                return false;
+                        }
+                    default:
+                        return false;
+                }
 
             }
         }
@@ -309,7 +314,7 @@ namespace BL
         /// </summary>
         /// <param name="w"> dron max weight category</param>
         /// <returns> double </returns>
-        private double getElectricUseForDrone(WeightCategories w)
+        internal double getElectricUseForDrone(WeightCategories w)
         {
             return w switch
             {
@@ -331,7 +336,7 @@ namespace BL
         /// <returns>  int - minimal battery charge </returns>
         private int getMinimalCharge(Location current, Location sender, Location target, Location station, WeightCategories w)
         {
-            double currToSender = Distance.GetDistance(current, sender) ;
+            double currToSender = Distance.GetDistance(current, sender);
             double SenderToTarget = Distance.GetDistance(sender, target);
             double TargetToSt = Distance.GetDistance(target, station);
             switch (w)
@@ -355,7 +360,7 @@ namespace BL
                     break;
             }
 
-            return (int)((currToSender * droneElecUseEmpty ) + SenderToTarget + (TargetToSt* droneElecUseEmpty));
+            return (int)((currToSender * droneElecUseEmpty) + SenderToTarget + (TargetToSt * droneElecUseEmpty));
 
 
         }
@@ -378,14 +383,17 @@ namespace BL
         /// <returns> BL BaseStation</returns>
         internal BaseStation convertToBaseStation(DO.BaseStation st)
         {
-            return new BaseStation
+            lock (myDal)
             {
-                Id = st.Id,
-                Name = st.Name,
-                StationLocation = createLocation(st.Longitude, st.Lattitude),
-                NumOfSlots = st.NumOfSlots,
-                DronesCharging = GetAllDronesCharging(st.Id),
-            };
+                return new BaseStation
+                {
+                    Id = st.Id,
+                    Name = st.Name,
+                    StationLocation = createLocation(st.Longitude, st.Lattitude),
+                    NumOfSlots = st.NumOfSlots,
+                    DronesCharging = GetAllDronesCharging(st.Id),
+                };
+            }
         }
 
         /// <summary>
@@ -411,31 +419,34 @@ namespace BL
         /// <returns> BL Drone </returns>
         private Drone convertToDrone(DroneInList drone)
         {
-            if (drone.ParcelId != null)
+            lock (myDal)
             {
-                return new Drone
+                if (drone.ParcelId != null)
                 {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = drone.MaxWeight,
-                    Status = drone.Status,
-                    Battery = drone.Battery,
-                    Parcel = GetParcelInDelivery((int)drone.ParcelId),
-                    Location = drone.DroneLocation,
-                };
-            }
-            else
-            {
-                return new Drone
+                    return new Drone
+                    {
+                        Id = drone.Id,
+                        Model = drone.Model,
+                        MaxWeight = drone.MaxWeight,
+                        Status = drone.Status,
+                        Battery = drone.Battery,
+                        Parcel = GetParcelInDelivery((int)drone.ParcelId),
+                        Location = drone.DroneLocation,
+                    };
+                }
+                else
                 {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = drone.MaxWeight,
-                    Status = drone.Status,
-                    Battery = drone.Battery,
-                    Parcel = null,
-                    Location = drone.DroneLocation,
-                };
+                    return new Drone
+                    {
+                        Id = drone.Id,
+                        Model = drone.Model,
+                        MaxWeight = drone.MaxWeight,
+                        Status = drone.Status,
+                        Battery = drone.Battery,
+                        Parcel = null,
+                        Location = drone.DroneLocation,
+                    };
+                }
             }
         }
 
@@ -446,15 +457,18 @@ namespace BL
         /// <returns> BL Customer </returns>
         private Customer convertToCustomer(DO.Customer cstmr)
         {
-            return new Customer
+            lock (myDal)
             {
-                Id = cstmr.Id,
-                Name = cstmr.Name,
-                Phone = cstmr.Phone,
-                CustomerLocation = createLocation(cstmr.Longitude, cstmr.Lattitude),
-                From = GetAllOutGoingDeliveries(cstmr.Id),
-                To = GetAllIncomingDeliveries(cstmr.Id),
-            };
+                return new Customer
+                {
+                    Id = cstmr.Id,
+                    Name = cstmr.Name,
+                    Phone = cstmr.Phone,
+                    CustomerLocation = createLocation(cstmr.Longitude, cstmr.Lattitude),
+                    From = GetAllOutGoingDeliveries(cstmr.Id),
+                    To = GetAllIncomingDeliveries(cstmr.Id),
+                };
+            }
         }
 
         /// <summary>
@@ -488,37 +502,40 @@ namespace BL
         /// <returns> BL Parcel </returns>
         private Parcel convertToParcel(DO.Parcel prc)
         {
-            if (prc.DroneId != 0)
+            lock (myDal)
             {
-                return new Parcel
+                if (prc.DroneId != 0)
                 {
-                    Id = prc.Id,
-                    Sender = GetCustomerInParcel(prc.SenderId),
-                    Target = GetCustomerInParcel(prc.TargetId),
-                    Weight = (WeightCategories)prc.Weight,
-                    Priority = (Priority)prc.Priority,
-                    Drone = GetDroneInParcel(prc.DroneId),
-                    Ordered = prc.Requested,
-                    Linked = prc.Scheduled,
-                    PickedUp = prc.PickedUp,
-                    Delivered = prc.Delivered,
-                };
-            }
-            else
-            {
-                return new Parcel
+                    return new Parcel
+                    {
+                        Id = prc.Id,
+                        Sender = GetCustomerInParcel(prc.SenderId),
+                        Target = GetCustomerInParcel(prc.TargetId),
+                        Weight = (WeightCategories)prc.Weight,
+                        Priority = (Priority)prc.Priority,
+                        Drone = GetDroneInParcel(prc.DroneId),
+                        Ordered = prc.Requested,
+                        Linked = prc.Scheduled,
+                        PickedUp = prc.PickedUp,
+                        Delivered = prc.Delivered,
+                    };
+                }
+                else
                 {
-                    Id = prc.Id,
-                    Sender = GetCustomerInParcel(prc.SenderId),
-                    Target = GetCustomerInParcel(prc.TargetId),
-                    Weight = (WeightCategories)prc.Weight,
-                    Priority = (Priority)prc.Priority,
-                    Drone = null,
-                    Ordered = prc.Requested,
-                    Linked = prc.Scheduled,
-                    PickedUp = prc.PickedUp,
-                    Delivered = prc.Delivered,
-                };
+                    return new Parcel
+                    {
+                        Id = prc.Id,
+                        Sender = GetCustomerInParcel(prc.SenderId),
+                        Target = GetCustomerInParcel(prc.TargetId),
+                        Weight = (WeightCategories)prc.Weight,
+                        Priority = (Priority)prc.Priority,
+                        Drone = null,
+                        Ordered = prc.Requested,
+                        Linked = prc.Scheduled,
+                        PickedUp = prc.PickedUp,
+                        Delivered = prc.Delivered,
+                    };
+                }
             }
         }
 
@@ -527,17 +544,20 @@ namespace BL
         /// </summary>
         /// <param name="prc"> DAL Parcel </param>
         /// <returns> BL ParcelInList </returns>
-        private ParcelInList convertToParcelInList(DO.Parcel prc )
+        private ParcelInList convertToParcelInList(DO.Parcel prc)
         {
-            return new ParcelInList
+            lock (myDal)
             {
-                Id = prc.Id,
-                SenderName = myDal.GetCustomer(prc.SenderId).Name,
-                TargetName = myDal.GetCustomer(prc.TargetId).Name,
-                Weight = (WeightCategories)prc.Weight,
-                Priority = (Priority)prc.Priority,
-                Status = getParcelStatus(prc),
-            };
+                return new ParcelInList
+                {
+                    Id = prc.Id,
+                    SenderName = myDal.GetCustomer(prc.SenderId).Name,
+                    TargetName = myDal.GetCustomer(prc.TargetId).Name,
+                    Weight = (WeightCategories)prc.Weight,
+                    Priority = (Priority)prc.Priority,
+                    Status = getParcelStatus(prc),
+                };
+            }
         }
         #endregion
         public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new DroneSimulator(this, id, update, checkStop);
