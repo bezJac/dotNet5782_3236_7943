@@ -16,8 +16,6 @@ namespace PL
         private static  IBL theBL = BlApi.BlFactory.GetBL();
         public static ListsPresentor Instance { get; } = new ListsPresentor();
         ObservableCollection<DroneInList> drones = new(theBL.GetAllDronesInList());
-          
-     
         public ObservableCollection<DroneInList> DronesList
         {
             get => drones;
@@ -42,6 +40,10 @@ namespace PL
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ParcelsList)));
             }
         }
+        public void updateParcels()
+        {
+            ParcelsList = new(theBL.GetAllParcelsInList());
+        }
 
         ObservableCollection<CustomerInList> customers = new(theBL.GetAllCustomersInList());
         public ObservableCollection<CustomerInList> CustomersList
@@ -53,6 +55,10 @@ namespace PL
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CustomersList)));
             }
         }
+        public void updateCustomers()
+        {
+            CustomersList = new(theBL.GetAllCustomersInList());
+        }
         ObservableCollection<BaseStationInList> stations = new(theBL.GetALLBaseStationInList());
         public ObservableCollection<BaseStationInList> StationsList
         {
@@ -63,8 +69,12 @@ namespace PL
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StationsList)));
             }
         }
+        public void updateStations()
+        {
+            StationsList = new(theBL.GetALLBaseStationInList());
+        }
 
 
-        
+
     }
 }

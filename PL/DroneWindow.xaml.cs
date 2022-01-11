@@ -21,7 +21,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    public partial class DroneWindow : Window
+    public partial class DroneWindow : Window, INotifyPropertyChanged
     {
         /// <summary>
         /// instance of BL class object to access data for PL
@@ -31,7 +31,7 @@ namespace PL
         /// drone instance for data context of window
         /// </summary>
         private Drone newDrone;
-
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
         /// <summary>
         /// cunstructor for Add Drone view of window 
         /// </summary>
@@ -194,6 +194,8 @@ namespace PL
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
+                updateDronesGlobalView();
+                updateStationsGlobalView(theBL.GetDroneChargestation((int)newDrone.Id).Id);
                 // ScheduleButton.Visibility = Visibility.Collapsed;
             }
         }
@@ -205,8 +207,10 @@ namespace PL
         {
             actionDrone.DataContext = newDrone;
             bool flag = true;
+            int? stationId = null;
             try
             {
+                 stationId = theBL.GetDroneChargestation((int)newDrone.Id).Id;
                 theBL.DischargeDrone((int)newDrone.Id);
                 // get updated details of drone
                 newDrone = theBL.GetDrone((int)newDrone.Id);
@@ -223,7 +227,8 @@ namespace PL
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
-                // ScheduleButton.Visibility = Visibility.Visible;
+                updateDronesGlobalView();
+                updateStationsGlobalView((int)stationId);
             }
         }
 
@@ -249,8 +254,9 @@ namespace PL
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
-                //ScheduleButton.Visibility = Visibility.Collapsed;
-                //PickUpButton.Visibility = Visibility.Visible;
+                updateDronesGlobalView();
+                updateParcelsGlobalView((int)newDrone.Parcel.Id);
+                
             }
         }
 
@@ -278,6 +284,8 @@ namespace PL
             if (flag) // drone picked up parcel successfully
             {
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                updateDronesGlobalView();
+                updateParcelsGlobalView((int)newDrone.Parcel.Id);
                 refreshWindow(sender, e);
 
             }
@@ -289,13 +297,14 @@ namespace PL
         private void DeliverButton_Click(object sender, RoutedEventArgs e)
         {
             actionDrone.DataContext = newDrone;
-
+            int senderId = newDrone.Parcel.Sender.Id;
+            int targetId = newDrone.Parcel.Target.Id;
+            int? parcelId = newDrone.Parcel.Id;
             bool flag = true;
             try
             {
                 theBL.DroneParcelDelivery((int)newDrone.Id);
-                // get updated details of drone
-                newDrone = theBL.GetDrone((int)newDrone.Id);
+                
             }
             catch (Exception Ex)
             {
@@ -308,6 +317,12 @@ namespace PL
             {
 
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                updateDronesGlobalView();
+                updateParcelsGlobalView((int)parcelId);
+                updateCustromerGlobalView(senderId);
+                updateCustromerGlobalView(targetId);
+                // get updated details of drone
+                newDrone = theBL.GetDrone((int)newDrone.Id);
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
             }
@@ -395,8 +410,55 @@ namespace PL
             }
         }
 
+        private void updateDronesGlobalView()
+        {
+            DroneInList droneForList = listsPresentor.DronesList.FirstOrDefault(d => d.Id == newDrone.Id);
+            int droneIndex = listsPresentor.DronesList.IndexOf(droneForList);
+            if (droneIndex >= 0)
+            {
+                listsPresentor.DronesList.Remove(droneForList);
+                listsPresentor.DronesList.Insert(droneIndex, theBL.GetDroneFromList(newDrone.Id));
+            }
+            
+        }
+        private void updateParcelsGlobalView(int id)
+        {
+            ParcelInList parcelForList = listsPresentor.ParcelsList.FirstOrDefault(p => p.Id ==id);
+            int parcelIndex = listsPresentor.ParcelsList.IndexOf(parcelForList);
+            if (parcelIndex >= 0)
+            {
+                listsPresentor.ParcelsList.Remove(parcelForList);
+                listsPresentor.ParcelsList.Insert(parcelIndex, theBL.GetAllParcelsInList().Where(p => p.Id == parcelForList.Id).FirstOrDefault());
+            }
+        }
+
+        private void updateStationsGlobalView(int id)
+        {
+            BaseStationInList stationInList = listsPresentor.StationsList.FirstOrDefault(st => st.Id == id);
+            int stationIndex = listsPresentor.StationsList.IndexOf(stationInList);
+            if (stationIndex >= 0)
+            {
+                listsPresentor.StationsList.Remove(stationInList);
+                listsPresentor.StationsList.Insert(stationIndex, theBL.GetALLBaseStationInList().Where(st => st.Id == stationInList.Id).FirstOrDefault());
+            }
+        }
+
+        private void updateCustromerGlobalView(int id)
+        {
+            CustomerInList customerInList = listsPresentor.CustomersList.FirstOrDefault(cs => cs.Id == id);
+            int CustomerIndex = listsPresentor.CustomersList.IndexOf(customerInList);
+            if (CustomerIndex >= 0)
+            {
+                listsPresentor.CustomersList.Remove(customerInList);
+                listsPresentor.CustomersList.Insert(CustomerIndex, theBL.GetAllCustomersInList().Where(cs => cs.Id == id).FirstOrDefault());
+            }
+        }
+
         #region Background Worker
         BackgroundWorker worker;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void updateData() => worker.ReportProgress(0);
         private bool checkStop() => worker.CancellationPending;
 
@@ -423,6 +485,11 @@ namespace PL
                 actionDrone.DataContext = newDrone;
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
+                listsPresentor.updateDrones();
+                listsPresentor.updateParcels();
+                listsPresentor.updateStations();
+                listsPresentor.updateCustomers();
+     
             }
         }
 

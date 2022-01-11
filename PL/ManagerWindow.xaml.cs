@@ -25,7 +25,7 @@ namespace PL
     public partial class ManagerWindow : Window
     {
         private readonly IBL theBL;
-
+        public static ListsPresentor ListsPresentor { get; } = ListsPresentor.Instance;
         /// <summary>
         /// cunstructor
         /// </summary>
@@ -33,13 +33,13 @@ namespace PL
         public ManagerWindow(IBL bL)
         {
             InitializeComponent();
-            
+
             theBL = bL;
-            // show all drones in drone list
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+           
+            droneListGrid.DataContext = ListsPresentor;
+            parcelListGrid.DataContext = ListsPresentor;
+            customerListGrid.DataContext = ListsPresentor;
+            stationListgrid.DataContext = ListsPresentor;
             // set values to comboBoxes
             StatusSelector.ItemsSource = Enum.GetValues(typeof(DroneStatus));
             WeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
@@ -66,7 +66,7 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                    if(WeightSelector.SelectedItem != null)
+                    if (WeightSelector.SelectedItem != null)
                         DroneListView.ItemsSource = theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
                     else
                         DroneListView.ItemsSource = theBL.GetAllDronesInList(status);
@@ -138,42 +138,40 @@ namespace PL
         /// </summary>
         private void refreshDroneListViewContent()
         {
-            lock (theBL)
+            try
             {
-                try
+
+                // nither comboBox has a selected choice - show all drones
+                if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
                 {
-
-                    // nither comboBox has a selected choice - show all drones
-                    if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
-                    {
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
-                        return;
-                    }
-                    // both comboBoxes have selected choice - filter by both parameters
-                    if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
-                    {
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
-                        return;
-                    }
-                    // only status comboBox has choice - filter by status
-                    if (StatusSelector.SelectedItem != null)
-                    {
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
-                        return;
-
-                    }
-                    // only weight comboBox has choice - filter by weight
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList();
+                    return;
+                }
+                // both comboBoxes have selected choice - filter by both parameters
+                if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
+                {
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                    return;
+                }
+                // only status comboBox has choice - filter by status
+                if (StatusSelector.SelectedItem != null)
+                {
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                    return;
 
                 }
-                catch (Exception Ex)
-                {
-                    while (Ex.InnerException != null)
-                        Ex = Ex.InnerException;
-                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                // only weight comboBox has choice - filter by weight
+                DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
 
-                }
             }
+            catch (Exception Ex)
+            {
+                while (Ex.InnerException != null)
+                    Ex = Ex.InnerException;
+                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+
         }
         /// <summary>
         /// group list view by selected checkBox parameter in drones tab
@@ -235,9 +233,9 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                    
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(status,null,null);
-                    
+
+                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(status, null, null);
+
                 }
                 catch (Exception Ex)
                 {
@@ -373,7 +371,7 @@ namespace PL
         private void ParcelGroupCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             RibbonCheckBox cb = sender as RibbonCheckBox;
-             List<ParcelInList> temp = new();
+            List<ParcelInList> temp = new();
             switch (cb.Name)
             {
                 case "SenderChbox":
@@ -450,8 +448,8 @@ namespace PL
             if (CustomerListView.SelectedItem != null)
             {
                 CustomerInList cs = CustomerListView.SelectedItem as CustomerInList;
-                CustomerWindow win= new CustomerWindow(theBL, theBL.GetCustomer(cs.Id));
-                win.Show();           
+                CustomerWindow win = new CustomerWindow(theBL, theBL.GetCustomer(cs.Id));
+                win.Show();
             }
         }
         #endregion
@@ -465,7 +463,7 @@ namespace PL
             if (StationListView.SelectedItem != null)
             {
                 BaseStationInList st = StationListView.SelectedItem as BaseStationInList;
-                StationWindow win= new StationWindow(theBL, theBL.GetBaseStation(st.Id));
+                StationWindow win = new StationWindow(theBL, theBL.GetBaseStation(st.Id));
                 win.Show();
             }
         }
@@ -491,7 +489,7 @@ namespace PL
                     {
                         List<BaseStationInList> temp = new();
                         var senderGrouping = from st in theBL.GetALLBaseStationInList()
-                                             group st by st.AvailableSlots>0 into groups
+                                             group st by st.AvailableSlots > 0 into groups
                                              select groups;
 
                         foreach (var group in senderGrouping)
@@ -499,7 +497,7 @@ namespace PL
                                 temp.Add(item);
 
                         StationListView.ItemsSource = temp;
-                        break;                       
+                        break;
                     }
             }
         }
@@ -520,7 +518,7 @@ namespace PL
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            switch(b.Name)
+            switch (b.Name)
             {
                 case "addDroneButton":
                     {
@@ -533,7 +531,7 @@ namespace PL
                     {
                         ParcelWindow win = new ParcelWindow(theBL);
                         win.Show();
-                         break;
+                        break;
                     }
                 case "addStationButton":
                     {
@@ -545,25 +543,25 @@ namespace PL
                     {
                         CustomerWindow customerWindow = new CustomerWindow(theBL);
                         customerWindow.Show();
-                       
+
                         break;
                     }
             }
-            
+
 
         }
         /// <summary>
         /// exit window
         /// </summary>
-        private void CloseWindowButton_Click(object sender,System.ComponentModel.CancelEventArgs e)
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = false;
-            
+
         }
         /// <summary>
         /// current window reaction method (updates list views) to updates in son windows affecting lists
         /// </summary>
-        
+
         /// <summary>
         /// refresh list view content on tab selection
         /// </summary>
@@ -608,14 +606,14 @@ namespace PL
 
         private void refreshWindow(object sender, EventArgs e)
         {
-            lock (theBL)
-            {
-                refreshDroneListViewContent();
-                ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-            }
+
+            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e) => ListsPresentor.updateDrones();
     }
 }

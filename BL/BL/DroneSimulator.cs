@@ -21,12 +21,10 @@ namespace BL
             var dal = theBl.myDal;
             Drone drone = theBl.GetDrone(id);
             int? parcelId = null;
-            int? baseStationId = null;
             BaseStation st = null;
             double distance = 0.0;
             int batteryUsage = 0;
             DO.Parcel parcel = new();
-            bool pickedUp = false;
             Customer sender = null;
             Customer target = null;
             ChargeMode maintenance;
@@ -59,7 +57,7 @@ namespace BL
                             if (!sleepDelayTime()) break;
                             lock (theBl) lock (dal)
                                 {
-                                    
+
                                     try
                                     {
                                         theBl.LinkDroneToParcel((int)drone.Id);
@@ -94,36 +92,34 @@ namespace BL
                             {
                                 case ChargeMode.SetUp:
                                     {
-                                        
                                         lock (theBl) lock (dal)
                                             {
-                                            try
-                                            {
+                                                try
+                                                {
+                                                    st = theBl.convertToBaseStation(theBl.getNearestAvailableBasestation(drone.Location));
+                                                    distance = Distance.GetDistance(st.StationLocation, drone.Location);
 
-                                                st = theBl.convertToBaseStation(theBl.getNearestAvailableBasestation(drone.Location));
-                                                distance = Distance.GetDistance(st.StationLocation, drone.Location);
-
-                                                // check if drone has enough battery to cover flight  distance to the selected station
-                                                if ((drone.Battery - distance * BL.droneElecUseEmpty) <= 0 || st.NumOfSlots < 1)
-                                                    throw new ActionException($"charge could not be executed");
+                                                    // check if drone has enough battery to cover flight  distance to the selected station
+                                                    if ((drone.Battery - distance * BL.droneElecUseEmpty) <= 0 || st.Id==0 )
+                                                        throw new ActionException($"charge could not be executed");
                                                     dal.AddDroneCharge(new DO.DroneCharge { StationId = (int)st.Id, DroneId = (int)drone.Id, EntranceTime = DateTime.Now, BatteryAtEntrance = drone.Battery });
                                                     maintenance = ChargeMode.Enroute;
                                                 }
-                                            catch (Exception ex) { break; }
-                                            break;
-                                        }
+                                                catch (Exception ex) { break; }
+                                                break;
+                                            }
                                     }
                                 case ChargeMode.Enroute:
                                     {
                                         if (distance < 0.01)
                                             lock (theBl) lock (dal)
                                                 {
-                                                drone.Location = st.StationLocation;
-                                                maintenance = ChargeMode.Charging;
-                                                theBl.drones[index].DroneLocation = st.StationLocation;
-                                                
-                                                chargeEntrance = DateTime.Now;
-                                            }
+                                                    drone.Location = st.StationLocation;
+                                                    maintenance = ChargeMode.Charging;
+                                                    theBl.drones[index].DroneLocation = st.StationLocation;
+
+                                                    chargeEntrance = DateTime.Now;
+                                                }
                                         else
                                         {
                                             if (!sleepDelayTime()) break;
@@ -144,20 +140,22 @@ namespace BL
                                         TimeSpan timeSpan = DateTime.Now.Subtract(chargeEntrance);
                                         if (theBl.drones[index].Battery + (timeSpan.Seconds * BL.DroneChargeRatePerSecond) >= 100)
                                         {
+                                            if (!sleepDelayTime()) break;
                                             lock (theBl) lock (dal)
-                                            {
-                                                theBl.DischargeDrone((int)drone.Id);
-                                                drone.Battery = theBl.drones[index].Battery;
-                                                drone.Status = DroneStatus.Available;
-                                            }
+                                                {
+                                                    theBl.DischargeDrone((int)drone.Id);
+                                                    drone.Battery = theBl.drones[index].Battery;
+                                                    drone.Status = DroneStatus.Available;
+                                                }
                                         }
                                         else
                                         {
                                             if (!sleepDelayTime()) break;
-                                            lock (theBl) 
-                                                {
+                                            lock (theBl)
+                                            {
                                                 drone.Battery = Math.Min(100, theBl.drones[index].Battery + (int)(timeSpan.Seconds * BL.DroneChargeRatePerSecond));
                                                 theBl.drones[index].Battery = drone.Battery;
+
                                             }
 
                                         }
@@ -173,13 +171,13 @@ namespace BL
                             lock (theBl) lock (dal)
                                 {
 
-                                if (parcelId == null)
-                                {
-                                    getDeliveyDetails((int)theBl.drones[index].ParcelId);
-                                    parcelId = theBl.drones[index].ParcelId;
-                                    distance = Distance.GetDistance(drone.Location, sender.CustomerLocation);
+                                    if (parcelId == null)
+                                    {
+                                        getDeliveyDetails((int)theBl.drones[index].ParcelId);
+                                        parcelId = theBl.drones[index].ParcelId;
+                                        distance = Distance.GetDistance(drone.Location, sender.CustomerLocation);
+                                    }
                                 }
-                            }
 
 
 
@@ -187,17 +185,17 @@ namespace BL
                             if (distance < 0.01)
                                 lock (theBl) lock (dal)
                                     {
-                                    parcel = dal.GetParcel((int)parcelId);
-                                    if (parcel.PickedUp == null)
-                                    {
-                                        theBl.DroneParcelPickUp((int)drone.Id);
+                                        parcel = dal.GetParcel((int)parcelId);
+                                        if (parcel.PickedUp == null)
+                                        {
+                                            theBl.DroneParcelPickUp((int)drone.Id);
+                                        }
+                                        else
+                                        {
+                                            theBl.DroneParcelDelivery((int)drone.Id);
+                                            drone.Status = DroneStatus.Available;
+                                        }
                                     }
-                                    else
-                                    {
-                                        theBl.DroneParcelDelivery((int)drone.Id);
-                                        drone.Status = DroneStatus.Available;
-                                    }
-                                }
                             else
                             {
                                 if (!sleepDelayTime()) break;

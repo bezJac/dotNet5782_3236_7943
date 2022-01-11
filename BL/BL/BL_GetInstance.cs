@@ -187,5 +187,14 @@ namespace BL
                     where dr.Id == id
                     select dr).FirstOrDefault();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public BaseStationInList GetDroneChargestation(int? id)
+        {
+            return (from st in GetAllBaseStations()
+                    from dc in st.DronesCharging
+                    where dc.Id == id
+                    let tmp = convertToBaseStationInList(st)
+                    select tmp).FirstOrDefault();
+        }
     }
 }

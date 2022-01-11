@@ -9,7 +9,8 @@
        WindowStyle="SingleBorderWindow" 
         Closing="MyWindow_Closing"
         Background="White"
-        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico" Activated="refreshWindow"  Style="{StaticResource WindowStyle}">
+        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico"  Loaded="Window_Loaded"   Style="{StaticResource WindowStyle}">
+    <!--Activated="refreshWindow"-->
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -80,8 +81,8 @@
 
                 </Grid>
 
-                <Grid Style="{StaticResource listViewGrid}">
-                    <ListView x:Name="DroneListView" Grid.Row="1" Background="White"  MouseDoubleClick="DroneList_MouseDoubleClick"   BorderBrush="#FF3A3A57" BorderThickness="1">
+                <Grid x:Name="droneListGrid" Style="{StaticResource listViewGrid}" >
+                    <ListView x:Name="DroneListView"  ItemsSource="{Binding DronesList, Mode=OneWay}" Grid.Row="1" Background="White"  MouseDoubleClick="DroneList_MouseDoubleClick"   BorderBrush="#FF3A3A57" BorderThickness="1">
 
                         <ListView.View >
 
@@ -210,8 +211,8 @@
 
 
                 </Grid>
-                <Grid Style="{StaticResource listViewGrid}">
-                    <ListView x:Name="ParcelListView" Grid.Row="1" Background="White"  MouseDoubleClick="ParcelList_MouseDoubleClick" >
+                <Grid x:Name="parcelListGrid" Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="ParcelListView" Grid.Row="1"  ItemsSource="{Binding ParcelsList, Mode=OneWay}" Background="White"  MouseDoubleClick="ParcelList_MouseDoubleClick" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="130" DisplayMemberBinding="{Binding Id}"/>
@@ -265,8 +266,8 @@
                      Height="40" Width="150" Click="AddButton_Click"  FontSize="18" VerticalAlignment="Center" />
 
                 </Grid>
-                <Grid Style="{StaticResource listViewGrid}">
-                <ListView x:Name="CustomerListView"   MouseDoubleClick="CustomerList_MouseDoubleClick" >
+                <Grid x:Name="customerListGrid" Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="CustomerListView"  ItemsSource="{Binding CustomersList, Mode=OneWay}"   MouseDoubleClick="CustomerList_MouseDoubleClick" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="135" DisplayMemberBinding="{Binding Id}"/>
@@ -326,8 +327,8 @@
                              </StackPanel>
 
                 </Grid>
-                <Grid Style="{StaticResource listViewGrid}">
-                    <ListView x:Name="StationListView"  MouseDoubleClick="StationList_MouseDoubleClick" >
+                <Grid x:Name="stationListgrid" Style="{StaticResource listViewGrid}">
+                    <ListView x:Name="StationListView" ItemsSource="{Binding StationsList, Mode=OneWay}"   MouseDoubleClick="StationList_MouseDoubleClick" >
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="210" DisplayMemberBinding="{Binding Id}"/>

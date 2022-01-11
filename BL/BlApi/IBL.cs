@@ -188,6 +188,13 @@ namespace BlApi
         /// <param name="id"> parcel's ID </param>
         /// <returns> copy of parcel matching the ID in ParcelInDelivery representation </returns>
         ParcelInDelivery GetParcelInDelivery(int id);
+
+        /// <summary>
+        /// get base station where drone is charging
+        /// </summary>
+        /// <param name="id"> drone's id</param>
+        /// <returns> base station in list entity of station drone is charging at</returns>
+        BaseStationInList GetDroneChargestation(int? id);
         #endregion
         #endregion
 
