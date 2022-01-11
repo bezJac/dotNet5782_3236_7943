@@ -49,9 +49,14 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
+            <Button x:Name="closeButton" Content="Close"   Visibility="Visible" Height="25" Grid.Column="1"
                     HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
-                   FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
+                   FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575">
+
+                                   <Button.Style>                    <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>                </Button.Style>            
+
+            </Button>
+           
             <Button x:Name="Automatic" Content="Auto" Grid.Row="3" Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" FontSize="16" Width="50" Click="Auto_Click"/>
             <Button x:Name="manual" Content="Manual" Grid.Row="3" Style="{StaticResource ButtonStyle}" Visibility="Collapsed" Height="25" Width="Auto" FontSize="16" Click="Manual_Click"/>
 
