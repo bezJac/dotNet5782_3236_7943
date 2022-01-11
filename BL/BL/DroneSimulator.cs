@@ -29,7 +29,16 @@ namespace BL
             bool pickedUp = false;
             Customer sender = null;
             Customer target = null;
-            ChargeMode maintenance = drone.Status == DroneStatus.Maintenance ? ChargeMode.Charging : ChargeMode.SetUp;
+            ChargeMode maintenance;
+            if (drone.Status == DroneStatus.Maintenance)
+            {
+                lock (theBl)
+                {
+                    st = theBl.convertToBaseStation(theBl.getNearestAvailableBasestation(drone.Location));
+                }
+                maintenance = ChargeMode.Enroute;
+            }
+            else { maintenance = ChargeMode.SetUp; }
             DateTime chargeEntrance = new();
             int index;
             void getDeliveyDetails(int id)
@@ -59,7 +68,7 @@ namespace BL
                                     }
                                     catch (Exception ex)
                                     {
-                                        switch (ex.Message, drone.Battery)
+                                        switch (ex.Message, theBl.drones[index].Battery)
                                         {
                                             case ("empty", 100):
                                                 {
@@ -85,6 +94,7 @@ namespace BL
                             {
                                 case ChargeMode.SetUp:
                                     {
+                                        
                                         lock (theBl) lock (dal)
                                             {
                                             try
@@ -96,8 +106,9 @@ namespace BL
                                                 // check if drone has enough battery to cover flight  distance to the selected station
                                                 if ((drone.Battery - distance * BL.droneElecUseEmpty) <= 0 || st.NumOfSlots < 1)
                                                     throw new ActionException($"charge could not be executed");
-                                                maintenance = ChargeMode.Enroute;
-                                            }
+                                                    dal.AddDroneCharge(new DO.DroneCharge { StationId = (int)st.Id, DroneId = (int)drone.Id, EntranceTime = DateTime.Now, BatteryAtEntrance = drone.Battery });
+                                                    maintenance = ChargeMode.Enroute;
+                                                }
                                             catch (Exception ex) { break; }
                                             break;
                                         }
@@ -109,8 +120,8 @@ namespace BL
                                                 {
                                                 drone.Location = st.StationLocation;
                                                 maintenance = ChargeMode.Charging;
-                                                dal.AddDroneCharge(new DO.DroneCharge { StationId = (int)st.Id, DroneId = (int)drone.Id, EntranceTime = DateTime.Now, BatteryAtEntrance = drone.Battery });
                                                 theBl.drones[index].DroneLocation = st.StationLocation;
+                                                
                                                 chargeEntrance = DateTime.Now;
                                             }
                                         else
@@ -120,7 +131,7 @@ namespace BL
                                             {
                                                 double delta = distance < STEP ? distance : STEP;
                                                 distance -= delta;
-                                                drone.Battery = (int)(drone.Battery - delta * BL.droneElecUseEmpty);
+                                                drone.Battery = (int)(theBl.drones[index].Battery - delta * BL.droneElecUseEmpty);
 
                                                 theBl.drones[index].Battery = drone.Battery;
                                             }
@@ -131,12 +142,12 @@ namespace BL
                                 case ChargeMode.Charging:
                                     {
                                         TimeSpan timeSpan = DateTime.Now.Subtract(chargeEntrance);
-                                        if (drone.Battery + (int)(timeSpan.Seconds * BL.DroneChargeRatePerSecond) >= 100)
+                                        if (theBl.drones[index].Battery + (timeSpan.Seconds * BL.DroneChargeRatePerSecond) >= 100)
                                         {
                                             lock (theBl) lock (dal)
-                                                {
+                                            {
                                                 theBl.DischargeDrone((int)drone.Id);
-                                                    drone.Battery = 100;
+                                                drone.Battery = theBl.drones[index].Battery;
                                                 drone.Status = DroneStatus.Available;
                                             }
                                         }
@@ -145,7 +156,7 @@ namespace BL
                                             if (!sleepDelayTime()) break;
                                             lock (theBl) 
                                                 {
-                                                drone.Battery = Math.Min(100, drone.Battery + (int)(chargeEntrance.Second * BL.DroneChargeRatePerSecond));
+                                                drone.Battery = Math.Min(100, theBl.drones[index].Battery + (int)(timeSpan.Seconds * BL.DroneChargeRatePerSecond));
                                                 theBl.drones[index].Battery = drone.Battery;
                                             }
 

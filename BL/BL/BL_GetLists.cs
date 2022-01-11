@@ -83,44 +83,47 @@ namespace BL
                        select drone;
             }
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
+       [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneInList> GetAllDronesInList(DroneStatus? status = null, WeightCategories? weight = null)
         {
-            if (status == null && weight == null)
+            lock (myDal)
             {
-                if (drones.Count > 0)
-                    return drones;
+                if (status == null && weight == null)
+                {
+                    if (drones.Count > 0)
+                        return drones;
+                    throw new GetListException("No drones in list");
+                }
+                IEnumerable<DroneInList> tmp;
+                if (status != null && weight != null)
+                {
+                    tmp = from dr in drones
+                          where dr.MaxWeight == weight && dr.Status == status
+                          select dr;
+                    if (!tmp.Any())
+                        throw new GetListException("No drones in list match filtering choice");
+                    return tmp;
+                }
+                if (status != null)
+                {
+                    tmp = from dr in drones
+                          where dr.Status == status
+                          select dr;
+                    if (!tmp.Any())
+                        throw new GetListException("No drones in list match filtering choice");
+                    return tmp;
+                }
+                if (weight != null)
+                {
+                    tmp = from dr in drones
+                          where dr.MaxWeight == weight
+                          select dr;
+                    if (!tmp.Any())
+                        throw new GetListException("No drones in list match filtering choice");
+                    return tmp;
+                }
                 throw new GetListException("No drones in list");
             }
-            IEnumerable<DroneInList> tmp;
-            if (status != null && weight != null)
-            {
-                tmp = from dr in drones
-                      where dr.MaxWeight == weight && dr.Status == status
-                      select dr;
-                if (!tmp.Any())
-                    throw new GetListException("No drones in list match filtering choice");
-                return tmp;
-            }
-            if (status != null)
-            {
-                tmp = from dr in drones
-                      where dr.Status == status
-                      select dr;
-                if (!tmp.Any())
-                    throw new GetListException("No drones in list match filtering choice");
-                return tmp;
-            }
-            if (weight != null)
-            {
-                tmp = from dr in drones
-                      where dr.MaxWeight == weight
-                      select dr;
-                if (!tmp.Any())
-                    throw new GetListException("No drones in list match filtering choice");
-                return tmp;
-            }
-            throw new GetListException("No drones in list");
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetAllCustomers()

@@ -9,7 +9,7 @@
        WindowStyle="SingleBorderWindow" 
         Closing="MyWindow_Closing"
         Background="White"
-        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico" Activated="refreshWindow" Style="{StaticResource WindowStyle}">
+        Title="Managment" Height="650" Width="1000" Icon= "\images\Icon_drone.ico" Activated="refreshWindow"  Style="{StaticResource WindowStyle}">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>

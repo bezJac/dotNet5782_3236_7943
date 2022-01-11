@@ -95,16 +95,15 @@ namespace BL
                 int index = drones.FindIndex(dr => dr.Id == id);
                 // get all parcels that sre both , unlinked to a drone yet, parcel wight is <= to drone's max weight capability
                 IEnumerable<DO.Parcel> unlinked;
-                try
-                {
-                    unlinked = from prc in myDal.GetAllParcels()
-                               where getParcelStatus(prc) == ParcelStatus.Ordered && (WeightCategories)prc.Weight <= dr.MaxWeight
-                               select prc;
-                }
-                catch (Exception ex)
-                {
-                    throw new ActionException("empty", ex);
-                }
+                unlinked = from prc in myDal.GetAllParcels()
+                           where getParcelStatus(prc) == ParcelStatus.Ordered
+                                && (WeightCategories)prc.Weight <= dr.MaxWeight
+                           select prc;
+
+
+                if(!unlinked.Any())
+                    throw new ActionException("empty");
+                
                 // sort list by priority in descending order, then perform subsequent ordering by weight in descending order , the perform another subsequent ordering
                 // by shortest distance from drone to parcel's sender location in ascending order 
                 unlinked = unlinked.OrderByDescending(prc => prc.Priority).ThenByDescending(prc => prc.Weight).ThenBy

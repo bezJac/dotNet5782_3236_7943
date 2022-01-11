@@ -149,6 +149,12 @@ namespace BlApi
         Drone GetDrone(int id);
 
         /// <summary>
+        /// get drone directly from list in BL
+        /// </summary>
+        /// <param name="id"> drone id </param>
+        /// <returns> drone matching id </returns>
+        DroneInList GetDroneFromList(int? id);
+        /// <summary>
         /// get a drone's  representation of DroneInParcel, by its ID
         /// </summary>
         /// <param name="id"> drone's ID </param>

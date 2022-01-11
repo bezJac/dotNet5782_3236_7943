@@ -180,5 +180,12 @@ namespace BL
 
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public DroneInList GetDroneFromList(int? id)
+        {
+            return (from dr in drones
+                    where dr.Id == id
+                    select dr).FirstOrDefault();
+        }
     }
 }

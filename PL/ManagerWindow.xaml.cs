@@ -138,38 +138,41 @@ namespace PL
         /// </summary>
         private void refreshDroneListViewContent()
         {
-            try
+            lock (theBL)
             {
-
-                // nither comboBox has a selected choice - show all drones
-                if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
+                try
                 {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
-                    return;
+
+                    // nither comboBox has a selected choice - show all drones
+                    if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
+                    {
+                        DroneListView.ItemsSource = theBL.GetAllDronesInList(null, null);
+                        return;
+                    }
+                    // both comboBoxes have selected choice - filter by both parameters
+                    if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
+                    {
+                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                        return;
+                    }
+                    // only status comboBox has choice - filter by status
+                    if (StatusSelector.SelectedItem != null)
+                    {
+                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                        return;
+
+                    }
+                    // only weight comboBox has choice - filter by weight
+                    DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
+
                 }
-                // both comboBoxes have selected choice - filter by both parameters
-                if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
+                catch (Exception Ex)
                 {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
-                    return;
-                }
-                // only status comboBox has choice - filter by status
-                if (StatusSelector.SelectedItem != null)
-                {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
-                    return;
+                    while (Ex.InnerException != null)
+                        Ex = Ex.InnerException;
+                    MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 }
-                // only weight comboBox has choice - filter by weight
-                DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
-
-            }
-            catch (Exception Ex)
-            {
-                while (Ex.InnerException != null)
-                    Ex = Ex.InnerException;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
         }
         /// <summary>
@@ -605,12 +608,14 @@ namespace PL
 
         private void refreshWindow(object sender, EventArgs e)
         {
-            refreshDroneListViewContent();
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+            lock (theBL)
+            {
+                refreshDroneListViewContent();
+                ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
+                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+            }
         }
 
-        
     }
 }
