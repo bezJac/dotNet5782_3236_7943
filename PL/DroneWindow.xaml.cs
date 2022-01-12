@@ -466,6 +466,7 @@ namespace PL
         {
             Automatic.Visibility = Visibility.Collapsed;
             manual.Visibility = Visibility.Visible;
+            Buttons.Visibility = Visibility.Collapsed;
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             worker.DoWork += (sender, args) => theBL.StartDroneSimulator((int)args.Argument, updateData, checkStop);
             worker.RunWorkerCompleted += (sender, args) =>
@@ -498,6 +499,7 @@ namespace PL
             worker?.CancelAsync();
             manual.Visibility = Visibility.Collapsed;
             Automatic.Visibility = Visibility.Visible;
+            Buttons.Visibility = Visibility.Visible;
         }
         #endregion
     }
