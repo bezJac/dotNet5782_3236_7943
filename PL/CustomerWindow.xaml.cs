@@ -28,6 +28,7 @@ namespace PL
         /// Customer instance for data context of window
         /// </summary>
         private Customer newCustomer;
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
         /// <summary>
         /// cunstructor for Add customer view of window 
         /// </summary>
@@ -77,6 +78,8 @@ namespace PL
                         break;
                     }
             }
+            refreshWindow(sender,e);
+            listsPresentor.UpdateCustomer((int)newCustomer.Id);
            
         }
 
@@ -131,8 +134,6 @@ namespace PL
             return;
         }
 
-       
-
         /// <summary>
         /// add customer inputed by user  to list 
         /// </summary>
@@ -155,9 +156,11 @@ namespace PL
             {
                 this.Activated -= refreshWindow;
                 MessageBox.Show("Customer was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateCustomers();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
+            listsPresentor.UpdateCustomers();
         }
 
         /// <summary>

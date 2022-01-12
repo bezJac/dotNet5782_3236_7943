@@ -30,6 +30,8 @@ namespace PL
         /// </summary>
         private BaseStation newStation;
 
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
         /// <summary>
         /// cunstructor for Add Base Station view of window 
         /// </summary>
@@ -97,6 +99,7 @@ namespace PL
             {
                 this.Activated -= refresh;
                 MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateStations();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -149,10 +152,9 @@ namespace PL
                         break;
                     }
             }
-            newStation = theBL.GetBaseStation((int)newStation.Id);
-            DataContext=newStation;
+            refresh(sender, e);
             MessageBox.Show("Station details were updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                
+            listsPresentor.UpdateStation((int)newStation.Id);
             
         }
         /// <summary>

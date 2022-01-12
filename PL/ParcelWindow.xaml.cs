@@ -28,7 +28,7 @@ namespace PL
         /// parcel instance for data context of window
         /// </summary>
         private Parcel newParcel;
-
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
         /// <summary>
         /// cunstructor for Add Parcel view of window 
         /// </summary>
@@ -106,9 +106,10 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
-                this.Activated -= refresh;
+                //this.Activated -= refresh;
                 TargetComboBox.BorderThickness = new Thickness();
                 MessageBox.Show("Parcel was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateParcels();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -143,6 +144,7 @@ namespace PL
             {
                 win.Activated -= refresh;
                 MessageBox.Show("Parcel was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateParcels();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
