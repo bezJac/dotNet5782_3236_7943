@@ -116,26 +116,61 @@ namespace BL
                 // drone isn't linked to a parcel
                 else
                 {
-                    // if status is avilable set location to one of customers with delivered parcel
+                    // check if drone is already charging (when using xml file drone charges are saved)
+                    // when regular memory used, no drones will be charging 
+
+                    // if drone isn't charging randomly draw status as either available or maintanence
                     if (!myDal.GetAllDronecharges().Any(dc => dc.DroneId == dr.Id))
                     {
-                        List<DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
-                        Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count)).TargetId).CustomerLocation;
-                        DO.BaseStation st = getNearestAvailableBasestation(current);
-                        int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
-                        drones.Add(new DroneInList
+                       // random draw
+                        DroneStatus tmpStatus = (DroneStatus)rnd.Next(1, 3);
+
+                        // status available was drwan - set location randomly to a customer with delivered parcel
+                        if (tmpStatus == DroneStatus.Available)
                         {
-                            Id = dr.Id,
-                            Model = dr.Model,
-                            MaxWeight = (WeightCategories)dr.MaxWeight,
-                            Status = DroneStatus.Available,
-                            Battery = rnd.Next(tempBattery, 101),
-                            ParcelId = null,
-                            DroneLocation = current,
-                        });
+                            List<DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
+                            Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count)).TargetId).CustomerLocation;
+                            DO.BaseStation st = getNearestAvailableBasestation(current);
+                            int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
+                            drones.Add(new DroneInList
+                            {
+                                Id = dr.Id,
+                                Model = dr.Model,
+                                MaxWeight = (WeightCategories)dr.MaxWeight,
+                                Status = DroneStatus.Available,
+                                Battery = rnd.Next(tempBattery, 101),
+                                ParcelId = null,
+                                DroneLocation = current,
+                            });
+                        }
+                        // status maintanence was drawn - set drone as charging in a randomly selected available base station
+                        else
+                        {
+
+                            IEnumerable<DO.BaseStation> tempSt = myDal.GetAllBaseStations(st=>st.NumOfSlots>0);
+                            int index = (int)rnd.Next(0, tempSt.Count());
+                            int battery = rnd.Next(21);
+                            drones.Add(new DroneInList
+                            {
+                                Id = dr.Id,
+                                Model = dr.Model,
+                                MaxWeight = (WeightCategories)dr.MaxWeight,
+                                Status = DroneStatus.Maintenance,
+                                Battery = battery,
+                                ParcelId = null,
+                                DroneLocation = createLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
+                            });
+                            //drone was set as charging - update DAL with chrge details
+                            DO.BaseStation st = tempSt.ElementAt(index);
+                            st.NumOfSlots--;
+                            myDal.AddDroneCharge(new DO.DroneCharge { DroneId = dr.Id, StationId = st.Id, EntranceTime = DateTime.Now, BatteryAtEntrance = battery });
+                            myDal.UpdateBaseStation(st);
+                        }
                     }
 
-                    // status is maintanence - set drone location to randomly selected station
+                    // drone is already charging (when xml files are used!!) set drone details to charging 
+                    // (won't affect regular memory execution - this part of code wont be met - no previous drone charges available
+                    // when not using xml files)
                     else
                     {
                         DO.DroneCharge dc = myDal.GetDroneCharge(dr.Id);
@@ -152,60 +187,9 @@ namespace BL
                             ParcelId = null,
                             DroneLocation = createLocation(tempSt.Longitude, tempSt.Lattitude),
                         });
-
-
-                        //randomly set drone status to either available or maintanence
-                        //DroneStatus tmpStatus = (DroneStatus)rnd.Next(1, 3);
-
-                        //// if status is avilable set location to one of customers with delivered parcel
-                        //if (tmpStatus == DroneStatus.Available)
-                        //{
-                        //    List<DO.Parcel> deliveredParcels = myDal.GetAllParcels(prc => prc.Delivered != null).ToList();
-                        //    Location current = GetCustomer(deliveredParcels.ElementAt(rnd.Next(0, deliveredParcels.Count)).TargetId).CustomerLocation;
-                        //    DO.BaseStation st = getNearestAvailableBasestation(current);
-                        //    int tempBattery = (int)(Distance.GetDistance(current, createLocation(st.Longitude, st.Lattitude)) * droneElecUseEmpty);
-                        //    drones.Add(new DroneInList
-                        //    {
-                        //        Id = dr.Id,
-                        //        Model = dr.Model,
-                        //        MaxWeight = (WeightCategories)dr.MaxWeight,
-                        //        Status = DroneStatus.Available,
-                        //        Battery = rnd.Next(tempBattery, 101),
-                        //        ParcelId = null,
-                        //        DroneLocation = current,
-                        //    });
-                        //}
-
-                        //// status is maintanence - set drone location to randomly selected station
-                        //else
-                        //{
-                        //    IEnumerable<DO.BaseStation> tempSt = myDal.GetAllBaseStations();
-                        //    int index = (int)rnd.Next(0, tempSt.Count());
-                        //    int battery = rnd.Next(21);
-                        //    drones.Add(new DroneInList
-                        //    {
-                        //        Id = dr.Id,
-                        //        Model = dr.Model,
-                        //        MaxWeight = (WeightCategories)dr.MaxWeight,
-                        //        Status = DroneStatus.Maintenance,
-                        //        Battery = battery,
-                        //        ParcelId = null,
-                        //        DroneLocation = createLocation(tempSt.ElementAt(index).Longitude, tempSt.ElementAt(index).Lattitude),
-                        //    });
-                        //    //drone was set as charging - update DAL with chrge details
-                        //    DO.BaseStation st = tempSt.ElementAt(index);
-                        //    st.NumOfSlots--;
-                        //    myDal.AddDroneCharge(new DO.DroneCharge { DroneId = dr.Id, StationId = st.Id, EntranceTime = DateTime.Now.Subtract(new TimeSpan(rnd.Next(2), rnd.Next(30), 0)), BatteryAtEntrance = battery });
-                        //    myDal.UpdateBaseStation(st);
-
-
-
-
                     }
                 }
             }
-
-
         }
 
 
