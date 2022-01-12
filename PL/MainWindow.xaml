@@ -41,7 +41,7 @@
             <Button x:Name="Customer" Content="Customer" Style="{StaticResource MainButtonDesign}" Margin="651,269,0,0"  />
              <Label Content="New Customer?" Style="{StaticResource mainLabelDesign}"  Margin="657,335,0,0" FontSize="14"/>
             <Button x:Name="Register" Content="Register" Style="{StaticResource MainButtonDesign}"
-                    Margin="651,365,0,0" Click="registerButton_Click" />
+                    Margin="651,365,0,0" />
             <Button x:Name="Manager" Content="Manager"  Style="{StaticResource MainButtonDesign}" Visibility="Visible"
                  Margin="651,210,0,0" />
         </Grid>

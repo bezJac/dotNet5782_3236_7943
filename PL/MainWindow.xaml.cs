@@ -30,10 +30,6 @@ namespace PL
             myBL = BlApi.BlFactory.GetBL();
 
             InitializeComponent();
-
-
-            //this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
-
         }
 
         #region Methods
