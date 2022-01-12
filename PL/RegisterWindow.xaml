@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="Register" Height="450" Width="500" Icon="\images\Icon_drone.ico" Style="{StaticResource WindowStyle}" WindowStartupLocation="CenterScreen">
+        Title="Register" Height="450" Width="500" 
+        Style="{StaticResource WindowStyle}" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid x:Name="addCustomerGrid" Visibility="Visible" Style="{StaticResource GridStyle}" >

@@ -7,7 +7,7 @@
         mc:Ignorable="d"
        Style="{StaticResource WindowStyle}"
         Closing="MyWindow_Closing"
-        Title="Drone" Height="480" Width="800" Icon= "\images\Icon_drone.ico" Activated="refreshWindow">
+        Title="Drone" Height="480" Width="800" Activated="refreshWindow">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -23,7 +23,7 @@
     </Window.Resources>
 
     <Grid>
-        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Visible" >
+        <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
             <Grid.Resources>
                 <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
                     <Setter Property="Margin" Value="3"/>
@@ -163,7 +163,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
                         <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Style="{StaticResource LabelStyle}"/>
                         <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
@@ -183,23 +183,24 @@
                         <Label Grid.Row="6"></Label>
                         <Label Content="Target Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"
                                Style="{StaticResource LabelStyle}"/>
-                        <Label Content="ID:" Grid.Column="0"  Grid.Row="8" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="ID:" Grid.Column="0"  Grid.Row="8" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="targetIdTextBox"  Grid.Column="1" Grid.Row="8"  Style="{StaticResource droneActionTxtBox}" 
                                  Text="{Binding Parcel.Target.Id, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                        <Label Content="Name:" Grid.Column="0" Grid.Row="9" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="Name:" Grid.Column="0" Grid.Row="9" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="targetNameTextBox"  Grid.Column="1" Grid.Row="9"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.Target.Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" />
-                        <Label Content="Lattitude:" Grid.Column="0" Grid.Row="10" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="Lattitude:" Grid.Column="0" Grid.Row="10" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="targetLatTextBox"  Grid.Column="1"  Grid.Row="10"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.TargetLocation.Lattitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true,
                                         Converter={StaticResource LattitudeToDmsConverter}}"/>
-                        <Label Content="Longtitude:" Grid.Column="0" Grid.Row="11" Style="{StaticResource LabelStyle}"/>
+                        <Label Content="Longtitude:" Grid.Column="0" Grid.Row="11" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="targetLonTextBox"  Grid.Column="1"  Grid.Row="11"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.TargetLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,
                                     Converter={StaticResource LongtitudeToDmsConverter}}" />
-                        <Label Content="{Binding Parcel, Converter={StaticResource StatefDeliveryToString}}" Grid.Column="0" Grid.Row="12" Style="{StaticResource LabelStyle}"/>
-                        <TextBox x:Name="distanceTxtBox" Grid.Row="12" Grid.Column="1" Style="{StaticResource droneActionTxtBox}"
-                                 Text="{Binding Parcel.DeliveryDistance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                        <Label Content="{Binding Parcel, Converter={StaticResource StatefDeliveryToString}}" Grid.Column="0" Grid.Row="12" 
+                               VerticalAlignment="Bottom" Style="{StaticResource droneWinLabelStyle}"/>
+                        <TextBox x:Name="distanceTxtBox" Grid.Row="12" Grid.Column="1" VerticalAlignment="Bottom" Style="{StaticResource droneActionTxtBox}"
+                                 Text="{Binding Parcel.DeliveryDistance,Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=N3}"/>
                     </Grid>
                 </Grid>
 

@@ -91,7 +91,8 @@
                 <Button x:Name="RenameButton" Content="Rename" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="3"
                     IsEnabled="{Binding ElementName=newName, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-                <Label Content="update total charging slots count:"  Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" FontSize="12" Margin="3"/>
+                <Label Content="update total&#x0a;charging slots count:"  Style="{StaticResource LabelStyle}"
+                       HorizontalContentAlignment="Center" HorizontalAlignment="Center" FontSize="12" Margin="3"/>
                 <TextBox x:Name="newChargeCount"  SpellCheck.IsEnabled="True" Height="23" Width="120" Margin="3" />
                 <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="3"  Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 

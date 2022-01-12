@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
-        Title="Customer" Height="450" Width="800" Icon="\images\Icon_drone.ico" Activated="refreshWindow">
+        Title="Customer" Height="450" Width="800" Activated="refreshWindow">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>

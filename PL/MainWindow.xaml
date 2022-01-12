@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
 
-    Title="Start" Height="480" Width="800"  Icon= "\images\Icon_drone.ico" Closing="exitProgram"  Style="{StaticResource WindowStyle}" Top="150" Left="300"  >
+    Title="Start" Height="480" Width="800"   Closing="exitProgram"  Style="{StaticResource WindowStyle}" Top="150" Left="300"  >
     <Window.Resources>
         <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
     </Window.Resources>
