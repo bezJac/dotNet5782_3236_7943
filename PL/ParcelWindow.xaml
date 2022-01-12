@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         x:Name="win"
         Closing="MyWindow_Closing"
-        Title="Parcel" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refresh">
+        Title="Parcel" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refreshWindow">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -22,6 +22,7 @@
     </Window.Resources>
 
     <Grid>
+        <!--#region action grid -->
         <Grid x:Name="actionParcel"   Style="{StaticResource GridStyle}"  Visibility="Collapsed" >
 
             <Grid.RowDefinitions>
@@ -34,13 +35,13 @@
                 <ColumnDefinition Width="90*"/>
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
-
+            <!--#region  details grid -->
             <Grid x:Name="details" Grid.Column="0"  Grid.RowSpan="3" Style="{StaticResource GridStyle}"  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
+                 <!--#region  details of parcel text boxes and labels -->
                 <StackPanel x:Name="parcelDetails" HorizontalAlignment="Center" Grid.Column="0" >
                     <Label Content="Parcel Details:"   FontSize="16" Style="{StaticResource parcelWinLabelStyle}" 
                                Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
@@ -83,6 +84,7 @@
                                  VerticalAlignment="Center" IsReadOnly="True"/>
                         </StackPanel>
                     </StackPanel>
+                   
 
 
                     <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=PickedUp}">
@@ -108,11 +110,12 @@
                                  VerticalAlignment="Center" IsReadOnly="True" />
                         </StackPanel>
                     </StackPanel>
-
+             
 
 
                 </StackPanel>
-
+             <!--#endregion-->
+                 <!--#region  customers details stack panel-->
                 <StackPanel x:Name="customerDetails"  HorizontalAlignment="Center"  Grid.Column="1" >
                     <Label Content="Sending Customer Details: "  Style="{StaticResource LabelStyle}" FontSize="13" />
                     <StackPanel Orientation="Horizontal">
@@ -176,9 +179,11 @@
                     </StackPanel>
 
                 </StackPanel>
+                <!--#endregion-->
 
             </Grid>
-
+            <!--#endregion-->
+            <!--#region  buttons -->
             <StackPanel x:Name="Detailsstk"  Grid.Column="2" Grid.Row="0" Grid.RowSpan="3">
                 <Label Content="Full drone details:" Margin="0,7,0,0" Style="{StaticResource LabelStyle}"
                        Visibility="{Binding Drone , Converter={StaticResource NullToVisibilityConverter }}"/>
@@ -188,23 +193,21 @@
                 <Label Content="Full Customer details:" Margin="0,25,0,0" Style="{StaticResource LabelStyle}"/>
                 <Button x:Name="fullSenderButton"  Content="Sender" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"
                         HorizontalAlignment="Center" Margin="0,7,0,0" VerticalAlignment="Top" Click="fullDroneButton_Click"/>
-                <Button x:Name="fulltargetButton"  Content="Target" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"        
+                <Button x:Name="fullTargetButton"  Content="Target" Style="{StaticResource ButtonStyle}" Visibility="Visible"  Height="35"        
                 HorizontalAlignment="Center" Margin="0,7,0,0" VerticalAlignment="Top" Click="fullDroneButton_Click"/>
                 <Button x:Name="removeParcelButton" Content="Remove" Style="{StaticResource ButtonStyle}" Grid.Column="2" Grid.Row="2" Click="RemoveParcelButton_Click"
                      Visibility="{Binding  Converter={StaticResource OrderedToVisibilitiyReveresedConverter }}" ToolTip="Remove parcel from list" Margin="0,45,0,0"></Button>
             </StackPanel>
+            <!--#endregion-->
             
-
-
-
-
             <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
                     HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
             <StackPanel Height="100" Grid.RowSpan="4" Width="100"/>
 
-
         </Grid>
+        <!--#endregion-->
+        <!--#region  add parcel grid -->
         <Grid x:Name="addParcel" Visibility="Collapsed" Style="{StaticResource GridStyle}"  Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -220,6 +223,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!--#region details text boxes and labels -->
             <Label Content="Enter New Parcel Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom"
                    HorizontalAlignment="Left" Margin="155,0,0,55" Grid.RowSpan="2"/>
             <Label  Content="Sending customer:" Style="{StaticResource LabelStyle}" Grid.Row="1"  FontSize="15" 
@@ -252,9 +256,6 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-
-
-
             <Label Content="Priority:" Style="{StaticResource LabelStyle}" HorizontalAlignment="Right" Grid.Row="4"
                      FontSize="15" />
             <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
@@ -265,6 +266,8 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
+            <!--#endregion-->
+            <!--#region  buttons-->
             <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"
                     Click="AddParcelButton_Click"/>
@@ -272,9 +275,9 @@
                      Grid.RowSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelParcelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
+            <!--#endregion-->
         </Grid>
-
-
+        <!--#endregion-->
     </Grid>
 
 </Window>

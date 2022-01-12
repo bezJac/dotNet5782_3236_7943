@@ -7,94 +7,103 @@
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
         Title="{Binding Path= Name}" Height="450" Width="800" Style="{StaticResource WindowStyle}">
-  
-    <Grid Style="{StaticResource GridStyle}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition  Width="2*"/>
-            <ColumnDefinition  Width="1*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="11*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <StackPanel x:Name="addParcel" Grid.Column="1">
-            <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-            <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}"
-                    FontWeight="Bold"  HorizontalAlignment="Center" Grid.Column="0" Visibility="Visible"/>
-            <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
-                      SelectedItem="{Binding Target, NotifyOnValidationError=False}" Grid.Column="1">
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
-            </ComboBox>
-            <Label  Content="Select Parcel's Weight:" FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-            <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
-                        SelectedItem="{Binding Weight, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}" Grid.Column="1">
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
-            </ComboBox>
-            <Label Content="Select Parcel's priority:" FontSize="15" Style="{StaticResource LabelStyle}" Grid.Row="4"
-                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
-                      SelectedItem="{Binding Priority, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}">
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
-            </ComboBox>
-            <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
-                    Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Margin="15"
-                    Click="AddParcelButton_Click"/>
-            <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="3" Visibility="Visible"
-                   Margin="15"  Grid.RowSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Style="{StaticResource ButtonStyle}"
-                    Click="CancelParcelButton_Click"  />
-        </StackPanel>
-        <Grid x:Name="ListParcels" >
+    <!--#region  main grid-->
+        <Grid  Style="{StaticResource GridStyle}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="2*"/>
+                <ColumnDefinition  Width="1*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="11*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
-            <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Grid Grid.Row="1" Background="White"  Margin="15,0,0,0">
-                <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3" Background="White" >
+            
+        <Button x:Name="closeButtonStation"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
+                   Width="50" Visibility="Visible" VerticalContentAlignment="Top" Grid.ColumnSpan="2"
+             Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
+            
+        <!--#region  add new order stack panel -->
+            <StackPanel x:Name="addParcel" Grid.Column="1">
+                <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+                <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}"
+                        FontWeight="Bold"  HorizontalAlignment="Center" Grid.Column="0" Visibility="Visible"/>
+                <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
+                          SelectedItem="{Binding Target, NotifyOnValidationError=False}" Grid.Column="1">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Label  Content="Select Parcel's Weight:" FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+                <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
+                            SelectedItem="{Binding Weight, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}" Grid.Column="1">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Label Content="Select Parcel's priority:" FontSize="15" Style="{StaticResource LabelStyle}" Grid.Row="4"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
+                          SelectedItem="{Binding Priority, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
+                        Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Margin="15"
+                        Click="AddParcelButton_Click"/>
+                <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="3" Visibility="Visible"
+                       Margin="15"  Grid.RowSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Style="{StaticResource ButtonStyle}"
+                        Click="CancelParcelButton_Click"  />
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region  lists view grid -->
+            <Grid x:Name="ListParcels" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Grid Grid.Row="1" Background="White"  Margin="15,0,0,0">
+                    <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3" Background="White" >
 
+                        <ListView.View >
+                            <GridView>
+                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                                <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
+                                <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
+                                <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
+                <Grid Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3" Background="White" Margin="15,0,0,0" > 
+                <ListView x:Name="ParcelsToListView"   >
                     <ListView.View >
-                        <GridView>
+                        <GridView >
                             <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
-                            <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                            <GridViewColumn Header="Sending Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
                             <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
                             <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
                             <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
+                </Grid>
             </Grid>
-            <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
-            <Grid Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3" Background="White" Margin="15,0,0,0" > 
-            <ListView x:Name="ParcelsToListView"   >
-                <ListView.View >
-                    <GridView >
-                        <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
-                        <GridViewColumn Header="Sending Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
-                        <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
-                        <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
-                        <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            </Grid>
+            <!--#endregion-->
+            
+            
         </Grid>
-        <Button x:Name="closeButtonStation"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
-               Width="50" Visibility="Visible" VerticalContentAlignment="Top" Grid.ColumnSpan="2"
-                Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
-    </Grid>
+    <!--#endregion-->
 </Window>

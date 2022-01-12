@@ -77,15 +77,6 @@ namespace PL
         #endregion
         #region Add Drone grid methods
         /// <summary>
-        /// cancel drone add, exit window without adding drone to list
-        /// </summary>
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Closing += CloseWindowButton_Click;
-            Close();
-        }
-
-        /// <summary>
         /// Add button click in add drone grid view - add drone with details from user in window to the list
         /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -93,7 +84,7 @@ namespace PL
             bool flag = true;
             try
             {
-                // check that input was made to all fields
+                // check that input was made to all fields - if not set border of text box to red
                 if (idAddTextBox.Text == string.Empty)
                 {
                     idTextBox.BorderThickness = new Thickness(2);
@@ -123,7 +114,7 @@ namespace PL
                 theBL.AddDrone(newDrone, station.Id);
 
             }
-            catch (Exception ex) // add drone faild allow user to fix input
+            catch (Exception ex) // add drone faild, notify and allow user to fix input
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
@@ -131,42 +122,46 @@ namespace PL
                 MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
 
             }
-            if (flag)   // drone was added successfully - close window 
+            if (flag)   // drone was added successfully - notify and  close window 
             {
                 idTextBox.BorderThickness = new Thickness();
-                this.Activated -= refreshWindow;
                 MessageBox.Show("Drone was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateDrones();
+                listsPresentor.UpdateDronesView();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
         }
-        #endregion
-        #region Closing window execution
-        bool closing = false;
         /// <summary>
-        /// exit window
+        /// cancel drone add, exit window without adding drone to list
         /// </summary>
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Closing += CloseWindowButton_Click;
             Close();
         }
+        #endregion
+        #region Closing window execution methods
+        /// <summary>
+        /// exit window using close button only 
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            // add function to closing event to allow window close
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
+        /// <summary>
+        /// allow window close - if simulator is not running!
+        /// </summary>
         private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (worker == null)
                 e.Cancel = false;
-
         }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if(worker!=null)
-            {
-                closing = true;
-                e.Cancel = true;
-            }
-          
-        }
+        /// <summary>
+        /// disables defualt X button from closing window
+        /// </summary>
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = true;
         #endregion
         #region Actions on drone grid methods for buttons
         /// <summary>
@@ -181,7 +176,7 @@ namespace PL
                 DroneShow.DataContext = newDrone;
                 MessageBox.Show("Model was updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 newModel.Text = null;
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
             }
         }
 
@@ -207,7 +202,7 @@ namespace PL
             {
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 refreshWindow(sender, e);
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
                 listsPresentor.UpdateStation(theBL.GetDroneChargestation((int)newDrone.Id).Id);
             }
         }
@@ -236,7 +231,7 @@ namespace PL
             {
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
                 listsPresentor.UpdateStation((int)stationId);
             }
         }
@@ -260,7 +255,7 @@ namespace PL
             {
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
                 listsPresentor.UpdateParcel((int)newDrone.Parcel.Id);
                 
             }
@@ -289,7 +284,7 @@ namespace PL
             {
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
                 listsPresentor.UpdateParcel((int)newDrone.Parcel.Id);
             }
         }
@@ -318,7 +313,7 @@ namespace PL
             {
                 refreshWindow(sender, e);
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateDrone((int)newDrone.Id);
+                listsPresentor.UpdateSingleDrone((int)newDrone.Id);
                 listsPresentor.UpdateParcel((int)parcelId);
                 listsPresentor.UpdateCustomer(senderId);
                 listsPresentor.UpdateCustomer(targetId);
@@ -420,33 +415,43 @@ namespace PL
         private void updateData() => worker.ReportProgress(0);
         private bool checkStop() => worker.CancellationPending;
 
+        /// <summary>
+        /// run drone simulator
+        /// </summary>
         private void Auto_Click(object sender, RoutedEventArgs e)
         {
+            // hide action buttons and close window button - show manual button to stop simulator
             Automatic.Visibility = Visibility.Collapsed;
             manual.Visibility = Visibility.Visible;
             closeButton.Visibility = Visibility.Collapsed;
             Buttons.Visibility = Visibility.Collapsed;
 
+            // initialize and assign work to background worker and start the background thread 
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             worker.DoWork += (sender, args) => theBL.StartDroneSimulator((int)args.Argument, updateData, checkStop);
             worker.RunWorkerCompleted += (sender, args) =>
             {
                 worker = null;
-                if (closing) Close();
             };
+            // assign progress changed event to update content of window and lists
             worker.ProgressChanged += (sender, args) => updateGlobalView();
             worker.RunWorkerAsync(newDrone.Id);
         }
 
+        /// <summary>
+        /// uodate content of all  lists in manager window + current window.
+        /// </summary>
         private void updateGlobalView()
         {
             lock (theBL)
             {
+                // update current window
                 newDrone = theBL.GetDrone((int)newDrone.Id);
                 actionDrone.DataContext = newDrone;
                 DroneShow.DataContext = newDrone;
                 Buttons.DataContext = newDrone;
-                listsPresentor.UpdateDrones();
+                //update lists
+                listsPresentor.UpdateDronesView();
                 listsPresentor.UpdateParcels();
                 listsPresentor.UpdateStations();
                 listsPresentor.UpdateCustomers();
@@ -454,9 +459,15 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// stop simulator
+        /// </summary>
         private void Manual_Click(object sender, RoutedEventArgs e)
         {
+            // cancel backround worker
             worker?.CancelAsync();
+
+            // set action, close and simulator buttons to visible , hide manual button
             manual.Visibility = Visibility.Collapsed;
             Automatic.Visibility = Visibility.Visible;
             closeButton.Visibility = Visibility.Visible;

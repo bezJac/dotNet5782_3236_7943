@@ -21,40 +21,30 @@ namespace PL
     public partial class MainWindow : Window
     {
         private readonly BlApi.IBL myBL;
-       
+
         /// <summary>
         /// cunstructor
         /// </summary>
         public MainWindow()
         {
             myBL = BlApi.BlFactory.GetBL();
-           
+
             InitializeComponent();
-            
-            
+
+
             //this.txtBlck.Text = "HI !\nclick below\nto see the list of drones.";
 
         }
 
         #region Methods
         /// <summary>
-        /// register as new customer
-        /// </summary>
-        private void registerButton_Click(object sender, RoutedEventArgs e)
-        {
-             new RegisterWindow(myBL).Show();
-        }
-
-        /// <summary>
         /// exit program - shut down all active windows
         /// </summary>
-        private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
+        private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e) => Application.Current.Shutdown();
         /// <summary>
-        /// opens program entry window matching  button that was clicked
+        /// opens program entry window 
+        /// generic function for user and manager and new user ,
+        /// window opened is determined by evaluating routing button's name
         /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -62,12 +52,9 @@ namespace PL
             switch (button.Name)
             {
                 case "Manager": { new LoginWindow(myBL).ShowDialog(); break; }
-                case "Customer": { new LoginWindow(myBL,1).ShowDialog(); break; }
-                case "Register": { new RegisterWindow(myBL).ShowDialog();break; }
-                default:
-                    break;
+                case "Customer": { new LoginWindow(myBL, 1).ShowDialog(); break; }
+                case "Register": { new RegisterWindow(myBL).ShowDialog(); break; }
             }
-            
         }
         #endregion
     }

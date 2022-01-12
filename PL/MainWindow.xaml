@@ -13,11 +13,14 @@
     </Window.Resources>
 
     <Grid>
+        <!--#region  border + image -->
         <Border  >
             <Border.Background>
                 <ImageBrush Stretch="Fill" ImageSource="\images\startUpPic1.jpg"   />
             </Border.Background>
         </Border>
+        <!--#endregion-->
+        <!--#region  main grid - buttons -->
         <Grid x:Name="MainGrid" Background="Transparent" >
             <Grid.Resources>
                 <Style x:Key="MainButtonDesign" BasedOn="{StaticResource ButtonStyle }" TargetType="Button">
@@ -42,5 +45,6 @@
             <Button x:Name="Manager" Content="Manager"  Style="{StaticResource MainButtonDesign}" Visibility="Visible"
                  Margin="651,210,0,0" />
         </Grid>
+        <!--#endregion-->
     </Grid>
 </Window>

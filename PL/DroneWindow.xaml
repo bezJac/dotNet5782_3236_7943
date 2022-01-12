@@ -23,6 +23,7 @@
     </Window.Resources>
 
     <Grid>
+        
         <Grid x:Name="actionDrone" Style="{StaticResource GridStyle}"    Visibility="Collapsed" >
             <Grid.Resources>
                 <Style x:Key="droneWinLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
@@ -48,21 +49,23 @@
                 <ColumnDefinition Width="90*"/>
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
-
+            <!--#region  bottom row buttons -->
             <Button x:Name="closeButton" Content="Close"   Visibility="Visible" Height="25" Grid.Column="1"
                     HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575">                <Button.Style>                    <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>                </Button.Style>
             </Button>
-           
             <Button x:Name="Automatic" Content="Auto" Grid.Row="3" Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" FontSize="16" Width="50" Click="Auto_Click"/>
             <Button x:Name="manual" Content="Manual" Grid.Row="3" Style="{StaticResource ButtonStyle}" Visibility="Collapsed" Height="25" Width="Auto" FontSize="16" Click="Manual_Click"/>
-
+             <!--#endregion-->
+            <!--#region full drone details view box-->
             <Viewbox x:Name="DroneView" Grid.Column="0" Grid.RowSpan="3" HorizontalAlignment="Left"  >
+
                 <Grid x:Name="DroneShow" Grid.Column="0" Grid.RowSpan="3" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
+                    <!--#region  drone and parcel details grid-->
                     <Grid x:Name="DroneDetails" HorizontalAlignment="Center" Margin="40,0,0,0"   VerticalAlignment="Top" Grid.Column="0" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -84,6 +87,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+                        <!--#region  drone details-->
                         <Label Content="Drone Details:" Grid.Column="0" Grid.Row="0" FontSize="16" Style="{StaticResource LabelStyle}"
                                Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
                         <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
@@ -115,6 +119,8 @@
                                  Text="{Binding Location.Longtitude, Mode=OneWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" />
                         <Label Grid.Row="8"></Label>
+                        <!--#endregion-->
+                        <!--#region  parcel in delivery details -->
                         <Label Content="Parcel Details:" Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="9" Style="{StaticResource droneWinLabelStyle}" 
                                Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}"/>
                         <Label Content="ID:" Grid.Column="0"  Grid.Row="10" Style="{StaticResource droneWinLabelStyle}"
@@ -137,8 +143,10 @@
                         <CheckBox x:Name="inTransitCheckBox" IsHitTestVisible="False" Focusable="False" Content="" Grid.Column="1" HorizontalAlignment="Left" 
                                   IsChecked="{Binding Parcel.InTransit, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                                   Margin="3" Grid.Row="13" VerticalAlignment="Center" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}" />
-
+                        <!--#endregion-->
                     </Grid>
+                    <!--#endregion-->
+                    <!--#region  customers in delivery details grid -->
                     <Grid x:Name="DeliveryDetails"  HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Top" Margin="90,0,0,0" 
                           Visibility="{Binding Converter={StaticResource NullToVisibilityConverter },Path=Parcel}">
                         <Grid.ColumnDefinitions>
@@ -160,6 +168,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
+                        <!--#region  sender's details-->
                         <Label  Content="Sending Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="0" Style="{StaticResource LabelStyle}"/>
                         <Label Content="ID:" Grid.Column="0"  Grid.Row="1" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="senderIdTextBox"  Grid.Column="1"  Grid.Row="1"  Style="{StaticResource droneActionTxtBox}"
@@ -175,6 +184,8 @@
                         <TextBox x:Name="sendertLonTextBox"  Grid.Column="1" Grid.Row="4"  Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.SenderLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true ,
                                     Converter={StaticResource LongtitudeToDmsConverter}}" />
+                        <!--#endregion-->
+                        <!--#region target's details-->
                         <Label Grid.Row="6"></Label>
                         <Label Content="Target Customer Details:" Grid.Column="0" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="7"
                                Style="{StaticResource LabelStyle}"/>
@@ -196,13 +207,13 @@
                                VerticalAlignment="Bottom" Style="{StaticResource droneWinLabelStyle}"/>
                         <TextBox x:Name="distanceTxtBox" Grid.Row="12" Grid.Column="1" VerticalAlignment="Bottom" Style="{StaticResource droneActionTxtBox}"
                                  Text="{Binding Parcel.DeliveryDistance,Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, StringFormat=N3}"/>
+                        <!--#endregion-->
                     </Grid>
+                    <!--#endregion-->
                 </Grid>
-
-
-
             </Viewbox>
-
+        <!--#endregion-->
+            <!--#region  update drone model -->
             <Label   Content="Enter New Model:" Style="{StaticResource LabelStyle}" FontSize="14"
                      HorizontalContentAlignment="Center" Grid.Column="1"  Margin="28,10,27,100"  Width="145" />
             <TextBox x:Name="newModel"  SpellCheck.IsEnabled="True" Height="23" Width="120" Grid.Column="1"
@@ -210,7 +221,8 @@
             <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" Margin="0,89,0,0"
                     IsEnabled="{Binding ElementName=newModel, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-
+            <!--#endregion-->
+            <!--#region  buttons stack panel-->
             <StackPanel x:Name="Buttons" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="0,30,0,0">
             <Button x:Name="ChargeButton"  Content="Charge" Style="{StaticResource ButtonStyle}"  Grid.Column="1" Grid.Row="2"   
                     ToolTip="send a drone to nearest station to charge" Click="ChargeButton_Click"
@@ -226,15 +238,13 @@
             <Button x:Name="PickUpButton" Content="Pick Up"  Style="{StaticResource ButtonStyle}"
                       Visibility="{Binding  Converter={StaticResource PickUpToVisibilityConverter}}" Grid.Column="1" Grid.Row="1"    
                     Click="PickUpButton_Click" ToolTip="Pick Up Linked parcel"/>
-            <Button x:Name="DeliverButton" Content="Deliver" Style="{StaticResource ButtonStyle}"
+                <Button x:Name="DeliverButton" Content="Deliver" Style="{StaticResource ButtonStyle}"
                   Grid.Column="1"    Grid.Row="1" Click="DeliverButton_Click"  Visibility="{Binding  Converter={StaticResource DeliveryToVisibilityConverter}}" />
-                
-                
             </StackPanel>
+            <!--#endregion-->
         </Grid>
-        
-        
-        
+       
+        <!--#region  add drone grid -->
         <Grid x:Name="addDrone" Visibility="Collapsed" Style="{StaticResource GridStyle}" Grid.Row="3">
             <Grid.Resources>
                 <Style x:Key="droneAddLabelStyle" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
@@ -256,6 +266,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
+            <!--#region  details text boxes and labels -->
             <Label Content="Enter New Drone Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="180,0,0,55" Grid.RowSpan="2"/>
             <Label  Content="ID number:"  Grid.Row="1" Style="{StaticResource droneAddLabelStyle}" Grid.Column="0" />
@@ -276,9 +288,10 @@
                     </ItemsPanelTemplate>
                 </ComboBox.ItemsPanel>
             </ComboBox>
-
             <Label Content="Charging station:" Style="{StaticResource droneAddLabelStyle}"  Grid.Row="4"/>
             <ComboBox x:Name="stationsList" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"/>
+            <!--#endregion-->
+            <!--#region  buttons -->
             <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
                     Grid.RowSpan="2" Style="{StaticResource ButtonStyle}"
                     Click="AddButton_Click"/>
@@ -286,6 +299,9 @@
                         Grid.RowSpan="2" HorizontalAlignment="Center"
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
+            <!--#endregion-->
+            
         </Grid>
+        <!--#endregion-->
     </Grid>
 </Window>

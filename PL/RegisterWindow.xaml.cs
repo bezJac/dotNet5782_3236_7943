@@ -47,20 +47,21 @@ namespace PL
         /// <summary>
         /// register new customer to data base
         /// </summary>
-        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
+        private void AddUserButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
             try
             {
                 theBL.AddCustomer(newUser);
             }
-            catch (Exception ex) // add drone faild allow user to fix input
+            // add user/(customer) faild  - user already exsist - notify and leave window
+            catch (Exception ex) 
             {
                 flag = false;
                 MessageBox.Show("Account already exists, please login with your ID", "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Close();
             }
-            if (flag)   // drone was added successfully - close window 
+            if (flag)   // user was added successfully - notify and leave window 
             {
                 MessageBox.Show("Your account was created successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
@@ -69,9 +70,9 @@ namespace PL
         /// <summary>
         /// cancel new customer registration
         /// </summary>
-        private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
+        private void CancelUserAddButton_Click(object sender, RoutedEventArgs e)
         {
-
+            //leave window without adding user to list
             Close();
         }
         /// <summary>

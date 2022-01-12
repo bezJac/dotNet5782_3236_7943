@@ -10,7 +10,7 @@
         Closing="MyWindow_Closing"
         Background="White"
         Title="Managment" Height="650" Width="1000"    Style="{StaticResource WindowStyle}">
-    <!--Activated="refreshWindow"-->
+  
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -22,6 +22,8 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Window.Resources>
+    
+    <!--#region main tab control-->
     <TabControl x:Name="Lists">
         <!--#region Drones Tab-->
         <TabItem  x:Name="Drones"  Width="75"  >
@@ -350,5 +352,6 @@
         </TabItem>
         <!--#endregion-->
     </TabControl>
-
+    <!--#endregion-->
+    
 </Window>

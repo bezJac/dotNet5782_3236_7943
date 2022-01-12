@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
-        Title="Station" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refresh">
+        Title="Station" Height="450" Width="800" Style="{StaticResource WindowStyle}" Activated="refreshWindow">
     <Window.Resources>
         <local:LattitudeToDmsConverter x:Key="LattitudeToDmsConverter"/>
         <local:LongtitudeToDmsConverter x:Key="LongtitudeToDmsConverter"/>
@@ -16,7 +16,9 @@
        
         
     </Window.Resources>
+
     <Grid>
+        <!--#region  action station grid -->
         <Grid x:Name="actionStationGrid"  Style="{StaticResource GridStyle}"  Visibility="Collapsed" >
 
             <Grid.RowDefinitions>
@@ -30,6 +32,11 @@
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
 
+            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
+                    HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
+                   FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
+
+            <!--#region  station details grid-->
             <Grid x:Name="stationDetails" Grid.Column="0"  Grid.RowSpan="3" Style="{StaticResource GridStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -75,16 +82,18 @@
                 <Label Content="Drones Charging at Station:" FontWeight="Bold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="2"
                        Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                 <Grid Style="{StaticResource listViewGrid}" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="6">
-                <ListView x:Name="DroneChargeListView" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Id}" />
-                            <GridViewColumn Header="Battery %" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Battery}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                    <ListView x:Name="DroneChargeListView" MouseDoubleClick="DroneChargeList_MouseDoubleClick" Background="White" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Battery %" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="142" DisplayMemberBinding="{Binding Battery}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </Grid>
             </Grid>
+            <!--#endregion-->
+            <!--#region update buttons stack pannel  -->
             <StackPanel x:Name ="updateStStk" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
                 <Label Content="Rename Station:" Grid.Row="0" Grid.Column="2" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center"/>
                 <TextBox x:Name="newName"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="3"/>
@@ -97,13 +106,14 @@
                 <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="3"  Visibility="Visible"
                    Click="UpdateButton_Click" ToolTip="update the drone's model" Height="45" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newChargeCount, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-              
-            </StackPanel>
-            <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
-                    HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
-                   FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
-        </Grid>
 
+            </StackPanel>
+            <!--#endregion-->
+
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region  add station grid -->
         <Grid x:Name="addStationGrid" Visibility="Collapsed" Style="{StaticResource GridStyle}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -120,6 +130,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+
             <Label Content="Enter New Base Station Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="103,0,0,47" Grid.RowSpan="2"/>
             <Label Content="ID number:"  FontSize="15" FontFamily="Comic Sans MS" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
@@ -152,7 +163,8 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
                     Click="CancelStationButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
-            
+
         </Grid>
+        <!--#endregion-->
     </Grid>
 </Window>

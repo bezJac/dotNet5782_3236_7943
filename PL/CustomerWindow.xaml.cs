@@ -65,25 +65,24 @@ namespace PL
         }
 
         #endregion
-        #region Window closing execution methods
+        #region Closing window execution methods
         /// <summary>
-        /// exit window
+        /// exit window using close button only 
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            // add function to closing event to allow window close
             Closing += CloseWindowButton_Click;
             Close();
         }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
+        /// <summary>
+        /// allow window close
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = false;
+        /// <summary>
+        /// disables defualt X button from closing window
+        /// </summary>
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = true;
         #endregion
         #region Add Customer grid methods
         /// <summary>
@@ -96,7 +95,7 @@ namespace PL
             {
                 theBL.AddCustomer(newCustomer);
             }
-            catch (Exception ex) // add drone faild allow user to fix input
+            catch (Exception ex) // add customer faild, notify and allow user to fix input
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
@@ -104,19 +103,18 @@ namespace PL
                 MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
 
             }
-            if (flag)   // drone was added successfully - close window 
+            if (flag)   // drone was added successfully - notify and close window 
             {
-                this.Activated -= refreshWindow;
                 MessageBox.Show("Customer was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                // update lists at manager window
                 listsPresentor.UpdateCustomers();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
-            listsPresentor.UpdateCustomers();
         }
 
         /// <summary>
-        /// cancel customer adding proccess
+        /// cancel customer adding proccess - close window
         /// </summary>
         private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -128,6 +126,7 @@ namespace PL
         #region Actions on Customer grid methods
         /// <summary>
         /// update either name and/or phone number of customer
+        /// generic function for both buttons, determines updating choice by evaluating routing button's name
         /// </summary>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -147,7 +146,9 @@ namespace PL
                         break;
                     }
             }
+            // update current window's content
             refreshWindow(sender, e);
+            // update list in manager window
             listsPresentor.UpdateCustomer((int)newCustomer.Id);
 
         }
@@ -157,17 +158,17 @@ namespace PL
         /// </summary>
         private void ParcelsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ParcelAtCustomer prc;
+            ParcelAtCustomer prc = null;
+            // check which list was clicked and get customer details
             if (ParcelsFromListView.SelectedItem != null)
                 prc = ParcelsFromListView.SelectedItem as ParcelAtCustomer;
-            else
+            else if (ParcelsToListView.SelectedItem != null)
                 prc = ParcelsToListView.SelectedItem as ParcelAtCustomer;
-            if (prc != null)
-            {
-                new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
 
-            }
+            //open customer window
+            new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
         }
+
 
         #endregion
         #region refresh and input validation methods
@@ -181,13 +182,13 @@ namespace PL
             if (e == null) return;
 
             //allow get out of the text box
-            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+            if (e.Key is Key.Enter or Key.Return or Key.Tab)
                 return;
 
             //allow list of system keys (add other key here if you want to allow)
-            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
-                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
-             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+            if (e.Key is Key.Escape or Key.Back or Key.Delete or
+                Key.CapsLock or Key.LeftShift or Key.Home
+             or Key.End or Key.Insert or Key.Down or Key.Right)
                 return;
 
             char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);

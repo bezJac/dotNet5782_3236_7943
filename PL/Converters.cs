@@ -253,6 +253,10 @@ namespace PL
     }
     internal class batteryToBackroundConverter : IValueConverter
     {
+        /// <summary>
+        /// check battery level , returns brush value
+        /// </summary>
+        /// <returns> </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)

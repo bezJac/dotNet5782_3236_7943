@@ -34,6 +34,10 @@ namespace PL
         /// </summary>
         public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
 
+        /// <summary>
+        /// by defualt both add and action grids Visibility is set to Collapsed
+        /// constructur sets visibility of needed grid to Visible
+        /// </summary>
         #region Constructors
         /// <summary>
         /// cunstructor for Add Base Station view of window 
@@ -45,6 +49,7 @@ namespace PL
             theBL = bl;
             newStation = new() { StationLocation = new(), };
             DataContext = newStation;
+            // make add grid visible 
             addStationGrid.Visibility = Visibility.Visible;
 
         }
@@ -59,30 +64,31 @@ namespace PL
             newStation = station;
             theBL = bL;
             DataContext = newStation;
+            // make action grid visible
             actionStationGrid.Visibility = Visibility.Visible;
             DroneChargeListView.ItemsSource = newStation.DronesCharging;
 
         }
         #endregion
-        #region Window closing execution methods 
+
+        #region Closing window execution methods
         /// <summary>
-        /// exit window
+        /// exit window using close button only 
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            // add function to closing event to allow window close
             Closing += CloseWindowButton_Click;
             Close();
         }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
+        /// <summary>
+        /// allow window close
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = false;
+        /// <summary>
+        /// disables defualt X button from closing window
+        /// </summary>
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = true;
         #endregion
         #region Add Station grid methods
         /// <summary>
@@ -95,7 +101,7 @@ namespace PL
             {
                 theBL.AddBaseStation(newStation);
             }
-            catch (Exception ex) // add drone faild allow user to fix input
+            catch (Exception ex) // add station faild allow user to fix input
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
@@ -105,9 +111,10 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
-                this.Activated -= refresh;
                 MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                // update manager list with new station
                 listsPresentor.UpdateStations();
+                // leave window
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -124,13 +131,15 @@ namespace PL
         #endregion
         #region Actions on Station grid methods
         /// <summary>
-        /// open details of drone from drone charging list in drone window
+        /// on double click on a drone in drones charging list open drone window for clicked drone
         /// </summary>
         private void DroneChargeList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DroneChargeListView.SelectedItem != null)
             {
+                // get drone charge entity to access drone's id
                 DroneCharge dc = DroneChargeListView.SelectedItem as DroneCharge;
+                // open drone window
                 DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(dc.Id));
                 droneWindow.Show();
             }
@@ -138,6 +147,7 @@ namespace PL
 
         /// <summary>
         /// update either name and/or number of charging slots of base station
+        /// genertal method for both buttons - executs needed update by evaluting the button n ame routing the event
         /// </summary>
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -157,8 +167,10 @@ namespace PL
                         break;
                     }
             }
-            refresh(sender, e);
+            // refresh window to show update
+            refreshWindow(sender, e);
             MessageBox.Show("Station details were updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+            // update manager list with new details
             listsPresentor.UpdateStation((int)newStation.Id);
 
         }
@@ -201,7 +213,7 @@ namespace PL
         /// <summary>
         /// refresh window content - for action station grid
         /// </summary>
-        private void refresh(object sender, EventArgs e)
+        private void refreshWindow(object sender, EventArgs e)
         {
             if (actionStationGrid.Visibility == Visibility.Visible)
             {

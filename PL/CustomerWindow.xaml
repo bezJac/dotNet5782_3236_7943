@@ -25,7 +25,7 @@
     </Window.Resources>
     
     <Grid>
-
+        <!--#region action customer grid-->
         <Grid x:Name="actionCustomerGrid"  Style="{StaticResource GridStyle}" Visibility="Collapsed" >
             <Grid.Resources>
                 <Style x:Key="customerActionLabel" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
@@ -44,8 +44,8 @@
                 <ColumnDefinition Width="90*"/>
                 <ColumnDefinition Width="30*"/>
             </Grid.ColumnDefinitions>
-            
-                <Grid x:Name="stationDetails" Grid.Column="0"  Grid.RowSpan="3">
+            <!--#region  customer details grid -->
+                <Grid x:Name="customerDetails" Grid.Column="0"  Grid.RowSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -80,7 +80,8 @@
                 <TextBox x:Name="longtitudeTextBox" Grid.Column="1"  Grid.Row="6" Style="{StaticResource CustomerActionTxtBox}"
                          Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true, 
                                     Converter={StaticResource LongtitudeToDmsConverter}}" />
-                <Grid x:Name="ParcelsCustomerGrid" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7" Style="{StaticResource GridStyle}">
+            <!--#region list of parcels details of customer grid-->
+                    <Grid x:Name="ParcelsCustomerGrid" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7" Style="{StaticResource GridStyle}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
@@ -121,9 +122,11 @@
                 </ListView>
                     </Grid>
                 </Grid>
+                    <!--#endregion-->
             </Grid>
             
-
+            <!--#endregion-->
+            <!--#region  buttons stack panel -->
             <StackPanel x:Name ="updateStStk" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Margin="10">
                 <Label Content="Rename Customer:" Grid.Row="0" Grid.Column="2"  Style="{StaticResource LabelStyle}"/>
                 <TextBox x:Name="newNameTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="3"/>
@@ -137,13 +140,14 @@
                    Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newPhoneTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
             </StackPanel>
+            <!--#endregion-->
             <Button Content="Close"  Style="{StaticResource ButtonStyle}" Visibility="Visible" Height="25" Grid.Column="1"
                     HorizontalAlignment="Right"  Grid.Row="3" VerticalAlignment="Center" Width="50" 
                    FontSize="16"   Click="CloseWindowButton_Click" RenderTransformOrigin="0.99,0.575"/>
         </Grid>
+        <!--#endregion-->
         
-        
-        
+        <!--#region add customer grid -->
         <Grid x:Name="addCustomerGrid" Visibility="Collapsed" Style="{StaticResource GridStyle}" >
             <Grid.Resources>
                 <Style x:Key="customerAddLabel" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
@@ -170,6 +174,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!--#region  details text boxes and labels -->
             <Label Content="Enter New Customer Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" 
                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="160,0,0,55" Grid.RowSpan="2"/>
             <Label Content="ID number:"   Style="{StaticResource customerAddLabel}" 
@@ -191,7 +196,8 @@
             <TextBox x:Name="PhoneAddTextBox" Grid.Column="1"  Grid.Row="3" Style="{StaticResource customerAddTxtbox}"
                      Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                       PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
-
+          <!--#endregion-->
+            <!--#region  buttons -->
             <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="2" Visibility="Visible"
                      Style="{StaticResource ButtonStyle}" Height="45"
                     Click="AddCustomerButton_Click"/>
@@ -199,7 +205,9 @@
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
                     Click="CancelCustomerButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
+            <!--#endregion-->
         </Grid>
+        <!--#endregion-->
     </Grid>
     
 </Window>

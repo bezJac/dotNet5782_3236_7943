@@ -32,7 +32,10 @@ namespace PL
         /// Parcel object for window data context
         /// </summary>
         private Parcel prc;
-
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
         /// <summary>
         /// cunstructor
         /// </summary>
@@ -44,7 +47,9 @@ namespace PL
             theBL = bl;
             user = cstmr;
             prc = new();
+            // set sending customer details of any parcel delivery order made by user - to current user
             prc.Sender = theBL.GetCustomerInParcel((int)cstmr.Id);
+            // target customer option set to exclude current user as a target
             TargetComboBox.ItemsSource = from cst in theBL.GetAllCustomers()
                                          where cst.Id != cstmr.Id
                                          let c = new CustomerInParcel { Id= (int)cst.Id,Name=cst.Name}
@@ -53,6 +58,7 @@ namespace PL
             priorityComboBox.ItemsSource= Enum.GetValues(typeof(Priority));
             DataContext = user;
             addParcel.DataContext = prc;
+            // set list of users deliveries details 
             ParcelsFromListView.ItemsSource = cstmr.From;
             ParcelsToListView.ItemsSource = cstmr.To;
         }
@@ -63,15 +69,22 @@ namespace PL
         /// </summary>
         private void AddParcelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TargetComboBox.SelectedItem != null &&
-                priorityComboBox.SelectedItem != null &&
+            // check that all details of delivery were selected by user
+            if (TargetComboBox.SelectedItem != null && priorityComboBox.SelectedItem != null &&
                 parcelWeightComboBox.SelectedItem != null)
             {
+                // add order to List and update view of lists at  mangerWindow
                 theBL.AddParcel(prc);
+                listsPresentor.UpdateParcels();
+                listsPresentor.UpdateCustomers();
+
+                // reset order options in window to allow next order to be selected
                 TargetComboBox.SelectedItem = null;
                 parcelWeightComboBox.SelectedItem = null;
                 priorityComboBox.SelectedItem = null;
                 MessageBox.Show("Your order was placed successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // refresh window content to include new order
                 user = theBL.GetCustomer((int)user.Id);
                 DataContext = user;
                 ParcelsFromListView.ItemsSource = user.From;
@@ -85,6 +98,7 @@ namespace PL
         /// <param name="e"></param>
         private void CancelParcelButton_Click(object sender, RoutedEventArgs e)
         {
+            // set selection fields to show empty 
             TargetComboBox.SelectedItem = null;
             parcelWeightComboBox.SelectedItem = null;
             priorityComboBox.SelectedItem = null;
@@ -92,22 +106,22 @@ namespace PL
         #endregion
         #region Closing window execution
         /// <summary>
-        /// exit window
+        /// exit window using close button only 
         /// </summary>
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            // add function to closing event to allow window close
             Closing += CloseWindowButton_Click;
             Close();
         }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
+        /// <summary>
+        /// allow window close
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = false;
+        /// <summary>
+        /// disables defualt X button from closing window
+        /// </summary>
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)=> e.Cancel = true;
         #endregion
     }
 

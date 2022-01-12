@@ -7,8 +7,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="" Height="250" Width="200" Style="{StaticResource WindowStyle}" Left="1090"  WindowStyle="None" WindowStartupLocation ="CenterOwner" >
+   
     <Grid x:Name="Enter" Style="{StaticResource GridStyle}">
-        
+        <!--#region manager stack panel -->
         <StackPanel x:Name="manager" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
             <TextBox x:Name="userName" Cursor="AppStarting" materialDesign:HintAssist.Hint="Admin UserName" Height="30"   Margin="0,25,0,0"/>
             <PasswordBox x:Name="adminPassword" Height="30" Margin="0,15,0,0" materialDesign:HintAssist.Hint="Password"
@@ -18,8 +19,9 @@
             <Button x:Name="cancelButtonManager" Content="Cancel"  Visibility="Visible" Margin="0,25,0,0" HorizontalAlignment="Center"
                     Height="34" Style="{StaticResource ButtonStyle}" Click="CancelButton_Click" />
         </StackPanel>
-        
-        
+        <!--#endregion-->
+
+        <!--#region user stack panel -->
         <StackPanel x:Name="customer" HorizontalAlignment="Center" Orientation="Vertical" Visibility="Collapsed">
             <TextBox x:Name="IdCustomerTxt" Width="120" VerticalContentAlignment="Bottom" materialDesign:TextFieldAssist.HasClearButton="True"
                      materialDesign:HintAssist.Hint="Customer ID"
@@ -32,7 +34,7 @@
                     Style="{StaticResource ButtonStyle}"
                     Click="CancelButton_Click" />
         </StackPanel>
-        
-        
+        <!--#endregion-->
     </Grid>
+
 </Window>

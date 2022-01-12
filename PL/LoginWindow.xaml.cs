@@ -23,9 +23,14 @@ namespace PL
         private readonly BlApi.IBL myBL;
         private Customer newCustomer;
 
+        /// <summary>
+        /// manager and user login use same window - each constructur sets needed 
+        /// stack panel visibility to visible.
+        /// customer constructur uses dummy parameter to allow overload.
+        /// </summary>
         #region Constructurs
         /// <summary>
-        /// constructur for manager login - manager grid showing
+        /// constructur for manager login - manager stack panel showing
         /// </summary>
         public LoginWindow(BlApi.IBL bL)
         {
@@ -36,7 +41,7 @@ namespace PL
         }
 
         /// <summary>
-        /// constructur for user login - customer grid showing
+        /// constructur for user login - customer stack panel showing
         /// </summary>
         public LoginWindow(BlApi.IBL bL, int dummy)
         {
@@ -55,21 +60,23 @@ namespace PL
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
+            // try get user details 
             try
             {
                 newCustomer = myBL.GetCustomer((int)newCustomer.Id);
             }
-            catch (Exception Ex)
+            catch (Exception Ex) // user does not exsist -  notify user
             {
                 while (Ex.InnerException != null)
                     Ex = Ex.InnerException;
                 flag = false;
                 MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            if (flag)
+            if (flag) // user exsist - open user window
             {
                 IdCustomerTxt.Text = null;
                 new UserWindow(myBL, newCustomer).Show();
+                // close login window
                 this.Close();
             }
         }
@@ -79,16 +86,18 @@ namespace PL
         /// </summary>
         private void enterManager_Click(object sender, RoutedEventArgs e)
         {
+            // check that login details are correct
             if (userName.Text == "admin" && adminPassword.Password == "123")
             {
                 new ManagerWindow(myBL).Show();
+                // close login window
                 this.Close();
             }
-            else
+            else // login details do not match - notify user
                 MessageBox.Show("username or password are incorrect", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             userName.Text = null;
             adminPassword.Password = null;
-            
+
         }
 
         /// <summary>
@@ -126,7 +135,7 @@ namespace PL
         }
 
         /// <summary>
-        /// cancael entry to program
+        /// cancael entry to program - leave login window
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -91,9 +91,9 @@ namespace PL
                 try
                 {
                     if (WeightSelector.SelectedItem != null)
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList(status, (WeightCategories)WeightSelector.SelectedItem);
+                        ListsPresentor.UpdateDronesView(status, (WeightCategories)WeightSelector.SelectedItem);
                     else
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList(status);
+                        ListsPresentor.UpdateDronesView(status,null);
                 }
                 catch (Exception Ex)
                 {
@@ -118,9 +118,9 @@ namespace PL
                 try
                 {
                     if (StatusSelector.SelectedItem != null)
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, weight);
+                        ListsPresentor.UpdateDronesView((DroneStatus)StatusSelector.SelectedItem, weight);
                     else
-                        DroneListView.ItemsSource = theBL.GetAllDronesInList(null, weight);
+                        ListsPresentor.UpdateDronesView(null, weight);
                 }
                 catch (Exception Ex)
                 {
@@ -154,7 +154,7 @@ namespace PL
         {
             this.StatusSelector.SelectedItem = null;
             this.WeightSelector.SelectedItem = null;
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            ListsPresentor.UpdateDronesView();
 
         }
         /// <summary>
@@ -168,24 +168,24 @@ namespace PL
                 // nither comboBox has a selected choice - show all drones
                 if (WeightSelector.SelectedItem == null && StatusSelector.SelectedItem == null)
                 {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList();
+                    ListsPresentor.UpdateDronesView();
                     return;
                 }
                 // both comboBoxes have selected choice - filter by both parameters
                 if (WeightSelector.SelectedItem != null && StatusSelector.SelectedItem != null)
                 {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
+                    ListsPresentor.UpdateDronesView((DroneStatus)StatusSelector.SelectedItem, (WeightCategories)WeightSelector.SelectedItem);
                     return;
                 }
                 // only status comboBox has choice - filter by status
                 if (StatusSelector.SelectedItem != null)
                 {
-                    DroneListView.ItemsSource = theBL.GetAllDronesInList((DroneStatus)StatusSelector.SelectedItem, null);
+                    ListsPresentor.UpdateDronesView((DroneStatus)StatusSelector.SelectedItem, null);
                     return;
 
                 }
                 // only weight comboBox has choice - filter by weight
-                DroneListView.ItemsSource = theBL.GetAllDronesInList(null, (WeightCategories)WeightSelector.SelectedItem);
+                ListsPresentor.UpdateDronesView(null, (WeightCategories)WeightSelector.SelectedItem);
 
             }
             catch (Exception Ex)
@@ -214,25 +214,21 @@ namespace PL
                 case "StatusGroupChBox":
                     {
                         groupDescription = new PropertyGroupDescription("Status");
-
-
                         break;
                     }
                 case "WeightGroupChBox":
                     {
-
                         groupDescription = new PropertyGroupDescription("MaxWeight");
                         break;
                     }
                 case "ModelGroupChBox":
                     {
-
                         groupDescription = new PropertyGroupDescription("Model");
-
                         break;
                     }
 
             }
+            // show grouped list
             view.GroupDescriptions.Add(groupDescription);
         }
         /// <summary>
@@ -240,7 +236,8 @@ namespace PL
         /// </summary>
         private void DroneGroupChBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
+            // reset view to default list
+            ListsPresentor.UpdateDronesView();
         }
         #endregion
         #region parcels tab
@@ -257,9 +254,7 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(status, null, null);
-
+                   ListsPresentor.UpdateParcels(status, null, null);
                 }
                 catch (Exception Ex)
                 {
@@ -270,6 +265,7 @@ namespace PL
                 }
                 finally
                 {
+                    // set other comboboxes choices to null
                     ParcelWeightSelector.SelectedItem = null;
                     ParcelPrioritySelector.SelectedItem = null;
                 }
@@ -288,9 +284,7 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, weight);
-
+                    ListsPresentor.UpdateParcels(null, null, weight);
                 }
                 catch (Exception Ex)
                 {
@@ -301,6 +295,7 @@ namespace PL
                 }
                 finally
                 {
+                    // set other comboboxes choices to null
                     ParcelStatusSelector.SelectedItem = null;
                     ParcelPrioritySelector.SelectedItem = null;
                 }
@@ -320,7 +315,7 @@ namespace PL
                 try
                 {
 
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, priority, null);
+                    ListsPresentor.UpdateParcels(null, priority, null);
 
                 }
                 catch (Exception Ex)
@@ -332,6 +327,7 @@ namespace PL
                 }
                 finally
                 {
+                    // set other comboboxes choices to null
                     ParcelWeightSelector.SelectedItem = null;
                     ParcelStatusSelector.SelectedItem = null;
                 }
@@ -368,7 +364,7 @@ namespace PL
                         break;
                     }
             }
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList(null, null, null);
+            ListsPresentor.UpdateParcels();
 
         }
         /// <summary>
@@ -383,7 +379,6 @@ namespace PL
                 Parcel parcel = theBL.GetParcel(prc.Id);
                 ParcelWindow parcelWindow = new ParcelWindow(theBL, parcel);
                 parcelWindow.Show();
-
             }
 
         }
@@ -396,12 +391,13 @@ namespace PL
         {
             RibbonCheckBox cb = sender as RibbonCheckBox;
             List<ParcelInList> temp = new();
+            // create grouping by sender or target names then set observable collection to grouped lists
             switch (cb.Name)
             {
                 case "SenderChbox":
                     {
 
-                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                        var senderGrouping = from prc in ListsPresentor.ParcelsList
                                              group prc by prc.SenderName into groups
                                              select groups;
 
@@ -409,13 +405,13 @@ namespace PL
                             foreach (var item in group)
                                 temp.Add(item);
 
-                        ParcelListView.ItemsSource = temp;
+                        ListsPresentor.ParcelsList =new(temp);
                         break;
                     }
                 case "TargetChbox":
                     {
 
-                        var senderGrouping = from prc in theBL.GetAllParcelsInList()
+                        var senderGrouping = from prc in ListsPresentor.ParcelsList
                                              group prc by prc.TargetName into groups
                                              select groups;
 
@@ -423,10 +419,8 @@ namespace PL
                             foreach (var item in group)
                                 temp.Add(item);
 
-                        ParcelListView.ItemsSource = temp;
+                        ListsPresentor.ParcelsList = new(temp);
                         break;
-
-
 
                     }
             }
@@ -437,7 +431,7 @@ namespace PL
         /// </summary>
         private void ParcelGroupCheckBoxCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
+            ListsPresentor.UpdateParcels();
         }
         /// <summary>
         /// show in list parcels that were ordered between selected two dates
@@ -450,7 +444,7 @@ namespace PL
             {
                 try
                 {
-                    ParcelListView.ItemsSource = theBL.GetAllParcelsInList(from, to);
+                    ListsPresentor.UpdateParcelsByDate(from, to);
                 }
                 catch (Exception Ex)
                 {
@@ -501,7 +495,7 @@ namespace PL
             PropertyGroupDescription groupDescription = null;
             switch (cb.Name)
             {
-                case "NumSlotsGroupChBox":
+                case "NumSlotsGroupChBox":  // group by number of slots
                     {
 
 
@@ -509,10 +503,10 @@ namespace PL
                         view.GroupDescriptions.Add(groupDescription);
                         break;
                     }
-                case "AvailableSlotsGroupChBox":
+                case "AvailableSlotsGroupChBox": //group by number of sots only stations with available slots
                     {
                         List<BaseStationInList> temp = new();
-                        var senderGrouping = from st in theBL.GetALLBaseStationInList()
+                        var senderGrouping = from st in ListsPresentor.StationsList
                                              group st by st.AvailableSlots > 0 into groups
                                              select groups;
 
@@ -520,7 +514,7 @@ namespace PL
                             foreach (var item in group)
                                 temp.Add(item);
 
-                        StationListView.ItemsSource = temp;
+                        ListsPresentor.StationsList = new(temp);
                         break;
                     }
             }
@@ -532,12 +526,13 @@ namespace PL
         /// <param name="e"></param>
         private void StationGroupChBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
+            ListsPresentor.UpdateStations();
         }
         #endregion
         #region all tabs
         /// <summary>
-        /// click on Add button - opens add window of object matching current selected tab
+        /// click on Add button - opens add window of object matching current selected tab.
+        /// Determines window by evaluating routing button's name
         /// </summary>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -549,7 +544,6 @@ namespace PL
                         DroneWindow win = new DroneWindow(theBL);
                         win.Show();
                         break;
-                        // refresh list view content in current window 
                     }
                 case "addParcelButton":
                     {
@@ -567,12 +561,9 @@ namespace PL
                     {
                         CustomerWindow customerWindow = new CustomerWindow(theBL);
                         customerWindow.Show();
-
                         break;
                     }
             }
-
-
         }
         #endregion  
     }

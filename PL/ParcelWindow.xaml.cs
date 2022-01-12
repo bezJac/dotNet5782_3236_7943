@@ -47,12 +47,14 @@ namespace PL
             theBL = bl;
             newParcel = new();
             DataContext = newParcel;
+
+            // set new parcel order choice possibilities
             parcelWeightComboBox.ItemsSource = Enum.GetValues(typeof(WeightCategories));
             priorityComboBox.ItemsSource = Enum.GetValues(typeof(Priority));
+
             IEnumerable<CustomerInParcel> tmp = from cstmr in theBL.GetAllCustomersInList()
                                                 let cs = new CustomerInParcel { Id = cstmr.Id, Name = cstmr.Name }
                                                 select cs;
-
             senderComboBox.ItemsSource = tmp;
             TargetComboBox.ItemsSource = tmp;
         }
@@ -73,24 +75,24 @@ namespace PL
         }
 
         #endregion
-        #region Window closing execution methods
+        #region Closing window execution methods
         /// <summary>
-        /// exit window
+        /// exit window using close button only 
         /// </summary>
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
         private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            // add function to closing event to allow window close
             Closing += CloseWindowButton_Click;
             Close();
         }
+        /// <summary>
+        /// allow window close
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = false;
+        /// <summary>
+        /// disables defualt X button from closing window
+        /// </summary>
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) => e.Cancel = true;
         #endregion
         #region Add Parcel grid methods
         /// <summary>
@@ -103,7 +105,7 @@ namespace PL
             {
                 theBL.AddParcel(newParcel);
             }
-            catch (Exception ex) // add drone faild allow user to fix input
+            catch (Exception ex) // add parcel faild- notify and allow user to fix input
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
@@ -113,7 +115,7 @@ namespace PL
                 MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
 
             }
-            if (flag)   // drone was added successfully - close window 
+            if (flag)   // parcel was added successfully - notify and close window 
             {
                 //this.Activated -= refresh;
                 TargetComboBox.BorderThickness = new Thickness();
@@ -145,52 +147,51 @@ namespace PL
             {
                 theBL.RemoveParcel(newParcel.Id);
             }
-            catch (Exception ex)
+            catch (Exception ex)   // remove faild - notify and stay in window
             {
                 while (ex.InnerException != null)
                     ex = ex.InnerException;
                 flag = false;
                 MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            if (flag)
+            if (flag)     // remove was succesfull - notify and leave window ( no parcel to show)
             {
-                win.Activated -= refresh;
+                // disable window refresh from activated event so return from message box to window before closing
+                // wont throw exception on non exsisting parcel details trying to be reached
+                win.Activated -= refreshWindow;
                 MessageBox.Show("Parcel was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                // update manager lists with change
                 listsPresentor.UpdateParcels();
+                // leave window
                 Closing += CloseWindowButton_Click;
                 Close();
             }
         }
         /// <summary>
-        /// show details of drone linked to parcel in a drone window
+        /// show details of drone or customers linked to parcel in a matching entity window
+        /// generic function for all three buttons opens matching window by evaluating
+        /// button name of routing button click
         /// </summary>
         private void fullDroneButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
+
             if (fullDroneButton.Name == b.Name)
-            {
-                DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(newParcel.Drone.Id));
-                droneWindow.Show();
+                new DroneWindow(theBL, theBL.GetDrone(newParcel.Drone.Id)).Show();
 
-
-                //return;
-            }
             if (fullSenderButton.Name == b.Name)
-            {
                 new CustomerWindow(theBL, theBL.GetCustomer(newParcel.Sender.Id)).Show();
-                //return;
-            }
-            if (fulltargetButton.Name == b.Name)
-            {
+
+            if (fullTargetButton.Name == b.Name)
                 new CustomerWindow(theBL, theBL.GetCustomer(newParcel.Sender.Id)).Show();
-                // return;
-            }
         }
 
         #endregion
         #region refresh and input validation methods
-
-        private void refresh(object sender, EventArgs e)
+        /// <summary>
+        /// refresh window content  - for action grid only
+        /// </summary>
+        private void refreshWindow(object sender, EventArgs e)
         {
             if (actionParcel.Visibility == Visibility.Visible)
             {

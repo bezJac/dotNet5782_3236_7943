@@ -8,7 +8,7 @@
         Title="Register" Height="450" Width="500" 
         Style="{StaticResource WindowStyle}" WindowStartupLocation="CenterScreen">
     <Grid>
-
+        <!--#region  add customer grid -->
         <Grid x:Name="addCustomerGrid" Visibility="Visible" Style="{StaticResource GridStyle}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -25,6 +25,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <!--#region  details text boxes -->
             <Label Content="Enter Your Details:" Style="{StaticResource LabelStyle}" FontSize="20" Grid.ColumnSpan="2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="103,0,0,47" Grid.RowSpan="2"/>
             <Label Content="ID number:"  FontSize="15" Style="{StaticResource LabelStyle}"
                     FontWeight="Bold"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Grid.Row="1" VerticalAlignment="Center" />
@@ -50,17 +51,19 @@
             <TextBox x:Name="longtitudeAddTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23"  Grid.Row="5"
                      Text="{Binding CustomerLocation.Longtitude, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"
                      VerticalAlignment="Center" Width="120"  />
-            
+            <!--#endregion-->
+            <!--#region  buttons -->
             <Button x:Name="addButton"  Content="Create&#x0a;Account" Grid.Column="2" Grid.Row="2" Visibility="Visible"
                      Style="{StaticResource ButtonStyle}" Height="45" FontSize="14"
-                    Click="AddCustomerButton_Click" Margin="0,1,0,0" VerticalAlignment="Top"/>
+                    Click="AddUserButton_Click" Margin="0,1,0,0" VerticalAlignment="Top"/>
             <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="4" Visibility="Visible"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                     Style="{StaticResource ButtonStyle}" Height="45"
-                    Click="CancelCustomerButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
-            <TextBlock x:Name="LocationMessage" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Center"   FontSize="15" FontFamily="Comic Sans MS"
-                    FontWeight="Bold" />
+                    Click="CancelUserAddButton_Click" RenderTransformOrigin="4.601,0.623" Grid.ColumnSpan="2"/>
+            <!--#endregion-->
+            
         </Grid>
+        <!--#endregion-->
     </Grid>
 
 </Window>
