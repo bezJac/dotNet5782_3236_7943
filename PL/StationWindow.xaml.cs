@@ -19,17 +19,22 @@ namespace PL
     /// </summary>
     public partial class StationWindow : Window
     {
-
-
         /// <summary>
         /// instance of BL class object to access data for PL
         /// </summary>
-       private readonly BlApi.IBL theBL;
+        private readonly BlApi.IBL theBL;
+
         /// <summary>
         /// BaseStation instance for data context of window
         /// </summary>
         private BaseStation newStation;
 
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
+        #region Constructors
         /// <summary>
         /// cunstructor for Add Base Station view of window 
         /// </summary>
@@ -58,6 +63,8 @@ namespace PL
             DroneChargeListView.ItemsSource = newStation.DronesCharging;
 
         }
+        #endregion
+        #region Window closing execution methods 
         /// <summary>
         /// exit window
         /// </summary>
@@ -75,6 +82,9 @@ namespace PL
         {
             e.Cancel = true;
         }
+
+        #endregion
+        #region Add Station grid methods
         /// <summary>
         /// add base station with details from user input to the database
         /// </summary>
@@ -97,6 +107,7 @@ namespace PL
             {
                 this.Activated -= refresh;
                 MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateStations();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -109,23 +120,20 @@ namespace PL
             Closing += CloseWindowButton_Click;
             Close();
         }
+
+        #endregion
+        #region Actions on Station grid methods
         /// <summary>
         /// open details of drone from drone charging list in drone window
         /// </summary>
         private void DroneChargeList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(DroneChargeListView.SelectedItem!=null)
+            if (DroneChargeListView.SelectedItem != null)
             {
                 DroneCharge dc = DroneChargeListView.SelectedItem as DroneCharge;
-                DroneWindow droneWindow= new DroneWindow(theBL, theBL.GetDrone(dc.Id));
+                DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(dc.Id));
                 droneWindow.Show();
             }
-        }
-
-        private void WindowSonButton_Click(object sender, RoutedEventArgs e)
-        {
-            newStation = theBL.GetBaseStation((int)newStation.Id);
-            DroneChargeListView.ItemsSource = newStation.DronesCharging;
         }
 
         /// <summary>
@@ -134,11 +142,11 @@ namespace PL
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
-            switch(b.Name)
+            switch (b.Name)
             {
                 case "RenameButton":
                     {
-                        theBL.UpdateBaseStation((int)newStation.Id, newStation.DronesCharging.Count()+(int)newStation.NumOfSlots, newName.Text);
+                        theBL.UpdateBaseStation((int)newStation.Id, newStation.DronesCharging.Count() + (int)newStation.NumOfSlots, newName.Text);
                         newName.Text = null;
                         break;
                     }
@@ -149,12 +157,14 @@ namespace PL
                         break;
                     }
             }
-            newStation = theBL.GetBaseStation((int)newStation.Id);
-            DataContext=newStation;
+            refresh(sender, e);
             MessageBox.Show("Station details were updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                
-            
+            listsPresentor.UpdateStation((int)newStation.Id);
+
         }
+
+        #endregion
+        #region refresh and input validation methods
         /// <summary>
         /// prevent user from typing non digit charachters to applied textBox
         /// </summary>
@@ -188,14 +198,17 @@ namespace PL
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
         }
-
+        /// <summary>
+        /// refresh window content - for action station grid
+        /// </summary>
         private void refresh(object sender, EventArgs e)
         {
-            if(actionStationGrid.Visibility==Visibility.Visible)
+            if (actionStationGrid.Visibility == Visibility.Visible)
             {
                 newStation = theBL.GetBaseStation((int)newStation.Id);
                 DroneChargeListView.ItemsSource = newStation.DronesCharging;
             }
         }
+        #endregion
     }
 }

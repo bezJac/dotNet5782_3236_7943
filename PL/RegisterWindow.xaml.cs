@@ -25,10 +25,12 @@ namespace PL
         /// instance of BL class object to access data for PL
         /// </summary>
         private readonly BlApi.IBL theBL;
+
         /// <summary>
         /// Customer object for window data context
         /// </summary>
         private Customer newUser;
+
         /// <summary>
         /// cunstructor
         /// </summary>
@@ -40,6 +42,8 @@ namespace PL
             InitializeComponent();
             DataContext = newUser;
         }
+
+        #region Methods
         /// <summary>
         /// register new customer to data base
         /// </summary>
@@ -103,5 +107,6 @@ namespace PL
             e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
             return;
         }
+        #endregion
     }
 }

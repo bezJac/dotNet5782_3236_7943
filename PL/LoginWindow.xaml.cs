@@ -22,6 +22,11 @@ namespace PL
     {
         private readonly BlApi.IBL myBL;
         private Customer newCustomer;
+
+        #region Constructurs
+        /// <summary>
+        /// constructur for manager login - manager grid showing
+        /// </summary>
         public LoginWindow(BlApi.IBL bL)
         {
             InitializeComponent();
@@ -29,6 +34,10 @@ namespace PL
             myBL = bL;
             manager.Visibility = Visibility.Visible;
         }
+
+        /// <summary>
+        /// constructur for user login - customer grid showing
+        /// </summary>
         public LoginWindow(BlApi.IBL bL, int dummy)
         {
             InitializeComponent();
@@ -37,9 +46,12 @@ namespace PL
             IdCustomerTxt.DataContext = newCustomer;
             myBL = bL;
             customer.Visibility = Visibility.Visible;
-            
         }
-
+        #endregion
+        #region Methods
+        /// <summary>
+        /// sign in for exsisting customer -  opens user window
+        /// </summary>
         private void signInButton_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -61,6 +73,10 @@ namespace PL
                 this.Close();
             }
         }
+
+        /// <summary>
+        /// log in as manager - opens manager window - password protected
+        /// </summary>
         private void enterManager_Click(object sender, RoutedEventArgs e)
         {
             if (userName.Text == "admin" && adminPassword.Password == "123")
@@ -75,6 +91,9 @@ namespace PL
             
         }
 
+        /// <summary>
+        /// allows user to input only digits to text box
+        /// </summary>
         private void IdTextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             TextBox text = sender as TextBox;
@@ -106,14 +125,15 @@ namespace PL
             return;
         }
 
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Close();
-        }
-
+        /// <summary>
+        /// cancael entry to program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+        #endregion
     }
 }

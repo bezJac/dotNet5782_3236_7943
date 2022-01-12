@@ -24,8 +24,16 @@ namespace PL
     /// </summary>
     public partial class ManagerWindow : Window
     {
+        /// <summary>
+        /// instance of BL class object to access data for PL
+        /// </summary>
         private readonly IBL theBL;
+
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
         public static ListsPresentor ListsPresentor { get; } = ListsPresentor.Instance;
+
         /// <summary>
         /// cunstructor
         /// </summary>
@@ -47,10 +55,26 @@ namespace PL
             ParcelPrioritySelector.ItemsSource = Enum.GetValues(typeof(Priority));
             ParcelWeightSelector.ItemsSource = Enum.GetValues(typeof(WeightCategories));
         }
+
+        #region Closing window execution methods
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
         }
+        /// <summary>
+        /// exit window
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = false;
+
+        }
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
+        #endregion
 
         #region drones tab
         /// <summary>
@@ -550,70 +574,6 @@ namespace PL
 
 
         }
-        /// <summary>
-        /// exit window
-        /// </summary>
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
-        /// <summary>
-        /// current window reaction method (updates list views) to updates in son windows affecting lists
-        /// </summary>
-
-        /// <summary>
-        /// refresh list view content on tab selection
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private void Tab_Selected(object sender, RoutedEventArgs e)
-        //{
-        //    TabItem tab = sender as TabItem;
-        //    switch (tab.Header)
-        //    {
-        //        case "Drones":
-        //            {
-        //                refreshDroneListViewContent();
-        //                break;
-        //            }
-        //        case "Customers":
-        //            {
-        //                CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-        //                break;
-        //            }
-        //        case "Parcels":
-        //            {
-        //                ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-        //                break;
-        //            }
-        //        case "Stations":
-        //            {
-        //                StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-        //                break;
-        //            }
-        //    }
-
-        //}
-
-        #endregion
-
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            Closing += CloseWindowButton_Click;
-            Close();
-        }
-
-        private void refreshWindow(object sender, EventArgs e)
-        {
-
-            DroneListView.ItemsSource = theBL.GetAllDronesInList();
-            ParcelListView.ItemsSource = theBL.GetAllParcelsInList();
-            CustomerListView.ItemsSource = theBL.GetAllCustomersInList();
-            StationListView.ItemsSource = theBL.GetALLBaseStationInList();
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e) => ListsPresentor.updateDrones();
+        #endregion  
     }
 }

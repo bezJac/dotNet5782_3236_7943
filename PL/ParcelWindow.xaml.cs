@@ -24,11 +24,18 @@ namespace PL
         /// instance of BL class object to access data for PL
         /// </summary>
         private readonly BlApi.IBL theBL;
+
         /// <summary>
         /// parcel instance for data context of window
         /// </summary>
         private Parcel newParcel;
 
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
+        #region Constructors
         /// <summary>
         /// cunstructor for Add Parcel view of window 
         /// </summary>
@@ -64,7 +71,9 @@ namespace PL
             details.DataContext = newParcel;
             Detailsstk.DataContext = newParcel;
         }
-       
+
+        #endregion
+        #region Window closing execution methods
         /// <summary>
         /// exit window
         /// </summary>
@@ -82,8 +91,8 @@ namespace PL
             Closing += CloseWindowButton_Click;
             Close();
         }
-        
-       
+        #endregion
+        #region Add Parcel grid methods
         /// <summary>
         /// add parcel with details from user input to the database
         /// </summary>
@@ -106,9 +115,10 @@ namespace PL
             }
             if (flag)   // drone was added successfully - close window 
             {
-                this.Activated -= refresh;
+                //this.Activated -= refresh;
                 TargetComboBox.BorderThickness = new Thickness();
                 MessageBox.Show("Parcel was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateParcels();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -122,6 +132,9 @@ namespace PL
             Closing += CloseWindowButton_Click;
             this.Close();
         }
+
+        #endregion
+        #region Actions on Parcel grid methods
         /// <summary>
         /// remove an unlinked parcel from database
         /// </summary>
@@ -143,6 +156,7 @@ namespace PL
             {
                 win.Activated -= refresh;
                 MessageBox.Show("Parcel was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateParcels();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -156,9 +170,9 @@ namespace PL
             if (fullDroneButton.Name == b.Name)
             {
                 DroneWindow droneWindow = new DroneWindow(theBL, theBL.GetDrone(newParcel.Drone.Id));
-                droneWindow.Show();               
-               
-                
+                droneWindow.Show();
+
+
                 //return;
             }
             if (fullSenderButton.Name == b.Name)
@@ -172,6 +186,10 @@ namespace PL
                 // return;
             }
         }
+
+        #endregion
+        #region refresh and input validation methods
+
         private void refresh(object sender, EventArgs e)
         {
             if (actionParcel.Visibility == Visibility.Visible)
@@ -181,10 +199,6 @@ namespace PL
                 Detailsstk.DataContext = newParcel;
             }
         }
-
-
-
-
-
+        #endregion
     }
 }

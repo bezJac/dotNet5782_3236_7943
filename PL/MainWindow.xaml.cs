@@ -36,16 +36,7 @@ namespace PL
 
         }
 
-        /// <summary>
-        /// Show Drones click - opens drone list window
-        /// </summary>
-       
-
-        /// <summary>
-        /// sign in for exsisting customer
-        /// </summary>
-        
-
+        #region Methods
         /// <summary>
         /// register as new customer
         /// </summary>
@@ -54,14 +45,17 @@ namespace PL
              new RegisterWindow(myBL).Show();
         }
 
+        /// <summary>
+        /// exit program - shut down all active windows
+        /// </summary>
         private void exitProgram(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
-  
- 
-
+        /// <summary>
+        /// opens program entry window matching  button that was clicked
+        /// </summary>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -75,5 +69,6 @@ namespace PL
             }
             
         }
+        #endregion
     }
 }

@@ -24,10 +24,18 @@ namespace PL
         /// instance of BL class object to access data for PL
         /// </summary>
         private readonly BlApi.IBL theBL;
+
         /// <summary>
         /// Customer instance for data context of window
         /// </summary>
         private Customer newCustomer;
+
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
+        #region Constructors
         /// <summary>
         /// cunstructor for Add customer view of window 
         /// </summary>
@@ -37,7 +45,7 @@ namespace PL
             InitializeComponent();
             addCustomerGrid.Visibility = Visibility.Visible;
             theBL = bl;
-            newCustomer = new() { CustomerLocation = new(), To=null,From=null };
+            newCustomer = new() { CustomerLocation = new(), To = null, From = null };
             DataContext = newCustomer;
         }
         /// <summary>
@@ -56,6 +64,68 @@ namespace PL
             ParcelsToListView.ItemsSource = newCustomer.To;
         }
 
+        #endregion
+        #region Window closing execution methods
+        /// <summary>
+        /// exit window
+        /// </summary>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = false;
+
+        }
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
+        }
+
+        #endregion
+        #region Add Customer grid methods
+        /// <summary>
+        /// add customer inputed by user  to list 
+        /// </summary>
+        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
+        {
+            bool flag = true;
+            try
+            {
+                theBL.AddCustomer(newCustomer);
+            }
+            catch (Exception ex) // add drone faild allow user to fix input
+            {
+                while (ex.InnerException != null)
+                    ex = ex.InnerException;
+                flag = false;
+                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            if (flag)   // drone was added successfully - close window 
+            {
+                this.Activated -= refreshWindow;
+                MessageBox.Show("Customer was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
+                listsPresentor.UpdateCustomers();
+                Closing += CloseWindowButton_Click;
+                Close();
+            }
+            listsPresentor.UpdateCustomers();
+        }
+
+        /// <summary>
+        /// cancel customer adding proccess
+        /// </summary>
+        private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
+
+        #endregion
+        #region Actions on Customer grid methods
         /// <summary>
         /// update either name and/or phone number of customer
         /// </summary>
@@ -77,7 +147,9 @@ namespace PL
                         break;
                     }
             }
-           
+            refreshWindow(sender, e);
+            listsPresentor.UpdateCustomer((int)newCustomer.Id);
+
         }
 
         /// <summary>
@@ -93,10 +165,12 @@ namespace PL
             if (prc != null)
             {
                 new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
-                
+
             }
         }
 
+        #endregion
+        #region refresh and input validation methods
         /// <summary>
         /// allows user to input numbers only to TextBox
         /// </summary>
@@ -131,62 +205,9 @@ namespace PL
             return;
         }
 
-       
-
         /// <summary>
-        /// add customer inputed by user  to list 
+        /// refresh window content - for action customer grid
         /// </summary>
-        private void AddCustomerButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool flag = true;
-            try
-            {
-                theBL.AddCustomer(newCustomer);
-            }
-            catch (Exception ex) // add drone faild allow user to fix input
-            {
-                while (ex.InnerException != null)
-                    ex = ex.InnerException;
-                flag = false;
-                MessageBox.Show(ex.Message, "INVALID", MessageBoxButton.OK, MessageBoxImage.Warning);
-
-            }
-            if (flag)   // drone was added successfully - close window 
-            {
-                this.Activated -= refreshWindow;
-                MessageBox.Show("Customer was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                Closing += CloseWindowButton_Click;
-                Close();
-            }
-        }
-
-        /// <summary>
-        /// cancel customer adding proccess
-        /// </summary>
-        private void CancelCustomerButton_Click(object sender, RoutedEventArgs e)
-        {
-            Closing += CloseWindowButton_Click;
-            Close();
-        }
-
-        /// <summary>
-        /// exit window
-        /// </summary>
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            Closing += CloseWindowButton_Click;
-            Close();
-        }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
-
-        }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
-        }
-
         private void refreshWindow(object sender, EventArgs e)
         {
             if (actionCustomerGrid.Visibility == Visibility.Visible)
@@ -197,5 +218,6 @@ namespace PL
                 ParcelsToListView.ItemsSource = newCustomer.To;
             }
         }
+        #endregion
     }
 }
