@@ -133,6 +133,7 @@ namespace PL
             }
         }
 
+        bool closing = false;
         /// <summary>
         /// exit window
         /// </summary>
@@ -149,7 +150,12 @@ namespace PL
         }
         private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            if(worker!=null)
+            {
+                closing = true;
+                e.Cancel = true;
+            }
+          
         }
 
         /// <summary>
@@ -466,13 +472,12 @@ namespace PL
         {
             Automatic.Visibility = Visibility.Collapsed;
             manual.Visibility = Visibility.Visible;
-            Buttons.Visibility = Visibility.Collapsed;
             worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             worker.DoWork += (sender, args) => theBL.StartDroneSimulator((int)args.Argument, updateData, checkStop);
             worker.RunWorkerCompleted += (sender, args) =>
             {
                 worker = null;
-                //if (closing) Close();
+                if (closing) Close();
             };
             worker.ProgressChanged += (sender, args) => updateGlobalView();
             worker.RunWorkerAsync(newDrone.Id);
@@ -499,7 +504,6 @@ namespace PL
             worker?.CancelAsync();
             manual.Visibility = Visibility.Collapsed;
             Automatic.Visibility = Visibility.Visible;
-            Buttons.Visibility = Visibility.Visible;
         }
         #endregion
     }
