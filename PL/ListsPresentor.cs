@@ -10,13 +10,14 @@ using System.ComponentModel;
 
 namespace PL
 {
+   
     public class ListsPresentor : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private static IBL theBL = BlApi.BlFactory.GetBL();
         public static ListsPresentor Instance { get; } = new ListsPresentor();
 
-
+        #region Drones Collection + update single entity/ entire  collection methods
         ObservableCollection<DroneInList> drones = new(theBL.GetAllDronesInList());
         public ObservableCollection<DroneInList> DronesList
         {
@@ -42,9 +43,9 @@ namespace PL
             }
 
         }
+        #endregion
 
-
-
+        #region Parcels Collection + update single entity/ entire collection methods
         ObservableCollection<ParcelInList> parcels = new(theBL.GetAllParcelsInList());
         public ObservableCollection<ParcelInList> ParcelsList
         {
@@ -69,10 +70,9 @@ namespace PL
                 ParcelsList.Insert(parcelIndex, theBL.GetAllParcelsInList().Where(p => p.Id == parcelForList.Id).FirstOrDefault());
             }
         }
+        #endregion
 
-
-
-
+        #region Customers Collection + update single entity/ entire collection methods
         ObservableCollection<CustomerInList> customers = new(theBL.GetAllCustomersInList());
         public ObservableCollection<CustomerInList> CustomersList
         {
@@ -97,9 +97,9 @@ namespace PL
                 StationsList.Insert(stationIndex, theBL.GetALLBaseStationInList().Where(st => st.Id == stationInList.Id).FirstOrDefault());
             }
         }
+        #endregion
 
-
-
+        #region Stations Collection + update single entity/ entire list methods
         ObservableCollection<BaseStationInList> stations = new(theBL.GetALLBaseStationInList());
         public ObservableCollection<BaseStationInList> StationsList
         {
@@ -124,8 +124,6 @@ namespace PL
                 CustomersList.Insert(CustomerIndex, theBL.GetAllCustomersInList().Where(cs => cs.Id == id).FirstOrDefault());
             }
         }
-
-
-
+        #endregion
     }
 }

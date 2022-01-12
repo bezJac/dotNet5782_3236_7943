@@ -75,7 +75,6 @@ namespace PL
             Buttons.DataContext = newDrone;
         }
         #endregion
-
         #region Add Drone grid methods
         /// <summary>
         /// cancel drone add, exit window without adding drone to list
@@ -143,7 +142,6 @@ namespace PL
             }
         }
         #endregion
-
         #region Closing window execution
         bool closing = false;
         /// <summary>
@@ -170,7 +168,6 @@ namespace PL
           
         }
         #endregion
-
         #region Actions on drone grid methods for buttons
         /// <summary>
         /// update a drone's model 
@@ -329,7 +326,6 @@ namespace PL
         }
 
         #endregion
-
         #region refresh and input validation methods
         /// <summary>
         /// refresh content of window (for actionDrone grid)
@@ -416,7 +412,6 @@ namespace PL
             }
         }
         #endregion
-
         #region Background Worker - Simulator
         BackgroundWorker worker;
 

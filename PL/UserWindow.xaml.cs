@@ -32,6 +32,7 @@ namespace PL
         /// Parcel object for window data context
         /// </summary>
         private Parcel prc;
+
         /// <summary>
         /// cunstructor
         /// </summary>
@@ -55,6 +56,8 @@ namespace PL
             ParcelsFromListView.ItemsSource = cstmr.From;
             ParcelsToListView.ItemsSource = cstmr.To;
         }
+
+        #region methods
         /// <summary>
         /// add a new parcel delivery order for customer
         /// </summary>
@@ -86,6 +89,8 @@ namespace PL
             parcelWeightComboBox.SelectedItem = null;
             priorityComboBox.SelectedItem = null;
         }
+        #endregion
+        #region Closing window execution
         /// <summary>
         /// exit window
         /// </summary>
@@ -103,6 +108,7 @@ namespace PL
         {
             e.Cancel = true;
         }
+        #endregion
     }
 
 }

@@ -24,11 +24,18 @@ namespace PL
         /// instance of BL class object to access data for PL
         /// </summary>
         private readonly BlApi.IBL theBL;
+
         /// <summary>
         /// Customer instance for data context of window
         /// </summary>
         private Customer newCustomer;
+
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
         public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
+        #region Constructors
         /// <summary>
         /// cunstructor for Add customer view of window 
         /// </summary>
@@ -38,7 +45,7 @@ namespace PL
             InitializeComponent();
             addCustomerGrid.Visibility = Visibility.Visible;
             theBL = bl;
-            newCustomer = new() { CustomerLocation = new(), To=null,From=null };
+            newCustomer = new() { CustomerLocation = new(), To = null, From = null };
             DataContext = newCustomer;
         }
         /// <summary>
@@ -57,83 +64,28 @@ namespace PL
             ParcelsToListView.ItemsSource = newCustomer.To;
         }
 
+        #endregion
+        #region Window closing execution methods
         /// <summary>
-        /// update either name and/or phone number of customer
+        /// exit window
         /// </summary>
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            Button b = sender as Button;
-            switch (b.Name)
-            {
-                case "RenameButton":
-                    {
-                        theBL.UpdateCustomer((int)newCustomer.Id, newCustomer.Phone, newNameTxtBox.Text);
-                        newNameTxtBox.Text = null;
-                        break;
-                    }
-                case "UpdateButton":
-                    {
-                        theBL.UpdateCustomer((int)newCustomer.Id, newPhoneTxtBox.Text, newCustomer.Name);
-                        newPhoneTxtBox.Text = null;
-                        break;
-                    }
-            }
-            refreshWindow(sender,e);
-            listsPresentor.UpdateCustomer((int)newCustomer.Id);
-           
+            Closing += CloseWindowButton_Click;
+            Close();
+        }
+        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = false;
+
+        }
+        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
 
-        /// <summary>
-        /// show details of parcel clicked on in list in Parcel Window
-        /// </summary>
-        private void ParcelsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ParcelAtCustomer prc;
-            if (ParcelsFromListView.SelectedItem != null)
-                prc = ParcelsFromListView.SelectedItem as ParcelAtCustomer;
-            else
-                prc = ParcelsToListView.SelectedItem as ParcelAtCustomer;
-            if (prc != null)
-            {
-                new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
-                
-            }
-        }
-
-        /// <summary>
-        /// allows user to input numbers only to TextBox
-        /// </summary>
-        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            TextBox text = sender as TextBox;
-            if (text == null) return;
-            if (e == null) return;
-
-            //allow get out of the text box
-            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
-                return;
-
-            //allow list of system keys (add other key here if you want to allow)
-            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
-                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
-             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
-                return;
-
-            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
-
-            //allow control system keys
-            if (Char.IsControl(c)) return;
-
-            //allow digits (without Shift or Alt)
-            if (Char.IsDigit(c))
-                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
-                    return; //let this key be written inside the textbox
-
-            //forbid letters and signs (#,$, %, ...)
-            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
-            return;
-        }
-
+        #endregion
+        #region Add Customer grid methods
         /// <summary>
         /// add customer inputed by user  to list 
         /// </summary>
@@ -172,24 +124,90 @@ namespace PL
             Close();
         }
 
+        #endregion
+        #region Actions on Customer grid methods
         /// <summary>
-        /// exit window
+        /// update either name and/or phone number of customer
         /// </summary>
-        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing += CloseWindowButton_Click;
-            Close();
-        }
-        private void CloseWindowButton_Click(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = false;
+            Button b = sender as Button;
+            switch (b.Name)
+            {
+                case "RenameButton":
+                    {
+                        theBL.UpdateCustomer((int)newCustomer.Id, newCustomer.Phone, newNameTxtBox.Text);
+                        newNameTxtBox.Text = null;
+                        break;
+                    }
+                case "UpdateButton":
+                    {
+                        theBL.UpdateCustomer((int)newCustomer.Id, newPhoneTxtBox.Text, newCustomer.Name);
+                        newPhoneTxtBox.Text = null;
+                        break;
+                    }
+            }
+            refreshWindow(sender, e);
+            listsPresentor.UpdateCustomer((int)newCustomer.Id);
 
         }
-        private void MyWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+
+        /// <summary>
+        /// show details of parcel clicked on in list in Parcel Window
+        /// </summary>
+        private void ParcelsList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            e.Cancel = true;
+            ParcelAtCustomer prc;
+            if (ParcelsFromListView.SelectedItem != null)
+                prc = ParcelsFromListView.SelectedItem as ParcelAtCustomer;
+            else
+                prc = ParcelsToListView.SelectedItem as ParcelAtCustomer;
+            if (prc != null)
+            {
+                new ParcelWindow(theBL, theBL.GetParcel(prc.Id)).Show();
+
+            }
         }
 
+        #endregion
+        #region refresh and input validation methods
+        /// <summary>
+        /// allows user to input numbers only to TextBox
+        /// </summary>
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox text = sender as TextBox;
+            if (text == null) return;
+            if (e == null) return;
+
+            //allow get out of the text box
+            if (e.Key == Key.Enter || e.Key == Key.Return || e.Key == Key.Tab)
+                return;
+
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key == Key.Escape || e.Key == Key.Back || e.Key == Key.Delete ||
+                e.Key == Key.CapsLock || e.Key == Key.LeftShift || e.Key == Key.Home
+             || e.Key == Key.End || e.Key == Key.Insert || e.Key == Key.Down || e.Key == Key.Right)
+                return;
+
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+            //allow control system keys
+            if (Char.IsControl(c)) return;
+
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
+
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+            return;
+        }
+
+        /// <summary>
+        /// refresh window content - for action customer grid
+        /// </summary>
         private void refreshWindow(object sender, EventArgs e)
         {
             if (actionCustomerGrid.Visibility == Visibility.Visible)
@@ -200,5 +218,6 @@ namespace PL
                 ParcelsToListView.ItemsSource = newCustomer.To;
             }
         }
+        #endregion
     }
 }
