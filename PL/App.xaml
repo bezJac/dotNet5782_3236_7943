@@ -78,6 +78,13 @@
                 <Setter Property="Background" Value="White"/>
                 <Setter Property="Grid.Row" Value="1"/>
             </Style>
+            <Style x:Key="ExpenderStyle" TargetType="Expander" >
+                <Setter Property="Background" Value="White" />
+                <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                <Setter Property="Foreground" Value="#FF3A3A57"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
           
         </ResourceDictionary>
     </Application.Resources>
