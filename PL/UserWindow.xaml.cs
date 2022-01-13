@@ -103,6 +103,71 @@ namespace PL
             parcelWeightComboBox.SelectedItem = null;
             priorityComboBox.SelectedItem = null;
         }
+        /// <summary>
+        /// update either name and/or phone number of customer
+        /// generic function for both buttons, determines updating choice by evaluating routing button's name
+        /// </summary>
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            switch (b.Name)
+            {
+                case "RenameButton":
+                    {
+                        theBL.UpdateCustomer((int)user.Id, user.Phone, newNameTxtBox.Text);
+                        newNameTxtBox.Text = null;
+                        break;
+                    }
+                case "UpdateButton":
+                    {
+                        theBL.UpdateCustomer((int)user.Id, newPhoneTxtBox.Text, user.Name);
+                        newPhoneTxtBox.Text = null;
+                        break;
+                    }
+            }
+            // update current window's content
+            user = theBL.GetCustomer((int)user.Id);
+            DataContext = user;
+            // set list of users deliveries details 
+            ParcelsFromListView.ItemsSource = user.From;
+            ParcelsToListView.ItemsSource = user.To;
+            // update list in manager window
+            listsPresentor.UpdateCustomer((int)user.Id);
+
+        }
+        /// <summary>
+        /// allows user to input numbers only to TextBox
+        /// </summary>
+        private void TextBox_OnlyNumbers_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox text = sender as TextBox;
+            if (text == null) return;
+            if (e == null) return;
+
+            //allow get out of the text box
+            if (e.Key is Key.Enter or Key.Return or Key.Tab)
+                return;
+
+            //allow list of system keys (add other key here if you want to allow)
+            if (e.Key is Key.Escape or Key.Back or Key.Delete or
+                Key.CapsLock or Key.LeftShift or Key.Home
+             or Key.End or Key.Insert or Key.Down or Key.Right)
+                return;
+
+            char c = (char)KeyInterop.VirtualKeyFromKey(e.Key);
+
+            //allow control system keys
+            if (Char.IsControl(c)) return;
+
+            //allow digits (without Shift or Alt)
+            if (Char.IsDigit(c))
+                if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightAlt)))
+                    return; //let this key be written inside the textbox
+
+            //forbid letters and signs (#,$, %, ...)
+            e.Handled = true; //ignore this key. mark event as handled, will not be routed to other controls
+            return;
+        }
         #endregion
         #region Closing window execution
         /// <summary>
