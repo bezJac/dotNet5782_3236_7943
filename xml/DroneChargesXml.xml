@@ -49,12 +49,6 @@
     <BatteryAtEntrance>17</BatteryAtEntrance>
   </DroneCharge>
   <DroneCharge>
-    <DroneId>2308</DroneId>
-    <StationId>7264</StationId>
-    <EntranceTime>2021-12-30T06:01:48.4915957+02:00</EntranceTime>
-    <BatteryAtEntrance>12</BatteryAtEntrance>
-  </DroneCharge>
-  <DroneCharge>
     <DroneId>5433</DroneId>
     <StationId>7264</StationId>
     <EntranceTime>2021-12-30T05:53:48.4916012+02:00</EntranceTime>
@@ -71,5 +65,11 @@
     <StationId>7264</StationId>
     <EntranceTime>2022-01-04T05:34:07.6539516+02:00</EntranceTime>
     <BatteryAtEntrance>4</BatteryAtEntrance>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>2870</DroneId>
+    <StationId>7264</StationId>
+    <EntranceTime>2022-01-14T00:31:07.6278014+02:00</EntranceTime>
+    <BatteryAtEntrance>1</BatteryAtEntrance>
   </DroneCharge>
 </ArrayOfDroneCharge>

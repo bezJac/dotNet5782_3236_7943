@@ -196,7 +196,7 @@ namespace PL
                 while (Ex.InnerException != null)
                     Ex = Ex.InnerException;
                 flag = false;
-                MessageBox.Show(Ex.Message, "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("no parcel available to link", "FAIL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             if (flag) // drone was sent to charge successfully 
             {

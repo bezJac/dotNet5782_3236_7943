@@ -28,7 +28,7 @@ namespace PL
         /// stack panel visibility to visible.
         /// customer constructur uses dummy parameter to allow overload.
         /// </summary>
-        #region Constructurs
+        #region Constructors
         /// <summary>
         /// constructur for manager login - manager stack panel showing
         /// </summary>
