@@ -7,126 +7,115 @@
         mc:Ignorable="d"
         Closing="MyWindow_Closing"
         Title="{Binding Path= Name}" Height="450" Width="800" Style="{StaticResource WindowStyle}">
-    <Window.Resources>
-        <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
-       
-    </Window.Resources>
     <!--#region  main grid-->
-        <Grid  Style="{StaticResource GridStyle}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition  Width="2*"/>
-                <ColumnDefinition  Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="11*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            
+    <Grid  Style="{StaticResource GridStyle}">
+        <Grid.Resources>
+            <local:TextToEnableConverter x:Key="TextToEnableConverter"/>
+            <Style x:Key="customerActionLabel" BasedOn="{StaticResource LabelStyle}" TargetType="Label">
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition  Width="2*"/>
+            <ColumnDefinition  Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
         <Button x:Name="closeButtonStation"  Content="Close" VerticalAlignment="Top" Style="{StaticResource ButtonStyle}"
                    Width="50" Visibility="Visible" VerticalContentAlignment="Top" Grid.ColumnSpan="2"
              Grid.Row="2" Click="CloseWindowButton_Click" FontSize="16" Height="30" HorizontalAlignment="Right" />
-            
+
         <!--#region  add new order stack panel -->
-        <StackPanel x:Name="userAdtion" Grid.Column="1">
-            <Expander x:Name="AddEx" Style="{StaticResource ExpenderStyle}" Margin="0,100,0,0" FontSize="25" HorizontalAlignment="Center"  Width="200" >
-                <Expander.Header >
-                    <Border Background="#FF3A3A57" HorizontalAlignment="Stretch" CornerRadius="5">
-                        <TextBlock Text="Add" Margin="50,0,0,0" Foreground="White" FontSize="25" Width="{Binding ElementName=AddEx, Path=Width}"  />
-                    </Border>
-                </Expander.Header>
-            <StackPanel x:Name="addParcel" Grid.Column="1">
-                
-                <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
-                <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}"
+        <StackPanel x:Name="addParcel" Grid.Column="1">
+            <Label Content="Order a delivery" FontWeight="Bold" FontSize="25" HorizontalAlignment="Center" Style="{StaticResource LabelStyle}"/>
+            <Label  Content="Select Target customer:" VerticalAlignment="Center" Grid.Row="2"  FontSize="15" Style="{StaticResource LabelStyle}"
                         FontWeight="Bold"  HorizontalAlignment="Center" Grid.Column="0" Visibility="Visible"/>
-                <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
+            <ComboBox x:Name="TargetComboBox" Width="140" VerticalAlignment="Center" Grid.Row="2"  Height="Auto" HorizontalAlignment="Center"
                           SelectedItem="{Binding Target, NotifyOnValidationError=False}" Grid.Column="1">
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
-                <Label  Content="Select Parcel's Weight:" FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
-                <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <Label  Content="Select Parcel's Weight:" FontSize="15" Style="{StaticResource LabelStyle}" HorizontalAlignment="Center" />
+            <ComboBox x:Name="parcelWeightComboBox" Width="140" VerticalAlignment="Center" Grid.Row="3"  Height="Auto" HorizontalAlignment="Center"
                             SelectedItem="{Binding Weight, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}" Grid.Column="1">
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
-                <Label Content="Select Parcel's priority:" FontSize="15" Style="{StaticResource LabelStyle}" Grid.Row="4"
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <Label Content="Select Parcel's priority:" FontSize="15" Style="{StaticResource LabelStyle}" Grid.Row="4"
                         VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
+            <ComboBox x:Name="priorityComboBox" Width="140"  Grid.Column="1" Grid.Row="4" Height="23"
                           SelectedItem="{Binding Priority, NotifyOnValidationError=False, NotifyOnSourceUpdated=False, NotifyOnTargetUpdated=False}">
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                </ComboBox>
-                <Button x:Name="addButton"  Content="Add" Grid.Column="2" Grid.Row="1" Visibility="Visible"
-                        Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Margin="10"
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="addButton"  Content="Add"  Visibility="Visible" Height="35" Width="80"
+                        Grid.RowSpan="2" Style="{StaticResource ButtonStyle}" Margin="40,5,0,0"
                         Click="AddParcelButton_Click"/>
-                <Button x:Name="cancelButton" Content="Cancel" Grid.Column="2" Grid.Row="3" Visibility="Visible"
-                       Margin="10"  Grid.RowSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                <Button x:Name="cancelButton" Content="Cancel" Height="35" Visibility="Visible" Width="85"
+                       Margin="15,5,0,0"  Grid.RowSpan="2"  HorizontalAlignment="Center" VerticalAlignment="Center"
                         Style="{StaticResource ButtonStyle}"
                         Click="CancelParcelButton_Click"  />
-                    </StackPanel>
-            </Expander>
-            
-            <Expander x:Name="Update"   Style="{StaticResource ExpenderStyle}" Width="200" Margin="0,50,0,0"
-                     FontSize="25" HorizontalAlignment="Center">
-                <Expander.Header >
-                    <Border Background="#FF3A3A57" HorizontalAlignment="Stretch">
-                            <TextBlock Text="Update" Margin="40,0,0,0" Foreground="White" FontSize="25" Width="{Binding ElementName=AddEx, Path=Width}"  />
-                        </Border>
-                    </Expander.Header>
-                <ScrollViewer  VerticalScrollBarVisibility="Auto">
-                <StackPanel x:Name ="updateStStk" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Margin="10">
-                    <Label Content="Rename Customer:" Grid.Row="0" Grid.Column="2"  Style="{StaticResource LabelStyle}" FontSize="12"/>
-                    <TextBox x:Name="newNameTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="3"/>
+            </StackPanel>
+            <!--#region  buttons stack panel -->
+            <StackPanel x:Name ="updateStStk" Grid.Row="0" Margin="0,7,0,0"  Orientation="Horizontal" >
+                <StackPanel >
+                    <Label Content="New Name:" Margin="0,2,0,0" HorizontalAlignment="Center"  Style="{StaticResource LabelStyle}"/>
+                    <TextBox x:Name="newNameTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120"  Margin="0,3,0,0"/>
                     <Button x:Name="RenameButton" Content="Rename" Style="{StaticResource ButtonStyle}" Grid.Column="1" Visibility="Visible"
-                   Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" Margin="3"
+                   Click="UpdateButton_Click"  Height="35" VerticalAlignment="Top" Margin="5,10,0,0"
                     IsEnabled="{Binding ElementName=newNameTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
-                    <Label Content="Update Phone Number:"   HorizontalAlignment="Center"   Style="{StaticResource LabelStyle}" />
-                    <TextBox x:Name="newPhoneTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120" Margin="3"
-                         PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown"/>
-                    <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="7"  Visibility="Visible"
-                   Click="UpdateButton_Click"  Height="45" VerticalAlignment="Top" 
+                </StackPanel>
+                <StackPanel>
+                    <Label Content="New Phone Number:"   HorizontalAlignment="Center"   Style="{StaticResource customerActionLabel}" />
+                    <TextBox x:Name="newPhoneTxtBox"  SpellCheck.IsEnabled="True" Height="23" Width="120" 
+                         PreviewKeyDown="TextBox_OnlyNumbers_PreviewKeyDown" MaxLength="10"/>
+                    <Button x:Name="UpdateButton" Content="Update" Style="{StaticResource ButtonStyle}" Margin="0,8,0,0"  Visibility="Visible"
+                   Click="UpdateButton_Click"  Height="35" VerticalAlignment="Top" 
                     IsEnabled="{Binding ElementName=newPhoneTxtBox, Path=Text, Converter={StaticResource TextToEnableConverter}}"  />
                 </StackPanel>
-                </ScrollViewer>
-            </Expander>
-           
+            </StackPanel>
+
         </StackPanel>
         <!--#endregion-->
-            <!--#region  lists view grid -->
-            <Grid x:Name="ListParcels" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
-                </Grid.RowDefinitions>
-                <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Grid Grid.Row="1" Background="White"  Margin="15,0,0,0">
-                    <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3" Background="White" >
+        <!--#region  lists view grid -->
+        <Grid x:Name="ListParcels" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <Label Content="Parcels sent by customer:" Style="{StaticResource LabelStyle}" Grid.Row="0"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Grid Grid.Row="1" Background="White"  Margin="15,0,0,0">
+                <ListView x:Name="ParcelsFromListView"   Grid.Row="1" Margin="3" Background="White" >
 
-                        <ListView.View >
-                            <GridView>
-                                <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
-                                <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
-                                <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
-                                <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
-                                <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Grid>
-                <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
-                <Grid Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3" Background="White" Margin="15,0,0,0" > 
+                    <ListView.View >
+                        <GridView>
+                            <GridViewColumn Header="ID" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="65" DisplayMemberBinding="{Binding Id}" />
+                            <GridViewColumn Header="Target Customer:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="180" DisplayMemberBinding="{Binding CounterCustomer}"/>
+                            <GridViewColumn Header="Priority:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Priority}"/>
+                            <GridViewColumn Header="Status:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="85" DisplayMemberBinding="{Binding Status}"/>
+                            <GridViewColumn Header="Weight:" HeaderContainerStyle="{StaticResource listHeaderStyle}"  Width="90" DisplayMemberBinding="{Binding Weight}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Label Content="Parcels sent to customer:" Style="{StaticResource LabelStyle}" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.RowSpan="2"/>
+            <Grid Grid.Row="3"   Grid.Column="2"  Grid.RowSpan="3" Background="White" Margin="15,0,0,0" >
                 <ListView x:Name="ParcelsToListView"   >
                     <ListView.View >
                         <GridView >
@@ -138,11 +127,11 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                </Grid>
             </Grid>
-            <!--#endregion-->
-            
-            
         </Grid>
+        <!--#endregion-->
+
+
+    </Grid>
     <!--#endregion-->
 </Window>
