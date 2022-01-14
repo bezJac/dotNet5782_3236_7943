@@ -91,7 +91,7 @@ namespace PL
         /// update parcels collection to latest version of list in BL 
         /// <para> supports filtering by either max weight, parcel status, or priority </para>
         /// </summary>
-        public void UpdateParcels(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null)
+        public void UpdateParcelsView(ParcelStatus? status = null, Priority? priority = null, WeightCategories? weight = null)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace PL
         /// update parcels collection to latest version of list in BL - 
         /// <para>  overloaded function to support updating list with filtering by date </para>
         /// </summary>
-        public void UpdateParcelsByDate(DateTime? from, DateTime? to)
+        public void UpdateParcelsView(DateTime? from, DateTime? to)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace PL
         /// update collection with details of changes made to single parcel
         /// </summary>
         /// <param name="id"> parcel's ID </param>
-        public void UpdateParcel(int id)
+        public void UpdateSingleParcel(int id)
         {
             // get parcel from collection
             ParcelInList parcelForList = ParcelsList.FirstOrDefault(p => p.Id == id);
@@ -155,7 +155,7 @@ namespace PL
         /// <summary>
         /// update customers collection to latest version of list in BL 
         /// </summary>
-        public void UpdateCustomers()
+        public void UpdateCustomersView()
         {
             CustomersList = new(theBL.GetAllCustomersInList());
         }
@@ -163,7 +163,7 @@ namespace PL
         /// update customers collection with details of changes made to a single customer
         /// </summary>
         /// <param name="id"> customer's ID </param>
-        public void UpdateCustomer(int id)
+        public void UpdateSingleCustomer(int id)
         {
             // get customer from collection
             CustomerInList customerInList = CustomersList.FirstOrDefault(cs => cs.Id == id);
@@ -195,7 +195,7 @@ namespace PL
         /// <summary>
         /// update stations collection to latest version of list in BL 
         /// </summary>
-        public void UpdateStations()
+        public void UpdateStationsView()
         {
             StationsList = new(theBL.GetALLBaseStationInList());
         }
@@ -203,7 +203,7 @@ namespace PL
         /// update stations collection with details of changes made to a single station
         /// </summary>
         /// <param name="id"> station's ID </param>
-        public void UpdateStation(int id)
+        public void UpdateSingleStation(int id)
         {
             // get station from collection
             BaseStationInList stationInList = StationsList.FirstOrDefault(st => st.Id == id);

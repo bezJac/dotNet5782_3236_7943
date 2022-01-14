@@ -30,6 +30,12 @@ namespace PL
         /// Customer object for window data context
         /// </summary>
         private Customer newUser;
+       
+        /// <summary>
+        /// insrance of ListPresentor class to allow update of list in manager window from current window
+        /// </summary>
+        public static ListsPresentor listsPresentor { get; } = ListsPresentor.Instance;
+
 
         /// <summary>
         /// cunstructor
@@ -63,6 +69,7 @@ namespace PL
             }
             if (flag)   // user was added successfully - notify and leave window 
             {
+                listsPresentor.UpdateCustomersView();
                 MessageBox.Show("Your account was created successfully", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }

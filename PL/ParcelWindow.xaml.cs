@@ -120,7 +120,7 @@ namespace PL
                 //this.Activated -= refresh;
                 TargetComboBox.BorderThickness = new Thickness();
                 MessageBox.Show("Parcel was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
-                listsPresentor.UpdateParcels();
+                listsPresentor.UpdateParcelsView();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -161,7 +161,7 @@ namespace PL
                 win.Activated -= refreshWindow;
                 MessageBox.Show("Parcel was removed successfully from list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 // update manager lists with change
-                listsPresentor.UpdateParcels();
+                listsPresentor.UpdateParcelsView();
                 // leave window
                 Closing += CloseWindowButton_Click;
                 Close();

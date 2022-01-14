@@ -6,7 +6,7 @@
     <DalXml namespace="Dal" class="DalXml">DalXml</DalXml>
     <oracle namespace="Dal_O" class="DalDbOracle">DalOracle</oracle>
   </dl-packages>
-  <runId>20034</runId>
+  <runId>20035</runId>
   <DroneElecUseEmpty>2.5</DroneElecUseEmpty>
   <DroneElecUseLight>3</DroneElecUseLight>
   <DroneElecUseMedium>3.5</DroneElecUseMedium>

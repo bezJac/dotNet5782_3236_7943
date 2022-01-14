@@ -47,7 +47,7 @@
     <Name>Giv'at Masu'a</Name>
     <Longitude>35.16746927212728</Longitude>
     <Lattitude>31.750816286403072</Lattitude>
-    <NumOfSlots>13</NumOfSlots>
+    <NumOfSlots>16</NumOfSlots>
   </BaseStation>
   <BaseStation>
     <Id>8047</Id>

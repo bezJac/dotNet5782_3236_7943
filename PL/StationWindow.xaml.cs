@@ -113,7 +113,7 @@ namespace PL
             {
                 MessageBox.Show("Station was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 // update manager list with new station
-                listsPresentor.UpdateStations();
+                listsPresentor.UpdateStationsView();
                 // leave window
                 Closing += CloseWindowButton_Click;
                 Close();
@@ -171,7 +171,7 @@ namespace PL
             refreshWindow(sender, e);
             MessageBox.Show("Station details were updated", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
             // update manager list with new details
-            listsPresentor.UpdateStation((int)newStation.Id);
+            listsPresentor.UpdateSingleStation((int)newStation.Id);
 
         }
 

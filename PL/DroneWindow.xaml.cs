@@ -203,7 +203,7 @@ namespace PL
                 MessageBox.Show("Drone charge in progress", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 refreshWindow(sender, e);
                 listsPresentor.UpdateSingleDrone((int)newDrone.Id);
-                listsPresentor.UpdateStation(theBL.GetDroneChargestation((int)newDrone.Id).Id);
+                listsPresentor.UpdateSingleStation(theBL.GetDroneChargestation((int)newDrone.Id).Id);
             }
         }
 
@@ -232,7 +232,7 @@ namespace PL
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone charge ended", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 listsPresentor.UpdateSingleDrone((int)newDrone.Id);
-                listsPresentor.UpdateStation((int)stationId);
+                listsPresentor.UpdateSingleStation((int)stationId);
             }
         }
 
@@ -256,7 +256,7 @@ namespace PL
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone is linked to a parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 listsPresentor.UpdateSingleDrone((int)newDrone.Id);
-                listsPresentor.UpdateParcel((int)newDrone.Parcel.Id);
+                listsPresentor.UpdateSingleParcel((int)newDrone.Parcel.Id);
                 
             }
         }
@@ -285,7 +285,7 @@ namespace PL
                 refreshWindow(sender, e);
                 MessageBox.Show("Drone picked up parcel", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 listsPresentor.UpdateSingleDrone((int)newDrone.Id);
-                listsPresentor.UpdateParcel((int)newDrone.Parcel.Id);
+                listsPresentor.UpdateSingleParcel((int)newDrone.Parcel.Id);
             }
         }
 
@@ -314,9 +314,9 @@ namespace PL
                 refreshWindow(sender, e);
                 MessageBox.Show("Parcel was delivered", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 listsPresentor.UpdateSingleDrone((int)newDrone.Id);
-                listsPresentor.UpdateParcel((int)parcelId);
-                listsPresentor.UpdateCustomer(senderId);
-                listsPresentor.UpdateCustomer(targetId);
+                listsPresentor.UpdateSingleParcel((int)parcelId);
+                listsPresentor.UpdateSingleCustomer(senderId);
+                listsPresentor.UpdateSingleCustomer(targetId);
             }
         }
 
@@ -452,9 +452,9 @@ namespace PL
                 Buttons.DataContext = newDrone;
                 //update lists
                 listsPresentor.UpdateDronesView();
-                listsPresentor.UpdateParcels();
-                listsPresentor.UpdateStations();
-                listsPresentor.UpdateCustomers();
+                listsPresentor.UpdateParcelsView();
+                listsPresentor.UpdateStationsView();
+                listsPresentor.UpdateCustomersView();
      
             }
         }

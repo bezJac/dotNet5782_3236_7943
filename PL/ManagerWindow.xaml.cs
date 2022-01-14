@@ -254,7 +254,7 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                   ListsPresentor.UpdateParcels(status, null, null);
+                   ListsPresentor.UpdateParcelsView(status, null, null);
                 }
                 catch (Exception Ex)
                 {
@@ -284,7 +284,7 @@ namespace PL
                 // exception accures when list returns empty
                 try
                 {
-                    ListsPresentor.UpdateParcels(null, null, weight);
+                    ListsPresentor.UpdateParcelsView(null, null, weight);
                 }
                 catch (Exception Ex)
                 {
@@ -315,7 +315,7 @@ namespace PL
                 try
                 {
 
-                    ListsPresentor.UpdateParcels(null, priority, null);
+                    ListsPresentor.UpdateParcelsView(null, priority, null);
 
                 }
                 catch (Exception Ex)
@@ -364,7 +364,7 @@ namespace PL
                         break;
                     }
             }
-            ListsPresentor.UpdateParcels();
+            ListsPresentor.UpdateParcelsView();
 
         }
         /// <summary>
@@ -431,7 +431,7 @@ namespace PL
         /// </summary>
         private void ParcelGroupCheckBoxCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ListsPresentor.UpdateParcels();
+            ListsPresentor.UpdateParcelsView();
         }
         /// <summary>
         /// show in list parcels that were ordered between selected two dates
@@ -444,7 +444,7 @@ namespace PL
             {
                 try
                 {
-                    ListsPresentor.UpdateParcelsByDate(from, to);
+                    ListsPresentor.UpdateParcelsView(from, to);
                 }
                 catch (Exception Ex)
                 {
@@ -526,7 +526,7 @@ namespace PL
         /// <param name="e"></param>
         private void StationGroupChBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            ListsPresentor.UpdateStations();
+            ListsPresentor.UpdateStationsView();
         }
         #endregion
         #region all tabs

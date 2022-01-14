@@ -107,7 +107,7 @@ namespace PL
             {
                 MessageBox.Show("Customer was added successfully to list", "SUCCESS", MessageBoxButton.OK, MessageBoxImage.Information);
                 // update lists at manager window
-                listsPresentor.UpdateCustomers();
+                listsPresentor.UpdateCustomersView();
                 Closing += CloseWindowButton_Click;
                 Close();
             }
@@ -149,7 +149,7 @@ namespace PL
             // update current window's content
             refreshWindow(sender, e);
             // update list in manager window
-            listsPresentor.UpdateCustomer((int)newCustomer.Id);
+            listsPresentor.UpdateSingleCustomer((int)newCustomer.Id);
 
         }
 

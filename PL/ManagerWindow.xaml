@@ -238,8 +238,7 @@
         <!--#region  Customers Tab-->
         <TabItem x:Name="Customers"   Width="75" >
             <TabItem.Header>
-                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24"                          Height="24"          HorizontalAlignment="Center" />                    <TextBlock          Text="Customer"           HorizontalAlignment="Center" />                </StackPanel>
-
+                <StackPanel Height="auto" Width="auto">                    <materialDesign:PackIcon Kind="AccountMultiple"                                        Width="24" Height="24" HorizontalAlignment="Center" />                    <TextBlock Text="Customers" HorizontalAlignment="Center" />                </StackPanel>
             </TabItem.Header>
             <Grid x:Name="CustomerMainGrid" Style="{StaticResource GridStyle}">
                 <Grid.RowDefinitions>

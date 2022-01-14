@@ -75,8 +75,8 @@ namespace PL
             {
                 // add order to List and update view of lists at  mangerWindow
                 theBL.AddParcel(prc);
-                listsPresentor.UpdateParcels();
-                listsPresentor.UpdateCustomers();
+                listsPresentor.UpdateParcelsView();
+                listsPresentor.UpdateCustomersView();
 
                 // reset order options in window to allow next order to be selected
                 TargetComboBox.SelectedItem = null;
@@ -132,7 +132,7 @@ namespace PL
             ParcelsFromListView.ItemsSource = user.From;
             ParcelsToListView.ItemsSource = user.To;
             // update list in manager window
-            listsPresentor.UpdateCustomer((int)user.Id);
+            listsPresentor.UpdateSingleCustomer((int)user.Id);
 
         }
         /// <summary>
