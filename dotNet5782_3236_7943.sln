@@ -7,10 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C13E8F6C-A19D-4D84-A8F1-D3F3F79E61E7}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\project file.md = ..\..\..\Desktop\project file.md
+		project file.md = project file.md
+		project file.pdf = project file.pdf
 		README.md = README.md
-		מסמך הפרוייקט רחפנים.md = מסמך הפרוייקט רחפנים.md
-		..\..\..\..\Desktop\סמסטר א שנה ב\מיני פרוייקט\תרגילים\מסמך הפרויקט רחפנים.pdf = ..\..\..\..\Desktop\סמסטר א שנה ב\מיני פרוייקט\תרגילים\מסמך הפרויקט רחפנים.pdf
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{732EC17F-D807-432F-9D00-C92A4B1945C8}"
