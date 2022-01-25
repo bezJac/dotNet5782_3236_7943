@@ -10,7 +10,7 @@ namespace BL
     {
         enum ChargeMode { SetUp, Enroute, Charging }
         private const double VELOCITY = 1.0;
-        private const int DELAY = 1000;
+        private const int DELAY = 2000;
         private const double TIME_STEP = DELAY / 1000.0;
         private const double STEP = VELOCITY / TIME_STEP;
 

@@ -251,7 +251,7 @@ namespace PL
         }
 
     }
-    internal class batteryToBackroundConverter : IValueConverter
+    public sealed class batteryToBackgroundConverter : IValueConverter
     {
         /// <summary>
         /// check battery level , returns brush value

@@ -99,7 +99,7 @@
                         <Label Content="Battery:" Grid.Column="0" Grid.Row="3" Style="{StaticResource droneWinLabelStyle}"/>
                         <Grid x:Name="batteryGrid" Grid.Row="3" Grid.Column="1" >
                             <Grid.Resources>
-                                <local:batteryToBackroundConverter x:Key="batteryToBackroundConverter"/>
+                                <local:batteryToBackgroundConverter x:Key="batteryToBackroundConverter"/>
                             </Grid.Resources>
                             <ProgressBar Name="BatteryProgressBar" Value="{Binding Battery}" Width="Auto" Foreground="{Binding Battery, Converter={StaticResource batteryToBackroundConverter}}"/>
                             <TextBlock Text="{Binding Battery, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
