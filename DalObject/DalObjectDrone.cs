@@ -12,6 +12,9 @@ namespace Dal
 {
     internal partial class DalObject : IDal
     {
+        // [MethodImpl(MethodImplOptions.Synchronized)] attribute is used to ensure that  only one thread at a time can executs function, uses instance of class object
+        // calling method to lock, locks entire function that attribute is added to.
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone dr)
         {
