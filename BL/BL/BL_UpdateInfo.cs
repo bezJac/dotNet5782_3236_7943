@@ -11,6 +11,9 @@ namespace BL
 {
     public partial class BL: BlApi.IBL
     {
+        // [MethodImpl(MethodImplOptions.Synchronized)] attribute is used to ensure that  only one thread at a time can executs function, uses instance of class object
+        // calling method to lock, locks entire function that attribute is added to.
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateBaseStation(int id, int count, string name)
         {

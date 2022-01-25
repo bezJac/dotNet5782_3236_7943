@@ -12,8 +12,10 @@ namespace Dal
 {
     internal class XMLTools
     {
-        static string dir = @"..\xml\";
+        // [MethodImpl(MethodImplOptions.Synchronized)] attribute is used to ensure that  only one thread at a time can executs function, uses instance of class object
+        // calling method to lock, locks entire function that attribute is added to.
 
+        static string dir = @"..\xml\";
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         static XMLTools()
@@ -21,8 +23,6 @@ namespace Dal
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
-
-
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         #region SaveLoadWithXMLSerializer
@@ -40,7 +40,6 @@ namespace Dal
                 //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
-
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)

@@ -55,7 +55,6 @@ namespace Dal
         }
         #endregion
 
-
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<double> GetElectricUse()
         {
@@ -64,7 +63,6 @@ namespace Dal
             DataSource.Config.DroneElecUseHeavy,DataSource.Config.DroneChargeRatePerSecond };
             return electric;
         }
-        
     }
 }
 
