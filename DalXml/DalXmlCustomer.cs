@@ -39,6 +39,7 @@ namespace Dal
             int index = customers.FindIndex(x => (x.Id == person.Id));
             if (index == -1)
                 throw new NonExistsException($"id number {person.Id} not found");
+            customers.RemoveAt(index);
             XMLTools.SaveListToXMLSerializer<Customer>(customers, customerPath);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
